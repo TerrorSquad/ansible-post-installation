@@ -3,3 +3,4 @@
 - import_tasks: fonts.yaml
 - import_tasks: dev_tools.yaml
 - import_tasks: node.yaml
+- import_tasks: general_use_software.yaml

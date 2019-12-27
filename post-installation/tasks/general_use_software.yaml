@@ -1,0 +1,28 @@
+---
+- name: Install apt apps - Variety, Flameshot, Bleachbit
+  apt:
+    name:
+      - variety
+      - flameshot
+      - bleachbit
+
+- name: Install snap apps (classic) - Skype
+  snap:
+    name:
+      - skype
+    classic: yes
+
+- name: Install snap apps - Firefox, Mailspring, VLC
+  snap:
+    name:
+      - firefox
+      - mailspring
+      - vlc
+
+- name: Remove apt copies
+  apt:
+    state: absent
+    name:
+      - vlc
+      - firefox
+    purge: yes
