@@ -1,0 +1,17 @@
+---
+- name: Install programming fonts - Hack Nerd Font Regular...
+  copy:
+    src: "{{ item }}"
+    dest: /usr/share/fonts/truetype/
+    owner: root
+    mode: 644
+  with_fileglob:
+    - defaults/fonts/*
+
+- name: Install font - Hack
+  apt:
+    name: fonts-hack
+
+- name: Install font - Roboto
+  apt:
+    name: fonts-roboto

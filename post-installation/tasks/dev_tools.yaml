@@ -1,0 +1,44 @@
+---
+- name: Copy RedShift configuration file
+  copy:
+    src: ./defaults/redshift.conf
+    dest: /home/{{ USERNAME }}/.config
+    owner: "{{ USERNAME }}"
+    mode: 644
+
+- name: Install apt apps - curl, git, VIm, Terminator, RedShift
+  apt:
+    name:
+      - curl
+      - git
+      - vim
+      - terminator
+      - redshift
+
+- name: Configure git with default user name and email
+  git_config:
+    name: "user.name"
+    value: "{{ GIT_USER_NAME }}"
+    scope: global
+    state: present
+  become_user: "{{ USERNAME }}"
+
+- name: Configure git with default user name and email
+  git_config:
+    name: "user.email"
+    value: "{{ GIT_USER_EMAIL }}"
+    scope: global
+    state: present
+  become_user: "{{ USERNAME }}"
+
+- name: Install VS Code
+  snap:
+    name: code
+    classic: yes
+
+- name: Install snap apps - GitKraken, Postman
+  snap:
+    name:
+      - gitkraken
+      - postman
+    classic: no
