@@ -6,6 +6,7 @@
 - name: Save ZSH install location into a variable
   shell: which zsh
   register: zsh_install_path
+  become_user: "{{ USERNAME}}"
 
 - name: Set ZSH as default login shell for current user
   user:
