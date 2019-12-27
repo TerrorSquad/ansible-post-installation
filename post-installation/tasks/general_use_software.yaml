@@ -1,4 +1,44 @@
 ---
+- name: Download and install RescueTime
+  block:
+    - name: Download RescueTime
+      get_url:
+        url: https://www.rescuetime.com/installers/rescuetime_current_amd64.deb
+        dest: /tmp/rescuetime.deb
+    - name: Install RescueTime
+      apt:
+        deb: /tmp/rescuetime.deb
+
+- name: Download and install Viber
+  block:
+    - name: Download Viber
+      get_url:
+        url: https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
+        dest: /tmp/viber.deb
+    - name: Install Viber
+      apt:
+        deb: /tmp/viber.deb
+
+- name: Download and install Tixati
+  block:
+    - name: Download Tixati
+      get_url:
+        url: https://download2.tixati.com/download/tixati_2.66-1_amd64.deb
+        dest: /tmp/tixati.deb
+    - name: Install Tixati
+      apt:
+        deb: /tmp/tixati.deb
+
+- name: Download and install UnifiedRemote
+  block:
+    - name: Download UnifiedRemote
+      get_url:
+        url: https://www.unifiedremote.com/download/linux-x64-deb
+        dest: /tmp/uremote.deb
+    - name: Install UnifiedRemote
+      apt:
+        deb: /tmp/uremote.deb
+
 - name: Install apt apps - Variety, Flameshot, Bleachbit
   apt:
     name:

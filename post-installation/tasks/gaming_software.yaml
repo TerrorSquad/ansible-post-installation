@@ -1,0 +1,10 @@
+---
+- name: Install apt apps - sysfsutils
+  apt:
+    name:
+      - sysfsutils
+
+- name: Add support for Xbox One S controller bluetooth connection
+  lineinfile:
+    path: /etc/sysfs.conf
+    line: /module/bluetooth/parameters/disable_ertm=1
