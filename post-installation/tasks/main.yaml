@@ -2,4 +2,4 @@
 - import_tasks: zsh.yaml
 - import_tasks: fonts.yaml
 - import_tasks: dev_tools.yaml
-- import_tasks: node.yml
+- import_tasks: node.yaml
