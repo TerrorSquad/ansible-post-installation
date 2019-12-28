@@ -49,6 +49,7 @@
       - variety
       - flameshot
       - bleachbit
+      - tlp
 
 - name: Install snap apps (classic) - Skype
   snap:
