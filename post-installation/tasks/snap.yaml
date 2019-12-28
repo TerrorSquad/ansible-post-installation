@@ -1,0 +1,6 @@
+---
+- name: Add support for snap apps
+  apt:
+    name:
+      - snapd
+      - snap
