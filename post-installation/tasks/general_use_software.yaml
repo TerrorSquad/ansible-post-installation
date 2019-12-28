@@ -8,6 +8,7 @@
     - name: Install RescueTime
       apt:
         deb: /tmp/rescuetime.deb
+  when: "'rescuetime' not in ansible_facts.packages"
 
 - name: Download and install Viber
   block:
@@ -18,6 +19,7 @@
     - name: Install Viber
       apt:
         deb: /tmp/viber.deb
+  when: "'viber' not in ansible_facts.packages"
 
 - name: Download and install Tixati
   block:
@@ -28,6 +30,7 @@
     - name: Install Tixati
       apt:
         deb: /tmp/tixati.deb
+  when: "'tixati' not in ansible_facts.packages"
 
 - name: Download and install UnifiedRemote
   block:
@@ -38,6 +41,7 @@
     - name: Install UnifiedRemote
       apt:
         deb: /tmp/uremote.deb
+  when: "'urserver' not in ansible_facts.packages"
 
 - name: Install apt apps - Variety, Flameshot, Bleachbit
   apt:
