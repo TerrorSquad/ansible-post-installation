@@ -17,8 +17,12 @@
   get_url:
     url: https://raw.githubusercontent.com/zsh-users/antigen/master/bin/antigen.zsh
     dest: "/home/{{ USERNAME }}/antigen.zsh"
+    owner: "{{ USERNAME}}"
+    mode: 0644
 
 - name: Intialize .zshrc
   copy:
     src: ./defaults/.zshrc
     dest: "/home/{{ USERNAME }}"
+    owner: "{{ USERNAME}}"
+    mode: 0644
