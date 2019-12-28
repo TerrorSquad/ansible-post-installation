@@ -4,6 +4,7 @@
   become: yes
   remote_user: root
   strategy: free
+  gather_facts: yes
 
   roles:
     - role: post-installation
