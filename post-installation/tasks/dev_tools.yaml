@@ -14,6 +14,7 @@
       - vim
       - terminator
       - redshift
+      - redshift-gtk
 
 - name: Configure Terminator
   copy:
