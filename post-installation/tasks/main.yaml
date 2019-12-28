@@ -1,4 +1,5 @@
 ---
+- import_tasks: gather_facts.yaml
 - import_tasks: snap.yaml
 - import_tasks: zsh.yaml
 - import_tasks: fonts.yaml
