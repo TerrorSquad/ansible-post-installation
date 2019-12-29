@@ -32,6 +32,10 @@
         deb: /tmp/tixati.deb
   when: "'tixati' not in ansible_facts.packages"
 
+- name: Set Tixati as default torrent client
+  shell: |
+    gio mime x-scheme-handler/magnet tixati.desktop
+
 - name: Download and install UnifiedRemote
   block:
     - name: Download UnifiedRemote
