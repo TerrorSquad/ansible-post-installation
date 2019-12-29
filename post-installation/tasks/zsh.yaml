@@ -20,7 +20,7 @@
     owner: "{{ USERNAME}}"
     mode: 0644
 
-- name: Intialize .zshrc
+- name: Initialize .zshrc
   copy:
     src: ./defaults/.zshrc
     dest: "/home/{{ USERNAME }}"

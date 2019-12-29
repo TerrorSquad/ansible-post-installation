@@ -6,7 +6,7 @@
 ## Requirements
 
 * OS: Ubuntu 18.04 based distro
-* Software: `ansible`
+* Software: `ansible` 
 
 If you do not have ansible installed you can do so by running this piece of code:
 
@@ -33,6 +33,6 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 * USERNAME - defined in `defaults/main.yaml` - can be overriden
 * `-K` - flag used to ask for root password
 
-# TODO:
+## TODO:
 
 * Install and run undervolt

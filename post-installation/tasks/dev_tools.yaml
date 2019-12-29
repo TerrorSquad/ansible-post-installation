@@ -22,6 +22,7 @@
     dest: "/home/{{ USERNAME }}/.config/"
     owner: "{{ USERNAME }}"
     mode: 0644
+
 - name: Configure git
   block:
     - name: Configure git with default user name
