@@ -7,3 +7,4 @@
 - import_tasks: node.yaml
 - import_tasks: general_use_software.yaml
 - import_tasks: gaming_software.yaml
+- import_tasks: libinput_gestures.yaml
