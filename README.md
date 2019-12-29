@@ -6,7 +6,7 @@
 ## Requirements
 
 * OS: Ubuntu 18.04 based distro
-* Software: ` `  ` ansible `  ` ` 
+* Software: `ansible`
 
 If you do not have ansible installed you can do so by running this piece of code:
 
@@ -24,16 +24,15 @@ Check if the instalation was correct by running
 ansible --version
 ```
 
-# How to run
+## How to run
 
 ``` bash
 ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 ```
 
-* USERNAME - defined in ` `  ` defaults/main.yaml `  ` ` - can be overriden
-* ` `  ` -K `  ` ` - flag used to ask for root password
+* USERNAME - defined in `defaults/main.yaml` - can be overriden
+* `-K` - flag used to ask for root password
 
 # TODO:
 
-* Install libinput gestures
 * Install and run undervolt
