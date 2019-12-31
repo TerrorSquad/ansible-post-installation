@@ -60,6 +60,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - viber
 - tixati
 - unified remote
+- libinput-gestures
 ---
 ### Thermal optimization software
 - undervolt
