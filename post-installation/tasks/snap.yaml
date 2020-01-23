@@ -4,3 +4,8 @@
     name:
       - snapd
       - snap
+
+- name: Add snap to system PATH
+  copy:
+    dest: /etc/environment
+    content: "PATH=$PATH:/snap/bin"
