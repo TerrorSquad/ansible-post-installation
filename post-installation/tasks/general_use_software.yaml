@@ -54,6 +54,7 @@
       - flameshot
       - bleachbit
       - tlp
+      - unzip
 
 - name: Install snap apps (classic) - Skype
   snap:
