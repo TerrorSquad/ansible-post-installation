@@ -6,7 +6,7 @@
     owner: "{{ USERNAME }}"
     mode: 0644
 
-- name: Install apt apps - curl, git, VIm, Terminator, RedShift
+- name: Install apt apps - curl, git, VIm, Terminator, RedShift, htop
   apt:
     name:
       - curl
@@ -15,6 +15,7 @@
       - terminator
       - redshift
       - redshift-gtk
+      - htop
 
 - name: Configure Terminator
   copy:
