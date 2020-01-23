@@ -16,6 +16,7 @@
       - redshift
       - redshift-gtk
       - htop
+      - httpstat
 
 - name: Configure Terminator
   copy:
