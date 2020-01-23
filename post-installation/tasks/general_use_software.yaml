@@ -59,6 +59,7 @@
   snap:
     name:
       - skype
+      - slack
     classic: yes
 
 - name: Install snap apps - Firefox, Mailspring, VLC
@@ -67,6 +68,7 @@
       - firefox
       - mailspring
       - vlc
+      - onlyoffice-desktopeditors
 
 - name: Remove apt copies
   apt:
