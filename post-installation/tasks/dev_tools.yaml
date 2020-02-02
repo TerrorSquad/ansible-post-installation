@@ -1,11 +1,4 @@
 ---
-- name: Copy RedShift configuration file
-  copy:
-    src: ./defaults/.config/redshift.conf
-    dest: /home/{{ USERNAME }}/.config/
-    owner: "{{ USERNAME }}"
-    mode: 0644
-
 - name: Install apt apps - curl, git, VIm, Terminator, RedShift, htop
   apt:
     name:
@@ -16,7 +9,15 @@
       - redshift
       - redshift-gtk
       - htop
-      - httpstat
+      - make
+
+- name: Copy RedShift configuration file
+  copy:
+    src: ./defaults/.config/redshift.conf
+    dest: /home/{{ USERNAME }}/.config/
+    owner: "{{ USERNAME }}"
+    mode: 0644
+
 
 - name: Configure Terminator
   copy:
