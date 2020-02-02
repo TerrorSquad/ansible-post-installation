@@ -55,6 +55,7 @@
       - bleachbit
       - tlp
       - unzip
+      - papirus-icon-theme
 
 - name: Install snap apps (classic) - Skype
   snap:
