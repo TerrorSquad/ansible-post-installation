@@ -3,9 +3,9 @@
   apt:
     name:
       - snapd
-      - snap
 
-- name: Add snap to system PATH
-  copy:
-    dest: /etc/environment
-    content: "PATH=$PATH:/snap/bin"
+- name: Add snap to current user PATH
+  lineinfile:
+    path: "/etc/profile"
+    line: PATH=/snap/bin:$PATH
+    insertafter: EOF
