@@ -27,7 +27,7 @@
 - name: Clone libinput-gestures repo
   git:
     repo: https://github.com/bulletmark/libinput-gestures.git
-    dest: "/home/{{ USERNAME }}/"
+    dest: "/home/{{ USERNAME }}/libinput-gestures"
     clone: yes
     update: yes
     force: yes
@@ -35,7 +35,8 @@
 
 - name: Make libinput-gestures
   make:
-    chdir: "/home/{{ USERNAME }}/libinput-gestures"
+    chdir: "/home/{{ USERNAME }}/libinput-gestures/"
+    target: install
 
 - name: Set libinput-gestures to autostart on OS boot
   shell: |
