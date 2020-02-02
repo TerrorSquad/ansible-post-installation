@@ -1,4 +1,9 @@
 ---
+- name: Install python-apt
+  apt:
+    name:
+        - python-apt
+
 - name: "Gather package facts"
   package_facts:
-    manager: "auto"
+    manager: apt
