@@ -1,8 +1,8 @@
 ---
 - name: Copy RedShift configuration file
   copy:
-    src: ./defaults/redshift.conf
-    dest: /home/{{ USERNAME }}/.config
+    src: ./defaults/.config/redshift.conf
+    dest: /home/{{ USERNAME }}/.config/
     owner: "{{ USERNAME }}"
     mode: 0644
 
@@ -20,8 +20,8 @@
 
 - name: Configure Terminator
   copy:
-    src: defaults/.config/terminator
-    dest: "/home/{{ USERNAME }}/.config/"
+    src: ./defaults/.config/terminator/config
+    dest: "/home/{{ USERNAME }}/.config/terminator/"
     owner: "{{ USERNAME }}"
     mode: 0644
 
