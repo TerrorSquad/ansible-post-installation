@@ -5,7 +5,7 @@
 
 ## Requirements
 
-- OS: Ubuntu 18.04 based distro
+- OS: Ubuntu 18.04 based distro - Linux Mint 19.3
 - Software: `ansible`
 
 If you do not have ansible installed you can do so by running this piece of code:
@@ -38,7 +38,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 ### Development software
 - curl
 - git
-- vim 
+- vim
 - terminator
 - redshift
 - redshift-gtk
@@ -61,6 +61,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - tixati
 - unified remote
 - libinput-gestures
+- papirus-icons-theme
 ---
 ### Thermal optimization software
 - undervolt
@@ -74,3 +75,37 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - hack
 - hack nerd font
 - roboto
+
+
+### Scripts
+In the `post-installation/defaults/scripts` directory there is a `theme-by-time.sh` bash script which will change the Cinnamon theme and icons based on time of the day.
+- 06:00 - 17:00
+    - Theme - Adapta
+    - Icons - Papirus-Adapta
+- 17:00 - 06:00
+    - Theme - Adapta-Nokto
+    - Icons - Papirus-Adapta-Nokto
+
+You must install these two theme manually. Ansible will copy the script to `~/.local/bin/theme-by-time.sh`.
+
+> Set up autostart to point to this file
+
+## Vagrant
+In here you will vind a `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
+- Install Vagrant
+    ```bash
+    sudo apt install -y vagrant virtualbox
+    ```
+- Create a Vagrant box and provision it
+    ```bash
+    vagrant up --provision
+    ```
+- Force destroy and recreate the box
+    ```bash
+    vagrant destory --force && vagrant up --provision
+    ```
+
+> Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
+> Box name `ubuntu/bionic64` - https://app.vagrantup.com/ubuntu/boxes/bionic64/
+> Box version - 20200130.1.0
+> Box link - https://app.vagrantup.com/ubuntu/boxes/bionic64/versions/20200130.1.0
