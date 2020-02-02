@@ -8,7 +8,11 @@ Vagrant.configure("2") do |config|
   # Run Ansible from the Vagrant Host
   #
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "playbook.yml"
+    ansible.groups = {
+      'vagrant' => ['default']
+    }
+
+    ansible.playbook = "playbook_vagrant.yml"
     ansible.verbose = "vv"
   end
 end
