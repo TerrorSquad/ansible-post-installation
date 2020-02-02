@@ -59,4 +59,5 @@
       - gitkraken
       - postman
       - dbeaver-ce
+      - httpstat
     classic: no
