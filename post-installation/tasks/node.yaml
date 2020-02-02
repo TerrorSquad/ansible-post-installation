@@ -3,11 +3,11 @@
   block:
     - name: Read distro version
       set_fact:
-        NODEJS_DISTRO_NAME: "{{ ansible_distribution }}"
+        NODEJS_DISTRO_CODE_NAME: "{{ ansible_distribution_release }}"
 
     - name: Fallback to bionic if using Mint 19+
       set_fact:
-        NODEJS_DISTRO_NAME: bionic
+        NODEJS_DISTRO_CODE_NAME: bionic
       when: ansible_distribution == 'Linux Mint' and ansible_distribution_major_version == '19'
 
 - name: Install the gpg key for nodejs LTS
@@ -17,7 +17,7 @@
 
 - name: Install the nodejs LTS repos
   apt_repository:
-    repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ NODEJS_DISTRO_NAME }} main"
+    repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ NODEJS_DISTRO_CODE_NAME }} main"
     state: present
     update_cache: yes
 
