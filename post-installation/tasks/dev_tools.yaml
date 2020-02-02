@@ -51,7 +51,7 @@
 
 - name: Install VS Code Sync Extension
   shell:
-    cmd: code --install-extension Shan.code-settings-sync
+    cmd: /snap/bin/code --install-extension Shan.code-settings-sync
   become_user: "{{ USERNAME }}"
 
 - name: Install snap apps - GitKraken, Postman
