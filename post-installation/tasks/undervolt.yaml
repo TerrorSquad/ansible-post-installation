@@ -1,29 +1,33 @@
 ---
-- name: Install pip if not installed
-  apt:
-    name:
-      - python-pip
+- name: Install and configure Undervolt
+  block:
+    - name: Install pip if not installed
+      apt:
+        name:
+        - python-pip
 
-- name: Install undervolt with pip
-  pip:
-    name: undervolt
+    - name: Install undervolt with pip
+      pip:
+        name: undervolt
 
-- name: Undervolt the CPU - core -130, cache -130
-  shell: |
-    undervolt --core -130 --cache -130
+    - name: Undervolt the CPU - core -130, cache -130
+      shell: |
+        undervolt --core -130 --cache -130
 
-- name: Create systemd service file for undervolting and a timer file
-  copy:
-    src: "{{ item }}"
-    dest: /etc/systemd/system/
-    owner: root
-    mode: 644
-  with_fileglob:
-    - defaults/undervolt/*
+    - name: Create systemd service file for undervolting and a timer file
+      copy:
+        src: "{{ item }}"
+        dest: /etc/systemd/system/
+        owner: root
+        mode: 644
+      with_fileglob:
+        - defaults/undervolt/*
 
-- name: Start the service and enable on boot
-  systemd:
-    name: undervolt.timer
-    state: started
-    enabled: yes
-    daemon_reload: yes
+    - name: Start the service and enable on boot
+      systemd:
+        name: undervolt.timer
+        state: started
+        enabled: yes
+        daemon_reload: yes
+
+  when: not "{{ ansible_facts.product_name }}" == 'VirtualBox'
