@@ -79,3 +79,17 @@
       - vlc
       - firefox
     purge: yes
+
+- name: Create /home/{{USERNAME}}/.local/bin directory
+  file:
+    path: "/home/{{USERNAME}}/.local/bin"
+    owner: "{{ USERNAME }}"
+    group: "{{ USERNAME }}"
+    state: directory
+
+- name: Copy theme-by-time.sh script
+  copy:
+    src: "./defaults/scripts/theme-by-time.sh"
+    dest: "/home/{{ USERNAME }}/.local/bin"
+    owner: "{{ USERNAME }}"
+    group: "{{ USERNAME }}"
