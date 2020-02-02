@@ -43,9 +43,10 @@
         state: present
       become_user: "{{ USERNAME }}"
 
-- name: Install VS Code
+- name: Install snap apps (classic) - VS Code
   snap:
-    name: code
+    name:
+      - code
     classic: yes
 
 - name: Install VS Code Sync Extension
