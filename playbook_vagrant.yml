@@ -1,0 +1,9 @@
+---
+- hosts: vagrant
+  become: yes
+  remote_user: root
+  strategy: free
+
+  roles:
+    - role: post-installation
+      tags: post-installation
