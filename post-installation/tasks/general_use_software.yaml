@@ -57,6 +57,7 @@
       - tlp
       - unzip
       - papirus-icon-theme
+      - thefuck
 
 - name: Install snap apps (classic) - Skype
   snap:
