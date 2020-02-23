@@ -1,0 +1,23 @@
+---
+- name: Download docker install script - get.docker.com
+  get_url:
+    url: https://get.docker.com
+    dest: /tmp/get-docker.sh
+
+- name: Install docker
+  shell: |
+    sh /tmp/get-docker.sh
+
+- name: Add user to docker group
+  user:
+    name: "{{ USERNAME }}"
+    groups: docker
+    append: yes
+
+- name: Install docker-compose
+  block:
+    - name: Download docker-compose
+      get_url:
+        url: "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+        dest: /usr/local/bin/docker-compose
+        mode: 0755
