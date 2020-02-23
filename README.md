@@ -36,32 +36,40 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 ## What's installed
 ### ZSH and antigen with sane defaults
 ### Development software
-- curl
-- git
-- vim
-- terminator
-- redshift
-- redshift-gtk
-- nodejs 12
 - code
+- curl
+- dbeaver-ce
+- docker
+- git
 - gitkraken
+- htop
+- httpstat
+- make
+- nodejs 12
 - postman
 - python-pip
+- redshift
+- redshift-gtk
+- terminator
+- vim
 ---
 ### General use software
-- variety
-- flameshot
 - bleachbit
-- skype
 - firefox
+- flameshot
+- libinput-gestures
 - mailspring
-- vlc
+- onlyoffice-desktopeditors
+- papirus-icons-theme
 - rescuetime
-- viber
+- skype
+- thefuck
 - tixati
 - unified remote
-- libinput-gestures
-- papirus-icons-theme
+- unzip
+- variety
+- viber
+- vlc
 ---
 ### Thermal optimization software
 - undervolt
