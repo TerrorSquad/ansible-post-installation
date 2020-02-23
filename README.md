@@ -114,6 +114,9 @@ In here you will vind a `Vagrantfile` and a `playbook_vagrant.yml` files. These 
     ```
 
 > Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
+>
 > Box name `ubuntu/bionic64` - https://app.vagrantup.com/ubuntu/boxes/bionic64/
+>
 > Box version - 20200130.1.0
+>
 > Box link - https://app.vagrantup.com/ubuntu/boxes/bionic64/versions/20200130.1.0
