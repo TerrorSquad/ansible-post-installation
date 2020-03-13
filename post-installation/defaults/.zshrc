@@ -20,6 +20,7 @@ antigen bundle alexrochas/zsh-git-semantic-commits
 antigen bundle alexrochas/zsh-path-environment-explorer
 antigen bundle unixorn/autoupdate-antigen.zshplugin
 antigen bundle arialdomartini/oh-my-git
+antigen bundle lukechilds/zsh-nvm
 # antigen bundle lukechilds/zsh-better-npm-completion
 # antigen bundle voronkovich/gitignore.plugin.zsh
 # antigen bundle jessarcher/zsh-artisan

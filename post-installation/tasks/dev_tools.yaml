@@ -18,7 +18,6 @@
     owner: "{{ USERNAME }}"
     mode: 0644
 
-
 - name: Configure Terminator
   copy:
     src: ./defaults/.config/terminator/config

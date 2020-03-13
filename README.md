@@ -110,7 +110,7 @@ In here you will vind a `Vagrantfile` and a `playbook_vagrant.yml` files. These 
     ```
 - Force destroy and recreate the box
     ```bash
-    vagrant destory --force && vagrant up --provision
+    vagrant destroy --force && vagrant up --provision
     ```
 
 > Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.

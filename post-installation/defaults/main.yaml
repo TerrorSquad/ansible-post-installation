@@ -1,4 +1,3 @@
-NODEJS_VERSION: "12"
 USERNAME: vagrant
 GIT_USER_NAME: Goran Ninkovic
 GIT_USER_EMAIL: change@me.com
