@@ -3,7 +3,8 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
-  config.vm.box_version = "20200130.1.0"
+  config.vm.box_version = "20200311.0.0"
+  ENV['LC_ALL']="en_US.UTF-8"
 
   #
   # Run Ansible from the Vagrant Host
