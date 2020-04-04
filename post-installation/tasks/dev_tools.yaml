@@ -1,9 +1,8 @@
 ---
-- name: Install apt apps - curl, git, VIm, Terminator, RedShift, htop
+- name: Install apt apps - curl, VIm, Terminator, RedShift, htop
   apt:
     name:
       - curl
-      - git
       - vim
       - terminator
       - redshift
@@ -24,24 +23,6 @@
     dest: "/home/{{ USERNAME }}/.config/terminator/"
     owner: "{{ USERNAME }}"
     mode: 0644
-
-- name: Configure git
-  block:
-    - name: Configure git with default user name
-      git_config:
-        name: "user.name"
-        value: "{{ GIT_USER_NAME }}"
-        scope: global
-        state: present
-      become_user: "{{ USERNAME }}"
-
-    - name: Configure git with default user email
-      git_config:
-        name: "user.email"
-        value: "{{ GIT_USER_EMAIL }}"
-        scope: global
-        state: present
-      become_user: "{{ USERNAME }}"
 
 - name: Install snap apps (classic) - VS Code
   snap:
