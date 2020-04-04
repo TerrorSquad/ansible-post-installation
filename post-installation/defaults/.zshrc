@@ -5,23 +5,22 @@ antigen use oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle command-not-found
-# antigen bundle common-aliases     # Common aliases like ll and la
 antigen bundle git
-# antigen bundle history            # aliases: h for history, hsi for grepping history
-# antigen bundle npm                # support for NodeJS package manager
-antigen bundle thefuck
+antigen bundle history # aliases: h for history, hsi for grepping history
+
+# Enable lazy loading of nvm
+export NVM_LAZY_LOAD=true
+antigen bundle lukechilds/zsh-nvm
 
 # Additional completion definitions for Zsh.
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
+
 antigen bundle zsh-users/zsh-history-substring-search
-antigen bundle alexrochas/zsh-git-semantic-commits
 antigen bundle alexrochas/zsh-path-environment-explorer
 antigen bundle unixorn/autoupdate-antigen.zshplugin
 antigen bundle arialdomartini/oh-my-git
-antigen bundle lukechilds/zsh-nvm
-# antigen bundle lukechilds/zsh-better-npm-completion
 # antigen bundle voronkovich/gitignore.plugin.zsh
 # antigen bundle jessarcher/zsh-artisan
 
@@ -53,15 +52,6 @@ alias ccss="npm run compile:scss"
 alias nrb="npm run build"
 alias tnrb="time npm run build"
 alias gs="gss"
-alias pestle="bin/cli php pestle.phar"
-# phpstormAlias() {
-# 	cd /home/$(whoami)/opt;
-# 	PHP_DIRECTORY_NAME=$(ls . | grep PhpStorm*);
-# 	cd $PHP_DIRECTORY_NAME/bin;
-# 	alias phpstorm=$(pwd)/phpstorm.sh
-# 	cd
-# }
-# phpstormAlias
 
 man() {
     LESS_TERMCAP_md=$'\e[01;31m' \
