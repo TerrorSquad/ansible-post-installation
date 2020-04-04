@@ -1,0 +1,23 @@
+---
+- name: Install git
+  apt:
+    name:
+      - git
+
+- name: Configure git
+  block:
+    - name: Configure git with default user name
+      git_config:
+        name: "user.name"
+        value: "{{ GIT_USER_NAME }}"
+        scope: global
+        state: present
+      become_user: "{{ USERNAME }}"
+
+    - name: Configure git with default user email
+      git_config:
+        name: "user.email"
+        value: "{{ GIT_USER_EMAIL }}"
+        scope: global
+        state: present
+      become_user: "{{ USERNAME }}"
