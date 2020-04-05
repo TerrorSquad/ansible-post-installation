@@ -30,4 +30,4 @@ alias gs="gss"
 export NVM_LAZY_LOAD=true
 
 # Sourcing antibody plugins
-source ~/.zsh_plugins_antibody.sh
+source ~/.zsh_plugins.sh
