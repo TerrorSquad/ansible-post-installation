@@ -34,7 +34,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - `-K` - flag used to ask for root password
 
 ## What's installed
-### ZSH and antigen with sane defaults
+### ZSH and antibody with sane defaults
 ### Development software
 - code
 - curl
@@ -77,7 +77,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 > It's going to undevolt the core, cache and gpu to `-130mv`, create a service file and start the service, which will undervolt the cpu on boot after a 2 minute delay
 > 130mv works on Dell XPS 15 9570 - it may not work on another system
 
-> Look into your specific CPU and laptop model to see how much undervolting your cpu can support. You can also edit the _undervolt.timer_ file to specify exactll when do you want undervolting to take place (default is 2 minutes after boot)
+> Look into your specific CPU and laptop model to see how much undervolting your cpu can support. You can also edit the _undervolt.timer_ file to specify exactly when do you want undervolting to take place (default is 2 minutes after boot)
  ---
 ### Fonts
 - hack
@@ -99,7 +99,7 @@ You must install these two theme manually. Ansible will copy the script to `~/.l
 > Set up autostart to point to this file
 
 ## Vagrant
-In here you will vind a `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
+In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
 - Install Vagrant
     ```bash
     sudo apt install -y vagrant virtualbox
