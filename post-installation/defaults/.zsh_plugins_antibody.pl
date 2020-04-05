@@ -1,5 +1,5 @@
 # Command for generating static plugins file
-# antibody bundle < ~/.zsh_plugins_antibody.ini > ~/.zsh_plugins_antibody.sh
+# antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 robbyrussell/oh-my-zsh path:plugins/command-not-found
