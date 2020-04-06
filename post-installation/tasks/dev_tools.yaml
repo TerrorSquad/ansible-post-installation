@@ -33,7 +33,7 @@
 - name: Install snap apps (classic) - Neovim
   snap:
     name:
-      - neovim
+      - nvim
     classic: yes
     channel: beta
 
