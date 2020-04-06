@@ -30,6 +30,13 @@
       - code
     classic: yes
 
+- name: Install snap apps (classic) - Neovim
+  snap:
+    name:
+      - neovim
+    classic: yes
+    channel: beta
+
 - name: Install VS Code Sync Extension
   shell:
     cmd: /snap/bin/code --install-extension Shan.code-settings-sync
