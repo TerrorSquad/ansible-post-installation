@@ -1,7 +1,9 @@
 source /home/$(whoami)/antigen.zsh
 
-# Set vim as default editor
-export VISUAL=vim
+alias vim=nvim
+
+# Set neovim as default editor
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 # Load the oh-my-zsh's library.
