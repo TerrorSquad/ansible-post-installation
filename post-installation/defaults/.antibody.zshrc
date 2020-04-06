@@ -5,6 +5,15 @@
 export VISUAL=vim
 export EDITOR="$VISUAL"
 
+# Env variables required for plugins
+export NVM_LAZY_LOAD=true
+
+# Sourcing antibody plugins
+source ~/.zsh_plugins_antibody.sh
+
+# Theme
+source ~/powerlevel10k/powerlevel10k.zsh-theme
+
 # Font
 POWERLEVEL9K_MODE="nerdfont-complete"
 
@@ -29,9 +38,3 @@ alias ccss="npm run compile:scss"
 alias nrb="npm run build"
 alias tnrb="time npm run build"
 alias gs="gss"
-
-# Env variables required for plugins
-export NVM_LAZY_LOAD=true
-
-# Sourcing antibody plugins
-source ~/.zsh_plugins.sh
