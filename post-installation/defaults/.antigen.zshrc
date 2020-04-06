@@ -1,5 +1,9 @@
 source /home/$(whoami)/antigen.zsh
 
+# Set vim as default editor
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 
@@ -13,23 +17,16 @@ export NVM_LAZY_LOAD=true
 antigen bundle lukechilds/zsh-nvm
 
 # Additional completion definitions for Zsh.
-antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zdharma/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle greymd/docker-zsh-completion
 
-antigen bundle zsh-users/zsh-history-substring-search
-antigen bundle alexrochas/zsh-path-environment-explorer
-antigen bundle unixorn/autoupdate-antigen.zshplugin
-antigen bundle arialdomartini/oh-my-git
-# antigen bundle voronkovich/gitignore.plugin.zsh
-# antigen bundle jessarcher/zsh-artisan
-
-# Load the theme.
-antigen theme bhilburn/powerlevel9k powerlevel9k
+# Theme
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # Font
 POWERLEVEL9K_MODE="nerdfont-complete"
-# POWERLEVEL9K_DISABLE_RPROMPT=true
 
 # Prompt customization
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
@@ -38,8 +35,8 @@ POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
 
 OS_ICON="\uF304"
 
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir rbenv vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status root_indicator background_jobs history time)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon root_indicator dir ssh dir_writable vcs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time status background_jobs history time ram)
 
 HYPHEN_INSENSITIVE="true"
 

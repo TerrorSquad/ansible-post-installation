@@ -1,6 +1,10 @@
 # Shell startup time benchmark oneliner
 # for i in $(seq 1 10); do /usr/bin/time --format=%e zsh -i -c exit; done
 
+# Set vim as default editor
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
 # Font
 POWERLEVEL9K_MODE="nerdfont-complete"
 

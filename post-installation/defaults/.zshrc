@@ -1,9 +1,29 @@
-# Shell startup time benchmark oneliner
-# for i in $(seq 1 10); do /usr/bin/time --format=%e zsh -i -c exit; done
+source /home/$(whoami)/antigen.zsh
 
 # Set vim as default editor
 export VISUAL=vim
 export EDITOR="$VISUAL"
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+antigen bundle command-not-found
+antigen bundle git
+antigen bundle history # aliases: h for history, hsi for grepping history
+
+# Enable lazy loading of nvm
+export NVM_LAZY_LOAD=true
+antigen bundle lukechilds/zsh-nvm
+
+# Additional completion definitions for Zsh.
+antigen bundle zdharma/fast-syntax-highlighting
+antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle greymd/docker-zsh-completion
+
+# Theme
+source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # Font
 POWERLEVEL9K_MODE="nerdfont-complete"
@@ -30,8 +50,15 @@ alias nrb="npm run build"
 alias tnrb="time npm run build"
 alias gs="gss"
 
-# Env variables required for plugins
-export NVM_LAZY_LOAD=true
+man() {
+    LESS_TERMCAP_md=$'\e[01;31m' \
+        LESS_TERMCAP_me=$'\e[0m' \
+        LESS_TERMCAP_se=$'\e[0m' \
+        LESS_TERMCAP_so=$'\e[01;44;33m' \
+        LESS_TERMCAP_ue=$'\e[0m' \
+        LESS_TERMCAP_us=$'\e[01;32m' \
+        command man "$@"
+}
 
-# Sourcing antibody plugins
-source ~/.zsh_plugins_antibody.sh
+# Tell Antigen that you're done.
+antigen apply
