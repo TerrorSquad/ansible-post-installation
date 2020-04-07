@@ -8,6 +8,7 @@ robbyrussell/oh-my-zsh path:plugins/git
 robbyrussell/oh-my-zsh path:plugins/history
 
 # Bundles from ohmyzsh
+ohmyzsh/ohmyzsh path:lib/completion.zsh
 ohmyzsh/ohmyzsh path:lib/grep.zsh
 ohmyzsh/ohmyzsh path:lib/history.zsh
 ohmyzsh/ohmyzsh path:lib/key-bindings.zsh
@@ -18,7 +19,6 @@ ohmyzsh/ohmyzsh path:plugins/common-aliases
 lukechilds/zsh-nvm
 
 # Additional completion definitions for Zsh.
-greymd/docker-zsh-completion
 zdharma/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
