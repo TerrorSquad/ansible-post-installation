@@ -2,8 +2,14 @@
 # for i in $(seq 1 10); do /usr/bin/time --format=%e zsh -i -c exit; done
 
 # Set vim as default editor
-export VISUAL=vim
+export VISUAL=nvim
 export EDITOR="$VISUAL"
+
+alias vim=nvim
+
+restartCinnamon() {
+    (nohup cinnamon --replace &) && rm nohup.out
+}
 
 # Env variables required for plugins
 export NVM_LAZY_LOAD=true

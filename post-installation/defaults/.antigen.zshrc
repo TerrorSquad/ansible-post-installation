@@ -6,6 +6,11 @@ alias vim=nvim
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
+alias vim=nvim
+
+restartCinnamon() {
+    (nohup cinnamon --replace &) && rm nohup.out
+}
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 
