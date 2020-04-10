@@ -1,4 +1,4 @@
-source /home/$(whoami)/antigen.zsh
+source /home/$(whoami)/.antigen.zsh
 
 alias vim=nvim
 

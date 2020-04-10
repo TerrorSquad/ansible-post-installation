@@ -18,7 +18,7 @@ export NVM_LAZY_LOAD=true
 source ~/.zsh_plugins_antibody.sh
 
 # Theme
-source ~/powerlevel10k/powerlevel10k.zsh-theme
+source ~/.powerlevel10k/powerlevel10k.zsh-theme
 
 # Font
 POWERLEVEL9K_MODE="nerdfont-complete"
