@@ -16,7 +16,7 @@
 - name: Install antigen - ZSH plugin manager
   get_url:
     url: https://raw.githubusercontent.com/zsh-users/antigen/master/bin/antigen.zsh
-    dest: "/home/{{ USERNAME }}/antigen.zsh"
+    dest: "/home/{{ USERNAME }}/.antigen.zsh"
     owner: "{{ USERNAME}}"
     mode: 0644
 
@@ -25,13 +25,13 @@
     - name: Download antibody
       get_url:
         url: https://git.io/antibody
-        dest: "/home/{{ USERNAME }}/antibody.sh"
+        dest: "/home/{{ USERNAME }}/.antibody.sh"
         owner: "{{ USERNAME}}"
         mode: 0644
 
     - name: Install antibody
       shell:
-        cmd: sh "/home/{{ USERNAME }}/antibody.sh" -b /usr/local/bin
+        cmd: sh "/home/{{ USERNAME }}/.antibody.sh" -b /usr/local/bin
 
 - name: Configure antibody
   block:
@@ -51,7 +51,7 @@
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     depth: "1"
-    dest: "~/powerlevel10k"
+    dest: "/home/{{ USERNAME }}/.powerlevel10k"
   become_user: "{{ USERNAME }}"
 
 - name: Initialize .zshrc
