@@ -4,7 +4,7 @@
     - name: Install pip if not installed
       apt:
         name:
-        - python-pip
+          - python-pip
 
     - name: Install undervolt with pip
       pip:
@@ -17,7 +17,7 @@
     - name: Create systemd service file for undervolting and a timer file
       copy:
         src: "{{ item }}"
-        dest: /etc/systemd/system/
+        dest: "{{ SYSTEMD_SYSTEM }}"
         owner: root
         mode: 644
       with_fileglob:

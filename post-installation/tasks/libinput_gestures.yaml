@@ -15,27 +15,29 @@
 - name: Install the libinput-gestures conf file
   copy:
     src: ./defaults/.config/libinput-gestures.conf
-    dest: "/home/{{ USERNAME }}/.config/"
+    dest: "{{ CONFIG_HOME }}"
     owner: "{{ USERNAME }}"
+    group: "{{ USERNAME }}"
     mode: 0644
 
 - name: Check if repo is cloned
   stat:
-    path: "/home/{{ USERNAME }}/libinput-gestures"
+    path: "{{ LIBINPUT_HOME }}"
   register: libinput_directory
 
 - name: Clone libinput-gestures repo
   git:
     repo: https://github.com/bulletmark/libinput-gestures.git
-    dest: "/home/{{ USERNAME }}/libinput-gestures"
+    dest: "{{ LIBINPUT_HOME }}"
     clone: yes
     update: yes
     force: yes
+  become_user: "{{ USERNAME }}"
   when: not libinput_directory.stat.exists
 
 - name: Make libinput-gestures
   make:
-    chdir: "/home/{{ USERNAME }}/libinput-gestures/"
+    chdir: "{{ LIBINPUT_HOME }}/"
     target: install
 
 - name: Set libinput-gestures to autostart on OS boot

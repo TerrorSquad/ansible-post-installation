@@ -13,15 +13,17 @@
 - name: Copy RedShift configuration file
   copy:
     src: ./defaults/.config/redshift.conf
-    dest: /home/{{ USERNAME }}/.config/
+    dest: "{{ CONFIG_HOME }}"
     owner: "{{ USERNAME }}"
+    group: "{{ USERNAME }}"
     mode: 0644
 
 - name: Configure Terminator
   copy:
     src: ./defaults/.config/terminator/config
-    dest: "/home/{{ USERNAME }}/.config/terminator/"
+    dest: "{{ TERMINATOR_CONFIG }}"
     owner: "{{ USERNAME }}"
+    group: "{{ USERNAME }}"
     mode: 0644
 
 - name: Install snap apps (classic) - VS Code
