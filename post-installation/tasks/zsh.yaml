@@ -12,12 +12,13 @@
     name: "{{ USERNAME}}"
     shell: "{{ zsh_install_path.stdout }}"
 
-# Deprecated. Replatec with antibody below, for performance reasons
+# Deprecated. Replaced with antibody below, for performance reasons
 - name: Install antigen - ZSH plugin manager
   get_url:
     url: https://raw.githubusercontent.com/zsh-users/antigen/master/bin/antigen.zsh
-    dest: "/home/{{ USERNAME }}/.antigen.zsh"
+    dest: "{{ ANTIGEN_FILE_PATH }}"
     owner: "{{ USERNAME}}"
+    group: "{{ USERNAME}}"
     mode: 0644
 
 - name: Download and install antibody - ZSH plugin manager
@@ -25,21 +26,23 @@
     - name: Download antibody
       get_url:
         url: https://git.io/antibody
-        dest: "/home/{{ USERNAME }}/.antibody.sh"
+        dest: "{{ ANTIBODY_FILE_PATH }}"
         owner: "{{ USERNAME}}"
+        group: "{{ USERNAME}}"
         mode: 0644
 
     - name: Install antibody
       shell:
-        cmd: sh "/home/{{ USERNAME }}/.antibody.sh" -b /usr/local/bin
+        cmd: sh "{{ ANTIBODY_FILE_PATH }}" -b /usr/local/bin
 
 - name: Configure antibody
   block:
     - name: Copy .zsh_plugins_antibody.pl
       copy:
         src: ./defaults/.zsh_plugins_antibody.pl
-        dest: "/home/{{ USERNAME }}"
+        dest: "{{ USER_HOME }}"
         owner: "{{ USERNAME}}"
+        group: "{{ USERNAME}}"
         mode: 0644
 
     - name: Download antibody bundles from .zsh_plugins_antibody.pl
@@ -51,12 +54,13 @@
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     depth: "1"
-    dest: "/home/{{ USERNAME }}/.powerlevel10k"
+    dest: "{{ POWERLEVEL_10K }}"
   become_user: "{{ USERNAME }}"
 
 - name: Initialize .zshrc
   copy:
     src: ./defaults/.antibody.zshrc
-    dest: "/home/{{ USERNAME }}/.zshrc"
+    dest: "{{ ZSHRC }}"
     owner: "{{ USERNAME}}"
+    group: "{{ USERNAME}}"
     mode: 0644

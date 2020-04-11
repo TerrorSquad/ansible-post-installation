@@ -1,3 +1,24 @@
 USERNAME: vagrant
 GIT_USER_NAME: Goran Ninkovic
 GIT_USER_EMAIL: change@me.com
+
+# User directories
+USER_HOME: "/home/{{ USERNAME}}"
+CONFIG_HOME: "{{ USER_HOME }}/.config/"
+TERMINATOR_CONFIG: "{{ CONFIG_HOME }}/terminator"
+LIBINPUT_HOME: "{{ USER_HOME }}/.libinput-gestures"
+LOCAL_BIN: "{{ USER_HOME }}/.local/bin"
+POWERLEVEL_10K: "{{ USER_HOME }}/.powerlevel10k"
+
+# User files
+ANTIGEN_FILE_PATH: "{{ USER_HOME }}/.antigen.zsh"
+ANTIBODY_FILE_PATH: "{{ USER_HOME }}/.antibody.sh"
+ZSHRC: "{{ USER_HOME }}/.zshrc"
+
+# System directories
+SYSTEMD_SYSTEM: "/etc/systemd/system/"
+PROFILE: "/etc/profile"
+SYSFS: "/etc/sysfs.conf"
+
+# System files
+DOCKER_COMPOSE: "/usr/local/bin/docker-compose"

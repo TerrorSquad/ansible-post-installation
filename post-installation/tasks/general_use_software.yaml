@@ -82,9 +82,9 @@
       - firefox
     purge: yes
 
-- name: Create /home/{{USERNAME}}/.local/bin directory
+- name: "Create {{ LOCAL_BIN }} directory"
   file:
-    path: "/home/{{USERNAME}}/.local/bin"
+    path: "{{ LOCAL_BIN }}"
     owner: "{{ USERNAME }}"
     group: "{{ USERNAME }}"
     state: directory
@@ -92,6 +92,6 @@
 - name: Copy theme-by-time.sh script
   copy:
     src: "./defaults/scripts/theme-by-time.sh"
-    dest: "/home/{{ USERNAME }}/.local/bin"
+    dest: "{{ LOCAL_BIN }}"
     owner: "{{ USERNAME }}"
     group: "{{ USERNAME }}"

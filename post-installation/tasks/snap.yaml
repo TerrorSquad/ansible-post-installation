@@ -6,6 +6,6 @@
 
 - name: Add snap to current user PATH
   lineinfile:
-    path: "/etc/profile"
+    path: "{{ PROFILE }}"
     line: PATH=/snap/bin:$PATH
     insertafter: EOF
