@@ -95,3 +95,4 @@
     dest: "{{ LOCAL_BIN }}"
     owner: "{{ USERNAME }}"
     group: "{{ USERNAME }}"
+    mode: 755
