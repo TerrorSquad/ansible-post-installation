@@ -3,10 +3,12 @@
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 robbyrussell/oh-my-zsh path:plugins/command-not-found
+robbyrussell/oh-my-zsh path:plugins/colored-man-pages
 robbyrussell/oh-my-zsh path:plugins/git
 robbyrussell/oh-my-zsh path:plugins/history
 
 # Bundles from ohmyzsh
+ohmyzsh/ohmyzsh path:lib/grep.zsh
 ohmyzsh/ohmyzsh path:lib/directories.zsh
 ohmyzsh/ohmyzsh path:lib/completion.zsh
 ohmyzsh/ohmyzsh path:lib/history.zsh
