@@ -9,6 +9,8 @@
       - redshift-gtk
       - htop
       - make
+      - guake
+      - libutempter0
 
 - name: Copy RedShift configuration file
   copy:
