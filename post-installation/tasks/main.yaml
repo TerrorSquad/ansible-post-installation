@@ -1,7 +1,7 @@
 ---
+- import_tasks: update_apt_cache.yaml
 - import_tasks: gather_facts.yaml
 - import_tasks: snap.yaml
-- import_tasks: update_apt_cache.yaml
 - import_tasks: git.yaml
 - import_tasks: zsh.yaml
 - import_tasks: fonts.yaml
