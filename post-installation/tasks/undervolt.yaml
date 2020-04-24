@@ -4,7 +4,7 @@
     - name: Install pip if not installed
       apt:
         name:
-          - python-pip
+          - python3-pip
 
     - name: Install undervolt with pip
       pip:
@@ -30,4 +30,4 @@
         enabled: yes
         daemon_reload: yes
 
-  when: not "{{ ansible_facts.product_name }}" == 'VirtualBox'
+  when: VAGRANT_USERNAME != USERNAME

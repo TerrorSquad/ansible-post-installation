@@ -1,14 +1,15 @@
 USERNAME: vagrant
+VAGRANT_USERNAME: vagrant
 GIT_USER_NAME: Goran Ninkovic
 GIT_USER_EMAIL: change@me.com
 
 # User directories
 USER_HOME: "/home/{{ USERNAME}}"
-CONFIG_HOME: "{{ USER_HOME }}/.config/"
-TERMINATOR_CONFIG: "{{ CONFIG_HOME }}/terminator"
 LIBINPUT_HOME: "{{ USER_HOME }}/.libinput-gestures"
 LOCAL_BIN: "{{ USER_HOME }}/.local/bin"
 POWERLEVEL_10K: "{{ USER_HOME }}/.powerlevel10k"
+CONFIG_HOME: "{{ USER_HOME }}/.config/"
+TERMINATOR_CONFIG: "{{ CONFIG_HOME }}/terminator"
 
 # User files
 ANTIGEN_FILE_PATH: "{{ USER_HOME }}/.antigen.zsh"
