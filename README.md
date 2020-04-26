@@ -50,9 +50,9 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - htop
 - httpstat
 - make
-- nodejs 12
+- nvm with latest nodejs
 - postman
-- python-pip
+- python3-pip
 - redshift
 - redshift-gtk
 - terminator
@@ -65,6 +65,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - bleachbit
 - firefox
 - flameshot
+- google chrome
 - libinput-gestures
 - mailspring
 - onlyoffice-desktopeditors
@@ -132,8 +133,8 @@ In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These 
 
 > Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
 >
-> Box name `ubuntu/bionic64` - https://app.vagrantup.com/ubuntu/boxes/bionic64/
+> Box name `generic/ubuntu1804` - https://app.vagrantup.com/generic/boxes/ubuntu1804
 >
-> Box version - 20200130.1.0
+> Box version - 2.0.6
 >
-> Box link - https://app.vagrantup.com/ubuntu/boxes/bionic64/versions/20200130.1.0
+> Box link - https://app.vagrantup.com/generic/boxes/ubuntu1804/versions/2.0.6
