@@ -13,8 +13,9 @@
 - name: Download and install Google Chrome
   block:
     - name: Download Google Chrome
-      get_url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      dest: /tmp/google-chrome-stable_current_amd64.deb
+      get_url:
+        url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        dest: /tmp/google-chrome-stable_current_amd64.deb
     - name: Install Google Chrome
       apt:
         deb: /tmp/google-chrome-stable_current_amd64.deb
