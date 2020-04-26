@@ -1,5 +1,7 @@
 # Description
 
+[![Build Status](https://travis-ci.org/TerrorSquad/ansible-post-installation.svg?branch=master)](https://travis-ci.org/TerrorSquad/ansible-post-installation)
+
 - Ansible playbook used for installing and configuring software after a system installation
 - The playbook should be run as root user (-K flag) and the user name of the non-root user should be passed as an extra argument or defined in defaults/main.yaml.
 
@@ -34,8 +36,11 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - `-K` - flag used to ask for root password
 
 ## What's installed
+
 ### ZSH and antibody with sane defaults
+
 ### Development software
+
 - code
 - curl
 - dbeaver-ce
@@ -52,8 +57,11 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - redshift-gtk
 - terminator
 - vim
+
 ---
+
 ### General use software
+
 - bleachbit
 - firefox
 - flameshot
@@ -70,48 +78,57 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - variety
 - viber
 - vlc
+
 ---
+
 ### Thermal optimization software
+
 - undervolt
 - tlp
-> It's going to undevolt the core, cache and gpu to `-130mv`, create a service file and start the service, which will undervolt the cpu on boot after a 2 minute delay
-> 130mv works on Dell XPS 15 9570 - it may not work on another system
+  > It's going to undevolt the core, cache and gpu to `-130mv`, create a service file and start the service, which will undervolt the cpu on boot after a 2 minute delay
+  > 130mv works on Dell XPS 15 9570 - it may not work on another system
 
 > Look into your specific CPU and laptop model to see how much undervolting your cpu can support. You can also edit the _undervolt.timer_ file to specify exactly when do you want undervolting to take place (default is 2 minutes after boot)
- ---
+
+---
+
 ### Fonts
+
 - hack
 - hack nerd font
 - roboto
 
-
 ### Scripts
+
 In the `post-installation/defaults/scripts` directory there is a `theme-by-time.sh` bash script which will change the Cinnamon theme and icons based on time of the day.
+
 - 06:00 - 17:00
-    - Theme - Adapta
-    - Icons - Papirus-Adapta
+  - Theme - Adapta
+  - Icons - Papirus-Adapta
 - 17:00 - 06:00
-    - Theme - Adapta-Nokto
-    - Icons - Papirus-Adapta-Nokto
+  - Theme - Adapta-Nokto
+  - Icons - Papirus-Adapta-Nokto
 
 You must install these two theme manually. Ansible will copy the script to `~/.local/bin/theme-by-time.sh`.
 
 > Set up autostart to point to this file
 
 ## Vagrant
+
 In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
+
 - Install Vagrant
-    ```bash
-    sudo apt install -y vagrant virtualbox
-    ```
+  ```bash
+  sudo apt install -y vagrant virtualbox
+  ```
 - Create a Vagrant box and provision it
-    ```bash
-    vagrant up --provision
-    ```
+  ```bash
+  vagrant up --provision
+  ```
 - Force destroy and recreate the box
-    ```bash
-    vagrant destroy --force && vagrant up --provision
-    ```
+  ```bash
+  vagrant destroy --force && vagrant up --provision
+  ```
 
 > Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
 >
