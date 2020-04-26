@@ -35,7 +35,7 @@
   block:
     - name: Download Tixati
       get_url:
-        url: https://download2.tixati.com/download/tixati_2.66-1_amd64.deb
+        url: https://download2.tixati.com/download/tixati_2.72-1_amd64.deb
         dest: /tmp/tixati.deb
     - name: Install Tixati
       apt:
