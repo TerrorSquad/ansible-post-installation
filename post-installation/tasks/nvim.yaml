@@ -21,10 +21,10 @@
 - name: Copy nvim config file
   copy:
     src: ./defaults/.config/nvim/init.vim
-    dest: "{{ NVIM_CONFIG_PATH }}"
+    dest: "{{ NVIM_CONFIG_PATH }}/init.vim"
   become_user: "{{ USERNAME }}"
 
 - name: Install nvim plugins
   shell: >
-    nvim +PlugInstall +q +q
+    /snap/bin/nvim +PlugInstall +q +q
   become_user: "{{ USERNAME }}"
