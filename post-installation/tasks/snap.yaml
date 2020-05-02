@@ -4,8 +4,10 @@
     name:
       - snapd
 
-- name: Add snap to current user PATH
+- name: "Add {{ SNAP_BIN_PATH }} to environment PATH"
   lineinfile:
-    path: "{{ PROFILE }}"
-    line: PATH=/snap/bin:$PATH
-    insertafter: EOF
+    dest: /etc/environment
+    state: present
+    backrefs: yes
+    regexp: 'PATH=([\"]*)((?!.*?{{ SNAP_BIN_PATH }}).*?)(["]*)$'
+    line: PATH=\1\2:{{ SNAP_BIN_PATH }}\3
