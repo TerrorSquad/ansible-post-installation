@@ -20,6 +20,7 @@ ZSHRC: "{{ USER_HOME }}/.zshrc"
 SYSTEMD_SYSTEM: "/etc/systemd/system/"
 PROFILE: "/etc/profile"
 SYSFS: "/etc/sysfs.conf"
+SNAP_BIN_PATH: "/snap/bin"
 
 # System files
 DOCKER_COMPOSE: "/usr/local/bin/docker-compose"
