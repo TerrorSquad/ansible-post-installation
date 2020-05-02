@@ -17,9 +17,7 @@
   get_url:
     url: https://raw.githubusercontent.com/zsh-users/antigen/master/bin/antigen.zsh
     dest: "{{ ANTIGEN_FILE_PATH }}"
-    owner: "{{ USERNAME}}"
-    group: "{{ USERNAME}}"
-    mode: 0644
+  become_user: "{{ USERNAME }}"
 
 - name: Download and install antibody - ZSH plugin manager
   block:
@@ -27,9 +25,7 @@
       get_url:
         url: https://git.io/antibody
         dest: "{{ ANTIBODY_FILE_PATH }}"
-        owner: "{{ USERNAME}}"
-        group: "{{ USERNAME}}"
-        mode: 0644
+      become_user: "{{ USERNAME }}"
 
     - name: Install antibody
       shell:
@@ -41,9 +37,7 @@
       copy:
         src: ./defaults/.zsh_plugins_antibody.pl
         dest: "{{ USER_HOME }}"
-        owner: "{{ USERNAME}}"
-        group: "{{ USERNAME}}"
-        mode: 0644
+      become_user: "{{ USERNAME }}"
 
     - name: Download antibody bundles from .zsh_plugins_antibody.pl
       shell:
@@ -61,6 +55,4 @@
   copy:
     src: ./defaults/.antibody.zshrc
     dest: "{{ ZSHRC }}"
-    owner: "{{ USERNAME}}"
-    group: "{{ USERNAME}}"
-    mode: 0644
+  become_user: "{{ USERNAME }}"

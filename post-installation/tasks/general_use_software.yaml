@@ -96,14 +96,12 @@
 - name: "Create {{ LOCAL_BIN }} directory"
   file:
     path: "{{ LOCAL_BIN }}"
-    owner: "{{ USERNAME }}"
-    group: "{{ USERNAME }}"
     state: directory
+  become_user: "{{ USERNAME }}"
 
 - name: Copy theme-by-time.sh script
   copy:
     src: "./defaults/scripts/theme-by-time.sh"
     dest: "{{ LOCAL_BIN }}"
-    owner: "{{ USERNAME }}"
-    group: "{{ USERNAME }}"
-    mode: 755
+    mode: u+x
+  become_user: "{{ USERNAME }}"

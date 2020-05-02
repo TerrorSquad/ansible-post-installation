@@ -16,30 +16,19 @@
   copy:
     src: ./defaults/.config/redshift.conf
     dest: "{{ CONFIG_HOME }}"
-    owner: "{{ USERNAME }}"
-    group: "{{ USERNAME }}"
-    mode: 0644
+  become_user: "{{ USERNAME }}"
 
 - name: Configure Terminator
   copy:
     src: ./defaults/.config/terminator/config
     dest: "{{ TERMINATOR_CONFIG }}"
-    owner: "{{ USERNAME }}"
-    group: "{{ USERNAME }}"
-    mode: 0644
+  become_user: "{{ USERNAME }}"
 
 - name: Install snap apps (classic) - VS Code
   snap:
     name:
       - code
     classic: yes
-
-- name: Install snap apps (classic) - Neovim
-  snap:
-    name:
-      - nvim
-    classic: yes
-    channel: beta
 
 - name: Install VS Code Sync Extension
   shell:

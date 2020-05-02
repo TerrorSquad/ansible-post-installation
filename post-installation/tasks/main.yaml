@@ -1,14 +1,15 @@
 ---
-- import_tasks: update_apt_cache.yaml
-- import_tasks: gather_facts.yaml
-- import_tasks: snap.yaml
-- import_tasks: git.yaml
+# - import_tasks: update_apt_cache.yaml
+# - import_tasks: gather_facts.yaml
+# - import_tasks: snap.yaml
+# - import_tasks: git.yaml
 - import_tasks: zsh.yaml
-- import_tasks: fonts.yaml
-- import_tasks: node.yaml
-- import_tasks: docker.yaml
-- import_tasks: dev_tools.yaml
-- import_tasks: general_use_software.yaml
-- import_tasks: gaming_software.yaml
-- import_tasks: libinput_gestures.yaml
-- import_tasks: undervolt.yaml
+# - import_tasks: fonts.yaml
+# - import_tasks: node.yaml
+# - import_tasks: docker.yaml
+# - import_tasks: dev_tools.yaml
+# - import_tasks: nvim.yaml
+# - import_tasks: general_use_software.yaml
+# - import_tasks: gaming_software.yaml
+# - import_tasks: libinput_gestures.yaml
+# - import_tasks: undervolt.yaml
