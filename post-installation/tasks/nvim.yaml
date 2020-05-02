@@ -1,0 +1,30 @@
+---
+- name: Install snap apps (classic) - Neovim
+  snap:
+    name:
+      - nvim
+    classic: yes
+    channel: beta
+
+- name: Create plugin manager directory
+  file:
+    path: "{{ NVIM_PLUGIN_MANAGER_PATH }}"
+    state: directory
+  become_user: "{{ USERNAME }}"
+
+- name: Install nvim plugin manager
+  get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: "{{ NVIM_PLUGIN_MANAGER_PATH }}/plug.vim"
+  become_user: "{{ USERNAME }}"
+
+- name: Copy nvim config file
+  copy:
+    src: ./defaults/.config/nvim/init.vim
+    dest: "{{ NVIM_CONFIG_PATH }}"
+  become_user: "{{ USERNAME }}"
+
+- name: Install nvim plugins
+  shell: >
+    nvim +PlugInstall +q +q
+  become_user: "{{ USERNAME }}"

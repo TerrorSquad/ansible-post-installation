@@ -23,3 +23,7 @@ SYSFS: "/etc/sysfs.conf"
 
 # System files
 DOCKER_COMPOSE: "/usr/local/bin/docker-compose"
+
+# NVIM
+NVIM_PLUGIN_MANAGER_PATH: "{{ USER_HOME }}/.local/share/nvim/site/autoload"
+NVIM_CONFIG_PATH: "{{ USER_HOME }}/.config/nvim"
