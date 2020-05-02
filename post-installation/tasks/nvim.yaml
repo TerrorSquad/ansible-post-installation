@@ -18,6 +18,12 @@
     dest: "{{ NVIM_PLUGIN_MANAGER_PATH }}/plug.vim"
   become_user: "{{ USERNAME }}"
 
+- name: Create config directory
+  file:
+    path: "{{ NVIM_CONFIG_PATH }}"
+    state: directory
+  become_user: "{{ USERNAME }}"
+
 - name: Copy nvim config file
   copy:
     src: ./defaults/.config/nvim/init.vim
