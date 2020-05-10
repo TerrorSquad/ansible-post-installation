@@ -119,22 +119,27 @@ You must install these two theme manually. Ansible will copy the script to `~/.l
 In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
 
 - Install Vagrant
+
   ```bash
   sudo apt install -y vagrant virtualbox
   ```
+
 - Create a Vagrant box and provision it
+
   ```bash
   vagrant up --provision
   ```
+
 - Force destroy and recreate the box
+
   ```bash
   vagrant destroy --force && vagrant up --provision
   ```
 
 > Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
 >
-> Box name `generic/ubuntu1804` - https://app.vagrantup.com/generic/boxes/ubuntu1804
+> Box name `generic/ubuntu1804` - <https://app.vagrantup.com/generic/boxes/ubuntu1804>
 >
 > Box version - 2.0.6
 >
-> Box link - https://app.vagrantup.com/generic/boxes/ubuntu1804/versions/2.0.6
+> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu1804/versions/2.0.6>
