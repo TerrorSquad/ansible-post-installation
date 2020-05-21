@@ -62,13 +62,14 @@
 - name: Install apt apps - Variety, Flameshot, Bleachbit
   apt:
     name:
-      - variety
-      - flameshot
       - bleachbit
+      - flameshot
+      - papirus-icon-theme
+      - silversearcher-ag
+      - thefuck
       - tlp
       - unzip
-      - papirus-icon-theme
-      - thefuck
+      - variety
 
 - name: Install snap apps (classic) - Skype
   snap:
@@ -82,8 +83,8 @@
     name:
       - firefox
       - mailspring
-      - vlc
       - onlyoffice-desktopeditors
+      - vlc
 
 - name: Remove apt copies
   apt:
