@@ -3,14 +3,15 @@
   apt:
     name:
       - curl
-      - vim
-      - terminator
+      - gitkraken
+      - guake
+      - htop
+      - libutempter0
+      - make
       - redshift
       - redshift-gtk
-      - htop
-      - make
-      - guake
-      - libutempter0
+      - terminator
+      - vim
 
 - name: Copy RedShift configuration file
   copy:
@@ -35,11 +36,10 @@
     cmd: /snap/bin/code --install-extension Shan.code-settings-sync
   become_user: "{{ USERNAME }}"
 
-- name: Install snap apps - GitKraken, Postman
+- name: Install snap apps - Postman, dbeaver-ce, httpstat
   snap:
     name:
-      - gitkraken
-      - postman
       - dbeaver-ce
       - httpstat
+      - postman
     classic: no
