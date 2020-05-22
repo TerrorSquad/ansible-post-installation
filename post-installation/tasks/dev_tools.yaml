@@ -64,16 +64,26 @@
     classic: no
 
 - name: Add Alacritty repo
-  apt_repository:
-    repo: ppa:mmstick76/alacritty
+  shell: |
+    add-apt-repository ppa:mmstick76/alacritty -y
+
+- name:
+  apt:
+    update_cache: yes
 
 - name: Install Alacritty
   apt:
     name:
       - alacritty
 
+- name: Create Alacritty config directory
+  file:
+    path: "{{ ALACRITTY_CONFIG_PATH }}"
+    state: directory
+  become_user: "{{ USERNAME }}"
+
 - name: Configure Alacritty
-  cp:
+  copy:
     src: ./defaults/.config/alacritty/alacritty.yml
     dest: "{{ ALACRITTY_CONFIG_PATH }}"
   become_user: "{{ USERNAME }}"
