@@ -8,8 +8,9 @@
   with_fileglob:
     - defaults/fonts/*
 
-- name: Install font - Hack, Roboto
+- name: Install font - Hack, Roboto, Fira
   apt:
     name:
       - fonts-hack
       - fonts-roboto
+      - fonts-firacode
