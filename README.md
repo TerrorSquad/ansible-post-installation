@@ -41,6 +41,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 
 ### Development software
 
+- alacritty
 - code
 - curl
 - dbeaver-ce

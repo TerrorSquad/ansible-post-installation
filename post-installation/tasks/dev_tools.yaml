@@ -62,3 +62,18 @@
       - httpstat
       - postman
     classic: no
+
+- name: Add Alacritty repo
+  apt_repository:
+    repo: ppa:mmstick76/alacritty
+
+- name: Install Alacritty
+  apt:
+    name:
+      - alacritty
+
+- name: Configure Alacritty
+  cp:
+    src: ./defaults/.config/alacritty/alacritty.yml
+    dest: "{{ ALACRITTY_CONFIG_PATH }}"
+  become_user: "{{ USERNAME }}"
