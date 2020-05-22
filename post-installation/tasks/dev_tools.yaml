@@ -3,7 +3,6 @@
   apt:
     name:
       - curl
-      - gitkraken
       - guake
       - htop
       - libutempter0
@@ -14,11 +13,24 @@
       - terminator
       - vim
 
+- name: Download and install GitKraken
+  block:
+    - name: Download GitKraken
+      get_url:
+        url: https://release.axocdn.com/linux/gitkraken-amd64.deb
+        dest: /tmp/gitkraken.deb
+    - name: Install GitKraken
+      apt:
+        deb: /tmp/gitkraken.deb
+        force: yes
+  when: "'gitkraken' not in ansible_facts.packages"
+
 - name: Install exa
   copy:
     src: ./defaults/executables/exa-linux-x86_64
-    dest: ./usr/local/bin/exa
-    become_user: "{{ USERNAME }}"
+    dest: /usr/local/bin/exa
+    mode: 0755
+    owner: "{{ USERNAME }}"
 
 - name: Copy RedShift configuration file
   copy:
