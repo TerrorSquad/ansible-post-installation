@@ -22,3 +22,5 @@ lukechilds/zsh-nvm
 zdharma/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
+
+rupa/z
