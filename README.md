@@ -57,20 +57,23 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - redshift
 - redshift-gtk
 - terminator
-- vim
 
 ---
 
 ### General use software
 
+- ag
 - bleachbit
+- exa
 - firefox
 - flameshot
 - google chrome
 - libinput-gestures
 - mailspring
+- nvim
 - onlyoffice-desktopeditors
 - papirus-icons-theme
+- peco
 - rescuetime
 - skype
 - thefuck
@@ -79,6 +82,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 - unzip
 - variety
 - viber
+- vim
 - vlc
 
 ---
