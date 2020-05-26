@@ -3,6 +3,9 @@ VAGRANT_USERNAME: vagrant
 GIT_USER_NAME: Goran Ninkovic
 GIT_USER_EMAIL: change@me.com
 
+# Undervolt
+UNDERVOLT: false
+
 # User directories
 USER_HOME: "/home/{{ USERNAME}}"
 LIBINPUT_HOME: "{{ USER_HOME }}/.libinput-gestures"
