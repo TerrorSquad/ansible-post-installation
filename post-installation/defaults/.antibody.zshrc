@@ -17,9 +17,6 @@ export NVM_LAZY_LOAD=true
 # Sourcing antibody plugins
 source ~/.zsh_plugins_antibody.sh
 
-# Theme
-source ~/.powerlevel10k/powerlevel10k.zsh-theme
-
 # Font
 POWERLEVEL9K_MODE="nerdfont-complete"
 
@@ -31,7 +28,7 @@ POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
 OS_ICON="\uF304"
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon root_indicator dir ssh dir_writable vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time status background_jobs history time ram)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time status background_jobs history time ram battery)
 
 HYPHEN_INSENSITIVE="true"
 
@@ -44,3 +41,13 @@ alias ccss="npm run compile:scss"
 alias nrb="npm run build"
 alias tnrb="time npm run build"
 alias gs="gss"
+
+# Functions
+kill_port() {
+    if [ $# -eq 0 ]; then
+        echo "No arguments provided"
+        echo "provide port of service you wish to kill"
+        exit 1
+    fi
+    fuser -k $1/tcp
+}

@@ -1,6 +1,9 @@
 # Command for generating static plugins file
 # antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
 
+# Theme
+romkatv/powerlevel10k
+
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 robbyrussell/oh-my-zsh path:plugins/command-not-found
 robbyrussell/oh-my-zsh path:plugins/colored-man-pages
