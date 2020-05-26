@@ -32,6 +32,12 @@ ansible --version
 ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
 ```
 
+> Note: You can also pass UNDERVOLT variable. That will call the undervolt.yml role.
+
+```bash
+ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
+```
+
 - USERNAME - defined in `defaults/main.yaml` - can be overridden
 - `-K` - flag used to ask for root password
 
