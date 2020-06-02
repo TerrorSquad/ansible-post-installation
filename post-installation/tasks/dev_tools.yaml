@@ -12,6 +12,8 @@
       - shellcheck
       - terminator
       - vim
+      - kcachegrind
+      - graphviz
 
 - name: Download and install GitKraken
   block:
