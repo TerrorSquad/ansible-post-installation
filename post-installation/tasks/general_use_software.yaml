@@ -21,6 +21,17 @@
         deb: /tmp/google-chrome-stable_current_amd64.deb
   when: "'google-chrome' not in ansible_facts.packages"
 
+- name: Download and install Zoom
+  block:
+    - name: Download Zoom
+      get_url:
+        url: https://zoom.us/client/latest/zoom_amd64.deb
+        dest: /tmp/zoom_amd64.deb
+    - name: Install Zoom
+      apt:
+        deb: /tmp/zoom_amd64.deb
+  when: "'zoom' not in ansible_facts.packages"
+
 - name: Download and install Viber
   block:
     - name: Download Viber
