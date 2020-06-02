@@ -92,6 +92,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 - viber
 - vim
 - vlc
+- zoom
 
 ---
 
