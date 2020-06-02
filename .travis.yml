@@ -28,4 +28,3 @@ install:
 
 script:
   - sudo vagrant up --provider=libvirt --provision
-  - sudo vagrant ssh -c "echo 'hello world!'"
