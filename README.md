@@ -54,8 +54,10 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 - docker
 - git
 - gitkraken
+- graphviz
 - htop
 - httpstat
+- kcachegrind
 - make
 - nvm with latest nodejs
 - postman
