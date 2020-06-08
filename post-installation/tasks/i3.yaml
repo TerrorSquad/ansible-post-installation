@@ -1,0 +1,9 @@
+---
+- name: Install i3 and supporting tools
+  apt:
+    name:
+      - i3
+      - i3status
+      - sucklesstools
+      - brightnessctl
+# TODO: Add custom config
