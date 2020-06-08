@@ -64,6 +64,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 - python3-pip
 - redshift
 - redshift-gtk
+- sublime-text
 - terminator
 
 ---
