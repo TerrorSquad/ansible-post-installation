@@ -72,14 +72,18 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 
 - ag
 - bleachbit
+- brightnessctl
+- dmenu
 - exa
 - firefox
 - flameshot
 - google chrome
+- i3
 - libinput-gestures
 - mailspring
 - nvim
 - onlyoffice-desktopeditors
+- openconnect
 - papirus-icons-theme
 - peco
 - rescuetime
