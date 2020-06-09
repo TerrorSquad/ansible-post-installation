@@ -4,6 +4,6 @@
     name:
       - i3
       - i3status
-      - sucklesstools
+      - suckless-tools
       - brightnessctl
 # TODO: Add custom config
