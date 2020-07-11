@@ -1,12 +1,28 @@
 ---
-- name: Download docker install script - get.docker.com
-  get_url:
-    url: https://get.docker.com
-    dest: /tmp/get-docker.sh
+- name: Install depdendencies
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg-agent
+      - software-properties-common
 
-- name: Install docker
+- name: Import GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+
+- name: Add apt repository
   shell: |
-    sh /tmp/get-docker.sh
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal -cs) stable" -y
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    name:
+      - containerd.io
+      - docker-ce
+      - docker-ce-cli
 
 - name: Add user to docker group
   user:
