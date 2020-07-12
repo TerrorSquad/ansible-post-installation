@@ -51,6 +51,12 @@
     dest: "{{ POWERLEVEL_10K }}"
   become_user: "{{ USERNAME }}"
 
+- name: Copy .p10k.zsh
+  copy:
+    src: ./defaults/.p10k.zsh
+    dest: "{{ USER_HOME }}"
+  become_user: "{{ USERNAME }}"
+
 - name: Initialize .zshrc
   copy:
     src: ./defaults/.antibody.zshrc
