@@ -7,7 +7,7 @@
 
 ## Requirements
 
-- OS: Ubuntu 18.04 based distro - Linux Mint 19.3
+- OS: Ubuntu 20.04 based distro - Linux Mint 20
 - Software: `ansible`
 
 If you do not have ansible installed you can do so by running this piece of code:
@@ -76,6 +76,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 - brightnessctl
 - dmenu
 - exa
+- fd-find
 - firefox
 - flameshot
 - google chrome
@@ -122,12 +123,12 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 
 In the `post-installation/defaults/scripts` directory there is a `theme-by-time.sh` bash script which will change the Cinnamon theme and icons based on time of the day.
 
+- Icons - Papirus
+
 - 06:00 - 17:00
   - Theme - Adapta
-  - Icons - Papirus-Adapta
 - 17:00 - 06:00
   - Theme - Adapta-Nokto
-  - Icons - Papirus-Adapta-Nokto
 
 You must install these two theme manually. Ansible will copy the script to `~/.local/bin/theme-by-time.sh`.
 
