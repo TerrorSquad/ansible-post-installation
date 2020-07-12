@@ -2,8 +2,8 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "generic/ubuntu1804"
-  config.vm.box_version = "2.0.6"
+  config.vm.box = "generic/ubuntu2004"
+  config.vm.box_version = "3.0.12"
   ENV['LC_ALL']="en_US.UTF-8"
 
   #
