@@ -41,6 +41,14 @@ alias ccss="npm run compile:scss"
 alias nrb="npm run build"
 alias tnrb="time npm run build"
 alias gs="gss"
+alias fd="fdfind"
+alias bat="batcat"
+alias cat="bat --paging=never --style=plain"
+
+# alias ls="exa"
+# alias l="exa -la"
+# alias ll="exa -lh --git"
+# alias lt="exa -lT --git"
 
 # Functions
 kill_port() {

@@ -29,7 +29,7 @@ ansible --version
 ## How to run
 
 ```bash
-ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami)
+ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e GIT_USER_EMAIL="your@email.com" -e GIT_USER_NAME="Your Name"
 ```
 
 > Note: You can also pass UNDERVOLT variable. That will call the undervolt.yml role.
