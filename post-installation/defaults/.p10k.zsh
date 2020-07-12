@@ -94,7 +94,8 @@
     # vpn_ip                # virtual private network indicator
     # load                  # CPU load
     # disk_usage            # disk usage
-    # ram                   # free RAM
+    history
+    ram                   # free RAM
     # swap                  # used swap
     todo                    # todo items (https://github.com/todotxt/todo.txt-cli)
     timewarrior             # timewarrior tracking status (https://timewarrior.net/)
@@ -180,8 +181,8 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color.
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=232
-  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=7
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=113
+  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=0
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
 
@@ -212,19 +213,19 @@
   # Current directory background color.
   typeset -g POWERLEVEL9K_DIR_BACKGROUND=4
   # Default current directory foreground color.
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND=254
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND=0
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
   # Replace removed segment suffixes with this symbol.
   typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=
   # Color of the shortened directory segments.
-  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=250
+  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=0
   # Color of the anchor directory segments. Anchor segments are never shortened. The first
   # segment is always an anchor.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=255
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=0
   # Display anchor directory segments in bold.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=false
   # Don't shorten directories that contain any of these files. They are anchors.
   local anchor_files=(
     .bzr
@@ -494,7 +495,7 @@
   # Status when the last command was terminated by a signal.
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL=true
   # Use terse signal names: "INT" instead of "SIGINT(2)".
-  typeset -g POWERLEVEL9K_STATUS_VERBOSE_SIGNAME=false
+  typeset -g POWERLEVEL9K_STATUS_VERBOSE_SIGNAME=true
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_VISUAL_IDENTIFIER_EXPANSION='✘'
   # typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_FOREGROUND=3
   # typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_BACKGROUND=1
