@@ -74,6 +74,7 @@
   apt:
     name:
       - bleachbit
+      - fd-find
       - flameshot
       - papirus-icon-theme
       - peco

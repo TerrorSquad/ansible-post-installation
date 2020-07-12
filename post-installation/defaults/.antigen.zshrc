@@ -56,6 +56,7 @@ alias ccss="npm run compile:scss"
 alias nrb="npm run build"
 alias tnrb="time npm run build"
 alias gs="gss"
+alias fd="fdfind"
 
 man() {
     LESS_TERMCAP_md=$'\e[01;31m' \
