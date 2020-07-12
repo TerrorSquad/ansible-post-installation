@@ -17,23 +17,6 @@ export NVM_LAZY_LOAD=true
 # Sourcing antibody plugins
 source ~/.zsh_plugins_antibody.sh
 
-# Font
-POWERLEVEL9K_MODE="nerdfont-complete"
-
-# Prompt customization
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="▶ "
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX=""
-
-OS_ICON="\uF304"
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon root_indicator dir ssh dir_writable vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time status background_jobs history time ram battery)
-
-HYPHEN_INSENSITIVE="true"
-
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-
 # Aliases
 alias c="clear"
 alias cjs="npm run compile:js"
@@ -50,6 +33,8 @@ alias cat="bat --paging=never --style=plain"
 # alias ll="exa -lh --git"
 # alias lt="exa -lT --git"
 
+export BAT_PAGER="less -RF"
+
 # Functions
 kill_port() {
     if [ $# -eq 0 ]; then
@@ -59,3 +44,6 @@ kill_port() {
     fi
     fuser -k $1/tcp
 }
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
