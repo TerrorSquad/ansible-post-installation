@@ -2,6 +2,7 @@
 - name: Install apt apps - curl, VIm, Terminator, RedShift, htop
   apt:
     name:
+      - bat
       - curl
       - guake
       - htop
@@ -107,7 +108,7 @@
       shell: |
         echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 
-    - name: Update apt cache
+    - name: Add sublime text
       apt:
         update_cache: yes
         name:

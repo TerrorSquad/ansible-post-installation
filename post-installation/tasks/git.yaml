@@ -4,20 +4,28 @@
     name:
       - git
 
-- name: Configure git
-  block:
-    - name: Configure git with default user name
-      git_config:
-        name: "user.name"
-        value: "{{ GIT_USER_NAME }}"
-        scope: global
-        state: present
-      become_user: "{{ USERNAME }}"
+- name: Copy .gitconfig file
+  copy:
+    src: ./defaults/.gitconfig
+    dest: "~"
+  become_user: "{{ USERNAME }}"
 
-    - name: Configure git with default user email
-      git_config:
-        name: "user.email"
-        value: "{{ GIT_USER_EMAIL }}"
-        scope: global
-        state: present
-      become_user: "{{ USERNAME }}"
+- name: Download and install delta
+  block:
+    - name: Download GitKraken
+      get_url:
+        url: https://github.com/dandavison/delta/releases/download/0.3.0/git-delta_0.3.0_amd64.deb
+        dest: /tmp/delta.deb
+    - name: Install delta
+      apt:
+        deb: /tmp/delta.deb
+        force: yes
+  when: "'delta' not in ansible_facts.packages"
+
+- name: Configure git with default user email
+  git_config:
+    name: "user.email"
+    value: "{{ GIT_USER_EMAIL }}"
+    scope: global
+    state: present
+  become_user: "{{ USERNAME }}"

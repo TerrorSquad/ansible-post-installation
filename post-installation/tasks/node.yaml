@@ -5,3 +5,10 @@
   args:
     executable: "{{ zsh_install_path.stdout }}"
   become_user: "{{ USERNAME }}"
+
+- name: Install tldr
+  shell: >
+    source ~/.zshrc && npm install -g tldr
+  args:
+    executable: "{{ zsh_install_path.stdout }}"
+  become_user: "{{ USERNAME }}"

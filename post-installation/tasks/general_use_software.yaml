@@ -76,6 +76,9 @@
       - bleachbit
       - fd-find
       - flameshot
+      - fzf
+      - httpie
+      - ncdu
       - papirus-icon-theme
       - peco
       - silversearcher-ag

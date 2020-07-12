@@ -37,3 +37,12 @@
         url: "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
         dest: "{{ DOCKER_COMPOSE }}"
         mode: 0755
+
+- name: Install lazydocker
+  shell: |
+    curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+
+- name: Install CTOP
+  apt:
+    name:
+      - ctop
