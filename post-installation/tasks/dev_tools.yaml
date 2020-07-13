@@ -28,6 +28,18 @@
         force: yes
   when: "'gitkraken' not in ansible_facts.packages"
 
+- name: Download and install Hyperfine
+  block:
+    - name: Download Hyperfine
+      get_url:
+        url: https://github.com/sharkdp/hyperfine/releases/download/v1.10.0/hyperfine_1.10.0_amd64.deb
+        dest: /tmp/hyperfine.deb
+    - name: Install Hyperfine
+      apt:
+        deb: /tmp/hyperfine.deb
+        force: yes
+  when: "'hyperfine' not in ansible_facts.packages"
+
 - name: Install exa
   copy:
     src: ./defaults/executables/exa-linux-x86_64
