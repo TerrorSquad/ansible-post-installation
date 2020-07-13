@@ -14,7 +14,7 @@
 
 - name: Add apt repository
   shell: |
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal -cs) stable" -y
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" -y
 
 - name: Update apt cache
   apt:
