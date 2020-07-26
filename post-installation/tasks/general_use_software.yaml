@@ -77,6 +77,10 @@
         deb: /tmp/uremote.deb
   when: "'urserver' not in ansible_facts.packages"
 
+- name: Add Alacritty repo
+  shell: |
+    add-apt-repository ppa:costales/folder-color -y
+
 - name: Install apt apps - Variety, Flameshot, Bleachbit
   apt:
     name:
