@@ -26,4 +26,5 @@ zdharma/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
 
+changyuheng/fz
 rupa/z
