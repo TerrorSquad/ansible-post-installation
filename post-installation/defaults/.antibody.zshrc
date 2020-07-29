@@ -27,6 +27,7 @@ alias gs="gss"
 alias fd="fdfind"
 alias bat="batcat"
 alias cat="bat --paging=never --style=plain"
+alias code="code --goto"
 
 # alias ls="exa"
 # alias l="exa -la"
