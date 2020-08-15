@@ -37,13 +37,6 @@
         cmd: antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
       become_user: "{{ USERNAME}}"
 
-- name: Download powerlevel10k zsh theme
-  git:
-    repo: https://github.com/romkatv/powerlevel10k.git
-    depth: "1"
-    dest: "{{ POWERLEVEL_10K }}"
-  become_user: "{{ USERNAME }}"
-
 - name: Copy .p10k.zsh
   copy:
     src: ./defaults/.p10k.zsh
