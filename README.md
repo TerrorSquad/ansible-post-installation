@@ -1,6 +1,6 @@
 # Description
 
-[![Build Status](https://travis-ci.org/TerrorSquad/ansible-post-installation.svg?branch=master)](https://travis-ci.org/TerrorSquad/ansible-post-installation)
+[![Build Status](https://travis-ci.com/TerrorSquad/ansible-post-installation.svg?branch=master)](https://travis-ci.com/TerrorSquad/ansible-post-installation)
 
 - Ansible playbook used for installing and configuring software after a system installation
 - The playbook should be run as root user (-K flag) and the user name of the non-root user should be passed as an extra argument or defined in defaults/main.yaml.
