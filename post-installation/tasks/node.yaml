@@ -1,14 +1,10 @@
 ---
 - name: Install latest NodeJS
   shell: >
-    source ~/.zshrc && nvm install node
-  args:
-    executable: "{{ zsh_install_path.stdout }}"
+    zsh -i -c "nvm install node"
   become_user: "{{ USERNAME }}"
 
 - name: Install tldr
   shell: >
-    source ~/.zshrc && npm install -g tldr
-  args:
-    executable: "{{ zsh_install_path.stdout }}"
+    zsh -i -c "npm install -g tldr"
   become_user: "{{ USERNAME }}"
