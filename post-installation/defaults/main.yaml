@@ -15,7 +15,6 @@ CONFIG_HOME: "{{ USER_HOME }}/.config/"
 TERMINATOR_CONFIG: "{{ CONFIG_HOME }}/terminator"
 
 # User files
-ANTIGEN_FILE_PATH: "{{ USER_HOME }}/.antigen.zsh"
 ANTIBODY_FILE_PATH: "{{ USER_HOME }}/.antibody.sh"
 ZSHRC: "{{ USER_HOME }}/.zshrc"
 

@@ -12,13 +12,6 @@
     name: "{{ USERNAME}}"
     shell: "{{ zsh_install_path.stdout }}"
 
-# Deprecated. Replaced with antibody below, for performance reasons
-- name: Install antigen - ZSH plugin manager
-  get_url:
-    url: https://raw.githubusercontent.com/zsh-users/antigen/master/bin/antigen.zsh
-    dest: "{{ ANTIGEN_FILE_PATH }}"
-  become_user: "{{ USERNAME }}"
-
 - name: Download and install antibody - ZSH plugin manager
   block:
     - name: Download antibody
