@@ -54,3 +54,9 @@
     src: ./defaults/.antibody.zshrc
     dest: "{{ ZSHRC }}"
   become_user: "{{ USERNAME }}"
+
+- name: "Add nvm lazy load binaries to zshenv"
+  lineinfile:
+    dest: /etc/zsh/zshenv
+    state: present
+    line: export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java')
