@@ -32,6 +32,12 @@
         dest: "{{ USER_HOME }}"
       become_user: "{{ USERNAME }}"
 
+    - name: Remove old antibody bundles
+      file:
+        path: ~/.cache/antibody
+        state: absent
+      become_user: "{{ USERNAME}}"
+
     - name: Download antibody bundles from .zsh_plugins_antibody.pl
       shell:
         cmd: antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
