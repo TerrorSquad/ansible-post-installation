@@ -13,6 +13,7 @@ restartCinnamon() {
 
 # Env variables required for plugins
 export NVM_LAZY_LOAD=true
+export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'webstorm')
 
 # Sourcing antibody plugins
 source ~/.zsh_plugins_antibody.sh
