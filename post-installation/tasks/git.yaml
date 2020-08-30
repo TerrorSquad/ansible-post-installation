@@ -12,7 +12,7 @@
 
 - name: Download and install delta
   block:
-    - name: Download GitKraken
+    - name: Download delta
       get_url:
         url: https://github.com/dandavison/delta/releases/download/0.3.0/git-delta_0.3.0_amd64.deb
         dest: /tmp/delta.deb
@@ -20,7 +20,6 @@
       apt:
         deb: /tmp/delta.deb
         force: yes
-  when: "'delta' not in ansible_facts.packages"
 
 - name: Configure git with default user email
   git_config:

@@ -8,7 +8,6 @@
     - name: Install RescueTime
       apt:
         deb: /tmp/rescuetime.deb
-  when: "'rescuetime' not in ansible_facts.packages"
 
 - name: Download and install Google Chrome
   block:
@@ -19,7 +18,6 @@
     - name: Install Google Chrome
       apt:
         deb: /tmp/google-chrome-stable_current_amd64.deb
-  when: "'google-chrome' not in ansible_facts.packages"
 
 - name: Download and install Zoom
   block:
@@ -30,7 +28,6 @@
     - name: Install Zoom
       apt:
         deb: /tmp/zoom_amd64.deb
-  when: "'zoom' not in ansible_facts.packages"
 
 - name: Download and install Viber
   block:
@@ -48,18 +45,19 @@
     - name: Install Viber
       apt:
         deb: /tmp/viber.deb
-  when: "'viber' not in ansible_facts.packages"
 
 - name: Download and install Tixati
   block:
-    - name: Download Tixati
+    - name: Download Tixati page
       get_url:
-        url: https://download2.tixati.com/download/tixati_2.72-1_amd64.deb
-        dest: /tmp/tixati.deb
+        url: https://www.tixati.com/download/linux.html
+        dest: /tmp/tixati.html
+    - name: Find out latest Tixati URL
+      shell: |
+        grep  -oP "<a href=(.+amd64.deb)\">" /tmp/tixati.html | grep -oP  "http.+amd64.deb"  | xargs wget -O /tmp/tixati.deb
     - name: Install Tixati
       apt:
         deb: /tmp/tixati.deb
-  when: "'tixati' not in ansible_facts.packages"
 
 - name: Set Tixati as default torrent client
   shell: |
@@ -75,7 +73,6 @@
     - name: Install UnifiedRemote
       apt:
         deb: /tmp/uremote.deb
-  when: "'urserver' not in ansible_facts.packages"
 
 - name: Add Folder color nemo repo
   shell: |

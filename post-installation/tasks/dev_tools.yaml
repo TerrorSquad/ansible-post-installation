@@ -26,7 +26,6 @@
       apt:
         deb: /tmp/gitkraken.deb
         force: yes
-  when: "'gitkraken' not in ansible_facts.packages"
 
 - name: Download and install Hyperfine
   block:
@@ -38,7 +37,6 @@
       apt:
         deb: /tmp/hyperfine.deb
         force: yes
-  when: "'hyperfine' not in ansible_facts.packages"
 
 - name: Install exa
   copy:
