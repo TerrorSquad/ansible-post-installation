@@ -32,9 +32,16 @@
 
 - name: Install docker-compose
   block:
-    - name: Download docker-compose
+    - name: Download docker-compose page
       get_url:
-        url: "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+        url: https://github.com/docker/compose/releases
+        dest: /tmp/docker-compose.html
+    - name: Download docker-compose package
+      shell: |
+        A=https://github.com/; B=$(grep -oP  "/.+docker-compose-Linux-x86_64" /tmp/docker-compose.html | grep -v "rc" | head -n 1); echo $A$B | xargs wget -O /tmp/docker-compose
+    - name: Install docker-compose
+      copy:
+        src: "/tmp/docker-compose"
         dest: "{{ DOCKER_COMPOSE }}"
         mode: 0755
 
