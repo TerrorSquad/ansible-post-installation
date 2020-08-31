@@ -12,10 +12,13 @@
 
 - name: Download and install delta
   block:
-    - name: Download delta
+    - name: Download delta page
       get_url:
-        url: https://github.com/dandavison/delta/releases/download/0.3.0/git-delta_0.3.0_amd64.deb
-        dest: /tmp/delta.deb
+        url: https://github.com/dandavison/delta/releases/
+        dest: /tmp/delta.html
+    - name: Download delta package
+      shell: |
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" /tmp/delta.html | grep -v musl | head -n 1); echo $A$B | xargs wget -O /tmp/delta.deb
     - name: Install delta
       apt:
         deb: /tmp/delta.deb
