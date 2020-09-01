@@ -41,6 +41,20 @@
         deb: /tmp/hyperfine.deb
         force: yes
 
+- name: Download and install ripgrep
+  block:
+    - name: Download ripgrep page
+      get_url:
+        url: https://github.com/BurntSushi/ripgrep/releases/
+        dest: /tmp/ripgrep.html
+    - name: Download latest hyperfine package
+      shell: |
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" /tmp/ripgrep.html | grep -v musl | head -n 1); echo $A$B | xargs wget -O /tmp/ripgrep.deb
+    - name: Install ripgrep
+      apt:
+        deb: /tmp/ripgrep.deb
+        force: yes
+
 - name: Install exa
   copy:
     src: ./defaults/executables/exa-linux-x86_64
