@@ -62,7 +62,7 @@
 - name: Set Tixati as default torrent client
   shell: |
     gio mime x-scheme-handler/magnet tixati.desktop
-  when: ansible_distribution == 'Linux Mint' and ansible_distribution_major_version == '19'
+  when: ansible_distribution == 'Linux Mint'
 
 - name: Download and install UnifiedRemote
   block:
