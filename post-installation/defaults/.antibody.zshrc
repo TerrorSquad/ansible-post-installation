@@ -1,5 +1,5 @@
 # Shell startup time benchmark oneliner
-# for i in $(seq 1 10); do /usr/bin/time --format=%e zsh -i -c exit; done
+# hyperfine 'zsh -i -c exit'
 
 # Set vim as default editor
 export VISUAL=nvim
