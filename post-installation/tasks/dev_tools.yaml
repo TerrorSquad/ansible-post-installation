@@ -68,10 +68,15 @@
     dest: "{{ CONFIG_HOME }}"
   become_user: "{{ USERNAME }}"
 
+- name: Create Terminator config directory path
+  file:
+    dest: "{{ TERMINATOR_CONFIG_DIR }}"
+    state: directory
+
 - name: Configure Terminator
   copy:
     src: ./defaults/.config/terminator/config
-    dest: "{{ TERMINATOR_CONFIG }}"
+    dest: "{{ TERMINATOR_CONFIG_FILE }}"
   become_user: "{{ USERNAME }}"
 
 - name: Install snap apps (classic) - VS Code
