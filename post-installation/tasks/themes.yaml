@@ -1,0 +1,21 @@
+---
+- name: Download themes from Cinnamon Spices
+  block:
+    - name: Download Adapta-Nokto
+      get_url:
+        url: https://cinnamon-spices.linuxmint.com/files/themes/Adapta-Nokto.zip
+        dest: /tmp/Adapta-Nokto.zip
+    - name: Move theme in to {{ THEMES }}
+      unarchive:
+        src: /tmp/Adapta-Nokto.zip
+        dest: "{{ THEMES }}"
+
+    - name: Download Adapta
+      get_url:
+        url: https://cinnamon-spices.linuxmint.com/files/themes/Adapta.zip
+        dest: /tmp/Adapta.zip
+    - name: Move theme in to {{ THEMES }}
+      unarchive:
+        src: /tmp/Adapta.zip
+        dest: "{{ THEMES }}"
+  become_user: "{{ USERNAME }}"
