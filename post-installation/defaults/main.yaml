@@ -17,7 +17,7 @@ TERMINATOR_CONFIG_DIR: "{{ CONFIG_HOME }}/terminator"
 # User files
 ANTIBODY_FILE_PATH: "{{ USER_HOME }}/.antibody.sh"
 ZSHRC: "{{ USER_HOME }}/.zshrc"
-TERMINATOR_CONFIG_FILE: "{{ TERMINATOR_CONFIG_FILE }}/config"
+TERMINATOR_CONFIG_FILE: "{{ TERMINATOR_CONFIG_DIR }}/config"
 
 # System directories
 SYSTEMD_SYSTEM: "/etc/systemd/system/"
