@@ -72,6 +72,7 @@
   file:
     dest: "{{ TERMINATOR_CONFIG_DIR }}"
     state: directory
+  become_user: "{{ USERNAME }}"
 
 - name: Configure Terminator
   copy:
