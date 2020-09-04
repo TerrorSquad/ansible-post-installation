@@ -15,6 +15,7 @@
 - import_tasks: gaming_software.yaml
 - import_tasks: libinput_gestures.yaml
 - import_tasks: themes.yaml
+- import_tasks: dconf.yaml
 
 - name: Undervolt
   import_tasks: undervolt.yaml

@@ -35,3 +35,9 @@ NVIM_CONFIG_PATH: "{{ USER_HOME }}/.config/nvim"
 
 # Alacritty
 ALACRITTY_CONFIG_PATH: "{{ USER_HOME }}/.config/alacritty"
+
+# dconf paths
+DCONF_GUAKE: "/apps/guake/"
+DCONF_ORG_CINNAMON_DESKTOP: "/org/cinnamon/desktop/"
+DCONF_ORG_NEMO: "/org/nemo/"
+DCONF_ORG_COM_LINUXMINT_UPDATES: "/com/linuxmint/updates/"

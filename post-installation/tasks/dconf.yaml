@@ -1,0 +1,19 @@
+---
+- name: Configure dconf applications
+  block:
+    - name: Configure guake
+      shell: |
+        cat ./post-installation/defaults/dconf-settings/apps.guake.ini | dconf load "{{ DCONF_GUAKE }}"
+
+    - name: Configure cinnamon desktop
+      shell: |
+        cat ./post-installation/defaults/dconf-settings/org.cinnamon.desktop.ini | dconf load "{{ DCONF_ORG_CINNAMON_DESKTOP }}"
+
+    - name: Configure nemo
+      shell: |
+        cat ./post-installation/defaults/dconf-settings/org.nemo.ini | dconf load "{{ DCONF_ORG_NEMO }}"
+    - name: Configure Linux Mint updates
+      shell: |
+        cat ./post-installation/defaults/dconf-settings/com.linuxmint.updates.ini | dconf load "{{ DCONF_ORG_COM_LINUXMINT_UPDATES }}"
+
+  become_user: "{{ USERNAME }}"
