@@ -21,10 +21,10 @@
     - name: Download GitKraken
       get_url:
         url: https://release.axocdn.com/linux/gitkraken-amd64.deb
-        dest: /tmp/gitkraken.deb
+        dest: "{{ DOWNLOAD_DIR }}/gitkraken.deb"
     - name: Install GitKraken
       apt:
-        deb: /tmp/gitkraken.deb
+        deb: "{{ DOWNLOAD_DIR }}/gitkraken.deb"
         force: yes
 
 - name: Download and install Hyperfine
@@ -32,13 +32,14 @@
     - name: Download Hyperfine page
       get_url:
         url: https://github.com/sharkdp/hyperfine/releases/
-        dest: /tmp/hyperfine.html
+        dest: "{{ DOWNLOAD_DIR}}/hyperfine.html"
+
     - name: Download latest hyperfine package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" /tmp/hyperfine.html | grep -v musl | head -n 1); echo $A$B | xargs wget -O /tmp/hyperfine.deb
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/hyperfine.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/hyperfine.deb"
     - name: Install Hyperfine
       apt:
-        deb: /tmp/hyperfine.deb
+        deb: "{{ DOWNLOAD_DIR}}/hyperfine.deb"
         force: yes
 
 - name: Download and install ripgrep
@@ -46,13 +47,13 @@
     - name: Download ripgrep page
       get_url:
         url: https://github.com/BurntSushi/ripgrep/releases/
-        dest: /tmp/ripgrep.html
+        dest: "{{ DOWNLOAD_DIR}}/ripgrep.html"
     - name: Download latest hyperfine package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" /tmp/ripgrep.html | grep -v musl | head -n 1); echo $A$B | xargs wget -O /tmp/ripgrep.deb
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/ripgrep.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/ripgrep.deb"
     - name: Install ripgrep
       apt:
-        deb: /tmp/ripgrep.deb
+        deb: "{{ DOWNLOAD_DIR}}/ripgrep.deb"
         force: yes
 
 - name: Install exa

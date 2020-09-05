@@ -35,15 +35,17 @@
     - name: Download docker-compose page
       get_url:
         url: https://github.com/docker/compose/releases
-        dest: /tmp/docker-compose.html
+        dest: "{{ DOWNLOAD_DIR}}/docker-compose.html"
 
     - name: Download docker-compose package
       shell: |
-        A=https://github.com/; B=$(grep -oP  "/.+docker-compose-Linux-x86_64" /tmp/docker-compose.html | grep -v "rc" | head -n 1); echo $A$B | xargs wget -O ~/docker-compose
+        A=https://github.com/; B=$(grep -oP  "/.+docker-compose-Linux-x86_64" "{{ DOWNLOAD_DIR}}/docker-compose.html" | grep -v "rc" | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/docker-compose"
 
     - name: Install docker-compose
-      shell: |
-        ls -Flash ~/docker-compose; mv ~/docker-compose "{{ DOCKER_COMPOSE }}"; chmod 755 "{{ DOCKER_COMPOSE }}"
+      copy:
+        src: "{{ DOWNLOAD_DIR}}/docker-compose"
+        dest: "{{ DOCKER_COMPOSE }}"
+        mode: 0755
 
 - name: Install lazydocker
   shell: |

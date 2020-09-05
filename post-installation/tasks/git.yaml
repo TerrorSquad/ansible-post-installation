@@ -15,13 +15,13 @@
     - name: Download delta page
       get_url:
         url: https://github.com/dandavison/delta/releases/
-        dest: /tmp/delta.html
+        dest: "{{ DOWNLOAD_DIR}}/delta.html"
     - name: Download delta package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" /tmp/delta.html | grep -v musl | head -n 1); echo $A$B | xargs wget -O /tmp/delta.deb
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/delta.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/delta.deb"
     - name: Install delta
       apt:
-        deb: /tmp/delta.deb
+        deb: "{{ DOWNLOAD_DIR}}/delta.deb"
         force: yes
 
 - name: Configure git with default user email
