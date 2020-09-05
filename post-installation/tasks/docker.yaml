@@ -42,10 +42,8 @@
         A=https://github.com/; B=$(grep -oP  "/.+docker-compose-Linux-x86_64" /tmp/docker-compose.html | grep -v "rc" | head -n 1); echo $A$B | xargs wget -O ~/docker-compose
 
     - name: Install docker-compose
-      copy:
-        src: ~/docker-compose
-        dest: "{{ DOCKER_COMPOSE }}"
-        mode: 0755
+      shell: |
+        ls -Flash ~/docker-compose; mv ~/docker-compose "{{ DOCKER_COMPOSE }}"; chmod 755 "{{ DOCKER_COMPOSE }}"
 
 - name: Install lazydocker
   shell: |

@@ -15,6 +15,6 @@ Vagrant.configure("2") do |config|
     }
 
     ansible.playbook = "playbook_vagrant.yml"
-    ansible.verbose = "vv"
+    ansible.verbose = "vvv"
   end
 end
