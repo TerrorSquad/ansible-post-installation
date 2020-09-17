@@ -50,6 +50,23 @@ kill_port() {
     fuser -k $1/tcp
 }
 
+update_vsf_config() {
+    VSF_GIT_CONFIG=~/improved-potato
+
+    VSF_PROJECT=~/Projects/paperchase/vsf
+    VSF_API_PROJECT=~/Projects/paperchase/vsf-api
+    # Copy config files
+    cp $VSF_PROJECT/config/local.json $VSF_GIT_CONFIG/vsf.local.json
+    cp $VSF_API_PROJECT/config/local.json $VSF_GIT_CONFIG/vsf-api.local.json
+
+    # Git add, commit and push
+    cd $VSF_GIT_CONFIG
+    git add $VSF_GIT_CONFIG/vsf.local.json
+    git add $VSF_GIT_CONFIG/vsf-api.local.json
+    git commit -m "config: update config files"
+    git push
+}
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
