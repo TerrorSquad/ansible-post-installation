@@ -33,11 +33,11 @@
   block:
     - name: Download dependencies
       get_url:
-        url: http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
-        dest: "{{ DOWNLOAD_DIR}}/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb"
+        url: http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.4_amd64.deb
+        dest: "{{ DOWNLOAD_DIR}}/libssl1.0.0_1.0.2n-1ubuntu5.4_amd64.deb"
     - name: Install dependencies
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb"
+        deb: "{{ DOWNLOAD_DIR}}/libssl1.0.0_1.0.2n-1ubuntu5.4_amd64.deb"
 
     - name: Download Viber
       get_url:
