@@ -160,6 +160,6 @@ In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These 
 >
 > Box name `generic/ubuntu2004` - <https://app.vagrantup.com/generic/boxes/ubuntu2004>
 >
-> Box version - 3.0.12
+> Box version - 3.0.34
 >
-> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2004/versions/3.0.12>
+> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2004/versions/3.0.34>
