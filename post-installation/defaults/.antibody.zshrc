@@ -7,13 +7,9 @@ export EDITOR="$VISUAL"
 
 alias vim=nvim
 
-restartCinnamon() {
-    (nohup cinnamon --replace >/dev/null 2>&1) &
-}
-
 # Env variables required for plugins
 export NVM_LAZY_LOAD=true
-export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'webstorm')
+export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'webstorm' 'git')
 
 # Sourcing antibody plugins
 source ~/.zsh_plugins_antibody.sh
@@ -41,6 +37,28 @@ alias bxd="bin/xdebug disable"
 export BAT_PAGER="less -RF"
 
 # Functions
+
+restartCinnamon() {
+    (nohup cinnamon --replace >/dev/null 2>&1) &
+}
+
+getProgramPids() {
+    PROGRAM=$1
+    local result=$(ps aux | grep ${PROGRAM} | grep -v grep | tr -s ' ' | cut -d ' ' -f 2)
+    echo $result
+}
+
+killByPid() {
+    PROGRAM=$1
+    local PIDS=$(getProgramPids ${PROGRAM})
+    if [ $PIDS ]; then
+        return kill ${PIDS}
+    else
+        echo "PROGRAM IS STOPPED"
+        return 1
+    fi
+}
+
 kill_port() {
     if [ $# -eq 0 ]; then
         echo "No arguments provided"
