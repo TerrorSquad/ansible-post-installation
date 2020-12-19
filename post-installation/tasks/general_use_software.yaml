@@ -34,13 +34,13 @@
 
 - name: Download and install Viber
   block:
-    - name: Download dependencies
-      get_url:
-        url: http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
-        dest: /tmp/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
-    - name: Install dependencies
-      apt:
-        deb: /tmp/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
+    # - name: Download dependencies
+    #   get_url:
+    #     url: http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
+    #     dest: /tmp/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
+    # - name: Install dependencies
+    #   apt:
+    #     deb: /tmp/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
     - name: Download Viber
       get_url:
         url: https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
