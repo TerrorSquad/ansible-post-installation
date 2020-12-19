@@ -65,11 +65,6 @@
       - code
     classic: yes
 
-- name: Install VS Code Sync Extension
-  shell:
-    cmd: /snap/bin/code --install-extension Shan.code-settings-sync
-  become_user: "{{ USERNAME }}"
-
 - name: Install snap apps - Postman, dbeaver-ce, httpstat
   snap:
     name:
