@@ -4,33 +4,30 @@
     - name: Download RescueTime
       get_url:
         url: https://www.rescuetime.com/installers/rescuetime_current_amd64.deb
-        dest: /tmp/rescuetime.deb
+        dest: "{{ DOWNLOAD_DIR}}/rescuetime.deb"
     - name: Install RescueTime
       apt:
-        deb: /tmp/rescuetime.deb
-  when: "'rescuetime' not in ansible_facts.packages"
+        deb: "{{ DOWNLOAD_DIR}}/rescuetime.deb"
 
 - name: Download and install Google Chrome
   block:
     - name: Download Google Chrome
       get_url:
         url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        dest: /tmp/google-chrome-stable_current_amd64.deb
+        dest: "{{ DOWNLOAD_DIR}}/google-chrome-stable_current_amd64.deb"
     - name: Install Google Chrome
       apt:
-        deb: /tmp/google-chrome-stable_current_amd64.deb
-  when: "'google-chrome' not in ansible_facts.packages"
+        deb: "{{ DOWNLOAD_DIR}}/google-chrome-stable_current_amd64.deb"
 
 - name: Download and install Zoom
   block:
     - name: Download Zoom
       get_url:
         url: https://zoom.us/client/latest/zoom_amd64.deb
-        dest: /tmp/zoom_amd64.deb
+        dest: "{{ DOWNLOAD_DIR}}/zoom_amd64.deb"
     - name: Install Zoom
       apt:
-        deb: /tmp/zoom_amd64.deb
-  when: "'zoom' not in ansible_facts.packages"
+        deb: "{{ DOWNLOAD_DIR}}/zoom_amd64.deb"
 
 - name: Download and install Viber
   block:
@@ -44,38 +41,46 @@
     - name: Download Viber
       get_url:
         url: https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
-        dest: /tmp/viber.deb
+        dest: "{{ DOWNLOAD_DIR}}/viber.deb"
     - name: Install Viber
       apt:
-        deb: /tmp/viber.deb
-  when: "'viber' not in ansible_facts.packages"
+        deb: "{{ DOWNLOAD_DIR}}/viber.deb"
 
 - name: Download and install Tixati
   block:
-    - name: Download Tixati
+    - name: Download Tixati page
       get_url:
-        url: https://download2.tixati.com/download/tixati_2.72-1_amd64.deb
-        dest: /tmp/tixati.deb
+        url: https://www.tixati.com/download/linux.html
+        dest: "{{ DOWNLOAD_DIR}}/tixati.html"
+    - name: Find out latest Tixati URL
+      shell: |
+        grep  -oP "<a href=(.+amd64.deb)\">" "{{ DOWNLOAD_DIR}}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ DOWNLOAD_DIR}}/tixati.deb"
     - name: Install Tixati
       apt:
-        deb: /tmp/tixati.deb
-  when: "'tixati' not in ansible_facts.packages"
+        deb: "{{ DOWNLOAD_DIR}}/tixati.deb"
 
 - name: Set Tixati as default torrent client
   shell: |
     gio mime x-scheme-handler/magnet tixati.desktop
-  when: ansible_distribution == 'Linux Mint' and ansible_distribution_major_version == '19'
+  when: ansible_distribution == 'Linux Mint'
 
 - name: Download and install UnifiedRemote
   block:
     - name: Download UnifiedRemote
       get_url:
         url: https://www.unifiedremote.com/download/linux-x64-deb
-        dest: /tmp/uremote.deb
+        dest: "{{ DOWNLOAD_DIR}}/uremote.deb"
     - name: Install UnifiedRemote
       apt:
-        deb: /tmp/uremote.deb
-  when: "'urserver' not in ansible_facts.packages"
+        deb: "{{ DOWNLOAD_DIR}}/uremote.deb"
+
+- name: Add Folder color nemo repo
+  shell: |
+    add-apt-repository ppa:costales/folder-color -y
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
 
 - name: Install apt apps - Variety, Flameshot, Bleachbit
   apt:
@@ -83,6 +88,7 @@
       - bleachbit
       - fd-find
       - flameshot
+      - folder-color-nemo
       - fzf
       - httpie
       - ncdu

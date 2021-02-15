@@ -1,5 +1,6 @@
 # Command for generating static plugins file
-# antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
+# run from ~
+# rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
 
 # Theme
 romkatv/powerlevel10k
@@ -26,4 +27,5 @@ zdharma/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
 
+changyuheng/fz
 rupa/z

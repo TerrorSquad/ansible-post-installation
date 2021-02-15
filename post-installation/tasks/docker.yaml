@@ -32,11 +32,21 @@
 
 - name: Install docker-compose
   block:
-    - name: Download docker-compose
+    - name: Download docker-compose page
       get_url:
-        url: "https://github.com/docker/compose/releases/download/1.25.4/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+        url: https://github.com/docker/compose/releases
+        dest: "{{ DOWNLOAD_DIR}}/docker-compose.html"
+
+    - name: Download docker-compose package
+      shell: |
+        A=https://github.com/; B=$(grep -oP  "/.+docker-compose-Linux-x86_64" "{{ DOWNLOAD_DIR}}/docker-compose.html" | grep -v "rc" | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/docker-compose"
+
+    - name: Install docker-compose
+      copy:
+        src: "{{ DOWNLOAD_DIR}}/docker-compose"
         dest: "{{ DOCKER_COMPOSE }}"
         mode: 0755
+        remote_src: yes
 
 - name: Install lazydocker
   shell: |

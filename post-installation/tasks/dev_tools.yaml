@@ -21,24 +21,40 @@
     - name: Download GitKraken
       get_url:
         url: https://release.axocdn.com/linux/gitkraken-amd64.deb
-        dest: /tmp/gitkraken.deb
+        dest: "{{ DOWNLOAD_DIR }}/gitkraken.deb"
     - name: Install GitKraken
       apt:
-        deb: /tmp/gitkraken.deb
+        deb: "{{ DOWNLOAD_DIR }}/gitkraken.deb"
         force: yes
-  when: "'gitkraken' not in ansible_facts.packages"
 
 - name: Download and install Hyperfine
   block:
-    - name: Download Hyperfine
+    - name: Download Hyperfine page
       get_url:
-        url: https://github.com/sharkdp/hyperfine/releases/download/v1.10.0/hyperfine_1.10.0_amd64.deb
-        dest: /tmp/hyperfine.deb
+        url: https://github.com/sharkdp/hyperfine/releases/
+        dest: "{{ DOWNLOAD_DIR}}/hyperfine.html"
+
+    - name: Download latest hyperfine package
+      shell: |
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/hyperfine.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/hyperfine.deb"
     - name: Install Hyperfine
       apt:
-        deb: /tmp/hyperfine.deb
+        deb: "{{ DOWNLOAD_DIR}}/hyperfine.deb"
         force: yes
-  when: "'hyperfine' not in ansible_facts.packages"
+
+- name: Download and install ripgrep
+  block:
+    - name: Download ripgrep page
+      get_url:
+        url: https://github.com/BurntSushi/ripgrep/releases/
+        dest: "{{ DOWNLOAD_DIR}}/ripgrep.html"
+    - name: Download latest hyperfine package
+      shell: |
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/ripgrep.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/ripgrep.deb"
+    - name: Install ripgrep
+      apt:
+        deb: "{{ DOWNLOAD_DIR}}/ripgrep.deb"
+        force: yes
 
 - name: Install exa
   copy:
@@ -53,10 +69,16 @@
     dest: "{{ CONFIG_HOME }}"
   become_user: "{{ USERNAME }}"
 
+- name: Create Terminator config directory path
+  file:
+    dest: "{{ TERMINATOR_CONFIG_DIR }}"
+    state: directory
+  become_user: "{{ USERNAME }}"
+
 - name: Configure Terminator
   copy:
     src: ./defaults/.config/terminator/config
-    dest: "{{ TERMINATOR_CONFIG }}"
+    dest: "{{ TERMINATOR_CONFIG_FILE }}"
   become_user: "{{ USERNAME }}"
 
 - name: Install snap apps (classic) - VS Code

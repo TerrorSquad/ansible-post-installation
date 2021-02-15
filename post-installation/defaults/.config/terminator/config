@@ -2,9 +2,6 @@
   always_split_with_profile = True
   focus = mouse
   smart_copy = False
-[keybindings]
-  copy = <Primary>c
-  paste = <Primary>v
 [layouts]
   [[default]]
     [[[child1]]]
@@ -18,7 +15,7 @@
 [profiles]
   [[default]]
     audible_bell = True
-    background_darkness = 0.9
+    background_darkness = 0.85
     background_type = transparent
     cursor_color = "#000000"
     font = Hack Nerd Font 11

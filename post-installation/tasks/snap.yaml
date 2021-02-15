@@ -1,8 +1,14 @@
 ---
+- name: Remove nosnap file
+  file:
+    path: /etc/apt/preferences.d/nosnap.pref
+    state: absent
+
 - name: Add support for snap apps
   apt:
     name:
       - snapd
+    update_cache: yes
 
 - name: "Add {{ SNAP_BIN_PATH }} to environment PATH"
   lineinfile:

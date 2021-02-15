@@ -1,6 +1,6 @@
 # Description
 
-[![Build Status](https://travis-ci.org/TerrorSquad/ansible-post-installation.svg?branch=master)](https://travis-ci.org/TerrorSquad/ansible-post-installation)
+[![Build Status](https://travis-ci.com/TerrorSquad/ansible-post-installation.svg?branch=master)](https://travis-ci.com/TerrorSquad/ansible-post-installation)
 
 - Ansible playbook used for installing and configuring software after a system installation
 - The playbook should be run as root user (-K flag) and the user name of the non-root user should be passed as an extra argument or defined in defaults/main.yaml.
@@ -160,6 +160,6 @@ In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These 
 >
 > Box name `generic/ubuntu2004` - <https://app.vagrantup.com/generic/boxes/ubuntu2004>
 >
-> Box version - 3.0.12
+> Box version - 3.0.34
 >
-> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2004/versions/3.0.12>
+> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2004/versions/3.0.34>

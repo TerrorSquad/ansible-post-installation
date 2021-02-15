@@ -12,13 +12,6 @@
     name: "{{ USERNAME}}"
     shell: "{{ zsh_install_path.stdout }}"
 
-# Deprecated. Replaced with antibody below, for performance reasons
-- name: Install antigen - ZSH plugin manager
-  get_url:
-    url: https://raw.githubusercontent.com/zsh-users/antigen/master/bin/antigen.zsh
-    dest: "{{ ANTIGEN_FILE_PATH }}"
-  become_user: "{{ USERNAME }}"
-
 - name: Download and install antibody - ZSH plugin manager
   block:
     - name: Download antibody
@@ -39,17 +32,16 @@
         dest: "{{ USER_HOME }}"
       become_user: "{{ USERNAME }}"
 
+    - name: Remove old antibody bundles
+      file:
+        path: ~/.cache/antibody
+        state: absent
+      become_user: "{{ USERNAME}}"
+
     - name: Download antibody bundles from .zsh_plugins_antibody.pl
       shell:
         cmd: antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
       become_user: "{{ USERNAME}}"
-
-- name: Download powerlevel10k zsh theme
-  git:
-    repo: https://github.com/romkatv/powerlevel10k.git
-    depth: "1"
-    dest: "{{ POWERLEVEL_10K }}"
-  become_user: "{{ USERNAME }}"
 
 - name: Copy .p10k.zsh
   copy:

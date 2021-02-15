@@ -12,18 +12,22 @@ LIBINPUT_HOME: "{{ USER_HOME }}/.libinput-gestures"
 LOCAL_BIN: "{{ USER_HOME }}/.local/bin"
 POWERLEVEL_10K: "{{ USER_HOME }}/.powerlevel10k"
 CONFIG_HOME: "{{ USER_HOME }}/.config/"
-TERMINATOR_CONFIG: "{{ CONFIG_HOME }}/terminator"
+TERMINATOR_CONFIG_DIR: "{{ CONFIG_HOME }}/terminator"
+THEMES: "{{ USER_HOME }}/.themes/"
 
 # User files
-ANTIGEN_FILE_PATH: "{{ USER_HOME }}/.antigen.zsh"
 ANTIBODY_FILE_PATH: "{{ USER_HOME }}/.antibody.sh"
 ZSHRC: "{{ USER_HOME }}/.zshrc"
+TERMINATOR_CONFIG_FILE: "{{ TERMINATOR_CONFIG_DIR }}/config"
 
 # System directories
 SYSTEMD_SYSTEM: "/etc/systemd/system/"
 PROFILE: "/etc/profile"
 SYSFS: "/etc/sysfs.conf"
 SNAP_BIN_PATH: "/snap/bin"
+
+# Download directory
+DOWNLOAD_DIR: "/tmp/ansible"
 
 # System files
 DOCKER_COMPOSE: "/usr/local/bin/docker-compose"
@@ -34,3 +38,9 @@ NVIM_CONFIG_PATH: "{{ USER_HOME }}/.config/nvim"
 
 # Alacritty
 ALACRITTY_CONFIG_PATH: "{{ USER_HOME }}/.config/alacritty"
+
+# dconf paths
+DCONF_GUAKE: "/apps/guake/"
+DCONF_ORG_CINNAMON_DESKTOP: "/org/cinnamon/desktop/"
+DCONF_ORG_NEMO: "/org/nemo/"
+DCONF_ORG_COM_LINUXMINT_UPDATES: "/com/linuxmint/updates/"
