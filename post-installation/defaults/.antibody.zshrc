@@ -9,7 +9,7 @@ alias vim=nvim
 
 # Env variables required for plugins
 export NVM_LAZY_LOAD=true
-export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'webstorm' 'git')
+export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git')
 
 # Sourcing antibody plugins
 source ~/.zsh_plugins_antibody.sh
@@ -28,6 +28,7 @@ alias hsi="history | rg -i"
 alias bm="bin/magento"
 alias bxe="bin/xdebug enable"
 alias bxd="bin/xdebug disable"
+alias open="xdg-open"
 
 # alias ls="exa"
 # alias l="exa -la"
