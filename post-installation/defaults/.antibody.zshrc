@@ -11,8 +11,8 @@ alias vim=nvim
 setopt rm_star_silent
 
 # Env variables required for plugins
-export NVM_LAZY_LOAD=true
-export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git')
+export NVM_LAZY_LOAD=false
+export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git' 'gitkraken')
 
 # Sourcing antibody plugins
 source ~/.zsh_plugins_antibody.sh
