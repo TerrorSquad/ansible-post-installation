@@ -7,6 +7,9 @@ export EDITOR="$VISUAL"
 
 alias vim=nvim
 
+# Disable double rm -rf verification
+setopt rm_star_silent
+
 # Env variables required for plugins
 export NVM_LAZY_LOAD=true
 export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git')
