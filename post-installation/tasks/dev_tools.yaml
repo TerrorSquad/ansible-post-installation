@@ -17,6 +17,10 @@
       - kcachegrind
       - graphviz
 
+- name: Install SDKMan
+  shell: |
+    curl -s "https://get.sdkman.io" | zsh
+
 - name: Download and install GitKraken
   block:
     - name: Download GitKraken
