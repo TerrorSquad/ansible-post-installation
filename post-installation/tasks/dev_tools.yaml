@@ -4,6 +4,7 @@
     name:
       - bat
       - curl
+      - code
       - guake
       - htop
       - libutempter0
