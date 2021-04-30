@@ -81,11 +81,11 @@
     dest: "{{ TERMINATOR_CONFIG_FILE }}"
   become_user: "{{ USERNAME }}"
 
-- name: Install snap apps (classic) - VS Code
-  snap:
-    name:
-      - code
-    classic: yes
+# - name: Install snap apps (classic) - VS Code
+#   snap:
+#     name:
+#       - code
+#     classic: yes
 
 - name: Install snap apps - Postman, dbeaver-ce, httpstat
   snap:
