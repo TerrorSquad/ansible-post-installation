@@ -3,7 +3,16 @@
 	email = change@me.com
 
 [core]
-    pager = delta
+	pager = less -LRc --mouse
+	autocrlf = false
+	eol = LF
+	fileMode = false
+[pager]
+	diff = LESS='LRc --mouse' delta
+	show = LESS='LRc --mouse' delta
+	stash = LESS='LRc --mouse' delta
+	log = LESS='LRc --mouse' delta
+	reflog = LESS='LRc --mouse' delta
 
 [interactive]
     diffFilter = delta --color-only
@@ -14,9 +23,9 @@
 
 [delta "unobtrusive-line-numbers"]
     line-numbers = true
-    line-numbers-minus-style = "#444444"
+    line-numbers-minus-style = "#bb4444"
     line-numbers-zero-style = "#444444"
-    line-numbers-plus-style = "#444444"
+    line-numbers-plus-style = "#44bb44"
     line-numbers-left-format = "{nm:>4}┊"
     line-numbers-right-format = "{np:>4}│"
     line-numbers-left-style = blue
@@ -27,3 +36,5 @@
     file-style = bold yellow ul
     file-decoration-style = none
     hunk-header-decoration-style = yellow box
+[diff]
+	renamelimit = 5000
