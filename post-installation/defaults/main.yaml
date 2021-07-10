@@ -2,7 +2,7 @@ USERNAME: vagrant
 VAGRANT_USERNAME: vagrant
 GIT_USER_NAME: Goran Ninkovic
 GIT_USER_EMAIL: change@me.com
-
+GIT_SET_USER_DATA: false
 # Undervolt
 UNDERVOLT: false
 

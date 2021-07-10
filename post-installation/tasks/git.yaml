@@ -31,3 +31,4 @@
     scope: global
     state: present
   become_user: "{{ USERNAME }}"
+  when: GIT_SET_USER_DATA
