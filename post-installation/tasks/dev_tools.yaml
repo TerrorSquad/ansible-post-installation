@@ -87,6 +87,10 @@
     dest: "{{ TERMINATOR_CONFIG_FILE }}"
   become_user: "{{ USERNAME }}"
 
+- name: Download and install JetBrains ToolBox
+  shell: |
+    curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
+
 - name: Download and install Visual Studio Code
   block:
     - name: Download Visual Studio Code
@@ -97,12 +101,6 @@
       apt:
         deb: "{{ DOWNLOAD_DIR }}/vscode.deb"
         force: yes
-
-# - name: Install snap apps (classic) - VS Code
-#   snap:
-#     name:
-#       - code
-#     classic: yes
 
 - name: Install snap apps - Postman, dbeaver-ce, httpstat
   snap:
