@@ -87,6 +87,17 @@
     dest: "{{ TERMINATOR_CONFIG_FILE }}"
   become_user: "{{ USERNAME }}"
 
+- name: Download and install Visual Studio Code
+  block:
+    - name: Download Visual Studio Code
+      get_url:
+        url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+        dest: "{{ DOWNLOAD_DIR }}/vscode.deb"
+    - name: Install Visual Studio Code
+      apt:
+        deb: "{{ DOWNLOAD_DIR }}/vscode.deb"
+        force: yes
+
 # - name: Install snap apps (classic) - VS Code
 #   snap:
 #     name:
