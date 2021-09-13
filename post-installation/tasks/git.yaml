@@ -24,6 +24,15 @@
         deb: "{{ DOWNLOAD_DIR}}/delta.deb"
         force: yes
 
+- name: Configure git with default user name
+  git_config:
+    name: "user.name"
+    value: "{{ GIT_USER_NAME }}"
+    scope: global
+    state: present
+  become_user: "{{ USERNAME }}"
+  when: GIT_SET_USER_DATA
+
 - name: Configure git with default user email
   git_config:
     name: "user.email"
