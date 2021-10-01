@@ -2,6 +2,7 @@
 - name: Install apt apps - curl, VIm, Terminator, RedShift, htop
   apt:
     name:
+      - dbeaver-ce
       - bat
       - curl
       - zip
@@ -105,7 +106,6 @@
 - name: Install snap apps - Postman, dbeaver-ce, httpstat
   snap:
     name:
-      - dbeaver-ce
       - httpstat
       - postman
     classic: no
