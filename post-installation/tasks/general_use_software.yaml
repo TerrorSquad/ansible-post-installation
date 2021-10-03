@@ -94,6 +94,7 @@
       - ncdu
       - papirus-icon-theme
       - peco
+      - slack-desktop
       - silversearcher-ag
       - thefuck
       - tlp
@@ -104,7 +105,6 @@
   snap:
     name:
       - skype
-      - slack
     classic: yes
 
 - name: Install snap apps - Firefox, Mailspring, VLC
