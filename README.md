@@ -154,9 +154,7 @@ In the `post-installation/defaults/scripts` directory there is a `theme_changer.
 - 17:00 - 06:00
   - Theme - Adapta-Nokto
 
-You must install these two theme manually. Ansible will copy the script to `~/.local/bin/theme_changer.sh`.
-
-> Set up autostart to point to this file
+> This script will autostart after the next system restart.
 
 ## Vagrant
 
