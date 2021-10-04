@@ -128,9 +128,9 @@
     state: directory
   become_user: "{{ USERNAME }}"
 
-- name: Copy theme-by-time.sh script
+- name: Copy theme_changer.sh script
   copy:
-    src: "./defaults/scripts/theme-by-time.sh"
+    src: "./defaults/scripts/theme_changer.sh"
     dest: "{{ LOCAL_BIN }}"
     mode: u+x
   become_user: "{{ USERNAME }}"
