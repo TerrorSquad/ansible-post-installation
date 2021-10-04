@@ -4,6 +4,20 @@
     name:
       - git
 
+- name: Save current git name
+  git_config:
+    name: "user.name"
+    scope: global
+  become_user: "{{ USERNAME }}"
+  register: current_git_name
+
+- name: Save current git email
+  git_config:
+    name: "user.email"
+    scope: global
+  become_user: "{{ USERNAME }}"
+  register: current_git_email
+
 - name: Copy .gitconfig file
   copy:
     src: ./defaults/.gitconfig
@@ -24,20 +38,38 @@
         deb: "{{ DOWNLOAD_DIR}}/delta.deb"
         force: true
 
-- name: Configure git with default user name
-  git_config:
-    name: "user.name"
-    value: "{{ GIT_USER_NAME }}"
-    scope: global
-    state: present
-  become_user: "{{ USERNAME }}"
-  when: GIT_SET_USER_DATA
+- block:
+    - name: Configure git with default user name
+      git_config:
+        name: "user.name"
+        value: "{{ GIT_USER_NAME }}"
+        scope: global
+        state: present
+      become_user: "{{ USERNAME }}"
 
-- name: Configure git with default user email
-  git_config:
-    name: "user.email"
-    value: "{{ GIT_USER_EMAIL }}"
-    scope: global
-    state: present
-  become_user: "{{ USERNAME }}"
-  when: GIT_SET_USER_DATA
+    - name: Configure git with default user email
+      git_config:
+        name: "user.email"
+        value: "{{ GIT_USER_EMAIL }}"
+        scope: global
+        state: present
+      become_user: "{{ USERNAME }}"
+  when: GIT_SET_USER_DATA == True
+
+- block:
+    - name: Configure git with default user name
+      git_config:
+        name: "user.name"
+        value: "{{ current_git_name.config_value }}"
+        scope: global
+        state: present
+      become_user: "{{ USERNAME }}"
+
+    - name: Configure git with default user email
+      git_config:
+        name: "user.email"
+        value: "{{ current_git_email.config_value }}"
+        scope: global
+        state: present
+      become_user: "{{ USERNAME }}"
+  when: GIT_SET_USER_DATA == False
