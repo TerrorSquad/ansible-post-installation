@@ -2,7 +2,6 @@
 - name: Install apt apps - curl, VIm, Terminator, RedShift, htop
   apt:
     name:
-      - dbeaver-ce
       - bat
       - curl
       - zip
@@ -32,6 +31,17 @@
     - name: Install GitKraken
       apt:
         deb: "{{ DOWNLOAD_DIR }}/gitkraken.deb"
+        force: yes
+
+- name: Download and install DBeaver
+  block:
+    - name: Download DBeaver
+      get_url:
+        url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
+        dest: "{{ DOWNLOAD_DIR }}/dbeaver.deb"
+    - name: Install DBeaver
+      apt:
+        deb: "{{ DOWNLOAD_DIR }}/dbeaver.deb"
         force: yes
 
 - name: Download and install Hyperfine
