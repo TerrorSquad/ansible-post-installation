@@ -47,24 +47,36 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 
 ### Development software
 
+- JetBrains Toolbox
 - alacritty
-- code
+- bat
+- code (Visual Studio Code)
+- ctop
 - curl
 - dbeaver-ce
+- delta
 - docker
+- docker-compose
 - git
-- JetBrains Toolbox
 - gitkraken
 - graphviz
+- guake
 - htop
 - httpstat
+- hyperfine
+- jq
 - kcachegrind
+- lazydocker
+- libutempter0
 - make
 - nvm with latest nodejs
 - postman
 - python3-pip
 - redshift
 - redshift-gtk
+- rg
+- sdkman
+- shellcheck
 - sublime-text
 - terminator
 
@@ -80,17 +92,25 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 - fd-find
 - firefox
 - flameshot
+- folder-color-nemo
+- fzf
 - google chrome
+- httpie
 - i3
 - libinput-gestures
 - mailspring
+- ncdu
 - nvim
 - onlyoffice-desktopeditors
 - openconnect
+- papirus-icon-theme
 - papirus-icons-theme
 - peco
 - rescuetime
+- silversearcher-ag
 - skype
+- slack
+- thefuck
 - thefuck
 - tixati
 - unified remote
@@ -99,7 +119,10 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 - viber
 - vim
 - vlc
+- zip
 - zoom
+
+### Additional window manager - i3
 
 ---
 
@@ -122,7 +145,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 
 ### Scripts
 
-In the `post-installation/defaults/scripts` directory there is a `theme-by-time.sh` bash script which will change the Cinnamon theme and icons based on time of the day.
+In the `post-installation/defaults/scripts` directory there is a `theme_changer.sh` bash script which will change the Cinnamon theme and icons based on time of the day.
 
 - Icons - Papirus
 
@@ -131,7 +154,7 @@ In the `post-installation/defaults/scripts` directory there is a `theme-by-time.
 - 17:00 - 06:00
   - Theme - Adapta-Nokto
 
-You must install these two theme manually. Ansible will copy the script to `~/.local/bin/theme-by-time.sh`.
+You must install these two theme manually. Ansible will copy the script to `~/.local/bin/theme_changer.sh`.
 
 > Set up autostart to point to this file
 
