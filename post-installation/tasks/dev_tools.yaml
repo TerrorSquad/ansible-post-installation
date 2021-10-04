@@ -17,6 +17,7 @@
       - vim
       - kcachegrind
       - graphviz
+      - jq
 
 - name: Install SDKMan
   shell: |
