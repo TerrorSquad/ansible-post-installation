@@ -53,6 +53,7 @@ ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
 - dbeaver-ce
 - docker
 - git
+- JetBrains Toolbox
 - gitkraken
 - graphviz
 - htop
