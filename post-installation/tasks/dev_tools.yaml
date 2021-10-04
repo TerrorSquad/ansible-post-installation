@@ -60,6 +60,25 @@
         deb: "{{ DOWNLOAD_DIR}}/hyperfine.deb"
         force: true
 
+# TODO: Prettify the URL building part
+- name: Download and install Slack
+  block:
+    - name: Download Slack page
+      get_url:
+        url: https://slack.com/intl/en-rs/downloads/instructions/ubuntu
+        dest: "{{ DOWNLOAD_DIR}}/slack.html"
+
+    - name: Download latest slack package
+      shell: |
+        URL=https://downloads.slack-edge.com/releases/linux/;
+        FILE_NAME=$(grep -oP  "(slack-desktop)-(4.20.0)-(amd64.deb)" "{{ DOWNLOAD_DIR}}/slack.html" | head -n 1 );
+        VERSION=$(echo $FILE_NAME | egrep -o "[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}");
+        echo $URL$VERSION/prod/x64/$FILE_NAME | xargs wget -O "{{ DOWNLOAD_DIR}}/slack.deb"
+    - name: Install Hyperfine
+      apt:
+        deb: "{{ DOWNLOAD_DIR}}/hyperfine.deb"
+        force: true
+
 - name: Download and install ripgrep
   block:
     - name: Download ripgrep page
