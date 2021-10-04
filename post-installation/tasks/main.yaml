@@ -21,3 +21,13 @@
 - name: Undervolt
   import_tasks: undervolt.yaml
   when: UNDERVOLT
+
+
+- name: display post install message
+  debug:
+    msg:
+      - 'Installation complete. Please restart your machine.'
+      - 'Things left to do:'
+      - '- Provide compatibility with Ubuntu 2004'
+      - '- Fix the sublime-text installation bug on ubuntu 2004'
+      - '- Refactor variables to lowercase naming scheme'
