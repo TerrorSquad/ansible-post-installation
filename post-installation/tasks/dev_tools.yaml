@@ -87,7 +87,9 @@
         dest: "{{ DOWNLOAD_DIR}}/ripgrep.html"
     - name: Download latest hyperfine package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/ripgrep.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/ripgrep.deb"
+        A=https://github.com/;
+        B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/ripgrep.html" | grep -v musl | head -n 1);
+        echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/ripgrep.deb"
     - name: Install ripgrep
       apt:
         deb: "{{ DOWNLOAD_DIR}}/ripgrep.deb"
