@@ -31,7 +31,7 @@
     - name: Install GitKraken
       apt:
         deb: "{{ DOWNLOAD_DIR }}/gitkraken.deb"
-        force: yes
+        force: true
 
 - name: Download and install DBeaver
   block:
@@ -42,7 +42,7 @@
     - name: Install DBeaver
       apt:
         deb: "{{ DOWNLOAD_DIR }}/dbeaver.deb"
-        force: yes
+        force: true
 
 - name: Download and install Hyperfine
   block:
@@ -57,7 +57,7 @@
     - name: Install Hyperfine
       apt:
         deb: "{{ DOWNLOAD_DIR}}/hyperfine.deb"
-        force: yes
+        force: true
 
 - name: Download and install ripgrep
   block:
@@ -71,7 +71,7 @@
     - name: Install ripgrep
       apt:
         deb: "{{ DOWNLOAD_DIR}}/ripgrep.deb"
-        force: yes
+        force: true
 
 - name: Install exa
   copy:
@@ -111,14 +111,14 @@
     - name: Install Visual Studio Code
       apt:
         deb: "{{ DOWNLOAD_DIR }}/vscode.deb"
-        force: yes
+        force: true
 
-- name: Install snap apps - Postman, dbeaver-ce, httpstat
+- name: Install snap apps - Postman, httpstat
   snap:
     name:
       - httpstat
       - postman
-    classic: no
+    classic: false
 
 - name: Alacritty
   block:
@@ -128,7 +128,7 @@
 
     - name:
       apt:
-        update_cache: yes
+        update_cache: true
 
     - name: Install Alacritty
       apt:
@@ -164,6 +164,6 @@
 
     - name: Add sublime text
       apt:
-        update_cache: yes
+        update_cache: true
         name:
           - sublime-text

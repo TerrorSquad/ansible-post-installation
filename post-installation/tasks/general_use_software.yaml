@@ -80,7 +80,7 @@
 
 - name: Update apt cache
   apt:
-    update_cache: yes
+    update_cache: true
 
 - name: Install apt apps - Variety, Flameshot, Bleachbit
   apt:
@@ -105,7 +105,7 @@
   snap:
     name:
       - skype
-    classic: yes
+    classic: true
 
 - name: Install snap apps - Firefox, Mailspring, VLC
   snap:
@@ -121,7 +121,7 @@
     name:
       - vlc
       - firefox
-    purge: yes
+    purge: true
 
 - name: "Create {{ LOCAL_BIN }} directory"
   file:

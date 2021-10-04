@@ -18,7 +18,7 @@
 
 - name: Update apt cache
   apt:
-    update_cache: yes
+    update_cache: true
     name:
       - containerd.io
       - docker-ce
@@ -28,7 +28,7 @@
   user:
     name: "{{ USERNAME }}"
     groups: docker
-    append: yes
+    append: true
 
 - name: Install docker-compose
   block:
@@ -46,7 +46,7 @@
         src: "{{ DOWNLOAD_DIR}}/docker-compose"
         dest: "{{ DOCKER_COMPOSE }}"
         mode: 0755
-        remote_src: yes
+        remote_src: true
 
 - name: Install lazydocker
   shell: |

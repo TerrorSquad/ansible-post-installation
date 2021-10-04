@@ -22,7 +22,7 @@
     - name: Install delta
       apt:
         deb: "{{ DOWNLOAD_DIR}}/delta.deb"
-        force: yes
+        force: true
 
 - name: Configure git with default user name
   git_config:

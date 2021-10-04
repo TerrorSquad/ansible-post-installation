@@ -1,6 +1,6 @@
 ---
 - hosts: vagrant
-  become: yes
+  become: true
   remote_user: root
   strategy: free
 

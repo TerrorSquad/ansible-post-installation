@@ -3,7 +3,7 @@
   snap:
     name:
       - nvim
-    classic: yes
+    classic: true
     channel: beta
 
 - name: Create plugin manager directory

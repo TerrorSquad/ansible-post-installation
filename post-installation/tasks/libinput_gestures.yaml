@@ -3,7 +3,7 @@
   user:
     name: "{{ USERNAME }}"
     groups: input
-    append: yes
+    append: true
 
 - name: "APT: Install libinput-gestures dependencies"
   apt:
@@ -27,9 +27,9 @@
   git:
     repo: https://github.com/bulletmark/libinput-gestures.git
     dest: "{{ LIBINPUT_HOME }}"
-    clone: yes
-    update: yes
-    force: yes
+    clone: true
+    update: true
+    force: true
   become_user: "{{ USERNAME }}"
   when: not libinput_directory.stat.exists
 

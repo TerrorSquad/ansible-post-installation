@@ -8,12 +8,12 @@
   apt:
     name:
       - snapd
-    update_cache: yes
+    update_cache: true
 
 - name: "Add {{ SNAP_BIN_PATH }} to environment PATH"
   lineinfile:
     dest: /etc/environment
     state: present
-    backrefs: yes
+    backrefs: true
     regexp: 'PATH=([\"]*)((?!.*?{{ SNAP_BIN_PATH }}).*?)(["]*)$'
     line: PATH=\1\2:{{ SNAP_BIN_PATH }}\3
