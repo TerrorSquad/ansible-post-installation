@@ -2,7 +2,7 @@
 - name: Install python-apt
   apt:
     name:
-        - python-apt
+        - python3-apt
 
 - name: "Gather package facts"
   package_facts:
