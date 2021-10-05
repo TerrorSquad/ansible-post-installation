@@ -32,6 +32,11 @@
         owner: "{{ USERNAME }}"
         remote_src: true
 
+    - name: Install Arc Dark theme
+      apt:
+        name: arc-theme
+        state: present
+
     - name: Set up theme changer autostart
       copy:
         src: ./defaults/.config/autostart/theme_changer.desktop
