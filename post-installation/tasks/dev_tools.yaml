@@ -179,13 +179,19 @@
       apt:
         name:
           - apt-transport-https
+          - ca-certificates
+        force: true
+        state: latest
 
     - name: Add apt repository
       shell: |
         echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 
-    - name: Add sublime text
+    - name:
       apt:
         update_cache: true
+
+    - name: Add sublime text
+      apt:
         name:
           - sublime-text
