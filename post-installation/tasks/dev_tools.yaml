@@ -28,10 +28,10 @@
     - name: Download GitKraken
       get_url:
         url: https://release.axocdn.com/linux/gitkraken-amd64.deb
-        dest: "{{ DOWNLOAD_DIR }}/gitkraken.deb"
+        dest: "{{ download_dir }}/gitkraken.deb"
     - name: Install GitKraken
       apt:
-        deb: "{{ DOWNLOAD_DIR }}/gitkraken.deb"
+        deb: "{{ download_dir }}/gitkraken.deb"
         force: true
 
 - name: Download and install DBeaver
@@ -39,10 +39,10 @@
     - name: Download DBeaver
       get_url:
         url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
-        dest: "{{ DOWNLOAD_DIR }}/dbeaver.deb"
+        dest: "{{ download_dir }}/dbeaver.deb"
     - name: Install DBeaver
       apt:
-        deb: "{{ DOWNLOAD_DIR }}/dbeaver.deb"
+        deb: "{{ download_dir }}/dbeaver.deb"
         force: true
 
 - name: Download and install Hyperfine
@@ -50,14 +50,14 @@
     - name: Download Hyperfine page
       get_url:
         url: https://github.com/sharkdp/hyperfine/releases/
-        dest: "{{ DOWNLOAD_DIR}}/hyperfine.html"
+        dest: "{{ download_dir }}/hyperfine.html"
 
     - name: Download latest hyperfine package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/hyperfine.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/hyperfine.deb"
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/hyperfine.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/hyperfine.deb"
     - name: Install Hyperfine
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/hyperfine.deb"
+        deb: "{{ download_dir }}/hyperfine.deb"
         force: true
 
 # TODO: Prettify the URL building part
@@ -66,17 +66,17 @@
     - name: Download Slack page
       get_url:
         url: https://slack.com/intl/en-rs/downloads/instructions/ubuntu
-        dest: "{{ DOWNLOAD_DIR}}/slack.html"
+        dest: "{{ download_dir }}/slack.html"
 
     - name: Download latest slack package
       shell: |
         URL=https://downloads.slack-edge.com/releases/linux/;
-        FILE_NAME=$(grep -oP  "(slack-desktop)-(4.20.0)-(amd64.deb)" "{{ DOWNLOAD_DIR}}/slack.html" | head -n 1 );
+        FILE_NAME=$(grep -oP  "(slack-desktop)-(4.20.0)-(amd64.deb)" "{{ download_dir }}/slack.html" | head -n 1 );
         VERSION=$(echo $FILE_NAME | egrep -o "[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}");
-        echo $URL$VERSION/prod/x64/$FILE_NAME | xargs wget -O "{{ DOWNLOAD_DIR}}/slack.deb"
+        echo $URL$VERSION/prod/x64/$FILE_NAME | xargs wget -O "{{ download_dir }}/slack.deb"
     - name: Install Hyperfine
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/hyperfine.deb"
+        deb: "{{ download_dir }}/hyperfine.deb"
         force: true
 
 - name: Download and install ripgrep
@@ -84,15 +84,15 @@
     - name: Download ripgrep page
       get_url:
         url: https://github.com/BurntSushi/ripgrep/releases/
-        dest: "{{ DOWNLOAD_DIR}}/ripgrep.html"
+        dest: "{{ download_dir }}/ripgrep.html"
     - name: Download latest hyperfine package
       shell: |
         A=https://github.com/;
-        B=$(grep -oP "/.+_amd64\.deb" "{{ DOWNLOAD_DIR}}/ripgrep.html" | grep -v musl | head -n 1);
-        echo $A$B | xargs wget -O "{{ DOWNLOAD_DIR}}/ripgrep.deb"
+        B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/ripgrep.html" | grep -v musl | head -n 1);
+        echo $A$B | xargs wget -O "{{ download_dir }}/ripgrep.deb"
     - name: Install ripgrep
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/ripgrep.deb"
+        deb: "{{ download_dir }}/ripgrep.deb"
         force: true
 
 - name: Install exa
@@ -100,25 +100,25 @@
     src: ./defaults/executables/exa-linux-x86_64
     dest: /usr/local/bin/exa
     mode: 0755
-    owner: "{{ USERNAME }}"
+    owner: "{{ username }}"
 
 - name: Copy RedShift configuration file
   copy:
     src: ./defaults/.config/redshift.conf
-    dest: "{{ CONFIG_HOME }}"
-  become_user: "{{ USERNAME }}"
+    dest: "{{ config_home }}"
+  become_user: "{{ username }}"
 
 - name: Create Terminator config directory path
   file:
-    dest: "{{ TERMINATOR_CONFIG_DIR }}"
+    dest: "{{ terminator_config_dir }}"
     state: directory
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"
 
 - name: Configure Terminator
   copy:
     src: ./defaults/.config/terminator/config
-    dest: "{{ TERMINATOR_CONFIG_FILE }}"
-  become_user: "{{ USERNAME }}"
+    dest: "{{ terminator_config_file }}"
+  become_user: "{{ username }}"
 
 - name: Download and install JetBrains ToolBox
   shell: |
@@ -129,10 +129,10 @@
     - name: Download Visual Studio Code
       get_url:
         url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
-        dest: "{{ DOWNLOAD_DIR }}/vscode.deb"
+        dest: "{{ download_dir }}/vscode.deb"
     - name: Install Visual Studio Code
       apt:
-        deb: "{{ DOWNLOAD_DIR }}/vscode.deb"
+        deb: "{{ download_dir }}/vscode.deb"
         force: true
 
 - name: Install snap apps - Postman, httpstat
@@ -159,15 +159,15 @@
 
     - name: Create Alacritty config directory
       file:
-        path: "{{ ALACRITTY_CONFIG_PATH }}"
+        path: "{{ alacritty_config_path }}"
         state: directory
-      become_user: "{{ USERNAME }}"
+      become_user: "{{ username }}"
 
     - name: Configure Alacritty
       copy:
         src: ./defaults/.config/alacritty/alacritty.yml
-        dest: "{{ ALACRITTY_CONFIG_PATH }}"
-      become_user: "{{ USERNAME }}"
+        dest: "{{ alacritty_config_path }}"
+      become_user: "{{ username }}"
 
 - name: Sublime text
   block:

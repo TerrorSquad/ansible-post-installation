@@ -20,7 +20,7 @@
 
 - name: Undervolt
   import_tasks: undervolt.yaml
-  when: UNDERVOLT
+  when: undervolt
 
 
 - name: display post install message

@@ -3,33 +3,33 @@
   block:
     - name: Create themes directory
       file:
-        dest: "{{ THEMES }}"
+        dest: "{{ themes }}"
         state: directory
         mode: 0775
-      become_user: "{{ USERNAME }}"
+      become_user: "{{ username }}"
 
     - name: Download Adapta-Nokto
       get_url:
         url: https://cinnamon-spices.linuxmint.com/files/themes/Adapta-Nokto.zip
-        dest: "{{ DOWNLOAD_DIR }}/Adapta-Nokto.zip"
+        dest: "{{ download_dir }}/Adapta-Nokto.zip"
 
-    - name: Move theme in to {{ THEMES }}
+    - name: Move theme in to {{ themes }}
       unarchive:
-        src: "{{ DOWNLOAD_DIR }}/Adapta-Nokto.zip"
-        dest: "{{ THEMES }}"
-        owner: "{{ USERNAME }}"
+        src: "{{ download_dir }}/Adapta-Nokto.zip"
+        dest: "{{ themes }}"
+        owner: "{{ username }}"
         remote_src: true
 
     - name: Download Adapta
       get_url:
         url: https://cinnamon-spices.linuxmint.com/files/themes/Adapta.zip
-        dest: "{{ DOWNLOAD_DIR }}/Adapta.zip"
+        dest: "{{ download_dir }}/Adapta.zip"
 
-    - name: Move theme in to {{ THEMES }}
+    - name: Move theme in to {{ themes }}
       unarchive:
-        src: "{{ DOWNLOAD_DIR }}/Adapta.zip"
-        dest: "{{ THEMES }}"
-        owner: "{{ USERNAME }}"
+        src: "{{ download_dir }}/Adapta.zip"
+        dest: "{{ themes }}"
+        owner: "{{ username }}"
         remote_src: true
 
     - name: Install Arc Dark theme
@@ -40,6 +40,6 @@
     - name: Set up theme changer autostart
       copy:
         src: ./defaults/.config/autostart/theme_changer.desktop
-        dest: "{{ AUTOSTART_PATH }}"
+        dest: "{{ autostart_path }}"
         mode: 0664
-      become_user: "{{ USERNAME }}"
+      become_user: "{{ username }}"

@@ -1,7 +1,7 @@
 ---
 - name: Add user to input group
   user:
-    name: "{{ USERNAME }}"
+    name: "{{ username }}"
     groups: input
     append: true
 
@@ -15,35 +15,35 @@
 - name: Install the libinput-gestures conf file
   copy:
     src: ./defaults/.config/libinput-gestures.conf
-    dest: "{{ CONFIG_HOME }}"
-  become_user: "{{ USERNAME }}"
+    dest: "{{ config_home }}"
+  become_user: "{{ username }}"
 
 - name: Check if repo is cloned
   stat:
-    path: "{{ LIBINPUT_HOME }}"
+    path: "{{ libinput_home }}"
   register: libinput_directory
 
 - name: Clone libinput-gestures repo
   git:
     repo: https://github.com/bulletmark/libinput-gestures.git
-    dest: "{{ LIBINPUT_HOME }}"
+    dest: "{{ libinput_home }}"
     clone: true
     update: true
     force: true
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"
   when: not libinput_directory.stat.exists
 
 - name: Make libinput-gestures
   make:
-    chdir: "{{ LIBINPUT_HOME }}/"
+    chdir: "{{ libinput_home }}/"
     target: install
 
 - name: Set libinput-gestures to autostart on OS boot
   shell: |
     libinput-gestures-setup autostart
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"
 
 - name: Run libinput-gestures
   shell: |
     libinput-gestures-setup start
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"

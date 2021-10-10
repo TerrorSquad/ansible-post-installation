@@ -10,10 +10,10 @@
       - snapd
     update_cache: true
 
-- name: "Add {{ SNAP_BIN_PATH }} to environment PATH"
+- name: "Add {{ snap_bin_path }} to environment PATH"
   lineinfile:
     dest: /etc/environment
     state: present
     backrefs: true
-    regexp: 'PATH=([\"]*)((?!.*?{{ SNAP_BIN_PATH }}).*?)(["]*)$'
-    line: PATH=\1\2:{{ SNAP_BIN_PATH }}\3
+    regexp: 'PATH=([\"]*)((?!.*?{{ snap_bin_path }}).*?)(["]*)$'
+    line: PATH=\1\2:{{ snap_bin_path }}\3

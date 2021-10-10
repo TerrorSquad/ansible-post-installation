@@ -3,17 +3,17 @@
   block:
     - name: Configure guake
       shell: |
-        cat ./post-installation/defaults/dconf-settings/apps.guake.ini | dconf load "{{ DCONF_GUAKE }}"
+        cat ./post-installation/defaults/dconf-settings/apps.guake.ini | dconf load "{{ dconf_guake }}"
 
     - name: Configure cinnamon desktop
       shell: |
-        cat ./post-installation/defaults/dconf-settings/org.cinnamon.desktop.ini | dconf load "{{ DCONF_ORG_CINNAMON_DESKTOP }}"
+        cat ./post-installation/defaults/dconf-settings/org.cinnamon.desktop.ini | dconf load "{{ dconf_org_cinnamon_desktop }}"
 
     - name: Configure nemo
       shell: |
-        cat ./post-installation/defaults/dconf-settings/org.nemo.ini | dconf load "{{ DCONF_ORG_NEMO }}"
+        cat ./post-installation/defaults/dconf-settings/org.nemo.ini | dconf load "{{ dconf_org_nemo }}"
     - name: Configure Linux Mint updates
       shell: |
-        cat ./post-installation/defaults/dconf-settings/com.linuxmint.updates.ini | dconf load "{{ DCONF_ORG_COM_LINUXMINT_UPDATES }}"
+        cat ./post-installation/defaults/dconf-settings/com.linuxmint.updates.ini | dconf load "{{ dconf_org_com_linuxmint_updates }}"
 
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"

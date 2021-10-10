@@ -9,7 +9,7 @@
 
 - name: Set ZSH as default login shell for current user
   user:
-    name: "{{ USERNAME}}"
+    name: "{{ username }}"
     shell: "{{ zsh_install_path.stdout }}"
 
 - name: Download and install antibody - ZSH plugin manager
@@ -17,40 +17,40 @@
     - name: Download antibody
       get_url:
         url: https://git.io/antibody
-        dest: "{{ ANTIBODY_FILE_PATH }}"
-      become_user: "{{ USERNAME }}"
+        dest: "{{ antibody_file_path }}"
+      become_user: "{{ username }}"
 
     - name: Install antibody
       shell:
-        cmd: sh "{{ ANTIBODY_FILE_PATH }}" -b /usr/local/bin
+        cmd: sh "{{ antibody_file_path }}" -b /usr/local/bin
 
 - name: Configure antibody
   block:
     - name: Copy .zsh_plugins_antibody.pl
       copy:
         src: ./defaults/.zsh_plugins_antibody.pl
-        dest: "{{ USER_HOME }}"
-      become_user: "{{ USERNAME }}"
+        dest: "{{ user_home }}"
+      become_user: "{{ username }}"
 
     - name: Remove old antibody bundles
       file:
         path: ~/.cache/antibody
         state: absent
-      become_user: "{{ USERNAME}}"
+      become_user: "{{ username }}"
 
     - name: Download antibody bundles from .zsh_plugins_antibody.pl
       shell:
         cmd: antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
-      become_user: "{{ USERNAME}}"
+      become_user: "{{ username }}"
 
 - name: Copy .p10k.zsh
   copy:
     src: ./defaults/.p10k.zsh
-    dest: "{{ USER_HOME }}"
-  become_user: "{{ USERNAME }}"
+    dest: "{{ user_home }}"
+  become_user: "{{ username }}"
 
 - name: Initialize .zshrc
   copy:
     src: ./defaults/.antibody.zshrc
-    dest: "{{ ZSHRC }}"
-  become_user: "{{ USERNAME }}"
+    dest: "{{ zshrc }}"
+  become_user: "{{ username }}"

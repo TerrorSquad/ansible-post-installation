@@ -3,7 +3,7 @@
   apt:
     update_cache: true
 
-- name: Create "{{ DOWNLOAD_DIR }}
+- name: Create "{{ download_dir }}
   file:
-    dest: "{{ DOWNLOAD_DIR }}"
+    dest: "{{ download_dir }}"
     state: directory

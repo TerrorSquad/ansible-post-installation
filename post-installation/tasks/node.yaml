@@ -2,9 +2,9 @@
 - name: Install latest NodeJS
   shell: >
     zsh -i -c "nvm install node"
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"
 
 - name: Install tldr
   shell: >
     zsh -i -c "npm install -g tldr"
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"

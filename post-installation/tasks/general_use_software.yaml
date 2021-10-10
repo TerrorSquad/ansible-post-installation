@@ -4,60 +4,53 @@
     - name: Download RescueTime
       get_url:
         url: https://www.rescuetime.com/installers/rescuetime_current_amd64.deb
-        dest: "{{ DOWNLOAD_DIR}}/rescuetime.deb"
+        dest: "{{ download_dir }}/rescuetime.deb"
     - name: Install RescueTime
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/rescuetime.deb"
+        deb: "{{ download_dir }}/rescuetime.deb"
 
 - name: Download and install Google Chrome
   block:
     - name: Download Google Chrome
       get_url:
         url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-        dest: "{{ DOWNLOAD_DIR}}/google-chrome-stable_current_amd64.deb"
+        dest: "{{ download_dir }}/google-chrome-stable_current_amd64.deb"
     - name: Install Google Chrome
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/google-chrome-stable_current_amd64.deb"
+        deb: "{{ download_dir }}/google-chrome-stable_current_amd64.deb"
 
 - name: Download and install Zoom
   block:
     - name: Download Zoom
       get_url:
         url: https://zoom.us/client/latest/zoom_amd64.deb
-        dest: "{{ DOWNLOAD_DIR}}/zoom_amd64.deb"
+        dest: "{{ download_dir }}/zoom_amd64.deb"
     - name: Install Zoom
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/zoom_amd64.deb"
+        deb: "{{ download_dir }}/zoom_amd64.deb"
 
 - name: Download and install Viber
   block:
-    # - name: Download dependencies
-    #   get_url:
-    #     url: http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
-    #     dest: /tmp/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
-    # - name: Install dependencies
-    #   apt:
-    #     deb: /tmp/libssl1.0.0_1.0.2n-1ubuntu5.3_amd64.deb
     - name: Download Viber
       get_url:
         url: https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
-        dest: "{{ DOWNLOAD_DIR}}/viber.deb"
+        dest: "{{ download_dir }}/viber.deb"
     - name: Install Viber
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/viber.deb"
+        deb: "{{ download_dir }}/viber.deb"
 
 - name: Download and install Tixati
   block:
     - name: Download Tixati page
       get_url:
         url: https://www.tixati.com/download/linux.html
-        dest: "{{ DOWNLOAD_DIR}}/tixati.html"
+        dest: "{{ download_dir }}/tixati.html"
     - name: Find out latest Tixati URL
       shell: |
-        grep  -oP "<a href=(.+amd64.deb)\">" "{{ DOWNLOAD_DIR}}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ DOWNLOAD_DIR}}/tixati.deb"
+        grep  -oP "<a href=(.+amd64.deb)\">" "{{ download_dir }}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ download_dir }}/tixati.deb"
     - name: Install Tixati
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/tixati.deb"
+        deb: "{{ download_dir }}/tixati.deb"
 
 - name: Set Tixati as default torrent client
   shell: |
@@ -69,10 +62,10 @@
     - name: Download UnifiedRemote
       get_url:
         url: https://www.unifiedremote.com/download/linux-x64-deb
-        dest: "{{ DOWNLOAD_DIR}}/uremote.deb"
+        dest: "{{ download_dir }}/uremote.deb"
     - name: Install UnifiedRemote
       apt:
-        deb: "{{ DOWNLOAD_DIR}}/uremote.deb"
+        deb: "{{ download_dir }}/uremote.deb"
 
 - name: Add Folder color nemo repo
   shell: |
@@ -122,15 +115,15 @@
       - firefox
     purge: true
 
-- name: "Create {{ LOCAL_BIN }} directory"
+- name: "Create {{ local_bin }} directory"
   file:
-    path: "{{ LOCAL_BIN }}"
+    path: "{{ local_bin }}"
     state: directory
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"
 
 - name: Copy theme_changer.sh script
   copy:
     src: "./defaults/scripts/theme_changer.sh"
-    dest: "{{ LOCAL_BIN }}"
+    dest: "{{ local_bin }}"
     mode: u+x
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"

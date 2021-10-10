@@ -29,16 +29,16 @@ ansible --version
 ## How to run
 
 ```bash
-ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e=GIT_SET_USER_DATA=true -e GIT_USER_EMAIL="your@email.com" -e GIT_USER_NAME="Your Name"
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=git_set_user_data=true -e git_user_email="your@email.com" -e git_user_name="Your Name"
 ```
 
-> Note: You can also pass UNDERVOLT variable. That will call the undervolt.yml role.
+> Note: You can also pass undervolt variable. That will call the undervolt.yml role.
 
 ```bash
-ansible-playbook ./playbook.yml -K -e USERNAME=$(whoami) -e UNDERVOLT=true
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e undervolt=true
 ```
 
-- USERNAME - defined in `defaults/main.yaml` - can be overridden
+- username - defined in `defaults/main.yaml` - can be overridden
 - `-K` - flag used to ask for root password
 
 ## What's installed

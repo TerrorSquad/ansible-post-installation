@@ -1,7 +1,7 @@
 ---
 - name: Ansible delete file wildcard
   find:
-    paths: ["{{ DOWNLOAD_DIR}}"]
+    paths: ["{{ download_dir }}"]
     patterns: "^.*$"
     use_regex: true
   register: wildcard_files_to_delete

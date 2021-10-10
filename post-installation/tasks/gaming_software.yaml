@@ -6,5 +6,5 @@
 
 - name: Add support for Xbox One S controller bluetooth connection
   lineinfile:
-    path: "{{ SYSFS }}"
+    path: "{{ sysfs }}"
     line: /module/bluetooth/parameters/disable_ertm=1

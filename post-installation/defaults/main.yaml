@@ -1,47 +1,47 @@
-USERNAME: vagrant
-VAGRANT_USERNAME: vagrant
-GIT_USER_NAME: Goran Ninkovic
-GIT_USER_EMAIL: change@me.com
-GIT_SET_USER_DATA: false
+username: vagrant
+vagrant_username: vagrant
+git_user_name: Goran Ninkovic
+git_user_email: change@me.com
+git_set_user_data: false
 # Undervolt
-UNDERVOLT: false
+undervolt: false
 
 # User directories
-USER_HOME: "/home/{{ USERNAME}}"
-LIBINPUT_HOME: "{{ USER_HOME }}/.libinput-gestures"
-LOCAL_BIN: "{{ USER_HOME }}/.local/bin"
-POWERLEVEL_10K: "{{ USER_HOME }}/.powerlevel10k"
-CONFIG_HOME: "{{ USER_HOME }}/.config/"
-AUTOSTART_PATH: "{{ CONFIG_HOME }}/autostart"
-TERMINATOR_CONFIG_DIR: "{{ CONFIG_HOME }}/terminator"
-THEMES: "{{ USER_HOME }}/.themes/"
+user_home: "/home/{{ username }}"
+libinput_home: "{{ user_home }}/.libinput-gestures"
+local_bin: "{{ user_home }}/.local/bin"
+powerlevel_10k: "{{ user_home }}/.powerlevel10k"
+config_home: "{{ user_home }}/.config/"
+autostart_path: "{{ config_home }}/autostart"
+terminator_config_dir: "{{ config_home }}/terminator"
+themes: "{{ user_home }}/.themes/"
 
 # User files
-ANTIBODY_FILE_PATH: "{{ USER_HOME }}/.antibody.sh"
-ZSHRC: "{{ USER_HOME }}/.zshrc"
-TERMINATOR_CONFIG_FILE: "{{ TERMINATOR_CONFIG_DIR }}/config"
+antibody_file_path: "{{ user_home }}/.antibody.sh"
+zshrc: "{{ user_home }}/.zshrc"
+terminator_config_file: "{{ terminator_config_dir }}/config"
 
 # System directories
-SYSTEMD_SYSTEM: "/etc/systemd/system/"
-PROFILE: "/etc/profile"
-SYSFS: "/etc/sysfs.conf"
-SNAP_BIN_PATH: "/snap/bin"
+systemd_system: "/etc/systemd/system/"
+profile: "/etc/profile"
+sysfs: "/etc/sysfs.conf"
+snap_bin_path: "/snap/bin"
 
 # Download directory
-DOWNLOAD_DIR: "/tmp/ansible"
+download_dir: "/tmp/ansible"
 
 # System files
-DOCKER_COMPOSE: "/usr/local/bin/docker-compose"
+docker_compose: "/usr/local/bin/docker-compose"
 
 # NVIM
-NVIM_PLUGIN_MANAGER_PATH: "{{ USER_HOME }}/.local/share/nvim/site/autoload"
-NVIM_CONFIG_PATH: "{{ USER_HOME }}/.config/nvim"
+nvim_plugin_manager_path: "{{ user_home }}/.local/share/nvim/site/autoload"
+nvim_config_path: "{{ user_home }}/.config/nvim"
 
 # Alacritty
-ALACRITTY_CONFIG_PATH: "{{ USER_HOME }}/.config/alacritty"
+alacritty_config_path: "{{ user_home }}/.config/alacritty"
 
 # dconf paths
-DCONF_GUAKE: "/apps/guake/"
-DCONF_ORG_CINNAMON_DESKTOP: "/org/cinnamon/desktop/"
-DCONF_ORG_NEMO: "/org/nemo/"
-DCONF_ORG_COM_LINUXMINT_UPDATES: "/com/linuxmint/updates/"
+dconf_guake: "/apps/guake/"
+dconf_org_cinnamon_desktop: "/org/cinnamon/desktop/"
+dconf_org_nemo: "/org/nemo/"
+dconf_org_com_linuxmint_updates: "/com/linuxmint/updates/"

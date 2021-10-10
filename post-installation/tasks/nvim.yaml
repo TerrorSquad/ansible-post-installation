@@ -8,29 +8,29 @@
 
 - name: Create plugin manager directory
   file:
-    path: "{{ NVIM_PLUGIN_MANAGER_PATH }}"
+    path: "{{ nvim_plugin_manager_path }}"
     state: directory
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"
 
 - name: Install nvim plugin manager
   get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    dest: "{{ NVIM_PLUGIN_MANAGER_PATH }}/plug.vim"
-  become_user: "{{ USERNAME }}"
+    dest: "{{ nvim_plugin_manager_path }}/plug.vim"
+  become_user: "{{ username }}"
 
 - name: Create config directory
   file:
-    path: "{{ NVIM_CONFIG_PATH }}"
+    path: "{{ nvim_config_path }}"
     state: directory
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"
 
 - name: Copy nvim config file
   copy:
     src: ./defaults/.config/nvim/init.vim
-    dest: "{{ NVIM_CONFIG_PATH }}/init.vim"
-  become_user: "{{ USERNAME }}"
+    dest: "{{ nvim_config_path }}/init.vim"
+  become_user: "{{ username }}"
 
 - name: Install nvim plugins
   shell: >
     /snap/bin/nvim +PlugInstall +q +q
-  become_user: "{{ USERNAME }}"
+  become_user: "{{ username }}"
