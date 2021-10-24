@@ -212,9 +212,10 @@
     - name: Download latest Dust package
       shell: |
         A=https://github.com/; B=$(grep -oP "/.+x86_64.*?linux.*?\.tar.gz" "{{ download_dir }}/dust/dust.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/dust/dust.tar.gz"
+
     - name: Extract Dust
       shell: |
-        cd "{{ download_dir }}/dust" && tar -xvf dust.tar.gz -C . && mv dust-*/* .
+        cd "{{ download_dir }}/dust/dust" && tar -xvf dust.tar.gz -C . && mv dust-*/* .
 
     - name: Install dust
       copy:
