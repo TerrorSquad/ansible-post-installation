@@ -140,6 +140,7 @@
     name:
       - httpstat
       - postman
+      - procs
     classic: false
 
 - name: Alacritty
@@ -195,3 +196,93 @@
       apt:
         name:
           - sublime-text
+
+- name: Download and install Dust
+  block:
+    - name: "Create Dust directory"
+      file:
+        path: "{{ download_dir }}/dust"
+        state: directory
+
+    - name: Download Dust page
+      get_url:
+        url: https://github.com/bootandy/dust/releases/
+        dest: "{{ download_dir }}/dust/dust.html"
+
+    - name: Download latest Dust package
+      shell: |
+        A=https://github.com/; B=$(grep -oP "/.+x86_64.*?linux.*?\.tar.gz" "{{ download_dir }}/dust/dust.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/dust/dust.tar.gz"
+    - name: Extract Dust
+      shell: |
+        cd "{{ download_dir }}/dust" && tar -xvf dust.tar.gz -C . && mv dust-*/* .
+
+    - name: Install dust
+      copy:
+        src: "{{ download_dir }}/dust/dust"
+        dest: "{{ local_bin }}/dust"
+        mode: u+x
+        owner: "{{ username }}"
+
+- name: Download and install duf
+  block:
+    - name: Download duf page
+      get_url:
+        url: https://github.com/muesli/duf/releases/
+        dest: "{{ download_dir }}/duf.html"
+
+    - name: Download latest duf package
+      shell: |
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/duf.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/duf.deb"
+    - name: Install duf
+      apt:
+        deb: "{{ download_dir }}/duf.deb"
+        force: true
+
+- name: Download and install bottom
+  block:
+    - name: Download bottom page
+      get_url:
+        url: https://github.com/ClementTsang/bottom/releases/
+        dest: "{{ download_dir }}/bottom.html"
+
+    - name: Download latest bottom package
+      shell: |
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/bottom.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/bottom.deb"
+    - name: Install bottom
+      apt:
+        deb: "{{ download_dir }}/bottom.deb"
+        force: true
+
+- name: Download and install curlie
+  block:
+    - name: Download curlie page
+      get_url:
+        url: https://github.com/rs/curlie/releases/
+        dest: "{{ download_dir }}/curlie.html"
+
+    - name: Download latest curlie package
+      shell: |
+        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/curlie.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/curlie.deb"
+    - name: Install curlie
+      apt:
+        deb: "{{ download_dir }}/curlie.deb"
+        force: true
+
+
+- name: Install albert
+  block:
+    - name: Add sources repo
+      shell: |
+        echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
+      become_user: "{{ username }}"
+    - name: Add gpg key
+      shell: |
+        curl -fsSL https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_manuelschneid3r.gpg > /dev/null
+      become_user: "{{ username }}"
+    - name: Update apt cache
+      apt:
+        update_cache: true
+    - name: Install Albert
+      apt:
+        name:
+          albert
