@@ -7,3 +7,11 @@
   file:
     dest: "{{ download_dir }}"
     state: directory
+
+- name: Get Ubuntu code name
+  shell: |
+    grep UBUNTU /etc/os-release  | grep -E -o "=.+" | grep -E -o '[^=].+'
+  register: ubuntu_codename
+- name: set fact
+  set_fact:
+    ubuntu_codename: "{{ ubuntu_codename.stdout }}"
