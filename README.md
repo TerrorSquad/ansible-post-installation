@@ -13,10 +13,6 @@
 If you do not have ansible installed you can do so by running this piece of code:
 
 ```bash
-sudo apt update
-sudo apt install software-properties-common
-sudo apt-add-repository ppa:ansible/ansible
-sudo apt update
 sudo apt install ansible
 ```
 
@@ -24,6 +20,19 @@ Check if the installation was correct by running
 
 ```bash
 ansible --version
+```
+
+It should print out something like this:
+```bash
+ansible [core 2.11.3]
+  config file = /etc/ansible/ansible.cfg
+  configured module search path = ['/home/gninkovic/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /home/gninkovic/.local/lib/python3.8/site-packages/ansible
+  ansible collection location = /home/gninkovic/.ansible/collections:/usr/share/ansible/collections
+  executable location = /home/gninkovic/.local/bin/ansible
+  python version = 3.8.10 (default, Sep 28 2021, 16:10:42) [GCC 9.3.0]
+  jinja version = 3.0.1
+  libyaml = True
 ```
 
 ## How to run
@@ -55,6 +64,11 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e undervolt=true
 - curl
 - dbeaver-ce
 - delta
+- dust
+- duf
+- bottom
+- curlie
+- albert
 - docker
 - docker-compose
 - git
@@ -150,13 +164,13 @@ In the `post-installation/defaults/scripts` directory there is a `theme_changer.
 - Icons - Papirus
 
 - 06:00 - 17:00
-  - Theme - Adapta
+  - Theme - Arc
 - 17:00 - 06:00
-  - Theme - Adapta-Nokto
+  - Theme - Arc-Dark
 
 > This script will autostart after the next system restart.
 
-## Vagrant
+## Testing - Vagrant
 
 In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
 
