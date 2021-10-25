@@ -218,10 +218,8 @@
         cd "{{ download_dir }}/dust" && tar -xvf dust.tar.gz -C . && mv dust-*/* .
 
     - name: Install dust
-      copy:
-        src: "{{ download_dir }}/dust/dust"
-        dest: "/usr/local/bin/dust"
-        mode: u+x
+      shell: |
+        cp "{{ download_dir }}/dust/dust" /usr/local/bin && chmod +x /usr/local/bin/dust
 
 - name: Download and install duf
   block:
