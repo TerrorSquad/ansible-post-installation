@@ -220,9 +220,8 @@
     - name: Install dust
       copy:
         src: "{{ download_dir }}/dust/dust"
-        dest: "{{ local_bin }}/dust"
+        dest: "/usr/local/bin/dust"
         mode: u+x
-        owner: "{{ username }}"
 
 - name: Download and install duf
   block:
