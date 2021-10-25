@@ -1,9 +1,9 @@
 [Desktop Entry]
 Type=Application
-Exec=~/.local/bin/theme_changer.sh
+Exec=zsh -c ~/.local/bin/theme_changer.sh
 X-GNOME-Autostart-enabled=true
 NoDisplay=false
 Hidden=false
-Name[en_US]=Theme changer
+Name[en_US]=Theme Changer
 Comment[en_US]=Changes the theme to dark/light based on time of the day.
 X-GNOME-Autostart-Delay=5
