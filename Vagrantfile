@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
     ansible.groups = {
       'vagrant' => ['default']
     }
-    ansible.verbose = "vvv"
+    ansible.verbose = "v"
     ansible.playbook = "playbook_vagrant.yml"
   end
 end
