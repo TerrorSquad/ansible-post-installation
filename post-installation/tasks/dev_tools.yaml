@@ -143,33 +143,6 @@
       - procs
     classic: false
 
-- name: Alacritty
-  block:
-    - name: Add Alacritty repo
-      shell: |
-        add-apt-repository ppa:mmstick76/alacritty -y
-
-    - name:
-      apt:
-        update_cache: true
-
-    - name: Install Alacritty
-      apt:
-        name:
-          - alacritty
-
-    - name: Create Alacritty config directory
-      file:
-        path: "{{ alacritty_config_path }}"
-        state: directory
-      become_user: "{{ username }}"
-
-    - name: Configure Alacritty
-      copy:
-        src: ./defaults/.config/alacritty/alacritty.yml
-        dest: "{{ alacritty_config_path }}"
-      become_user: "{{ username }}"
-
 - name: Sublime text
   block:
     - name: Install the GPG key

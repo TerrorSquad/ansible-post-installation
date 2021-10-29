@@ -57,7 +57,6 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e undervolt=true
 ### Development software
 
 - JetBrains Toolbox
-- alacritty
 - bat
 - code (Visual Studio Code)
 - ctop

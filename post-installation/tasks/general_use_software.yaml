@@ -93,10 +93,11 @@
       - unzip
       - variety
 
-- name: Install snap apps (classic) - Skype
+- name: Install snap apps (classic) - Skype, alacritty
   snap:
     name:
       - skype
+      - alacritty
     classic: true
 
 - name: Install snap apps - Firefox, Mailspring, VLC
