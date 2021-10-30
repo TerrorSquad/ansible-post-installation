@@ -23,7 +23,6 @@ ohmyzsh/ohmyzsh path:lib/theme-and-appearance.zsh
 lukechilds/zsh-nvm
 
 # Additional completion definitions for Zsh.
-zdharma/fast-syntax-highlighting
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
 
