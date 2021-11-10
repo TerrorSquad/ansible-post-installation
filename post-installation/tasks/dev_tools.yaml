@@ -54,13 +54,15 @@
 
     - name: Download latest hyperfine package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/hyperfine.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/hyperfine.deb"
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/hyperfine.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/hyperfine.deb"
     - name: Install Hyperfine
       apt:
         deb: "{{ download_dir }}/hyperfine.deb"
         force: true
 
-# TODO: Prettify the URL building part
+# TODO: Make this a task and pass it the URL
 - name: Download and install Slack
   block:
     - name: Download Slack page
@@ -74,9 +76,9 @@
         FILE_NAME=$(grep -oP  "(slack-desktop)-([0-9]+\.[0-9]+\.[0-9]+)-(amd64.deb)" "{{ download_dir }}/slack.html" | head -n 1 );
         VERSION=$(echo $FILE_NAME | egrep -o "[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}");
         echo $URL$VERSION/prod/x64/$FILE_NAME | xargs wget -O "{{ download_dir }}/slack.deb"
-    - name: Install Hyperfine
+    - name: Install Slack
       apt:
-        deb: "{{ download_dir }}/hyperfine.deb"
+        deb: "{{ download_dir }}/slack.deb"
         force: true
 
 - name: Download and install ripgrep
@@ -85,11 +87,11 @@
       get_url:
         url: https://github.com/BurntSushi/ripgrep/releases/
         dest: "{{ download_dir }}/ripgrep.html"
-    - name: Download latest hyperfine package
+    - name: Download latest ripgrep package
       shell: |
-        A=https://github.com/;
-        B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/ripgrep.html" | grep -v musl | head -n 1);
-        echo $A$B | xargs wget -O "{{ download_dir }}/ripgrep.deb"
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/ripgrep.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/ripgrep.deb"
     - name: Install ripgrep
       apt:
         deb: "{{ download_dir }}/ripgrep.deb"
@@ -184,7 +186,9 @@
 
     - name: Download latest Dust package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+x86_64.*?linux.*?\.tar.gz" "{{ download_dir }}/dust/dust.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/dust/dust.tar.gz"
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+x86_64.*?linux.*?\.tar.gz" "{{ download_dir }}/dust/dust.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/dust/dust.tar.gz"
 
     - name: Extract Dust
       shell: |
@@ -203,7 +207,9 @@
 
     - name: Download latest duf package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/duf.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/duf.deb"
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/duf.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/duf.deb"
     - name: Install duf
       apt:
         deb: "{{ download_dir }}/duf.deb"
@@ -218,7 +224,9 @@
 
     - name: Download latest bottom package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/bottom.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/bottom.deb"
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/bottom.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/bottom.deb"
     - name: Install bottom
       apt:
         deb: "{{ download_dir }}/bottom.deb"
@@ -233,7 +241,9 @@
 
     - name: Download latest curlie package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/curlie.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/curlie.deb"
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/curlie.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/curlie.deb"
     - name: Install curlie
       apt:
         deb: "{{ download_dir }}/curlie.deb"
