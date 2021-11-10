@@ -71,7 +71,7 @@
     - name: Download latest slack package
       shell: |
         URL=https://downloads.slack-edge.com/releases/linux/;
-        FILE_NAME=$(grep -oP  "(slack-desktop)-(4.20.0)-(amd64.deb)" "{{ download_dir }}/slack.html" | head -n 1 );
+        FILE_NAME=$(grep -oP  "(slack-desktop)-([0-9]+\.[0-9]+\.[0-9]+)-(amd64.deb)" "{{ download_dir }}/slack.html" | head -n 1 );
         VERSION=$(echo $FILE_NAME | egrep -o "[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}");
         echo $URL$VERSION/prod/x64/$FILE_NAME | xargs wget -O "{{ download_dir }}/slack.deb"
     - name: Install Hyperfine
