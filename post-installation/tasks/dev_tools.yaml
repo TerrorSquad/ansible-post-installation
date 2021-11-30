@@ -137,13 +137,12 @@
         deb: "{{ download_dir }}/vscode.deb"
         force: true
 
-- name: Install snap apps - Postman, httpstat
-  snap:
-    name:
-      - httpstat
-      - postman
-      - procs
-    classic: false
+- name: Install pip packages
+  pip:
+    name: httpstat
+
+- name: Install Postman
+  shell: curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
 
 - name: Sublime text
   block:

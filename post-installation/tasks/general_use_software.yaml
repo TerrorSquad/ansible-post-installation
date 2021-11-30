@@ -88,33 +88,40 @@
       - papirus-icon-theme
       - peco
       - silversearcher-ag
+      - skypeforlinux
       - thefuck
       - tlp
       - unzip
       - variety
+      - vlc
 
 - name: Install snap apps (classic) - Skype, alacritty
   snap:
     name:
-      - skype
       - alacritty
     classic: true
 
-- name: Install snap apps - Firefox, Mailspring, VLC
+- name: Download and install Mailspring
+  block:
+    - name: Download Mailspring page
+      get_url:
+        url: https://github.com/Foundry376/Mailspring/releases/
+        dest: "{{ download_dir }}/delta.html"
+    - name: Download Mailspring package
+      shell: |
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/Mailspring.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/mailspring.deb"
+    - name: Install Mailspring
+      apt:
+        deb: "{{ download_dir }}/mailspring.deb"
+        force: true
+
+# TODO: Move to apt - https://helpcenter.onlyoffice.com/installation/desktop-install-ubuntu.aspx
+- name: Install snap apps - OnlyOffice Editors
   snap:
     name:
-      - firefox
-      - mailspring
       - onlyoffice-desktopeditors
-      - vlc
-
-- name: Remove apt copies
-  apt:
-    state: absent
-    name:
-      - vlc
-      - firefox
-    purge: true
 
 - name: "Create {{ local_bin }} directory"
   file:
