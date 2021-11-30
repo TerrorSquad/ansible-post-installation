@@ -1,10 +1,7 @@
 ---
-- name: Install snap apps (classic) - Neovim
-  snap:
-    name:
-      - nvim
-    classic: true
-    channel: beta
+- name: Install Neovim
+  apt:
+    name: neovim
 
 - name: Create plugin manager directory
   file:
