@@ -16,7 +16,7 @@
   shell: |
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  {{ ubuntu_codename }} stable" -y
 
-- name: Update apt cache
+- name: Update apt cache and install docker
   apt:
     update_cache: true
     name:
