@@ -117,11 +117,23 @@
         deb: "{{ download_dir }}/mailspring.deb"
         force: true
 
-# TODO: Move to apt - https://helpcenter.onlyoffice.com/installation/desktop-install-ubuntu.aspx
-- name: Install snap apps - OnlyOffice Editors
-  snap:
-    name:
-      - onlyoffice-desktopeditors
+
+- name: Install OnlyOffice Editors
+  block:
+    - name: Add apt GPG key
+      shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
+
+    - name: Add OnlyOffice apt repository
+      shell: |
+        add-apt-repository "deb [arch=amd64] https://download.onlyoffice.com/repo/debian squeeze main" -y
+
+    - name: Update apt cache
+      apt:
+        update_cache: true
+
+    - name: Install only office
+      apt:
+        - onlyoffice-desktopeditors
 
 - name: "Create {{ local_bin }} directory"
   file:
