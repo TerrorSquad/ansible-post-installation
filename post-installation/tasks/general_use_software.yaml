@@ -95,11 +95,11 @@
       - variety
       - vlc
 
-- name: Install snap apps (classic) - Skype, alacritty
-  snap:
-    name:
-      - alacritty
-    classic: true
+# - name: Install snap apps (classic) - alacritty
+#   snap:
+#     name:
+#       - alacritty
+#     classic: true
 
 - name: Download and install Mailspring
   block:
