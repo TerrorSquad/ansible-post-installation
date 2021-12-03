@@ -7,6 +7,7 @@
   file:
     path: "{{ nvim_plugin_manager_path }}"
     state: directory
+    mode: 0775
   become_user: "{{ username }}"
 
 - name: Install nvim plugin manager
@@ -19,12 +20,14 @@
   file:
     path: "{{ nvim_config_path }}"
     state: directory
+    mode: 0775
   become_user: "{{ username }}"
 
 - name: Copy nvim config file
   copy:
     src: ./defaults/.config/nvim/init.vim
     dest: "{{ nvim_config_path }}/init.vim"
+    mode: 0644
   become_user: "{{ username }}"
 
 - name: Install nvim plugins

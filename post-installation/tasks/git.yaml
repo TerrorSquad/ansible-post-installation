@@ -22,6 +22,7 @@
   copy:
     src: ./defaults/.gitconfig
     dest: "~"
+    mode: 0644
   become_user: "{{ username }}"
 
 - name: Download and install delta
@@ -32,7 +33,9 @@
         dest: "{{ download_dir }}/delta.html"
     - name: Download delta package
       shell: |
-        A=https://github.com/; B=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/delta.html" | grep -v musl | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/delta.deb"
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/delta.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/delta.deb"
     - name: Install delta
       apt:
         deb: "{{ download_dir }}/delta.deb"

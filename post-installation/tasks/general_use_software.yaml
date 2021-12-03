@@ -140,6 +140,7 @@
   file:
     path: "{{ local_bin }}"
     state: directory
+    mode: 0775
   become_user: "{{ username }}"
 
 - name: Copy theme_changer.sh script

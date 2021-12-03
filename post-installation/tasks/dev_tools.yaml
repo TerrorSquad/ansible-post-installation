@@ -109,18 +109,21 @@
   copy:
     src: ./defaults/.config/redshift.conf
     dest: "{{ config_home }}"
+    mode: 0644
   become_user: "{{ username }}"
 
 - name: Create Terminator config directory path
   file:
     dest: "{{ terminator_config_dir }}"
     state: directory
+    mode: 0775
   become_user: "{{ username }}"
 
 - name: Configure Terminator
   copy:
     src: ./defaults/.config/terminator/config
     dest: "{{ terminator_config_file }}"
+    mode: 0644
   become_user: "{{ username }}"
 
 - name: Download and install JetBrains ToolBox
@@ -157,13 +160,13 @@
           - apt-transport-https
           - ca-certificates
         force: true
-        state: latest
+        state: present
 
     - name: Add apt repository
       shell: |
         echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
 
-    - name:
+    - name: Update apt cache
       apt:
         update_cache: true
 
@@ -178,6 +181,7 @@
       file:
         path: "{{ download_dir }}/dust"
         state: directory
+        mode: 0775
 
     - name: Download Dust page
       get_url:
@@ -256,10 +260,12 @@
       shell: |
         echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | sudo tee /etc/apt/sources.list.d/home:manuelschneid3r.list
       become_user: "{{ username }}"
+
     - name: Add gpg key
       shell: |
         curl -fsSL https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_manuelschneid3r.gpg > /dev/null
       become_user: "{{ username }}"
+
     - name: Update apt cache
       apt:
         update_cache: true

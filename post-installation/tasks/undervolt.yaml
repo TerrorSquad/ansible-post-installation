@@ -19,7 +19,7 @@
         src: "{{ item }}"
         dest: "{{ systemd_system }}"
         owner: root
-        mode: 644
+        mode: 0644
       with_fileglob:
         - defaults/undervolt/*
 

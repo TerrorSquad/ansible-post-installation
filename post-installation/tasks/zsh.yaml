@@ -30,6 +30,7 @@
       copy:
         src: ./defaults/.zsh_plugins_antibody.pl
         dest: "{{ user_home }}"
+        mode: 0644
       become_user: "{{ username }}"
 
     - name: Remove old antibody bundles
@@ -47,10 +48,12 @@
   copy:
     src: ./defaults/.p10k.zsh
     dest: "{{ user_home }}"
+    mode: 0644
   become_user: "{{ username }}"
 
 - name: Initialize .zshrc
   copy:
     src: ./defaults/.antibody.zshrc
     dest: "{{ zshrc }}"
+    mode: 0644
   become_user: "{{ username }}"

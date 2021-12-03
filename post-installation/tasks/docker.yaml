@@ -39,7 +39,9 @@
 
     - name: Download docker-compose package
       shell: |
-        A=https://github.com/; B=$(grep -oP  "/.+docker-compose-Linux-x86_64" "{{ download_dir }}/docker-compose.html" | grep -v "rc" | head -n 1); echo $A$B | xargs wget -O "{{ download_dir }}/docker-compose"
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP  "/.+docker-compose-Linux-x86_64" "{{ download_dir }}/docker-compose.html" | grep -v "rc" | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/docker-compose"
 
     - name: Install docker-compose
       copy:

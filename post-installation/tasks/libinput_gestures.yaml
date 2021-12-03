@@ -16,6 +16,7 @@
   copy:
     src: ./defaults/.config/libinput-gestures.conf
     dest: "{{ config_home }}"
+    mode: 0644
   become_user: "{{ username }}"
 
 - name: Check if repo is cloned
