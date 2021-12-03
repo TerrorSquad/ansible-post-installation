@@ -5,6 +5,7 @@ git_user_email: change@me.com
 git_set_user_data: false
 # Undervolt
 undervolt: false
+use_snap: false
 
 # User directories
 user_home: "/home/{{ username }}"
