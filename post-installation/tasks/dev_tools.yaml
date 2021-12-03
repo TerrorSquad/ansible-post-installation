@@ -17,6 +17,7 @@
       - vim
       - kcachegrind
       - graphviz
+      - python3-pip
       - jq
 
 - name: Install SDKMan
