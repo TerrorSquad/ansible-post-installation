@@ -2,6 +2,7 @@
 - import_tasks: update_apt_cache_and_prepare_download_dir.yaml
 - import_tasks: gather_facts.yaml
 - import_tasks: snap.yaml
+  when: use_snap
 - import_tasks: git.yaml
 - import_tasks: zsh.yaml
 - import_tasks: fonts.yaml

@@ -29,5 +29,5 @@
 
 - name: Install nvim plugins
   shell: >
-    rm -rf ~/.vim/plugged || true && /snap/bin/nvim +PlugInstall +q +q
+    rm -rf ~/.vim/plugged || true && nvim +PlugInstall +q +q
   become_user: "{{ username }}"

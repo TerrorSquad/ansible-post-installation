@@ -47,6 +47,11 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=git_set_user_data=tr
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e undervolt=true
 ```
 
+You can also add support for snap packages if you want.
+> Note: No snap packages will be installed
+```bash
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e use_snap=true
+```
 - username - defined in `defaults/main.yaml` - can be overridden
 - `-K` - flag used to ask for root password
 
