@@ -106,11 +106,11 @@
     - name: Download Mailspring page
       get_url:
         url: https://github.com/Foundry376/Mailspring/releases/
-        dest: "{{ download_dir }}/delta.html"
+        dest: "{{ download_dir }}/mailspring.html"
     - name: Download Mailspring package
       shell: |
         URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/Mailspring.html" | grep -v musl | head -n 1);
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/mailspring.html" | grep -v musl | head -n 1);
         echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/mailspring.deb"
     - name: Install Mailspring
       apt:
@@ -133,7 +133,8 @@
 
     - name: Install only office
       apt:
-        - onlyoffice-desktopeditors
+        name:
+          - onlyoffice-desktopeditors
 
 - name: "Create {{ local_bin }} directory"
   file:
