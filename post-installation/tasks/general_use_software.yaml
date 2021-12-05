@@ -110,7 +110,7 @@
     - name: Download Mailspring package
       shell: |
         URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/mailspring.html" | grep -v musl | head -n 1);
+        FILE_NAME=$(grep -oP "/.+amd64\.deb" "{{ download_dir }}/mailspring.html" | grep -v musl | head -n 1);
         echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/mailspring.deb"
     - name: Install Mailspring
       apt:
