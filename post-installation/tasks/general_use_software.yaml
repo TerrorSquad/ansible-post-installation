@@ -67,13 +67,15 @@
       apt:
         deb: "{{ download_dir }}/uremote.deb"
 
-# - name: Add Folder color nemo repo
-#   shell: |
-#     add-apt-repository ppa:costales/folder-color -y
+- name: Add Folder color nemo repo
+  shell: |
+    add-apt-repository ppa:costales/folder-color -y \
+    && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FC14671BA89CA06C
 
-# - name: Update apt cache
-#   apt:
-#     update_cache: true
+
+- name: Update apt cache
+  apt:
+    update_cache: true
 
 - name: Install apt apps - Variety, Flameshot, Bleachbit
   apt:
@@ -88,12 +90,22 @@
       - papirus-icon-theme
       - peco
       - silversearcher-ag
-      # - skypeforlinux
       - thefuck
       - tlp
       - unzip
       - variety
       - vlc
+
+- name: Donwload and install skype
+  block:
+    - name: Download skype
+      get_url:
+        url: https://go.skype.com/skypeforlinux-64.deb
+        dest: "{{ download_dir }}/skypeforlinux-64.deb"
+    - name: Install skype
+      apt:
+        deb: "{{ download_dir }}/skypeforlinux-64.deb"
+        force: true
 
 # - name: Install snap apps (classic) - alacritty
 #   snap:
