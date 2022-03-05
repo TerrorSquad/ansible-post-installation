@@ -254,7 +254,7 @@
   block:
     - name: Add sources repo
       shell: |
-        echo 'deb http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | tee /etc/apt/sources.list.d/home:manuelschneid3r.list
+        echo 'deb [allow-insecure=yes trusted=yes] http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | tee /etc/apt/sources.list.d/home:manuelschneid3r.list
 
     - name: Add gpg key
       shell: |
