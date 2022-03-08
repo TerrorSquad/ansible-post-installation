@@ -3,16 +3,16 @@
 	email = change@me.com
 
 [core]
-	pager = less -LRc --mouse
+	pager = delta
 	autocrlf = false
 	eol = LF
 	fileMode = false
 [pager]
-	diff = LESS='LRc --mouse' delta
-	show = LESS='LRc --mouse' delta
-	stash = LESS='LRc --mouse' delta
-	log = LESS='LRc --mouse' delta
-	reflog = LESS='LRc --mouse' delta
+	diff = LESS='LR --mouse' delta
+	show = LESS='LR --mouse' delta
+	stash = LESS='LR --mouse' delta
+	log = LESS='LR --mouse' delta
+	reflog = LESS='LR --mouse' delta
 
 [interactive]
     diffFilter = delta --color-only
@@ -20,6 +20,7 @@
 [delta]
     features = unobtrusive-line-numbers decorations
     whitespace-error-style = 22 reverse
+    navigate = true  # use n and N to move between diff sections
 
 [delta "unobtrusive-line-numbers"]
     line-numbers = true
