@@ -43,3 +43,9 @@
         dest: "{{ autostart_path }}"
         mode: 0664
       become_user: "{{ username }}"
+
+    - name: Unzip Cinnazor
+      unarchive:
+        src: "./defaults/zips/Cinnazor.zip"
+        dest: "{{ themes }}"
+        owner: "{{ username }}"

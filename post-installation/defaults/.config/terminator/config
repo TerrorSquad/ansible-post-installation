@@ -18,7 +18,7 @@
     background_darkness = 0.85
     background_type = transparent
     cursor_color = "#000000"
-    font = Hack Nerd Font 11
+    font = Hack Nerd Font 14
     foreground_color = "#abb2bf"
     icon_bell = False
     palette = "#000000:#eb6e67:#95ee8f:#f8c456:#6eaafb:#d886f3:#6cdcf7:#b2b2b2:#50536b:#eb6e67:#95ee8f:#f8c456:#6eaafb:#d886f3:#6cdcf7:#dfdfdf"

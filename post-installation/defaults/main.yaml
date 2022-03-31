@@ -37,10 +37,3 @@ docker_compose: "/usr/local/bin/docker-compose"
 # NVIM
 nvim_plugin_manager_path: "{{ user_home }}/.local/share/nvim/site/autoload"
 nvim_config_path: "{{ user_home }}/.config/nvim"
-
-# dconf paths
-dconf_guake: "/apps/guake/"
-dconf_org_gnome_desktop: "/org/gnome/desktop/"
-dconf_org_cinnamon_desktop: "/org/cinnamon/desktop/"
-dconf_org_nemo: "/org/nemo/"
-dconf_org_com_linuxmint_updates: "/com/linuxmint/updates/"
