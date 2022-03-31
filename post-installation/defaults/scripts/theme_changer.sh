@@ -3,10 +3,13 @@
 if pidof -o %PPID -x "${0##*/}"; then
     exit 1
 fi
-DAY_THEME="Arc"
-NIGHT_THEME="Arc-Dark"
+DESKTOP_THEME_DAY="Adapta"
+DESKTOP_THEME_NIGHT="Adapta-Nokto"
+CONTROLS_THEME_DAY="Arc"
+CONTROLS_THEME_NIGHT="Arc-Dark"
+
 ICONS="Papirus"
-WINDOW_DECORATION_THEME="Adapta"
+WINDOW_DECORATION_THEME="Cinnazor"
 
 # Start loop
 while :; do
@@ -17,19 +20,21 @@ while :; do
         continue
     fi
     echo "${CURRENT_TIME}"
-    # Depending on time set THEME_CHOICE & NEXT_TIME
+    # Depending on the time set CONTROLS_THEME & NEXT_TIME
     if [ "$CURRENT_TIME" -ge 0600 ] && [ "$CURRENT_TIME" -lt 1800 ]; then
-        THEME_CHOICE=${DAY_THEME}
+        CONTROLS_THEME=${CONTROLS_THEME_DAY}
+        DESKTOP_THEME=${DESKTOP_THEME_DAY}
         NEXT_TIME=1800
     else
-        THEME_CHOICE=${NIGHT_THEME}
+        CONTROLS_THEME=${CONTROLS_THEME_NIGHT}
+        DESKTOP_THEME=${DESKTOP_THEME_NIGHT}
         NEXT_TIME=0600
     fi
     # Set the chosen theme
-    gsettings set org.cinnamon.desktop.interface gtk-theme "$THEME_CHOICE"
-    gsettings set org.cinnamon.desktop.interface icon-theme "$ICONS"
     gsettings set org.cinnamon.desktop.wm.preferences theme "$WINDOW_DECORATION_THEME"
-    gsettings set org.cinnamon.theme name "$THEME_CHOICE"
+    gsettings set org.cinnamon.desktop.interface icon-theme "$ICONS"
+    gsettings set org.cinnamon.desktop.interface gtk-theme "$CONTROLS_THEME"
+    gsettings set org.cinnamon.theme name "$DESKTOP_THEME"
     # Sleep
     sleep 60
 done
