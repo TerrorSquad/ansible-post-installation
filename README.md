@@ -37,6 +37,8 @@ ansible [core 2.11.3]
 
 ## How to run
 
+Clone this repo, enter the directory and run the following command:
+
 ```bash
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=git_set_user_data=true -e git_user_email="your@email.com" -e git_user_name="Your Name"
 ```
