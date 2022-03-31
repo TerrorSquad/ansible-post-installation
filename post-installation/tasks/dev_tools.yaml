@@ -252,18 +252,27 @@
 
 - name: Install albert
   block:
-    - name: Add sources repo
-      shell: |
-        echo 'deb [allow-insecure=yes trusted=yes] http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | tee /etc/apt/sources.list.d/home:manuelschneid3r.list
+    # uncomment when albert repo is fixed
+    # - name: Add sources repo
+    #   shell: |
+    #     echo 'deb [allow-insecure=yes trusted=yes] http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | tee /etc/apt/sources.list.d/home:manuelschneid3r.list
 
-    - name: Add gpg key
-      shell: |
-        curl -fsSL https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/home_manuelschneid3r.gpg > /dev/null
+    # - name: Add gpg key
+    #   shell: |
+    #     curl -fsSL https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/home_manuelschneid3r.gpg > /dev/null
 
-    - name: Update apt cache
+    # - name: Update apt cache
+    #   apt:
+    #     update_cache: true
+    # - name: Install Albert
+    #   apt:
+    #     name:
+    #       albert
+    - name: Download albert
+      get_url:
+        url: https://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/amd64/albert_0.17.2-0_amd64.deb
+        dest: "{{ download_dir }}/albert.deb"
+    - name: Install albert
       apt:
-        update_cache: true
-    - name: Install Albert
-      apt:
-        name:
-          albert
+        deb: "{{ download_dir }}/albert.deb"
+        force: true
