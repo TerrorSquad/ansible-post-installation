@@ -11,7 +11,6 @@ robbyrussell/oh-my-zsh path:plugins/git
 robbyrussell/oh-my-zsh path:plugins/history
 
 # Bundles from ohmyzsh
-ohmyzsh/ohmyzsh path:lib/grep.zsh
 ohmyzsh/ohmyzsh path:lib/directories.zsh
 ohmyzsh/ohmyzsh path:lib/completion.zsh
 ohmyzsh/ohmyzsh path:lib/history.zsh
@@ -24,8 +23,8 @@ lukechilds/zsh-nvm
 # Additional completion definitions for Zsh.
 zsh-users/zsh-autosuggestions
 zsh-users/zsh-completions
-
-changyuheng/fz
-rupa/z
+zdharma-continuum/fast-syntax-highlighting
 
 ael-code/zsh-colored-man-pages
+changyuheng/fz
+rupa/z
