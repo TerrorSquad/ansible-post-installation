@@ -1,6 +1,10 @@
 # Shell startup time benchmark oneliner
 # hyperfine 'zsh -i -c exit'
 
+# Command for generating static plugins file
+# run from ~
+# ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
+
 # Set vim as default editor
 export VISUAL=nvim
 export EDITOR="$VISUAL"
@@ -11,7 +15,7 @@ alias vim=nvim
 setopt rm_star_silent
 
 # Env variables required for plugins
-export NVM_LAZY_LOAD=false
+export NVM_LAZY_LOAD=true
 export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git' 'gitkraken')
 
 # Sourcing antibody plugins
@@ -31,11 +35,12 @@ alias bm="bin/magento"
 alias bxe="bin/xdebug enable"
 alias bxd="bin/xdebug disable"
 alias open="xdg-open"
+alias sail="./vendor/bin/sail"
 
-# alias ls="exa"
-# alias l="exa -la"
-# alias ll="exa -lh --git"
-# alias lt="exa -lT --git"
+alias ls="exa --icons"
+alias l="ls -la"
+alias ll="ls -lh --git"
+alias lt="ls -lT --git"
 
 export BAT_PAGER="less -RF"
 
@@ -74,9 +79,3 @@ kill_port() {
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-export PATH=$PATH:"/home/$(whoami)/BonitaStudioCommunity-2021.1/bin"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/$(whoami)/.sdkman"
-[[ -s "/home/$(whoami)/.sdkman/bin/sdkman-init.sh" ]] && source "/home/$(whoami)/.sdkman/bin/sdkman-init.sh"

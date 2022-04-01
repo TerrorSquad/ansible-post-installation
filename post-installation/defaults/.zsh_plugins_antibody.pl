@@ -1,13 +1,12 @@
 # Command for generating static plugins file
 # run from ~
-# rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
+# ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
 
 # Theme
 romkatv/powerlevel10k
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 robbyrussell/oh-my-zsh path:plugins/command-not-found
-robbyrussell/oh-my-zsh path:plugins/colored-man-pages
 robbyrussell/oh-my-zsh path:plugins/git
 robbyrussell/oh-my-zsh path:plugins/history
 
@@ -28,3 +27,5 @@ zsh-users/zsh-completions
 
 changyuheng/fz
 rupa/z
+
+ael-code/zsh-colored-man-pages
