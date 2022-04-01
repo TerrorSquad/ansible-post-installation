@@ -63,6 +63,23 @@
         deb: "{{ download_dir }}/hyperfine.deb"
         force: true
 
+- name: Download and install fd
+  block:
+    - name: Download fd page
+      get_url:
+        url: https://github.com/sharkdp/fd/releases/
+        dest: "{{ download_dir }}/fd.html"
+
+    - name: Download latest fd package
+      shell: |
+        URL=https://github.com/;
+        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/fd.html" | grep -v musl | head -n 1);
+        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/fd.deb"
+    - name: Install fd
+      apt:
+        deb: "{{ download_dir }}/fd.deb"
+        force: true
+
 # TODO: Make this a task and pass it the URL
 - name: Download and install Slack
   block:
