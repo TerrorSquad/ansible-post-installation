@@ -80,3 +80,5 @@ kill_port() {
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export FZF_TMUX_HEIGHT=50
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
