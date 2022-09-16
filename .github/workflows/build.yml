@@ -1,4 +1,4 @@
-name: Converted Workflow
+name: Build status
 on:
   push:
     branches:
