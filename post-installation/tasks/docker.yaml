@@ -16,9 +16,10 @@
   shell: |
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  {{ ubuntu_codename }} stable" -y
 
+- include: clean_apt.yaml
+
 - name: Update apt cache and install docker
   apt:
-    update_cache: true
     name:
       - containerd.io
       - docker-ce
@@ -53,8 +54,3 @@
 - name: Install lazydocker
   shell: |
     curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
-
-- name: Install CTOP
-  apt:
-    name:
-      - ctop

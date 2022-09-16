@@ -48,16 +48,12 @@
 
 - name: Download and install Hyperfine
   block:
-    - name: Download Hyperfine page
-      get_url:
-        url: https://github.com/sharkdp/hyperfine/releases/
-        dest: "{{ download_dir }}/hyperfine.html"
+    - include: download_github_asset.yaml
+      vars:
+        name: hyperfine
+        user: sharkdp
+        repo: hyperfine
 
-    - name: Download latest hyperfine package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/hyperfine.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/hyperfine.deb"
     - name: Install Hyperfine
       apt:
         deb: "{{ download_dir }}/hyperfine.deb"
@@ -65,16 +61,12 @@
 
 - name: Download and install fd
   block:
-    - name: Download fd page
-      get_url:
-        url: https://github.com/sharkdp/fd/releases/
-        dest: "{{ download_dir }}/fd.html"
+    - include: download_github_asset.yaml
+      vars:
+        name: fd
+        user: sharkdp
+        repo: fd
 
-    - name: Download latest fd package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/fd.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/fd.deb"
     - name: Install fd
       apt:
         deb: "{{ download_dir }}/fd.deb"
@@ -101,15 +93,12 @@
 
 - name: Download and install ripgrep
   block:
-    - name: Download ripgrep page
-      get_url:
-        url: https://github.com/BurntSushi/ripgrep/releases/
-        dest: "{{ download_dir }}/ripgrep.html"
-    - name: Download latest ripgrep package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/ripgrep.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/ripgrep.deb"
+    - include: download_github_asset.yaml
+      vars:
+        name: ripgrep
+        user: BurntSushi
+        repo: ripgrep
+
     - name: Install ripgrep
       apt:
         deb: "{{ download_dir }}/ripgrep.deb"
@@ -190,43 +179,25 @@
 
 - name: Download and install Dust
   block:
-    - name: "Create Dust directory"
-      file:
-        path: "{{ download_dir }}/dust"
-        state: directory
-        mode: 0775
-
-    - name: Download Dust page
-      get_url:
-        url: https://github.com/bootandy/dust/releases/
-        dest: "{{ download_dir }}/dust/dust.html"
-
-    - name: Download latest Dust package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+x86_64.*?linux.*?\.tar.gz" "{{ download_dir }}/dust/dust.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/dust/dust.tar.gz"
-
-    - name: Extract Dust
-      shell: |
-        cd "{{ download_dir }}/dust" && tar -xvf dust.tar.gz -C . && mv dust-*/* .
+    - include: download_github_asset.yaml
+      vars:
+        name: dust
+        user: bootandy
+        repo: dust
 
     - name: Install dust
-      shell: |
-        cp "{{ download_dir }}/dust/dust" /usr/local/bin && chmod +x /usr/local/bin/dust
+      apt:
+        deb: "{{ download_dir }}/dust.deb"
+        force: true
 
 - name: Download and install duf
   block:
-    - name: Download duf page
-      get_url:
-        url: https://github.com/muesli/duf/releases/
-        dest: "{{ download_dir }}/duf.html"
+    - include: download_github_asset.yaml
+      vars:
+        name: duf
+        user: muesli
+        repo: duf
 
-    - name: Download latest duf package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/duf.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/duf.deb"
     - name: Install duf
       apt:
         deb: "{{ download_dir }}/duf.deb"
@@ -234,16 +205,12 @@
 
 - name: Download and install bottom
   block:
-    - name: Download bottom page
-      get_url:
-        url: https://github.com/ClementTsang/bottom/releases/
-        dest: "{{ download_dir }}/bottom.html"
+    - include: download_github_asset.yaml
+      vars:
+        name: bottom
+        user: ClementTsang
+        repo: bottom
 
-    - name: Download latest bottom package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/bottom.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/bottom.deb"
     - name: Install bottom
       apt:
         deb: "{{ download_dir }}/bottom.deb"
@@ -251,45 +218,13 @@
 
 - name: Download and install curlie
   block:
-    - name: Download curlie page
-      get_url:
-        url: https://github.com/rs/curlie/releases/
-        dest: "{{ download_dir }}/curlie.html"
+    - include: download_github_asset.yaml
+      vars:
+        name: curlie
+        user: rs
+        repo: curlie
 
-    - name: Download latest curlie package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/curlie.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/curlie.deb"
     - name: Install curlie
       apt:
         deb: "{{ download_dir }}/curlie.deb"
-        force: true
-
-
-- name: Install albert
-  block:
-    # uncomment when albert repo is fixed
-    # - name: Add sources repo
-    #   shell: |
-    #     echo 'deb [allow-insecure=yes trusted=yes] http://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/ /' | tee /etc/apt/sources.list.d/home:manuelschneid3r.list
-
-    # - name: Add gpg key
-    #   shell: |
-    #     curl -fsSL https://download.opensuse.org/repositories/home:manuelschneid3r/xUbuntu_20.04/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/home_manuelschneid3r.gpg > /dev/null
-
-    # - name: Update apt cache
-    #   apt:
-    #     update_cache: true
-    # - name: Install Albert
-    #   apt:
-    #     name:
-    #       albert
-    - name: Download albert
-      get_url:
-        url: https://download.opensuse.org/repositories/home:/manuelschneid3r/xUbuntu_20.04/amd64/albert_0.17.2-0_amd64.deb
-        dest: "{{ download_dir }}/albert.deb"
-    - name: Install albert
-      apt:
-        deb: "{{ download_dir }}/albert.deb"
         force: true

@@ -27,15 +27,12 @@
 
 - name: Download and install delta
   block:
-    - name: Download delta page
-      get_url:
-        url: https://github.com/dandavison/delta/releases/
-        dest: "{{ download_dir }}/delta.html"
-    - name: Download delta package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+_amd64\.deb" "{{ download_dir }}/delta.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/delta.deb"
+    - include: download_github_asset.yaml
+      vars:
+        name: delta
+        user: dandavison
+        repo: delta
+
     - name: Install delta
       apt:
         deb: "{{ download_dir }}/delta.deb"

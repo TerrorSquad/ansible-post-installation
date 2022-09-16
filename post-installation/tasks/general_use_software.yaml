@@ -67,29 +67,16 @@
       apt:
         deb: "{{ download_dir }}/uremote.deb"
 
-- name: Add Folder color nemo repo
-  shell: |
-    add-apt-repository ppa:costales/folder-color -y \
-    && sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FC14671BA89CA06C
-
-
-- name: Update apt cache
-  apt:
-    update_cache: true
-
 - name: Install apt apps - Variety, Flameshot, Bleachbit
   apt:
     name:
       - bleachbit
-      - fd-find
       - flameshot
-      - folder-color-nemo
       - fzf
       - httpie
       - ncdu
       - papirus-icon-theme
       - peco
-      - silversearcher-ag
       - thefuck
       - tlp
       - unzip
@@ -107,28 +94,18 @@
         deb: "{{ download_dir }}/skypeforlinux-64.deb"
         force: true
 
-# - name: Install snap apps (classic) - alacritty
-#   snap:
-#     name:
-#       - alacritty
-#     classic: true
-
-- name: Download and install Mailspring
+- name: Download and install mailspring
   block:
-    - name: Download Mailspring page
-      get_url:
-        url: https://github.com/Foundry376/Mailspring/releases/
-        dest: "{{ download_dir }}/mailspring.html"
-    - name: Download Mailspring package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP "/.+amd64\.deb" "{{ download_dir }}/mailspring.html" | grep -v musl | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/mailspring.deb"
-    - name: Install Mailspring
+    - include: download_github_asset.yaml
+      vars:
+        name: mailspring
+        user: Foundry376
+        repo: mailspring
+
+    - name: Install mailspring
       apt:
         deb: "{{ download_dir }}/mailspring.deb"
         force: true
-
 
 - name: Install OnlyOffice Editors
   block:

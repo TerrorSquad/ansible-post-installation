@@ -1,0 +1,4 @@
+---
+- name: Clean apt
+  shell: |
+    rm -rfv /var/lib/apt/lists/partial && apt-get update -o Acquire::CompressionTypes::Order::=gz;

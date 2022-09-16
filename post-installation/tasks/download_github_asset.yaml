@@ -1,0 +1,6 @@
+---
+- name: Download {{ name }}
+  shell: |
+    LATEST_ASSETS_URL=$(curl https://api.github.com/repos/{{ user }}/{{ repo }}/releases/latest | grep assets_url | grep -oP 'https.+?assets');
+    DEBFILE_URL=$(curl $LATEST_ASSETS_URL --silent | grep -oP "https.+?amd64\.deb" | grep -v musl);
+    echo $DEBFILE_URL | xargs wget -O "{{ download_dir }}/{{ name }}.deb";
