@@ -200,8 +200,8 @@ In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These 
 
 > Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
 >
-> Box name `generic/ubuntu2004` - <https://app.vagrantup.com/generic/boxes/ubuntu2004>
+> Box name `generic/ubuntu2204` - <https://app.vagrantup.com/generic/boxes/ubuntu2204>
 >
-> Box version - 3.4.2
+> Box version - 4.1.12
 >
-> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2004/versions/3.4.2>
+> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2204/versions/4.1.12>
