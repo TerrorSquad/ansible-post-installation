@@ -32,7 +32,7 @@ jobs:
       - run: ansible --version
       - run: >-
           sudo apt-get update && sudo apt-get install -y bridge-utils
-          dnsmasq-base ebtables libvirt-bin libvirt-dev qemu-kvm qemu-utils
+          dnsmasq-base ebtables libvirt-bin libvirt-dev qemu-kvm qemu-utils virtualbox
           ruby-dev
       - run: >-
           sudo wget -nv
