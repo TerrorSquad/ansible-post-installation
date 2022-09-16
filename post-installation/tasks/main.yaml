@@ -8,17 +8,17 @@
 - import_tasks: fonts.yaml
 - import_tasks: node.yaml
 # - import_tasks: i3.yaml
-- import_tasks: clean_apt.yaml
 - import_tasks: vpn.yaml
 - import_tasks: docker.yaml
-- import_tasks: clean_apt.yaml
 - import_tasks: dev_tools.yaml
 - import_tasks: nvim.yaml
 - import_tasks: general_use_software.yaml
 - import_tasks: gaming_software.yaml
 - import_tasks: libinput_gestures.yaml
 - import_tasks: themes.yaml
+  when: ansible_distribution == 'Linux Mint'
 - import_tasks: dconf.yaml
+  when: ansible_distribution == 'Linux Mint'
 - import_tasks: delete_downloaded_files.yaml
 
 - name: Undervolt

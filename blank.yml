@@ -1,0 +1,28 @@
+name: Converted Workflow
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+jobs:
+  build:
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        os:
+          - ubuntu-22.04
+        python-version:
+          - "3.8"
+    steps:
+      - name: "Set up Python ${{ matrix.python-version }}"
+        uses: actions/setup-python@v2
+        with:
+          python-version: "${{ matrix.python-version }}"
+      - uses: actions/checkout@v2
+      - run: "sudo add-apt-repository -y ppa:ansible/ansible"
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y ansible ruby
+      - run: ansible --version
+      - run: cd ~ && wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip && unzip master.zip && cd ansible-post-installation-master && ansible-playbook ./playbook.yml -K -e username=$(whoami)
