@@ -1,0 +1,8 @@
+{
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "files.associations": {
+        "*.yaml": "ansible"
+    }
+}
