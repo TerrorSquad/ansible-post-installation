@@ -40,4 +40,4 @@ jobs:
       - run: sudo dpkg -i vagrant_2.2.18_x86_64.deb
       - run: vagrant --version
       - run: sudo vagrant plugin install vagrant-libvirt
-      - run: sudo vagrant up --provider=libvirt --provision
+      - run: sudo vagrant up --provision
