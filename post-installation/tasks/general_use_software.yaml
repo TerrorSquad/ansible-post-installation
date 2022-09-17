@@ -116,12 +116,9 @@
       shell: |
         add-apt-repository "deb [arch=amd64] https://download.onlyoffice.com/repo/debian squeeze main" -y
 
-    - name: Update apt cache
-      apt:
-        update_cache: true
-
     - name: Install only office
       apt:
+        update_cache: true
         name:
           - onlyoffice-desktopeditors
 
