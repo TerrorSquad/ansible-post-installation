@@ -125,16 +125,13 @@
         name:
           - onlyoffice-desktopeditors
 
-- name: "Create {{ local_bin }} directory"
-  file:
-    path: "{{ local_bin }}"
-    state: directory
-    mode: 0775
-  become_user: "{{ username }}"
-
-- name: Copy theme_changer.sh script
-  copy:
-    src: "./defaults/scripts/theme_changer.sh"
-    dest: "{{ local_bin }}"
-    mode: u+x
-  become_user: "{{ username }}"
+- name: Install AppImage Launcher
+  block:
+    - name: Add AppImage Launcher PPA
+      shell: |
+        add-apt-repository ppa:appimagelauncher-team/stable -y
+    - name:
+      apt:
+        update_cache: true
+        name:
+          - appimagelauncher
