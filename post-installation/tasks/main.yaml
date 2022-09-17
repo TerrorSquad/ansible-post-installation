@@ -1,28 +1,28 @@
 ---
-- import_tasks: update_apt_cache_and_prepare_download_dir.yaml
-- import_tasks: gather_facts.yaml
-- import_tasks: snap.yaml
+- include_tasks: update_apt_cache_and_prepare_download_dir.yaml
+- include_tasks: gather_facts.yaml
+- include_tasks: snap.yaml
   when: use_snap
-- import_tasks: git.yaml
-- import_tasks: zsh.yaml
-- import_tasks: fonts.yaml
-- import_tasks: node.yaml
-# - import_tasks: i3.yaml
-- import_tasks: vpn.yaml
-- import_tasks: docker.yaml
-- import_tasks: dev_tools.yaml
-- import_tasks: nvim.yaml
-- import_tasks: general_use_software.yaml
-- import_tasks: gaming_software.yaml
-- import_tasks: libinput_gestures.yaml
-- import_tasks: themes.yaml
+- include_tasks: git.yaml
+- include_tasks: zsh.yaml
+- include_tasks: fonts.yaml
+- include_tasks: node.yaml
+# - include_tasks: i3.yaml
+- include_tasks: vpn.yaml
+- include_tasks: docker.yaml
+- include_tasks: dev_tools.yaml
+- include_tasks: nvim.yaml
+- include_tasks: general_use_software.yaml
+- include_tasks: gaming_software.yaml
+- include_tasks: libinput_gestures.yaml
+- include_tasks: themes.yaml
   when: ansible_distribution == 'Linux Mint'
-- import_tasks: dconf.yaml
+- include_tasks: dconf.yaml
   when: ansible_distribution == 'Linux Mint'
-- import_tasks: delete_downloaded_files.yaml
+- include_tasks: delete_downloaded_files.yaml
 
 - name: Undervolt
-  import_tasks: undervolt.yaml
+  include_tasks: undervolt.yaml
   when: undervolt
 
 
@@ -30,5 +30,3 @@
   debug:
     msg:
       - 'Installation complete. Please restart your machine.'
-      - 'Things left to do:'
-      - '- Create a yml file for installing software from github releases page'

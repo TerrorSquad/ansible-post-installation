@@ -96,7 +96,7 @@
 
 - name: Download and install mailspring
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: mailspring
         user: Foundry376

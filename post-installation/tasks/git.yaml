@@ -27,7 +27,7 @@
 
 - name: Download and install delta
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: delta
         user: dandavison

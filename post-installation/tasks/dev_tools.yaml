@@ -48,7 +48,7 @@
 
 - name: Download and install Hyperfine
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: hyperfine
         user: sharkdp
@@ -61,7 +61,7 @@
 
 - name: Download and install fd
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: fd
         user: sharkdp
@@ -93,7 +93,7 @@
 
 - name: Download and install ripgrep
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: ripgrep
         user: BurntSushi
@@ -168,18 +168,15 @@
       shell: |
         apt install -y ca-certificates apt-transport-https
 
-    - name: Update apt cache
-      apt:
-        update_cache: true
-
     - name: Add sublime text
       apt:
+        update_cache: true
         name:
           - sublime-text
 
 - name: Download and install Dust
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: dust
         user: bootandy
@@ -192,7 +189,7 @@
 
 - name: Download and install duf
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: duf
         user: muesli
@@ -205,7 +202,7 @@
 
 - name: Download and install bottom
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: bottom
         user: ClementTsang
@@ -218,7 +215,7 @@
 
 - name: Download and install curlie
   block:
-    - include: download_github_asset.yaml
+    - include_tasks: download_github_asset.yaml
       vars:
         name: curlie
         user: rs
