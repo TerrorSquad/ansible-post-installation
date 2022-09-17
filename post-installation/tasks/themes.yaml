@@ -37,6 +37,20 @@
         name: arc-theme
         state: present
 
+    - name: "Create {{ local_bin }} directory"
+      file:
+        path: "{{ local_bin }}"
+        state: directory
+        mode: 0775
+      become_user: "{{ username }}"
+
+    - name: Copy theme_changer.sh script
+      copy:
+        src: "./defaults/scripts/theme_changer.sh"
+        dest: "{{ local_bin }}"
+        mode: u+x
+      become_user: "{{ username }}"
+
     - name: Set up theme changer autostart
       copy:
         src: ./defaults/.config/autostart/theme_changer.desktop
@@ -44,22 +58,8 @@
         mode: 0664
       become_user: "{{ username }}"
 
-    - name: Unzip Cinnazor
+    - name: Unzip Cinnazor theme to themes folder
       unarchive:
         src: "./defaults/zips/Cinnazor.zip"
         dest: "{{ themes }}"
         owner: "{{ username }}"
-
-- name: "Create {{ local_bin }} directory"
-  file:
-    path: "{{ local_bin }}"
-    state: directory
-    mode: 0775
-  become_user: "{{ username }}"
-
-- name: Copy theme_changer.sh script
-  copy:
-    src: "./defaults/scripts/theme_changer.sh"
-    dest: "{{ local_bin }}"
-    mode: u+x
-  become_user: "{{ username }}"
