@@ -233,6 +233,7 @@
 
 - name: Install azlux packages
   apt:
+    update_cache: true
     name:
       - oha
       - broot
