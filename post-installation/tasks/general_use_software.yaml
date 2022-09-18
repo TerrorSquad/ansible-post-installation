@@ -145,4 +145,4 @@
     - name: Extract and install ModernCSV
       shell: |
         mkdir "{{ download_dir }}/moderncsv" && tar -xvf "{{ download_dir }}/moderncsv.tar.gz" -C "{{ download_dir }}" --directory moderncsv
-        bash "{{ download_dir }}/moderncsv/install.sh"
+        cd "{{ download_dir }}/moderncsv" && cd $(ls) && bash ./install.sh

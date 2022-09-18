@@ -13,15 +13,7 @@ jobs:
       matrix:
         os:
           - ubuntu-22.04
-        python-version:
-          - "3.10"
     steps:
-      - name: "Set up Python ${{ matrix.python-version }}"
-        uses: actions/setup-python@v4
-        with:
-          python-version: "${{ matrix.python-version }}"
       - uses: actions/checkout@v3
-      - name: Install ansible
-        run: sudo add-apt-repository -y ppa:ansible/ansible && sudo apt update && sudo apt install -y ansible
       - name: Run ansible playbook
         run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami)
