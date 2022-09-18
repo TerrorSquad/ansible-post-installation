@@ -225,3 +225,15 @@
       apt:
         deb: "{{ download_dir }}/curlie.deb"
         force: true
+
+- name: Add azlux repository
+  shell: |
+    echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bullseye main" | tee /etc/apt/sources.list.d/azlux.list \
+    && wget -O /usr/share/keyrings/azlux-archive-keyring.gpg  https://azlux.fr/repo.gpg
+
+- name: Install azlux packages
+  apt:
+    name:
+      - oha
+      - broot
+      - gping
