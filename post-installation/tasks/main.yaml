@@ -3,6 +3,7 @@
 - include_tasks: gather_facts.yaml
 - include_tasks: snap.yaml
   when: use_snap
+- include_tasks: basic_packages.yaml
 - include_tasks: git.yaml
 - include_tasks: zsh.yaml
 - include_tasks: fonts.yaml

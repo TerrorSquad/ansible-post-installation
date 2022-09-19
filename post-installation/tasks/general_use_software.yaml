@@ -98,9 +98,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: mailspring
-        user: Foundry376
-        repo: mailspring
+        github_repo: Foundry376/mailspring
+        github_asset: mailspring
+        github_asset_dest: "{{ download_dir }}/mailspring"
+        type: deb
 
     - name: Install mailspring
       apt:

@@ -1,0 +1,5 @@
+---
+- name: Install apt dependencies
+  apt:
+    name:
+      - jq

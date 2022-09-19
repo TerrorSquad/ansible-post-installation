@@ -1,6 +1,18 @@
 ---
-- name: Download {{ name }}
+- name: "Set variables"
+  set_fact:
+    type: "deb"
+
+- name: Download {{ github_asset }}
   shell: |
-    LATEST_ASSETS_URL=$(curl https://api.github.com/repos/{{ user }}/{{ repo }}/releases/latest | grep assets_url | grep -oP 'https.+?assets');
-    DEBFILE_URL=$(curl $LATEST_ASSETS_URL --silent | grep -oP "https.+?amd64\.deb" | grep -v musl);
-    echo $DEBFILE_URL | xargs wget -O "{{ download_dir }}/{{ name }}.deb";
+    curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ download_dir }}/{{ github_asset }}.json
+    URL=$(cat {{ download_dir }}/{{ github_asset }}.json | jq '.assets | .[] | select(.name | test("amd64|x86_64|x86-64")) | select(.name | test("darwin|windows|musl|unknown|sha") | not) | select(.name | contains(".deb")) | { browser_download_url } | .[]');
+    echo $URL | xargs wget -O "{{ github_asset_dest }}.deb";
+  when: type == "deb"
+
+- name: Download {{ github_asset }}
+  shell: |
+    curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ download_dir }}/{{ github_asset }}.json
+    URL=$(cat {{ download_dir }}/{{ github_asset }}.json | jq '.assets | .[] | select(.name | test("amd64|x86_64|x86-64")) | select(.name | test("darwin|windows|musl|unknown|sha") | not) | { browser_download_url } | .[]');
+    echo $URL | xargs wget --verbose -O "{{ github_asset_dest }}";
+  when: type == "binary"

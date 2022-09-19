@@ -29,9 +29,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: delta
-        user: dandavison
-        repo: delta
+        github_repo: dandavison/delta
+        github_asset: delta
+        github_asset_dest: "{{ download_dir }}/delta"
+        type: deb
 
     - name: Install delta
       apt:

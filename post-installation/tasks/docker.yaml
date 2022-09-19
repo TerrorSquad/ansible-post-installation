@@ -33,16 +33,14 @@
 
 - name: Install docker-compose
   block:
-    - name: Download docker-compose page
-      get_url:
-        url: https://github.com/docker/compose/releases
-        dest: "{{ download_dir }}/docker-compose.html"
 
-    - name: Download docker-compose package
-      shell: |
-        URL=https://github.com/;
-        FILE_NAME=$(grep -oP  "/.+docker-compose-linux-x86_64" "{{ download_dir }}/docker-compose.html" | grep -v "rc" | head -n 1);
-        echo $URL$FILE_NAME | xargs wget -O "{{ download_dir }}/docker-compose"
+    - name: Download docker-compose binary
+      include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: docker/compose
+        github_asset: docker-compose-Linux-x86_64
+        github_asset_dest: "{{ download_dir }}/docker-compose"
+        type: binary
 
     - name: Install docker-compose
       copy:

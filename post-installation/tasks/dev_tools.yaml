@@ -50,9 +50,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: hyperfine
-        user: sharkdp
-        repo: hyperfine
+        github_repo: sharkdp/hyperfine
+        github_asset: hyperfine
+        github_asset_dest: "{{ download_dir }}/hyperfine"
+        type: deb
 
     - name: Install Hyperfine
       apt:
@@ -63,9 +64,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: fd
-        user: sharkdp
-        repo: fd
+        github_repo: sharkdp/fd
+        github_asset: fd
+        github_asset_dest: "{{ download_dir }}/fd"
+        type: deb
 
     - name: Install fd
       apt:
@@ -95,9 +97,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: ripgrep
-        user: BurntSushi
-        repo: ripgrep
+        github_repo: BurntSushi/ripgrep
+        github_asset: ripgrep
+        github_asset_dest: "{{ download_dir }}/ripgrep"
+        type: deb
 
     - name: Install ripgrep
       apt:
@@ -178,9 +181,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: dust
-        user: bootandy
-        repo: dust
+        github_repo: bootandy/dust
+        github_asset: dust
+        github_asset_dest: "{{ download_dir }}/dust"
+        type: deb
 
     - name: Install dust
       apt:
@@ -191,9 +195,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: duf
-        user: muesli
-        repo: duf
+        github_repo: muesli/duf
+        github_asset: duf
+        github_asset_dest: "{{ download_dir }}/duf"
+        type: deb
 
     - name: Install duf
       apt:
@@ -204,9 +209,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: bottom
-        user: ClementTsang
-        repo: bottom
+        github_repo: ClementTsang/bottom
+        github_asset: bottom
+        github_asset_dest: "{{ download_dir }}/bottom"
+        type: deb
 
     - name: Install bottom
       apt:
@@ -217,9 +223,10 @@
   block:
     - include_tasks: download_github_asset.yaml
       vars:
-        name: curlie
-        user: rs
-        repo: curlie
+        github_repo: rs/curlie
+        github_asset: curlie
+        github_asset_dest: "{{ download_dir }}/curlie"
+        type: deb
 
     - name: Install curlie
       apt:
