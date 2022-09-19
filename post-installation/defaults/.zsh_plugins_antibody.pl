@@ -6,6 +6,7 @@
 romkatv/powerlevel10k
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
+robbyrussell/oh-my-zsh
 robbyrussell/oh-my-zsh path:plugins/command-not-found
 robbyrussell/oh-my-zsh path:plugins/git
 robbyrussell/oh-my-zsh path:plugins/history
