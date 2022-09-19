@@ -7,7 +7,7 @@
   file:
     dest: "{{ download_dir }}"
     state: directory
-    mode: 0775
+    mode: 0777
 
 - name: Get Ubuntu code name
   shell: |

@@ -142,7 +142,12 @@
         URL_PATH="release/ModernCSV-Linux-v${VERSION}.1.tar.gz"
         echo $BASE_URL$URL_PATH | xargs wget -O "{{ download_dir }}/moderncsv.tar.gz"
 
-    - name: Extract and install ModernCSV
-      shell: |
-        mkdir "{{ download_dir }}/moderncsv" && tar -xvf "{{ download_dir }}/moderncsv.tar.gz" -C "{{ download_dir }}" --directory moderncsv
-        cd "{{ download_dir }}/moderncsv" && cd $(ls) && bash ./install.sh
+    - name: Extract ModernCSV
+      shell:
+        cmd: mkdir "moderncsv" && tar -xvf "{{ download_dir }}/moderncsv.tar.gz" --directory moderncsv
+        chdir: "{{ download_dir }}"
+
+    - name: Install ModernCSV
+      shell:
+        cmd: cd $(ls) && bash ./install.sh
+        chdir: "{{ download_dir }}/moderncsv"

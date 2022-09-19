@@ -52,5 +52,7 @@
         remote_src: true
 
 - name: Install lazydocker
-  shell: |
-    curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+  shell:
+    cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
+    chdir: "{{ download_dir }}"
+  become_user: "{{ username }}"
