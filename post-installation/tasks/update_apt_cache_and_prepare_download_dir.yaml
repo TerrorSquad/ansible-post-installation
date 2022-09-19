@@ -3,6 +3,10 @@
   apt:
     update_cache: true
 
+- name: Upgrade APT applications
+  shell:
+    cmd: apt upgrade -y
+
 - name: Create "{{ download_dir }}
   file:
     dest: "{{ download_dir }}"

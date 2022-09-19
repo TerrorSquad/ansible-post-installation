@@ -20,6 +20,7 @@
 - include_tasks: dconf.yaml
   when: ansible_distribution == 'Linux Mint'
 - include_tasks: delete_downloaded_files.yaml
+- include_tasks: clean_apt.yaml
 
 - name: Undervolt
   include_tasks: undervolt.yaml
