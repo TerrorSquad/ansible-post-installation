@@ -21,6 +21,7 @@
 - name: Install SDKMan
   shell: |
     curl -s "https://get.sdkman.io" | zsh
+  become_user: "{{ username }}"
 
 - name: Download and install GitKraken
   block:
