@@ -5,14 +5,14 @@
 
 - name: Download {{ github_asset }}
   shell: |
-    curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ download_dir }}/{{ github_asset }}.json
-    URL=$(cat {{ download_dir }}/{{ github_asset }}.json | jq '.assets | .[] | select(.name | test("amd64|x86_64|x86-64")) | select(.name | test("darwin|windows|musl|unknown|sha") | not) | select(.name | contains(".deb")) | { browser_download_url } | .[]');
+    curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ github_asset_dest }}.json
+    URL=$(cat {{ github_asset_dest }}.json | jq '.assets | .[] | select(.name | test("amd64|x86_64|x86-64")) | select(.name | test("darwin|windows|musl|unknown|sha") | not) | select(.name | contains(".deb")) | { browser_download_url } | .[]');
     echo $URL | xargs wget -O "{{ github_asset_dest }}.deb";
   when: type == "deb"
 
 - name: Download {{ github_asset }}
   shell: |
-    curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ download_dir }}/{{ github_asset }}.json
-    URL=$(cat {{ download_dir }}/{{ github_asset }}.json | jq '.assets | .[] | select(.name | test("amd64|x86_64|x86-64")) | select(.name | test("darwin|windows|musl|unknown|sha") | not) | { browser_download_url } | .[]');
+    curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ github_asset_dest }}.json
+    URL=$(cat {{ github_asset_dest }}.json | jq '.assets | .[] | select(.name | test("amd64|x86_64|x86-64")) | select(.name | test("darwin|windows|musl|unknown|sha") | not) | { browser_download_url } | .[]');
     echo $URL | xargs wget --verbose -O "{{ github_asset_dest }}";
   when: type == "binary"
