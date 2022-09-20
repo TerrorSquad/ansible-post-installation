@@ -5,11 +5,10 @@ if pidof -o %PPID -x "${0##*/}"; then
 fi
 DESKTOP_THEME_DAY="Adapta"
 DESKTOP_THEME_NIGHT="Adapta-Nokto"
-CONTROLS_THEME_DAY="Arc"
-CONTROLS_THEME_NIGHT="Arc-Dark"
+CONTROLS_THEME_DAY="Adapta"
+CONTROLS_THEME_NIGHT="Adapta-Nokto"
 
 ICONS="Papirus"
-WINDOW_DECORATION_THEME="Cinnazor"
 
 # Start loop
 while :; do
@@ -31,7 +30,6 @@ while :; do
         NEXT_TIME=0600
     fi
     # Set the chosen theme
-    gsettings set org.cinnamon.desktop.wm.preferences theme "$WINDOW_DECORATION_THEME"
     gsettings set org.cinnamon.desktop.interface icon-theme "$ICONS"
     gsettings set org.cinnamon.desktop.interface gtk-theme "$CONTROLS_THEME"
     gsettings set org.cinnamon.theme name "$DESKTOP_THEME"
