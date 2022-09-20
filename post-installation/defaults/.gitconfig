@@ -1,7 +1,3 @@
-[user]
-	name = Goran Ninkovic
-	email = change@me.com
-
 [core]
 	pager = delta
 	autocrlf = false
