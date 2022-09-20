@@ -40,22 +40,20 @@ ansible [core 2.11.3]
 Clone this repo, enter the directory and run the following command:
 
 ```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=git_set_user_data=true -e git_user_email="your@email.com" -e git_user_name="Your Name"
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=dev_tools=true -e docker=true -e=git_set_user_data=true -e git_user_email="your@email.com" -e git_user_name="Your Name"
 ```
 
-> Note: You can also pass undervolt variable. That will call the undervolt.yml role.
-
-```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e undervolt=true
-```
-
-You can also add support for snap packages if you want.
-> Note: No snap packages will be installed
-```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e use_snap=true
-```
-- username - defined in `defaults/main.yaml` - can be overridden
-- `-K` - flag used to ask for root password
+### Flags
+- `e all=true` - Installs everything.
+- `-e dev_tools=true` - Installs developer tools from `dev_tools.yaml`.
+- `e docker=true` - Installs and configures docker.
+- `-e git_set_user_data=true` - Used to enable updating git user data.
+- `-e git_user_email="your@email.com` - Sets git user.email config value. Must be used with `-e git_set_user_data=true`
+- `-e git_user_name="Your Name` - Sets git user.name config value. Must be used with `-e git_set_user_data=true`
+- `-e undervolt=true` - Calls the `undervolt.yml` role.
+- `-e use_snap=true` - Enables snap and snapd. No snap packages will be installed.
+- `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
+- `-K` - flag used to ask for root password. Required mostly for installing apt packages and updating apt repositories.
 
 ## What's installed
 
@@ -104,19 +102,13 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e use_snap=true
 
 ### General use software
 
-- ag
 - bleachbit
-- brightnessctl
-- dmenu
 - exa
-- fd-find
-- firefox
+- fd
 - flameshot
-- folder-color-nemo
 - fzf
 - google chrome
 - httpie
-- i3
 - libinput-gestures
 - mailspring
 - ncdu
@@ -127,10 +119,8 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e use_snap=true
 - papirus-icons-theme
 - peco
 - rescuetime
-- silversearcher-ag
 - skype
 - slack
-- thefuck
 - thefuck
 - tixati
 - unified remote
