@@ -37,11 +37,6 @@ alias bxd="bin/xdebug disable"
 alias open="xdg-open"
 alias sail="./vendor/bin/sail"
 
-alias ls="exa --icons"
-alias l="ls -la"
-alias ll="ls -lh --git"
-alias lt="ls -lT --git"
-
 export BAT_PAGER="less -RF"
 
 # Functions
