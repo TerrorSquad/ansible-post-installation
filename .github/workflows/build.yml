@@ -16,4 +16,4 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Run ansible playbook
-        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami)
+        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true

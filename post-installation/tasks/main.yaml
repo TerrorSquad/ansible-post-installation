@@ -11,7 +11,9 @@
 # - include_tasks: i3.yaml
 - include_tasks: vpn.yaml
 - include_tasks: docker.yaml
+  when: docker or all
 - include_tasks: dev_tools.yaml
+  when: dev_tools or all
 - include_tasks: nvim.yaml
 - include_tasks: general_use_software.yaml
 - include_tasks: gaming_software.yaml

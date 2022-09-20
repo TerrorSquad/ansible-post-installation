@@ -6,6 +6,9 @@ git_set_user_data: false
 # Undervolt
 undervolt: false
 use_snap: false
+dev_tools: false
+docker: false
+all: false
 
 # User directories
 user_home: "/home/{{ username }}"
