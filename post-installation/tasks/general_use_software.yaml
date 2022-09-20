@@ -162,3 +162,17 @@
     dest: "{{ config_home }}"
     mode: 0644
   become_user: "{{ username }}"
+
+- name: Install and install input-remapper
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: sezanzeb/input-remapper
+        github_asset: input-remapper
+        github_asset_dest: "{{ download_dir }}/input-remapper"
+        type: deb
+
+    - name: Install input-remapper
+      apt:
+        deb: "{{ download_dir }}/input-remapper.deb"
+        force: true
