@@ -10,8 +10,6 @@
       - htop
       - libutempter0
       - make
-      - redshift
-      - redshift-gtk
       - shellcheck
       - terminator
       - vim
@@ -113,13 +111,6 @@
     dest: /usr/local/bin/exa
     mode: 0755
     owner: "{{ username }}"
-
-- name: Copy RedShift configuration file
-  copy:
-    src: ./defaults/.config/redshift.conf
-    dest: "{{ config_home }}"
-    mode: 0644
-  become_user: "{{ username }}"
 
 - name: Create Terminator config directory path
   file:

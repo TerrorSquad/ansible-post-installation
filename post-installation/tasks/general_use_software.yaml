@@ -82,6 +82,8 @@
       - unzip
       - variety
       - vlc
+      - redshift
+      - redshift-gtk
 
 - name: Donwload and install skype
   block:
@@ -152,3 +154,11 @@
       shell:
         cmd: cd $(ls) && bash ./install.sh
         chdir: "{{ download_dir }}/moderncsv"
+
+
+- name: Copy RedShift configuration file
+  copy:
+    src: ./defaults/.config/redshift.conf
+    dest: "{{ config_home }}"
+    mode: 0644
+  become_user: "{{ username }}"
