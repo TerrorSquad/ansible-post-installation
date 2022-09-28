@@ -7,7 +7,7 @@
 
 ## Requirements
 
-- OS: Ubuntu 20.04 based distro - Linux Mint 20
+- OS: Ubuntu 22.04 based distro - Linux Mint 21
 - Software: `ansible`
 
 If you do not have ansible installed you can do so by running this piece of code:
