@@ -12,11 +12,26 @@
     name: "{{ username }}"
     shell: "{{ zsh_install_path.stdout }}"
 
+
+- name: Initialize .zshrc
+  copy:
+    src: ./defaults/.zshrc
+    dest: "{{ zshrc }}"
+    mode: 0644
+  become_user: "{{ username }}"
+
+- name: Copy .p10k.zsh
+  copy:
+    src: ./defaults/.p10k.zsh
+    dest: "{{ user_home }}"
+    mode: 0644
+  become_user: "{{ username }}"
+
 - name: Download and install antidote - ZSH plugin manager
   block:
     - name: Download antidote
       shell: |
-        zsh -c "cd ~ && git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote"
+        zsh -c "cd ~ && rm -rf ${ZDOTDIR:-~}/.antidote && git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote"
       become_user: "{{ username }}"
 
 - name: Configure antidote
@@ -30,19 +45,5 @@
 
     - name: Download antidote bundles from .zsh_plugins.txt
       shell:
-        cmd: antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh
+        cmd: zsh -ic "antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh"
       become_user: "{{ username }}"
-
-- name: Copy .p10k.zsh
-  copy:
-    src: ./defaults/.p10k.zsh
-    dest: "{{ user_home }}"
-    mode: 0644
-  become_user: "{{ username }}"
-
-- name: Initialize .zshrc
-  copy:
-    src: ./defaults/.zshrc
-    dest: "{{ zshrc }}"
-    mode: 0644
-  become_user: "{{ username }}"
