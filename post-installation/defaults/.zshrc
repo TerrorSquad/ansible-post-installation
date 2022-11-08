@@ -3,7 +3,7 @@
 
 # Command for generating static plugins file
 # run from ~
-# ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
+# ping -c 1 google.com && antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh
 
 # Set vim as default editor
 export VISUAL=nvim
@@ -18,8 +18,11 @@ setopt rm_star_silent
 export NVM_LAZY_LOAD=true
 export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git' 'gitkraken')
 
-# Sourcing antibody plugins
-source ~/.zsh_plugins_antibody.sh
+# source antidote
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
+
+# initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
+source ~/.zsh_plugins.zsh
 
 # Aliases
 alias c="clear"
@@ -38,8 +41,16 @@ alias open="xdg-open"
 alias sail="./vendor/bin/sail"
 
 export BAT_PAGER="less -RF"
+alias jt=getJiraTicketNumber
+
+alias gbc="git branch --show-current"
 
 # Functions
+
+getJiraTicketNumber() {
+    local branchName=$(git branch --show-current)
+    echo $branchName | grep -o -E '[A-Z]+-[0-9]+'
+}
 
 restartCinnamon() {
     (nohup cinnamon --replace >/dev/null 2>&1) &

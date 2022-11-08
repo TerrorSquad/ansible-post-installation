@@ -1,0 +1,34 @@
+# Command for generating static plugins file
+# run from ~
+# ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
+
+# Theme
+romkatv/powerlevel10k
+
+rupa/z
+zsh-users/zsh-completions
+
+# annotations are also allowed:
+romkatv/zsh-bench kind:path
+
+# Bundles from ohmyzsh
+ohmyzsh/ohmyzsh path:lib/directories.zsh
+ohmyzsh/ohmyzsh path:lib/completion.zsh
+ohmyzsh/ohmyzsh path:lib/history.zsh
+ohmyzsh/ohmyzsh path:lib/key-bindings.zsh
+ohmyzsh/ohmyzsh path:lib/theme-and-appearance.zsh
+# ohmyzsh/ohmyzsh path:plugins/colored-man-pages
+ael-code/zsh-colored-man-pages
+# ohmyzsh/ohmyzsh path:plugins/magic-enter
+
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
+robbyrussell/oh-my-zsh path:plugins/command-not-found
+robbyrussell/oh-my-zsh path:plugins/git
+robbyrussell/oh-my-zsh path:plugins/history
+
+# Node Version Manager
+lukechilds/zsh-nvm
+
+# Additional completion definitions for Zsh.
+zsh-users/zsh-autosuggestions
+zdharma-continuum/fast-syntax-highlighting kind:defer

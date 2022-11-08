@@ -12,36 +12,25 @@
     name: "{{ username }}"
     shell: "{{ zsh_install_path.stdout }}"
 
-- name: Download and install antibody - ZSH plugin manager
+- name: Download and install antidote - ZSH plugin manager
   block:
-    - name: Download antibody
-      get_url:
-        url: https://git.io/antibody
-        dest: "{{ antibody_file_path }}"
+    - name: Download antidote
+      shell: |
+        zsh -c "cd ~ && git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote"
       become_user: "{{ username }}"
 
-    - name: Install antibody
-      shell:
-        cmd: sh "{{ antibody_file_path }}" -b /usr/local/bin
-
-- name: Configure antibody
+- name: Configure antidote
   block:
-    - name: Copy .zsh_plugins_antibody.pl
+    - name: Copy .zsh_plugins.txt
       copy:
-        src: ./defaults/.zsh_plugins_antibody.pl
+        src: ./defaults/.zsh_plugins.txt
         dest: "{{ user_home }}"
         mode: 0644
       become_user: "{{ username }}"
 
-    - name: Remove old antibody bundles
-      file:
-        path: ~/.cache/antibody
-        state: absent
-      become_user: "{{ username }}"
-
-    - name: Download antibody bundles from .zsh_plugins_antibody.pl
+    - name: Download antidote bundles from .zsh_plugins.txt
       shell:
-        cmd: antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
+        cmd: antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh
       become_user: "{{ username }}"
 
 - name: Copy .p10k.zsh
@@ -53,7 +42,7 @@
 
 - name: Initialize .zshrc
   copy:
-    src: ./defaults/.antibody.zshrc
+    src: ./defaults/.zshrc
     dest: "{{ zshrc }}"
     mode: 0644
   become_user: "{{ username }}"
