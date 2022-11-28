@@ -45,6 +45,8 @@ alias jt=getJiraTicketNumber
 
 alias gbc="git branch --show-current"
 
+alias jump="ssh g.ninkovic@jump.youweagency.com"
+
 # Functions
 
 getJiraTicketNumber() {
@@ -62,11 +64,12 @@ getProgramPids() {
     echo $result
 }
 
-killByPid() {
+kill_by_name() {
     PROGRAM=$1
     local PIDS=$(getProgramPids ${PROGRAM})
     if [ $PIDS ]; then
-        return kill ${PIDS}
+        echo ${PIDS} | xargs kill -9
+        return $?
     else
         echo "PROGRAM IS STOPPED"
         return 1
@@ -88,3 +91,6 @@ kill_port() {
 export FZF_TMUX_HEIGHT=50
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
