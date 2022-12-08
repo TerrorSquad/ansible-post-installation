@@ -86,19 +86,47 @@ kill_port() {
 }
 
 magento_find_module_dependencies() {
-    # Finds all classes that are used in a module inside PHP and XML files
+    # for all arguments passed to function (if any) execute the following
 
-    if [ ! -f "registration.php" ]; then
-        echo "You are not inside a Magento 2 module"
-        return 1
-    fi
+    for arg in "$@"; do
+        if [ -f $arg ]; then
+            local FOLDER_PATH=$(dirname $arg)
+        else
+            local FOLDER_PATH=$arg
+        fi
 
-    MODULES=$(rg -o "[ \\\\\"].+?\\\\.*?[ \";]" --no-filename --no-line-number | rg "((?:(?:^ )|(?: \\\\)|(?:\"))(?:(?:[\w]+?)\\\\)(?:(?:[\w]+?)\\\\))" -o | rg "\w.+" -o | rg "\w+\\\\\w+" -o | sort | uniq | sed "s/\\\\/_/g")
-    # Get current module name from module.xml
-    MODULE_NAME=$(rg -o "<module name=\".+?\"/?>" --no-filename --no-line-number | head -1 | rg -o "\".+?\"" -o | rg -o "\w.+" -o | sed "s/\\\\/_/g" | sed "s/\"//g")
-    # Exclude current module from search
-    MODULES=$(echo $MODULES | sed "s/${MODULE_NAME}//g")
-    echo $MODULES
+        local FOLDER_PATH=$(readlink -f $FOLDER_PATH)
+        local MODULE_NAME=$(
+            rg -o "<module name=\".+?\"/?>" --no-filename --no-line-number $FOLDER_PATH |
+                head -1 |
+                rg -o "\".+?\"" -o |
+                rg -o "\w.+" -o |
+                sed "s/\\\\/_/g" |
+                sed "s/\"//g"
+        )
+        echo "Directory: $FOLDER_PATH"
+
+        # Check if registration.php exists and /etc/module.xml exists
+        if [ ! -f $FOLDER_PATH/registration.php ] || [ ! -f $FOLDER_PATH/etc/module.xml ] || [ -z $MODULE_NAME ]; then
+            echo "Not a module folder"
+            echo "\n"
+            continue
+        fi
+
+        echo "Module name: $MODULE_NAME"
+
+        local MODULES=$(
+            rg "(?:(?: )|(?: \\\\)|(?:\"))((?:\w{2,}?)(?:\\\\)(?:\w{2,}))" -or '$1' --no-filename --no-line-number --type=php --type=xml . | tr -s "\n" | sort | uniq | sed "s/\\\\/_/g"
+        )
+        # Exclude current module from search
+
+        local MODULES=$(
+            echo $MODULES | sed "s/^$MODULE_NAME$//g" | tr -s "\n"
+        )
+
+        echo "Dependencies are:\n"
+        echo $MODULES
+    done
 }
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
