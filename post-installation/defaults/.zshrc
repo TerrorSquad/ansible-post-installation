@@ -85,6 +85,16 @@ kill_port() {
     fuser -k $1/tcp
 }
 
+magento_find_module_dependencies() {
+    # Finds all classes that are used in a module inside PHP and XML files
+
+    if [ ! -f "registration.php" ]; then
+        echo "You are not inside a Magento 2 module"
+        return 1
+    fi
+    rg -o "[ \\\\\"].+?\\\\.*?[ \";]" --no-filename --no-line-number | rg "((?:(?:^ )|(?: \\\\)|(?:\"))(?:(?:[\w]+?)\\\\)(?:(?:[\w]+?)\\\\))" -o | rg "\w.+" -o | rg "\w+\\\\\w+" -o | sort | uniq | sed "s/\\\\/_/g"
+}
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
