@@ -92,7 +92,13 @@ magento_find_module_dependencies() {
         echo "You are not inside a Magento 2 module"
         return 1
     fi
-    rg -o "[ \\\\\"].+?\\\\.*?[ \";]" --no-filename --no-line-number | rg "((?:(?:^ )|(?: \\\\)|(?:\"))(?:(?:[\w]+?)\\\\)(?:(?:[\w]+?)\\\\))" -o | rg "\w.+" -o | rg "\w+\\\\\w+" -o | sort | uniq | sed "s/\\\\/_/g"
+
+    MODULES=$(rg -o "[ \\\\\"].+?\\\\.*?[ \";]" --no-filename --no-line-number | rg "((?:(?:^ )|(?: \\\\)|(?:\"))(?:(?:[\w]+?)\\\\)(?:(?:[\w]+?)\\\\))" -o | rg "\w.+" -o | rg "\w+\\\\\w+" -o | sort | uniq | sed "s/\\\\/_/g")
+    # Get current module name from module.xml
+    MODULE_NAME=$(rg -o "<module name=\".+?\"/?>" --no-filename --no-line-number | head -1 | rg -o "\".+?\"" -o | rg -o "\w.+" -o | sed "s/\\\\/_/g" | sed "s/\"//g")
+    # Exclude current module from search
+    MODULES=$(echo $MODULES | sed "s/${MODULE_NAME}//g")
+    echo $MODULES
 }
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
