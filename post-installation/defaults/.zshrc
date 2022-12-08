@@ -96,27 +96,24 @@ magento_find_module_dependencies() {
         fi
 
         local FOLDER_PATH=$(readlink -f $FOLDER_PATH)
-        local MODULE_NAME=$(
-            rg -o "<module name=\".+?\"/?>" --no-filename --no-line-number $FOLDER_PATH |
-                head -1 |
-                rg -o "\".+?\"" -o |
-                rg -o "\w.+" -o |
-                sed "s/\\\\/_/g" |
-                sed "s/\"//g"
-        )
         echo "Directory: $FOLDER_PATH"
 
         # Check if registration.php exists and /etc/module.xml exists
-        if [ ! -f $FOLDER_PATH/registration.php ] || [ ! -f $FOLDER_PATH/etc/module.xml ] || [ -z $MODULE_NAME ]; then
+        if [ ! -f $FOLDER_PATH/registration.php ] || [ ! -f $FOLDER_PATH/etc/module.xml ]; then
             echo "Not a module folder"
             echo "\n"
             continue
         fi
 
+        local MODULE_NAME=$(
+            rg -o "\w{2,}*_\w{2,}" --no-filename --no-line-number $FOLDER_PATH/etc/module.xml |
+                head -1
+        )
+
         echo "Module name: $MODULE_NAME"
 
         local MODULES=$(
-            rg "(?:(?: )|(?: \\\\)|(?:\"))((?:\w{2,}?)(?:\\\\)(?:\w{2,}))" -or '$1' --no-filename --no-line-number --type=php --type=xml . | tr -s "\n" | sort | uniq | sed "s/\\\\/_/g"
+            rg "(?:(?: )|(?: \\\\)|(?:\"))((?:\w{2,}?)(?:\\\\)(?:\w{2,}))" -or '$1' --no-filename --no-line-number --type=php --type=xml $FOLDER_PATH | tr -s "\n" | sort | uniq | sed "s/\\\\/_/g"
         )
         # Exclude current module from search
 
@@ -126,6 +123,7 @@ magento_find_module_dependencies() {
 
         echo "Dependencies are:\n"
         echo $MODULES
+        echo "\n"
     done
 }
 
