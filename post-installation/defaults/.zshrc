@@ -35,10 +35,12 @@ alias bat="batcat"
 alias code="code --goto"
 alias hsi="history | rg -i"
 alias bm="bin/magento"
+alias bdm="bin/debug-magento"
 alias bxe="bin/xdebug enable"
 alias bxd="bin/xdebug disable"
 alias open="xdg-open"
 alias sail="./vendor/bin/sail"
+alias dps="docker ps --format \"table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}\""
 
 export BAT_PAGER="less -RF"
 alias jt=getJiraTicketNumber
@@ -126,6 +128,8 @@ magento_find_module_dependencies() {
         echo "\n"
     done
 }
+
+PATH=$PATH:~/.local/bin
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
