@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v4
         with:
-          python-version: 3.6
+          python-version: 3.11.1
       - name: ansible-lint
         uses: reviewdog/action-ansiblelint@v1
         with:
