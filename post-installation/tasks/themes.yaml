@@ -2,57 +2,57 @@
 - name: Download themes from Cinnamon Spices
   block:
     - name: Create themes directory
-      file:
+      ansible.builtin.file:
         dest: "{{ themes }}"
         state: directory
         mode: 0775
       become_user: "{{ username }}"
 
     - name: Download Adapta-Nokto
-      get_url:
+      ansible.builtin.get_url:
         url: https://cinnamon-spices.linuxmint.com/files/themes/Adapta-Nokto.zip
         dest: "{{ download_dir }}/Adapta-Nokto.zip"
 
     - name: Move theme in to {{ themes }}
-      unarchive:
+      ansible.builtin.unarchive:
         src: "{{ download_dir }}/Adapta-Nokto.zip"
         dest: "{{ themes }}"
         owner: "{{ username }}"
         remote_src: true
 
     - name: Download Adapta
-      get_url:
+      ansible.builtin.get_url:
         url: https://cinnamon-spices.linuxmint.com/files/themes/Adapta.zip
         dest: "{{ download_dir }}/Adapta.zip"
 
     - name: Move theme in to {{ themes }}
-      unarchive:
+      ansible.builtin.unarchive:
         src: "{{ download_dir }}/Adapta.zip"
         dest: "{{ themes }}"
         owner: "{{ username }}"
         remote_src: true
 
     - name: Install Arc Dark theme
-      apt:
+      ansible.builtin.apt:
         name: arc-theme
         state: present
 
     - name: "Create {{ local_bin }} directory"
-      file:
+      ansible.builtin.file:
         path: "{{ local_bin }}"
         state: directory
         mode: 0775
       become_user: "{{ username }}"
 
     - name: Copy theme_changer.sh script
-      copy:
+      ansible.builtin.copy:
         src: "./defaults/scripts/theme_changer.sh"
         dest: "{{ local_bin }}"
         mode: u+x
       become_user: "{{ username }}"
 
     - name: Set up theme changer autostart
-      copy:
+      ansible.builtin.copy:
         src: ./defaults/.config/autostart/theme_changer.desktop
         dest: "{{ autostart_path }}"
         mode: 0664

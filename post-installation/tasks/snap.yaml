@@ -1,17 +1,17 @@
 ---
 - name: Remove nosnap file
-  file:
+  ansible.builtin.file:
     path: /etc/apt/preferences.d/nosnap.pref
     state: absent
 
 - name: Add support for snap apps
-  apt:
+  ansible.builtin.apt:
     name:
       - snapd
     update_cache: true
 
 - name: "Add {{ snap_bin_path }} to environment PATH"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/environment
     state: present
     backrefs: true

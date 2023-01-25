@@ -1,6 +1,6 @@
 ---
 - name: Install programming fonts - Hack Nerd Font Regular...
-  copy:
+  ansible.builtin.copy:
     src: "{{ item }}"
     dest: /usr/share/fonts/truetype/
     owner: root
@@ -9,7 +9,7 @@
     - defaults/fonts/*
 
 - name: Install font - Hack, Roboto, Fira
-  apt:
+  ansible.builtin.apt:
     name:
       - fonts-hack
       - fonts-roboto

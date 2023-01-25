@@ -2,20 +2,20 @@
 - name: Install and configure Undervolt
   block:
     - name: Install pip if not installed
-      apt:
+      ansible.builtin.apt:
         name:
           - python3-pip
 
     - name: Install undervolt with pip
-      pip:
+      ansible.builtin.pip:
         name: undervolt
 
     - name: Undervolt the CPU - core -130, cache -130
-      shell: |
+      ansible.builtin.shell: |
         undervolt --core -130 --cache -130
 
     - name: Create systemd service file for undervolting and a timer file
-      copy:
+      ansible.builtin.copy:
         src: "{{ item }}"
         dest: "{{ systemd_system }}"
         owner: root
@@ -24,7 +24,7 @@
         - defaults/undervolt/*
 
     - name: Start the service and enable on boot
-      systemd:
+      ansible.builtin.systemd:
         name: undervolt.timer
         state: started
         enabled: true

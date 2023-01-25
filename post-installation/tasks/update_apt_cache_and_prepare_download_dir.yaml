@@ -1,22 +1,22 @@
 ---
 - name: Update APT cache
-  apt:
+  ansible.builtin.apt:
     update_cache: true
 
 - name: Upgrade APT applications
-  shell:
+  ansible.builtin.shell:
     cmd: apt upgrade -y
 
 - name: Create "{{ download_dir }}
-  file:
+  ansible.builtin.file:
     dest: "{{ download_dir }}"
     state: directory
     mode: 0777
 
 - name: Get Ubuntu code name
-  shell: |
+  ansible.builtin.shell: |
     grep UBUNTU /etc/os-release  | grep -E -o "=.+" | grep -E -o '[^=].+'
   register: ubuntu_codename
 - name: set fact
-  set_fact:
+  ansible.builtin.set_fact:
     ubuntu_codename: "{{ ubuntu_codename.stdout }}"

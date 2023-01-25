@@ -1,36 +1,36 @@
 ---
 - name: Install Neovim
-  apt:
+  ansible.builtin.apt:
     name: neovim
 
 - name: Create plugin manager directory
-  file:
+  ansible.builtin.file:
     path: "{{ nvim_plugin_manager_path }}"
     state: directory
     mode: 0775
   become_user: "{{ username }}"
 
 - name: Install nvim plugin manager
-  get_url:
+  ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: "{{ nvim_plugin_manager_path }}/plug.vim"
   become_user: "{{ username }}"
 
 - name: Create config directory
-  file:
+  ansible.builtin.file:
     path: "{{ nvim_config_path }}"
     state: directory
     mode: 0775
   become_user: "{{ username }}"
 
 - name: Copy nvim config file
-  copy:
+  ansible.builtin.copy:
     src: ./defaults/.config/nvim/init.vim
     dest: "{{ nvim_config_path }}/init.vim"
     mode: 0644
   become_user: "{{ username }}"
 
 - name: Install nvim plugins
-  shell: >
+  ansible.builtin.shell: >
     rm -rf ~/.vim/plugged || true && nvim +PlugInstall +q +q
   become_user: "{{ username }}"

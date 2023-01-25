@@ -1,10 +1,10 @@
 ---
 - name: Install apt apps - sysfsutils
-  apt:
+  ansible.builtin.apt:
     name:
       - sysfsutils
 
 - name: Add support for Xbox One S controller bluetooth connection
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ sysfs }}"
     line: /module/bluetooth/parameters/disable_ertm=1

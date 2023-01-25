@@ -1,6 +1,6 @@
 ---
 - name: Install openconnect and L2TP VPN client for gnome
-  apt:
+  ansible.builtin.apt:
     name:
       - network-manager-openconnect
       - network-manager-openconnect-gnome

@@ -1,6 +1,6 @@
 ---
 - name: Install apt dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - jq
       - xz-utils

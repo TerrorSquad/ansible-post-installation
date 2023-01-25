@@ -1,6 +1,6 @@
 ---
 - name: Install apt apps - curl, VIm, Terminator, RedShift, htop
-  apt:
+  ansible.builtin.apt:
     name:
       - bat
       - curl
@@ -19,29 +19,29 @@
       - jq
 
 - name: Install SDKMan
-  shell: |
+  ansible.builtin.shell: |
     curl -s "https://get.sdkman.io" | zsh
   become_user: "{{ username }}"
 
 - name: Download and install GitKraken
   block:
     - name: Download GitKraken
-      get_url:
+      ansible.builtin.get_url:
         url: https://release.axocdn.com/linux/gitkraken-amd64.deb
         dest: "{{ download_dir }}/gitkraken.deb"
     - name: Install GitKraken
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/gitkraken.deb"
         force: true
 
 - name: Download and install DBeaver
   block:
     - name: Download DBeaver
-      get_url:
+      ansible.builtin.get_url:
         url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
         dest: "{{ download_dir }}/dbeaver.deb"
     - name: Install DBeaver
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/dbeaver.deb"
         force: true
 
@@ -55,7 +55,7 @@
         type: deb
 
     - name: Install Hyperfine
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/hyperfine.deb"
         force: true
 
@@ -69,7 +69,7 @@
         type: deb
 
     - name: Install fd
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/fd.deb"
         force: true
 
@@ -77,18 +77,18 @@
 - name: Download and install Slack
   block:
     - name: Download Slack page
-      get_url:
+      ansible.builtin.get_url:
         url: https://slack.com/intl/en-rs/downloads/instructions/ubuntu
         dest: "{{ download_dir }}/slack.html"
 
     - name: Download latest slack package
-      shell: |
+      ansible.builtin.shell: |
         URL=https://downloads.slack-edge.com/releases/linux/;
         FILE_NAME=$(grep -oP  "(slack-desktop)-([0-9]+\.[0-9]+\.[0-9]+)-(amd64.deb)" "{{ download_dir }}/slack.html" | head -n 1 );
         VERSION=$(echo $FILE_NAME | egrep -o "[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}");
         echo $URL$VERSION/prod/x64/$FILE_NAME | xargs wget -O "{{ download_dir }}/slack.deb"
     - name: Install Slack
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/slack.deb"
         force: true
 
@@ -102,69 +102,69 @@
         type: deb
 
     - name: Install ripgrep
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/ripgrep.deb"
         force: true
 
 - name: Install exa
-  copy:
+  ansible.builtin.copy:
     src: ./defaults/executables/exa-linux-x86_64
     dest: /usr/local/bin/exa
     mode: 0755
     owner: "{{ username }}"
 
 - name: Create Terminator config directory path
-  file:
+  ansible.builtin.file:
     dest: "{{ terminator_config_dir }}"
     state: directory
     mode: 0775
   become_user: "{{ username }}"
 
 - name: Configure Terminator
-  copy:
+  ansible.builtin.copy:
     src: ./defaults/.config/terminator/config
     dest: "{{ terminator_config_file }}"
     mode: 0644
   become_user: "{{ username }}"
 
 - name: Download and install JetBrains ToolBox
-  shell: |
+  ansible.builtin.shell: |
     curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
 
 - name: Download and install Visual Studio Code
   block:
     - name: Download Visual Studio Code
-      get_url:
+      ansible.builtin.get_url:
         url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
         dest: "{{ download_dir }}/vscode.deb"
     - name: Install Visual Studio Code
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/vscode.deb"
         force: true
 
 - name: Install pip packages
-  pip:
+  ansible.builtin.pip:
     name: httpstat
 
 - name: Install Postman
-  shell: curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
+  ansible.builtin.shell: curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
 
 - name: Sublime text
   block:
     - name: Install the GPG key
-      apt_key:
+      ansible.builtin.apt_key:
         url: https://download.sublimetext.com/sublimehq-pub.gpg
 
     - name: Add apt repository
-      shell: |
+      ansible.builtin.shell: |
         echo "deb [allow-insecure=yes trusted=yes] https://download.sublimetext.com/ apt/stable/" | tee /etc/apt/sources.list.d/sublime-text.list
 
     - name: Install dependencies
-      shell: |
+      ansible.builtin.shell: |
         apt install -y ca-certificates apt-transport-https
 
     - name: Add sublime text
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         name:
           - sublime-text
@@ -179,7 +179,7 @@
         type: deb
 
     - name: Install dust
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/dust.deb"
         force: true
 
@@ -193,7 +193,7 @@
         type: deb
 
     - name: Install duf
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/duf.deb"
         force: true
 
@@ -207,7 +207,7 @@
         type: deb
 
     - name: Install bottom
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/bottom.deb"
         force: true
 
@@ -221,19 +221,19 @@
         type: deb
 
     - name: Install curlie
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/curlie.deb"
         force: true
 
 - name: Add azlux repository
-  shell:
+  ansible.builtin.shell:
     cmd: |
       echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bullseye main" | tee /etc/apt/sources.list.d/azlux.list \
       && wget -O /usr/share/keyrings/azlux-archive-keyring.gpg  https://azlux.fr/repo.gpg
     chdir: "{{ download_dir }}"
 
 - name: Install azlux packages
-  apt:
+  ansible.builtin.apt:
     update_cache: true
     name:
       - oha

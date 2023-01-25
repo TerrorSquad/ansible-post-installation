@@ -2,73 +2,73 @@
 - name: Download and install RescueTime
   block:
     - name: Download RescueTime
-      get_url:
+      ansible.builtin.get_url:
         url: https://www.rescuetime.com/installers/rescuetime_current_amd64.deb
         dest: "{{ download_dir }}/rescuetime.deb"
     - name: Install RescueTime
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/rescuetime.deb"
 
 - name: Download and install Google Chrome
   block:
     - name: Download Google Chrome
-      get_url:
+      ansible.builtin.get_url:
         url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         dest: "{{ download_dir }}/google-chrome-stable_current_amd64.deb"
     - name: Install Google Chrome
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/google-chrome-stable_current_amd64.deb"
 
 - name: Download and install Zoom
   block:
     - name: Download Zoom
-      get_url:
+      ansible.builtin.get_url:
         url: https://zoom.us/client/latest/zoom_amd64.deb
         dest: "{{ download_dir }}/zoom_amd64.deb"
     - name: Install Zoom
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/zoom_amd64.deb"
 
 - name: Download and install Viber
   block:
     - name: Download Viber
-      get_url:
+      ansible.builtin.get_url:
         url: https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
         dest: "{{ download_dir }}/viber.deb"
     - name: Install Viber
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/viber.deb"
 
 - name: Download and install Tixati
   block:
     - name: Download Tixati page
-      get_url:
+      ansible.builtin.get_url:
         url: https://www.tixati.com/download/linux.html
         dest: "{{ download_dir }}/tixati.html"
     - name: Find out latest Tixati URL
-      shell: |
+      ansible.builtin.shell: |
         grep  -oP "<a href=(.+amd64.deb)\">" "{{ download_dir }}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ download_dir }}/tixati.deb"
     - name: Install Tixati
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/tixati.deb"
 
 - name: Set Tixati as default torrent client
-  shell: |
+  ansible.builtin.shell: |
     gio mime x-scheme-handler/magnet tixati.desktop
   when: ansible_distribution == 'Linux Mint'
 
 - name: Download and install UnifiedRemote
   block:
     - name: Download UnifiedRemote
-      get_url:
+      ansible.builtin.get_url:
         url: https://www.unifiedremote.com/download/linux-x64-deb
         dest: "{{ download_dir }}/uremote.deb"
     - name: Install UnifiedRemote
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/uremote.deb"
 
 - name: Install apt apps - Variety, Flameshot, Bleachbit
-  apt:
+  ansible.builtin.apt:
     name:
       - bleachbit
       - flameshot
@@ -88,11 +88,11 @@
 - name: Donwload and install skype
   block:
     - name: Download skype
-      get_url:
+      ansible.builtin.get_url:
         url: https://go.skype.com/skypeforlinux-64.deb
         dest: "{{ download_dir }}/skypeforlinux-64.deb"
     - name: Install skype
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/skypeforlinux-64.deb"
         force: true
 
@@ -106,21 +106,21 @@
         type: deb
 
     - name: Install mailspring
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/mailspring.deb"
         force: true
 
 - name: Install OnlyOffice Editors
   block:
     - name: Add apt GPG key
-      shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
+      ansible.builtin.shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
 
     - name: Add OnlyOffice apt repository
-      shell: |
+      ansible.builtin.shell: |
         add-apt-repository "deb [arch=amd64] https://download.onlyoffice.com/repo/debian squeeze main" -y
 
     - name: Install only office
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         name:
           - onlyoffice-desktopeditors
@@ -128,10 +128,10 @@
 - name: Install AppImage Launcher
   block:
     - name: Add AppImage Launcher PPA
-      shell: |
+      ansible.builtin.shell: |
         add-apt-repository ppa:appimagelauncher-team/stable -y
     - name:
-      apt:
+      ansible.builtin.apt:
         update_cache: true
         name:
           - appimagelauncher
@@ -139,25 +139,25 @@
 - name: Install ModernCSV
   block:
     - name: Download ModernCSV
-      shell: |
+      ansible.builtin.shell: |
         VERSION=$(curl -fsSL https://www.moderncsv.com/ | grep -oP "const VERSION.+" | grep -oP "\d{1,}\.?\d{1,}\.?[\d]{1,}")
         BASE_URL=https://www.moderncsv.com/
         URL_PATH="release/ModernCSV-Linux-v${VERSION}.1.tar.gz"
         echo $BASE_URL$URL_PATH | xargs wget -O "{{ download_dir }}/moderncsv.tar.gz"
 
     - name: Extract ModernCSV
-      shell:
+      ansible.builtin.shell:
         cmd: mkdir "moderncsv" && tar -xvf "{{ download_dir }}/moderncsv.tar.gz" --directory moderncsv
         chdir: "{{ download_dir }}"
 
     - name: Install ModernCSV
-      shell:
+      ansible.builtin.shell:
         cmd: cd $(ls) && bash ./install.sh
         chdir: "{{ download_dir }}/moderncsv"
 
 
 - name: Copy RedShift configuration file
-  copy:
+  ansible.builtin.copy:
     src: ./defaults/.config/redshift.conf
     dest: "{{ config_home }}"
     mode: 0644
@@ -173,6 +173,6 @@
         type: deb
 
     - name: Install input-remapper
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/input-remapper.deb"
         force: true

@@ -1,6 +1,6 @@
 ---
 - name: Install git
-  apt:
+  ansible.builtin.apt:
     name:
       - git
 
@@ -19,7 +19,7 @@
   register: current_git_email
 
 - name: Copy .gitconfig file
-  copy:
+  ansible.builtin.copy:
     src: ./defaults/.gitconfig
     dest: "~"
     mode: 0644
@@ -35,7 +35,7 @@
         type: deb
 
     - name: Install delta
-      apt:
+      ansible.builtin.apt:
         deb: "{{ download_dir }}/delta.deb"
         force: true
 

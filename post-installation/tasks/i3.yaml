@@ -1,6 +1,6 @@
 ---
 - name: Install i3 and supporting tools
-  apt:
+  ansible.builtin.apt:
     name:
       - i3
       - i3status

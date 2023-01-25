@@ -1,6 +1,6 @@
 ---
 - name: Install depdendencies
-  apt:
+  ansible.builtin.apt:
     name:
       - apt-transport-https
       - ca-certificates
@@ -9,16 +9,16 @@
       - software-properties-common
 
 - name: Add docker repository key
-  shell: |
+  ansible.builtin.shell: |
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
 
 - name: Add docker  apt repository
-  shell: |
+  ansible.builtin.shell: |
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  {{ ubuntu_codename }} stable" -y
 
 
 - name: Update apt cache and install docker
-  apt:
+  ansible.builtin.apt:
     update_cache: true
     name:
       - containerd.io
@@ -26,7 +26,7 @@
       - docker-ce-cli
 
 - name: Add user to docker group
-  user:
+  ansible.builtin.user:
     name: "{{ username }}"
     groups: docker
     append: true
@@ -43,14 +43,14 @@
         type: binary
 
     - name: Install docker-compose
-      copy:
+      ansible.builtin.copy:
         src: "{{ download_dir }}/docker-compose"
         dest: "{{ docker_compose }}"
         mode: 0755
         remote_src: true
 
 - name: Install lazydocker
-  shell:
+  ansible.builtin.shell:
     cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
     chdir: "{{ download_dir }}"
   become_user: "{{ username }}"

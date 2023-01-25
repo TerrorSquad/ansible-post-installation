@@ -1,6 +1,6 @@
 ---
 - name: Install latest NodeJS
-  shell: >
+  ansible.builtin.shell: >
     zsh -i -c "nvm install node"
   become_user: "{{ username }}"
 

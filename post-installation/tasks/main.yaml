@@ -31,6 +31,6 @@
 
 
 - name: display post install message
-  debug:
+  ansible.builtin.debug:
     msg:
       - 'Installation complete. Please restart your machine.'

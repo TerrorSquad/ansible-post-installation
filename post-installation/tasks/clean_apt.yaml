@@ -1,4 +1,4 @@
 ---
 - name: Clean apt
-  shell:
+  ansible.builtin.shell:
     cmd: apt autoclean -y && apt autoremove -y
