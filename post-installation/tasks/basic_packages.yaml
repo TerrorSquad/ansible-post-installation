@@ -3,3 +3,4 @@
   apt:
     name:
       - jq
+      - xz-utils
