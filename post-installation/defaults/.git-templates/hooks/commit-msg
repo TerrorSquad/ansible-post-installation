@@ -1,0 +1,27 @@
+#!/bin/sh
+
+COMMIT_MSG_FILE=$1
+
+getJiraTicketNumber() {
+    local branchName=$(git branch --show-current)
+    echo "$branchName" | grep -o -E '[A-Z]+-[0-9]+'
+}
+
+# check if commit message contains just Jira ticket number
+# if so, exit with failure
+
+COMMIT_MESSAGE=$(cat "$1")
+
+# trim all lines that start with a hash
+COMMIT_MESSAGE=$(echo "$COMMIT_MESSAGE" | sed '/^#/d')
+
+# trim all spaces
+COMMIT_MESSAGE=$(echo "$COMMIT_MESSAGE" | sed 's/^[ \t]*//;s/[ \t]*$//')
+
+# red color for error message
+RED='\033[0;31m'
+
+if [ "$COMMIT_MESSAGE" = "$(getJiraTicketNumber)" ]; then
+	echo "${RED}Commit message contains just Jira ticket number. Please add more details!"
+    exit 1
+fi

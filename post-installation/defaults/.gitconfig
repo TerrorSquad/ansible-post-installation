@@ -3,6 +3,7 @@
 	autocrlf = false
 	eol = LF
 	fileMode = false
+	excludesfile = ~/.gitignore
 [pager]
 	diff = LESS='LR --mouse' delta
 	show = LESS='LR --mouse' delta
@@ -35,3 +36,5 @@
     hunk-header-decoration-style = yellow box
 [diff]
 	renamelimit = 5000
+[init]
+	templatedir = ~/.git-templates

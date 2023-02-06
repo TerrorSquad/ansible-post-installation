@@ -25,6 +25,13 @@
     mode: 0644
   become_user: "{{ username }}"
 
+- name: Copy .git-templates directory
+  ansible.builtin.copy:
+    src: ./defaults/.git-templates
+    dest: "~"
+    mode: 0755
+  become_user: "{{ username }}"
+
 - name: Download and install delta
   block:
     - include_tasks: download_github_asset.yaml

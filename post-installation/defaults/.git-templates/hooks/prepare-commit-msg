@@ -1,0 +1,11 @@
+#!/bin/sh
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+getJiraTicketNumber() {
+    local branchName=$(git branch --show-current)
+    echo "$branchName" | grep -o -E '[A-Z]+-[0-9]+'
+}
+sed -i "1s/^/$(getJiraTicketNumber) /" "$1"
