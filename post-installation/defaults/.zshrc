@@ -2,8 +2,7 @@
 # hyperfine 'zsh -i -c exit'
 
 # Command for generating static plugins file
-# run from ~
-# ping -c 1 google.com && antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh
+# ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
 
 # Set vim as default editor
 export VISUAL=nvim
@@ -50,6 +49,10 @@ alias gbc="git branch --show-current"
 alias jump="ssh g.ninkovic@jump.youweagency.com"
 
 # Functions
+
+update-antibody() {
+    ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+}
 
 getJiraTicketNumber() {
     local branchName=$(git branch --show-current)
