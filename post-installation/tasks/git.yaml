@@ -32,20 +32,6 @@
     mode: 0755
   become_user: "{{ username }}"
 
-- name: Download and install delta
-  block:
-    - include_tasks: download_github_asset.yaml
-      vars:
-        github_repo: dandavison/delta
-        github_asset: delta
-        github_asset_dest: "{{ download_dir }}/delta"
-        type: deb
-
-    - name: Install delta
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/delta.deb"
-        force: true
-
 - block:
     - name: Configure git user name
       git_config:
@@ -82,3 +68,17 @@
         state: present
       become_user: "{{ username }}"
   when: git_set_user_data == False
+
+- name: Download and install delta
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: dandavison/delta
+        github_asset: delta
+        github_asset_dest: "{{ download_dir }}/delta"
+        type: deb
+
+    - name: Install delta
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/delta.deb"
+        force: true
