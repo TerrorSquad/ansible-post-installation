@@ -113,7 +113,16 @@
 - name: Install OnlyOffice Editors
   block:
     - name: Add apt GPG key
-      ansible.builtin.shell: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
+      ansible.builtin.shell: |
+        gpg --no-default-keyring --keyring gnupg-ring:/tmp/onlyoffice.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5 \
+        && mv /tmp/onlyoffice.gpg /etc/apt/trusted.gpg.d/ \
+        && chown root:root /etc/apt/trusted.gpg.d/onlyoffice.gpg \
+        && chmod ugo+r /etc/apt/trusted.gpg.d/onlyoffice.gpg \
+        && chmod go-w /etc/apt/trusted.gpg.d/onlyoffice.gpg;
+      register: result
+      until: result.rc == 0
+      retries: 5
+      delay: 3
 
     - name: Add OnlyOffice apt repository
       ansible.builtin.shell: |
