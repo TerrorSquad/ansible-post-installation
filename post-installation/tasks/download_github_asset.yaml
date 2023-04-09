@@ -7,10 +7,10 @@
   ansible.builtin.shell: |
     curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ github_asset_dest }}.json;
     URLs=$(cat {{ github_asset_dest }}.json | jq '.assets | .[] |  select(.browser_download_url | contains(".deb")) | .browser_download_url') ;
-    if [ $(echo $URLs | wc -l) -gt 1 ]; then
-      URL=$(echo $URLs | grep -i amd64 | grep -iE 'all|amd64|x86_64|x86-64' | grep -E -v 'darwin|windows|musl');
+    if [ $(echo "$URLs" | wc -l) -gt 1 ]; then
+      URL=$(echo "$URLs" | grep -i amd64 | grep -iE 'all|amd64|x86_64|x86-64' | grep -E -v 'darwin|windows|musl');
     else
-      URL=$URLs;
+      URL="$URLs";
     fi
     echo $URL;
     echo $URL | xargs wget -O "{{ github_asset_dest }}.deb";
