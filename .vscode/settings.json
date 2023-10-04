@@ -4,5 +4,6 @@
     },
     "files.associations": {
         "*.yaml": "ansible"
-    }
+    },
+    "ansible.python.interpreterPath": "/bin/python3"
 }
