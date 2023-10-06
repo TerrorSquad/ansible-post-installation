@@ -110,48 +110,37 @@
         deb: "{{ download_dir }}/mailspring.deb"
         force: true
 
-- name: Install OnlyOffice Editors
+- name: Download and install ONLYOFFICE
   block:
-    - name: Add apt GPG key
-      ansible.builtin.shell: |
-        gpg --no-default-keyring --keyring gnupg-ring:/tmp/onlyoffice.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5 \
-        && mv /tmp/onlyoffice.gpg /etc/apt/trusted.gpg.d/ \
-        && chown root:root /etc/apt/trusted.gpg.d/onlyoffice.gpg \
-        && chmod ugo+r /etc/apt/trusted.gpg.d/onlyoffice.gpg \
-        && chmod go-w /etc/apt/trusted.gpg.d/onlyoffice.gpg;
-      register: result
-      until: result.rc == 0
-      retries: 5
-      delay: 3
-
-    - name: Add OnlyOffice apt repository
-      ansible.builtin.shell: |
-        add-apt-repository "deb [arch=amd64] https://download.onlyoffice.com/repo/debian squeeze main" -y
-
-    - name: Install only office
+    - name: Download ONLYOFFICE
+      ansible.builtin.get_url:
+        url: https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb
+        dest: "{{ download_dir }}/onlyoffice-desktopeditors_amd64.deb"
+    - name: Install ONLYOFFICE
       ansible.builtin.apt:
-        update_cache: true
-        name:
-          - onlyoffice-desktopeditors
+        deb: "{{ download_dir }}/onlyoffice-desktopeditors_amd64.deb"
+        force: true
 
-- name: Install AppImage Launcher
-  block:
-    - name: Add AppImage Launcher PPA
-      ansible.builtin.shell: |
-        add-apt-repository ppa:appimagelauncher-team/stable -y
-    - name:
-      ansible.builtin.apt:
-        update_cache: true
-        name:
-          - appimagelauncher
+# There is no release for Ubuntu Lunar
+# https://github.com/TheAssassin/AppImageLauncher/issues/601
+# - name: Install AppImage Launcher
+#   block:
+#     - name: Add AppImage Launcher PPA
+#       ansible.builtin.shell: |
+#         add-apt-repository ppa:appimagelauncher-team/stable -y
+#     - name:
+#       ansible.builtin.apt:
+#         update_cache: true
+#         name:
+#           - appimagelauncher
 
 - name: Install ModernCSV
   block:
     - name: Download ModernCSV
       ansible.builtin.shell: |
-        VERSION=$(curl -fsSL https://www.moderncsv.com/ | grep -oP "const VERSION.+" | grep -oP "\d{1,}\.?\d{1,}\.?[\d]{1,}")
+        NAME=$(curl -fsSL https://www.moderncsv.com/download |  grep -oP "ModernCSV-Linux.+tar.gz")
         BASE_URL=https://www.moderncsv.com/
-        URL_PATH="release/ModernCSV-Linux-v${VERSION}.1.tar.gz"
+        URL_PATH="release/${NAME}"
         echo $BASE_URL$URL_PATH | xargs wget -O "{{ download_dir }}/moderncsv.tar.gz"
 
     - name: Extract ModernCSV
