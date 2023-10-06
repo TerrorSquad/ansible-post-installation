@@ -1,10 +1,8 @@
 name: reviewdog
 on:
   pull_request:
-  push:
     branches:
       - master
-      - ubuntu2304
 jobs:
   ansible-lint:
     name: runner / ansible-lint
