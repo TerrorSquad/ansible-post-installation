@@ -1,9 +1,5 @@
 name: Build status
 on:
-  push:
-    branches:
-      - master
-      - ubuntu2304
   pull_request:
     branches:
       - master
