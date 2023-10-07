@@ -20,7 +20,7 @@
 
 - name: Install SDKMan
   ansible.builtin.shell: |
-    curl -s "https://get.sdkman.io" | zsh
+    curl -s "https://get.sdkman.io" | bash
   become_user: "{{ username }}"
 
 - name: Download and install GitKraken
