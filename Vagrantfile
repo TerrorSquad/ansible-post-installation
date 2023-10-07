@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "generic/ubuntu2304"
+  config.vm.box = "generic/ubuntu2204"
   config.vm.box_version = "4.3.2"
   ENV['LC_ALL']="en_US.UTF-8"
 
