@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-23.04
+          - ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - name: Run ansible playbook
