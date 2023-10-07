@@ -20,7 +20,7 @@
 
 - name: Install SDKMan
   ansible.builtin.shell: |
-    curl -s "https://get.sdkman.io" | zsh
+    curl -s "https://get.sdkman.io" | bash
   become_user: "{{ username }}"
 
 - name: Download and install GitKraken
@@ -142,9 +142,6 @@
         deb: "{{ download_dir }}/vscode.deb"
         force: true
 
-- name: Install pip packages
-  ansible.builtin.pip:
-    name: httpstat
 
 - name: Install Postman
   ansible.builtin.shell: curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh

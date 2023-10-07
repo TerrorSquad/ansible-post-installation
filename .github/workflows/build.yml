@@ -1,8 +1,5 @@
 name: Build status
 on:
-  push:
-    branches:
-      - master
   pull_request:
     branches:
       - master

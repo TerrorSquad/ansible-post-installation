@@ -1,6 +1,6 @@
 ---
 - include_tasks: update_apt_cache_and_prepare_download_dir.yaml
-- include_tasks: gather_facts.yaml
+# - include_tasks: gather_facts.yaml
 - include_tasks: snap.yaml
   when: use_snap
 - include_tasks: basic_packages.yaml
