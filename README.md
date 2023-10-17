@@ -7,7 +7,7 @@
 
 ## Requirements
 
-- OS: Ubuntu 22.04 or latest. (tested with Kubuntu)
+- OS: Ubuntu 23.04. (tested with Kubuntu 23.04)
 - Software: `ansible`
 
 If you do not have ansible installed you can do so by running this piece of code:
@@ -22,7 +22,7 @@ Check if the installation was correct by running
 ansible --version
 ```
 
-It should print out something like this:
+It should print out something similar to this this:
 ```bash
 ansible [core 2.11.3]
   config file = /etc/ansible/ansible.cfg
@@ -192,6 +192,6 @@ In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These 
 >
 > Box name `generic/ubuntu2204` - <https://app.vagrantup.com/generic/boxes/ubuntu2204>
 >
-> Box version - 4.1.12
+> Box version - 4.3.2
 >
-> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2204/versions/4.1.12>
+> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2204/versions/4.3.2>
