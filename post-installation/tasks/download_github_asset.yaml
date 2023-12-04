@@ -3,12 +3,12 @@
   ansible.builtin.set_fact:
     type: "deb"
 
-- name: Download {{ github_asset }}
+- name: Download .deb asset {{ github_asset }}
   ansible.builtin.shell: |
     curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ github_asset_dest }}.json;
     URLs=$(cat {{ github_asset_dest }}.json | jq '.assets | .[] |  select(.browser_download_url | contains(".deb")) | .browser_download_url') ;
     if [ $(echo "$URLs" | wc -l) -gt 1 ]; then
-      URL=$(echo "$URLs" | grep -i amd64 | grep -iE 'all|amd64|x86_64|x86-64' | grep -E -v 'darwin|windows|musl');
+      URL=$(echo "$URLs" | grep -i amd64 | grep -iE 'all|amd64|x86_64|x86-64' | grep -E -v 'darwin|windows|musl|sha');
     else
       URL="$URLs";
     fi
@@ -17,7 +17,7 @@
   when: type == "deb"
 
 # TODO: Filter out unsupported archs
-- name: Download {{ github_asset }}
+- name: Download binary asset {{ github_asset }}
   ansible.builtin.shell: |
     curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ github_asset_dest }}.json
     URL=$(cat {{ github_asset_dest }}.json | jq '.assets | .[] | select(.name | test("amd64|x86_64|x86-64")) | select(.name | test("darwin|windows|musl|sha") | not) | { browser_download_url } | .[]');
