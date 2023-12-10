@@ -152,7 +152,7 @@
       ansible.builtin.shell:
         cmd: cd $(ls) && bash ./install.sh
         chdir: "{{ download_dir }}/moderncsv"
-  ignore_errors: true
+  # ignore_errors: true
 
 - name: Copy RedShift configuration file
   ansible.builtin.copy:
