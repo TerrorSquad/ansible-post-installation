@@ -61,4 +61,6 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit'
   \}
 
+set mouse=a
+
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'

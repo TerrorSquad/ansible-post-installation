@@ -7,21 +7,41 @@
 - include_tasks: git.yaml
 - include_tasks: zsh.yaml
 - include_tasks: fonts.yaml
+  when: fonts or all
+
 - include_tasks: node.yaml
 # - include_tasks: i3.yaml
 - include_tasks: vpn.yaml
+
 - include_tasks: docker.yaml
   when: docker or all
-- include_tasks: dev_tools.yaml
-  when: dev_tools or all
+
+- include_tasks: dev_tools_cli.yaml
+  when: dev_tools_cli or all
+
+- include_tasks: dev_tools_gui.yaml
+  when: dev_tools_gui or all
+
 - include_tasks: nvim.yaml
-- include_tasks: general_use_software.yaml
+
+- include_tasks: general_use_software_cli.yaml
+  when: cli or all
+
+- include_tasks: general_use_software_gui.yaml
+  when: gui or all
+
 - include_tasks: gaming_software.yaml
+  when: gaming or all
+
 - include_tasks: libinput_gestures.yaml
+  when: gestures or all
+
 - include_tasks: themes.yaml
   when: ansible_distribution == 'Linux Mint'
+
 - include_tasks: dconf.yaml
   when: ansible_distribution == 'Linux Mint'
+
 - include_tasks: delete_downloaded_files.yaml
 - include_tasks: clean_apt.yaml
 

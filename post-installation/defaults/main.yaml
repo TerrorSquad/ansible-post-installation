@@ -6,8 +6,14 @@ git_set_user_data: false
 # Undervolt
 undervolt: false
 use_snap: false
-dev_tools: false
+dev_tools_cli: false
+dev_tools_gui: false
+cli: false
+gui: false
 docker: false
+gaming: false
+gestures: false
+fonts: false
 all: false
 
 # User directories
@@ -21,7 +27,7 @@ terminator_config_dir: "{{ config_home }}/terminator"
 themes: "{{ user_home }}/.themes/"
 
 # User files
-antibody_file_path: "{{ user_home }}/.antibody.sh"
+antidote_file_path: "{{ user_home }}/.antidote.sh"
 zshrc: "{{ user_home }}/.zshrc"
 terminator_config_file: "{{ terminator_config_dir }}/config"
 

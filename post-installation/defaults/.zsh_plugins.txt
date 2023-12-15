@@ -1,6 +1,6 @@
 # Command for generating static plugins file
 # run from ~
-# ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins_antibody.pl > ~/.zsh_plugins_antibody.sh
+# ping -c 1 google.com && rm -rf ~/.cache/antidote && antidote bundle < ~/.zsh_plugins_antidote.pl > ~/.zsh_plugins_antidote.sh
 
 # Theme
 romkatv/powerlevel10k

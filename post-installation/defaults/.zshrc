@@ -2,7 +2,7 @@
 # hyperfine 'zsh -i -c exit'
 
 # Command for generating static plugins file
-# ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+# ping -c 1 google.com && rm -rf ~/.cache/antidote && antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
 
 # Set vim as default editor
 export VISUAL=nvim
@@ -41,7 +41,8 @@ alias open="xdg-open"
 alias sail="./vendor/bin/sail"
 alias dps="docker ps --format \"table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}\""
 
-export BAT_PAGER="less -RF"
+export BAT_PAGER="less --mouse -RF"
+export LESS="--mouse -RF"
 alias jt=getJiraTicketNumber
 
 alias gbc="git branch --show-current"
@@ -50,8 +51,8 @@ alias jump="ssh g.ninkovic@jump.youweagency.com"
 
 # Functions
 
-update-antibody() {
-    ping -c 1 google.com && rm -rf ~/.cache/antibody && antibody bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+update-antidote() {
+    ping -c 1 google.com && rm -rf ~/.cache/antidote && antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
 }
 
 getJiraTicketNumber() {
@@ -140,6 +141,11 @@ PATH=$PATH:~/.local/bin
 export FZF_TMUX_HEIGHT=50
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
+
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
