@@ -28,6 +28,7 @@ robbyrussell/oh-my-zsh path:plugins/history
 
 # Node Version Manager
 lukechilds/zsh-nvm
+zsh-nvm-auto-switch
 
 # Additional completion definitions for Zsh.
 zsh-users/zsh-autosuggestions
