@@ -47,8 +47,6 @@ alias jt=getJiraTicketNumber
 
 alias gbc="git branch --show-current"
 
-alias jump="ssh g.ninkovic@jump.youweagency.com"
-
 # Functions
 
 update-antidote() {

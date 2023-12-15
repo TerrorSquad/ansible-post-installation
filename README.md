@@ -46,7 +46,7 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true -e=git_set_
 If you want to only install CLI tools, run the following command:
 
 ```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=cli=true -e=dev_tools_cli=true -e=git_set_user_data=true -e git_user_email="gninkovic@euronetworldwide.com" -e git_user_name="Goran Ninkovic"
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=cli=true -e=dev_tools_cli=true -e=git_set_user_data=true -e git_user_email="your@email.com" -e git_user_name="Your Name"
 ```
 
 If you want to only install GUI tools, run the following command:
