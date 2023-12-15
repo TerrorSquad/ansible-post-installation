@@ -1,0 +1,140 @@
+---
+- name: Install apt apps - curl, VIm, Terminator, RedShift, htop
+  ansible.builtin.apt:
+    name:
+      - bat
+      - curl
+      - zip
+      - unzip
+      - htop
+      - libutempter0
+      - make
+      - shellcheck
+      - vim
+      - python3-pip
+      - jq
+
+- name: Install SDKMan
+  ansible.builtin.shell: |
+    curl -s "https://get.sdkman.io" | bash
+  become_user: "{{ username }}"
+
+- name: Download and install Hyperfine
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: sharkdp/hyperfine
+        github_asset: hyperfine
+        github_asset_dest: "{{ download_dir }}/hyperfine"
+        type: deb
+
+    - name: Install Hyperfine
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/hyperfine.deb"
+        force: true
+
+- name: Download and install fd
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: sharkdp/fd
+        github_asset: fd
+        github_asset_dest: "{{ download_dir }}/fd"
+        type: deb
+
+    - name: Install fd
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/fd.deb"
+        force: true
+
+- name: Download and install ripgrep
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: BurntSushi/ripgrep
+        github_asset: ripgrep
+        github_asset_dest: "{{ download_dir }}/ripgrep"
+        type: deb
+
+    - name: Install ripgrep
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/ripgrep.deb"
+        force: true
+
+- name: Install exa
+  ansible.builtin.copy:
+    src: ./defaults/executables/exa-linux-x86_64
+    dest: /usr/local/bin/exa
+    mode: 0755
+    owner: "{{ username }}"
+
+- name: Download and install Dust
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: bootandy/dust
+        github_asset: dust
+        github_asset_dest: "{{ download_dir }}/dust"
+        type: deb
+
+    - name: Install dust
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/dust.deb"
+        force: true
+
+- name: Download and install duf
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: muesli/duf
+        github_asset: duf
+        github_asset_dest: "{{ download_dir }}/duf"
+        type: deb
+
+    - name: Install duf
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/duf.deb"
+        force: true
+
+- name: Download and install bottom
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: ClementTsang/bottom
+        github_asset: bottom
+        github_asset_dest: "{{ download_dir }}/bottom"
+        type: deb
+
+    - name: Install bottom
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/bottom.deb"
+        force: true
+
+- name: Download and install curlie
+  block:
+    - include_tasks: download_github_asset.yaml
+      vars:
+        github_repo: rs/curlie
+        github_asset: curlie
+        github_asset_dest: "{{ download_dir }}/curlie"
+        type: deb
+
+    - name: Install curlie
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/curlie.deb"
+        force: true
+
+# - name: Add azlux repository
+#   ansible.builtin.shell:
+#     cmd: |
+#       echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bullseye main" | tee /etc/apt/sources.list.d/azlux.list \
+#       && wget -O /usr/share/keyrings/azlux-archive-keyring.gpg  https://azlux.fr/repo.gpg
+#     chdir: "{{ download_dir }}"
+
+# - name: Install azlux packages
+#   ansible.builtin.apt:
+#     update_cache: true
+#     name:
+#       - oha
+#       - broot
+#       - gping
