@@ -97,18 +97,12 @@
         force: true
 
 - name: Download and install mailspring
-  block:
-    - ansible.builtin.include_tasks: install_github_asset.yaml
-      vars:
-        github_repo: Foundry376/mailspring
-        github_asset: mailspring
-        github_asset_dest: "{{ download_dir }}/mailspring"
-        type: deb
-
-    - name: Install mailspring
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/mailspring.deb"
-        force: true
+  ansible.builtin.include_tasks: install_github_asset.yaml
+  vars:
+    github_repo: Foundry376/mailspring
+    github_asset: mailspring
+    github_asset_dest: "{{ download_dir }}/mailspring"
+    type: deb
 
 - name: Download and install ONLYOFFICE
   block:
@@ -162,10 +156,9 @@
   become_user: "{{ username }}"
 
 - name: Install and install input-remapper
-  block:
-    - ansible.builtin.include_tasks: install_github_asset.yaml
-      vars:
-        github_repo: sezanzeb/input-remapper
-        github_asset: input-remapper
-        github_asset_dest: "{{ download_dir }}/input-remapper"
-        type: deb
+  ansible.builtin.include_tasks: install_github_asset.yaml
+  vars:
+    github_repo: sezanzeb/input-remapper
+    github_asset: input-remapper
+    github_asset_dest: "{{ download_dir }}/input-remapper"
+    type: deb

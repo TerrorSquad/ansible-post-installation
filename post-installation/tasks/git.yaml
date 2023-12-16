@@ -70,15 +70,9 @@
   when: git_set_user_data == False
 
 - name: Download and install delta
-  block:
-    - ansible.builtin.include_tasks: install_github_asset.yaml
-      vars:
-        github_repo: dandavison/delta
-        github_asset: delta
-        github_asset_dest: "{{ download_dir }}/delta"
-        type: deb
-
-    - name: Install delta
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/delta.deb"
-        force: true
+  ansible.builtin.include_tasks: install_github_asset.yaml
+  vars:
+    github_repo: dandavison/delta
+    github_asset: delta
+    github_asset_dest: "{{ download_dir }}/delta"
+    type: deb
