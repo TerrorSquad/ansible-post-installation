@@ -71,7 +71,7 @@
 
 - name: Download and install delta
   block:
-    - include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: dandavison/delta
         github_asset: delta

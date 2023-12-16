@@ -23,6 +23,7 @@ ansible --version
 ```
 
 It should print out something similar to this this:
+
 ```bash
 ansible [core 2.11.3]
   config file = /etc/ansible/ansible.cfg
@@ -56,12 +57,12 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 ```
 
 ### Flags
+
 - `-e all=true` - Installs everything.
 - `-e dev_tools_cli=true` - Installs developer tools from `dev_tools_cli.yaml`.
 - `-e dev_tools_gui=true` - Installs developer tools from `dev_tools_gui.yaml`.
 - `-e cli=true` - Installs general tools from `general_use_software_cli.yaml`.
 - `-e gui=true` - Installs general tools from `general_use_software_gui.yaml`.
-- `-e gaming=true` - Installs general tools from `gaming_software_gui.yaml`.
 - `-e gestures=true` - Installs general tools from `libinput_gestures.yaml`.
 - `-e docker=true` - Installs and configures docker.
 - `-e git_set_user_data=true` - Used to enable updating git user data.
@@ -120,7 +121,6 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 ### General use software
 
 - bleachbit
-- exa
 - fd
 - flameshot
 - fzf
@@ -133,7 +133,6 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - onlyoffice-desktopeditors
 - openconnect
 - papirus-icon-theme
-- papirus-icons-theme
 - peco
 - rescuetime
 - skype
@@ -169,19 +168,6 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - hack
 - hack nerd font
 - roboto
-
-### Scripts
-
-In the `post-installation/defaults/scripts` directory there is a `theme_changer.sh` bash script which will change the Cinnamon theme and icons based on time of the day.
-
-- Icons - Papirus
-
-- 06:00 - 17:00
-  - Theme - Arc
-- 17:00 - 06:00
-  - Theme - Arc-Dark
-
-> This script will autostart after the next system restart.
 
 ## Testing - Vagrant
 

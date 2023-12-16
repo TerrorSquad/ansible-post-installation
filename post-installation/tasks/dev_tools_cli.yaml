@@ -21,7 +21,7 @@
 
 - name: Download and install Hyperfine
   block:
-    - include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: sharkdp/hyperfine
         github_asset: hyperfine
@@ -35,7 +35,7 @@
 
 - name: Download and install fd
   block:
-    - include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: sharkdp/fd
         github_asset: fd
@@ -49,7 +49,7 @@
 
 - name: Download and install ripgrep
   block:
-    - include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: BurntSushi/ripgrep
         github_asset: ripgrep
@@ -61,16 +61,9 @@
         deb: "{{ download_dir }}/ripgrep.deb"
         force: true
 
-- name: Install exa
-  ansible.builtin.copy:
-    src: ./defaults/executables/exa-linux-x86_64
-    dest: /usr/local/bin/exa
-    mode: 0755
-    owner: "{{ username }}"
-
 - name: Download and install Dust
   block:
-    - include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: bootandy/dust
         github_asset: dust
@@ -84,7 +77,7 @@
 
 - name: Download and install duf
   block:
-    - include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: muesli/duf
         github_asset: duf
@@ -98,7 +91,7 @@
 
 - name: Download and install bottom
   block:
-    - include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: ClementTsang/bottom
         github_asset: bottom
@@ -112,7 +105,7 @@
 
 - name: Download and install curlie
   block:
-    - include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: rs/curlie
         github_asset: curlie

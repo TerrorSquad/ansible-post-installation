@@ -35,7 +35,7 @@
   block:
 
     - name: Download docker-compose binary
-      include_tasks: download_github_asset.yaml
+      ansible.builtin.include_tasks: download_github_asset.yaml
       vars:
         github_repo: docker/compose
         github_asset: docker-compose-Linux-x86_64
