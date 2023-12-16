@@ -98,7 +98,7 @@
 
 - name: Download and install mailspring
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: Foundry376/mailspring
         github_asset: mailspring
@@ -163,14 +163,9 @@
 
 - name: Install and install input-remapper
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: sezanzeb/input-remapper
         github_asset: input-remapper
         github_asset_dest: "{{ download_dir }}/input-remapper"
         type: deb
-
-    - name: Install input-remapper
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/input-remapper.deb"
-        force: true

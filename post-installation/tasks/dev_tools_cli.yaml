@@ -21,101 +21,66 @@
 
 - name: Download and install Hyperfine
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: sharkdp/hyperfine
         github_asset: hyperfine
         github_asset_dest: "{{ download_dir }}/hyperfine"
         type: deb
 
-    - name: Install Hyperfine
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/hyperfine.deb"
-        force: true
-
 - name: Download and install fd
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: sharkdp/fd
         github_asset: fd
         github_asset_dest: "{{ download_dir }}/fd"
         type: deb
 
-    - name: Install fd
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/fd.deb"
-        force: true
-
 - name: Download and install ripgrep
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: BurntSushi/ripgrep
         github_asset: ripgrep
         github_asset_dest: "{{ download_dir }}/ripgrep"
         type: deb
 
-    - name: Install ripgrep
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/ripgrep.deb"
-        force: true
-
 - name: Download and install Dust
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: bootandy/dust
         github_asset: dust
         github_asset_dest: "{{ download_dir }}/dust"
         type: deb
 
-    - name: Install dust
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/dust.deb"
-        force: true
-
 - name: Download and install duf
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: muesli/duf
         github_asset: duf
         github_asset_dest: "{{ download_dir }}/duf"
         type: deb
 
-    - name: Install duf
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/duf.deb"
-        force: true
-
 - name: Download and install bottom
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: ClementTsang/bottom
         github_asset: bottom
         github_asset_dest: "{{ download_dir }}/bottom"
         type: deb
 
-    - name: Install bottom
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/bottom.deb"
-        force: true
-
 - name: Download and install curlie
   block:
-    - ansible.builtin.include_tasks: download_github_asset.yaml
+    - ansible.builtin.include_tasks: install_github_asset.yaml
       vars:
         github_repo: rs/curlie
         github_asset: curlie
         github_asset_dest: "{{ download_dir }}/curlie"
         type: deb
-
-    - name: Install curlie
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/curlie.deb"
-        force: true
 
 # - name: Add azlux repository
 #   ansible.builtin.shell:

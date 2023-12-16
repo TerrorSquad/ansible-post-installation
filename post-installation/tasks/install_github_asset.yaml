@@ -16,16 +16,23 @@
     - name: Filter binary asset URL
       ansible.builtin.set_fact:
         binary_asset_url: "{{ github_release_info.json.assets
-                | selectattr('name', 'match', 'amd64|x86_64|x86-64')
-                | rejectattr('name', 'match', 'darwin|windows|musl|sha256')
-                | map(attribute='browser_download_url')
-                | first }}"
+          | selectattr('name', 'search', 'amd64|x86_64|x86-64')
+          | rejectattr('name', 'search', 'darwin|windows|musl|sha256')
+          | map(attribute='browser_download_url')
+          | first }}"
 
     - name: Download binary asset
       ansible.builtin.get_url:
         url: "{{ binary_asset_url }}"
         dest: "{{ github_asset_dest }}"
-        mode: '0755'
+        mode: "0755"
+
+    - name: Install binary asset
+      ansible.builtin.copy:
+        src: "{{ download_dir }}/{{ github_asset }}"
+        dest: "/usr/local/bin/{{ github_asset }}"
+        mode: "0755"
+        remote_src: true
 
 - name: Download deb asset {{ github_asset }}
   when: type == "deb"
@@ -33,16 +40,17 @@
     - name: Filter deb asset URL
       ansible.builtin.set_fact:
         deb_asset_url: "{{ github_release_info.json.assets
-                | selectattr('name', 'match', 'amd64|x86_64|x86-64')
-                | selectattr('name', 'match', 'deb')
-                | map(attribute='browser_download_url')
-                | first }}"
+          | selectattr('name', 'search', 'amd64|x86_64|x86-64')
+          | rejectattr('name', 'search', 'darwin|windows|musl|sha256')
+          | selectattr('name', 'search', 'deb')
+          | map(attribute='browser_download_url')
+          | first }}"
 
     - name: Download deb asset
       ansible.builtin.get_url:
         url: "{{ deb_asset_url }}"
         dest: "{{ github_asset_dest }}.deb"
-        mode: '0755'
+        mode: "0755"
 
     - name: Install deb asset
       ansible.builtin.apt:
@@ -55,15 +63,15 @@
     - name: Filter tar.gz asset URL
       ansible.builtin.set_fact:
         tar_gz_asset_url: "{{ github_release_info.json.assets
-                    | selectattr('name', 'match', 'tar.gz')
-                    | map(attribute='browser_download_url')
-                    | first }}"
+          | selectattr('name', 'match', 'tar.gz')
+          | map(attribute='browser_download_url')
+          | first }}"
 
     - name: Download tar.gz asset
       ansible.builtin.get_url:
         url: "{{ tar_gz_asset_url }}"
         dest: "{{ github_asset_dest }}.tar.gz"
-        mode: '0755'
+        mode: "0755"
 
     - name: Extract tar.gz asset
       ansible.builtin.unarchive:
