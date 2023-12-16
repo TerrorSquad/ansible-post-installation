@@ -1,25 +1,73 @@
 ---
-- name: "Set variables"
-  ansible.builtin.set_fact:
-    type: "deb"
+- name: Get latest release info
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/{{ github_repo }}/releases/latest
+    return_content: true
+    body_format: json
+  register: github_release_info
 
-- name: Download .deb asset {{ github_asset }}
-  ansible.builtin.shell: |
-    curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ github_asset_dest }}.json;
-    URLs=$(cat {{ github_asset_dest }}.json | jq '.assets | .[] |  select(.browser_download_url | contains(".deb")) | .browser_download_url') ;
-    if [ $(echo "$URLs" | wc -l) -gt 1 ]; then
-      URL=$(echo "$URLs" | grep -i amd64 | grep -iE 'all|amd64|x86_64|x86-64' | grep -E -v 'darwin|windows|musl|sha256');
-    else
-      URL="$URLs";
-    fi
-    echo $URL;
-    echo $URL | xargs wget -O "{{ github_asset_dest }}.deb";
-  when: type == "deb"
-
-# TODO: Filter out unsupported archs
 - name: Download binary asset {{ github_asset }}
-  ansible.builtin.shell: |
-    curl -fsSL https://api.github.com/repos/{{ github_repo }}/releases/latest > {{ github_asset_dest }}.json
-    URL=$(cat {{ github_asset_dest }}.json | jq '.assets | .[] | select(.name | test("amd64|x86_64|x86-64")) | select(.name | test("darwin|windows|musl|sha256") | not) | { browser_download_url } | .[]');
-    echo $URL | xargs wget --verbose -O "{{ github_asset_dest }}";
   when: type == "binary"
+  block:
+    - name: Filter binary asset URL
+      ansible.builtin.set_fact:
+        binary_asset_url: "{{ github_release_info.json.assets
+                | selectattr('name', 'match', 'amd64|x86_64|x86-64')
+                | rejectattr('name', 'match', 'darwin|windows|musl|sha256')
+                | map(attribute='browser_download_url')
+                | first }}"
+
+    - name: Download binary asset
+      ansible.builtin.get_url:
+        url: "{{ binary_asset_url }}"
+        dest: "{{ github_asset_dest }}"
+        mode: '0755'
+
+- name: Download deb asset {{ github_asset }}
+  when: type == "deb"
+  block:
+    - name: Filter deb asset URL
+      ansible.builtin.set_fact:
+        deb_asset_url: "{{ github_release_info.json.assets
+                | selectattr('name', 'match', 'amd64|x86_64|x86-64')
+                | selectattr('name', 'match', 'deb')
+                | map(attribute='browser_download_url')
+                | first }}"
+
+    - name: Download deb asset
+      ansible.builtin.get_url:
+        url: "{{ deb_asset_url }}"
+        dest: "{{ github_asset_dest }}.deb"
+        mode: '0755'
+
+    - name: Install deb asset
+      ansible.builtin.apt:
+        deb: "{{ github_asset_dest }}.deb"
+        state: present
+
+- name: Download tar.gz asset {{ github_asset }}
+  when: type == "tar.gz"
+  block:
+    - name: Filter tar.gz asset URL
+      ansible.builtin.set_fact:
+        tar_gz_asset_url: "{{ github_release_info.json.assets
+                    | selectattr('name', 'match', 'tar.gz')
+                    | map(attribute='browser_download_url')
+                    | first }}"
+
+    - name: Download tar.gz asset
+      ansible.builtin.get_url:
+        url: "{{ tar_gz_asset_url }}"
+        dest: "{{ github_asset_dest }}.tar.gz"
+        mode: '0755'
+
+    - name: Extract tar.gz asset
+      ansible.builtin.unarchive:
+        src: "{{ github_asset_dest }}.tar.gz"
+        dest: "{{ github_asset_dest }}"
+        remote_src: true
+
+    - name: Move asset to /usr/local/bin
+      ansible.builtin.command: mv "{{ github_asset_dest }}"/{{ github_asset }} "/usr/local/bin/{{ github_asset }}"
+      args:
+        warn: false
