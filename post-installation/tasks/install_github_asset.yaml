@@ -63,7 +63,9 @@
     - name: Filter tar.gz asset URL
       ansible.builtin.set_fact:
         tar_gz_asset_url: "{{ github_release_info.json.assets
-          | selectattr('name', 'match', 'tar.gz')
+          | selectattr('name', 'search', 'amd64|x86_64|x86-64|linux')
+          | rejectattr('name', 'search', 'darwin|windows|musl|sha256')
+          | selectattr('name', 'search', 'tar.gz')
           | map(attribute='browser_download_url')
           | first }}"
 
