@@ -13,6 +13,7 @@ gui: false
 docker: false
 gestures: false
 fonts: false
+vpn: false
 all: false
 
 # User directories

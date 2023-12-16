@@ -24,6 +24,7 @@
 
 - name: Install vpn software
   ansible.builtin.include_tasks: vpn.yaml
+  when: vpn or all
 
 - name: Install docker
   ansible.builtin.include_tasks: docker.yaml
@@ -61,7 +62,6 @@
 - name: Undervolt
   ansible.builtin.include_tasks: undervolt.yaml
   when: undervolt
-
 
 - name: Display post install message
   ansible.builtin.debug:

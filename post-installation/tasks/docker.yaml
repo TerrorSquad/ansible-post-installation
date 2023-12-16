@@ -36,7 +36,6 @@
   vars:
     github_repo: docker/compose
     github_asset: docker-compose
-    github_asset_dest: "{{ download_dir }}/docker-compose"
     type: binary
 
 - name: Install lazydocker

@@ -74,5 +74,4 @@
   vars:
     github_repo: dandavison/delta
     github_asset: delta
-    github_asset_dest: "{{ download_dir }}/delta"
     type: deb

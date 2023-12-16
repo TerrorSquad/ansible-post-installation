@@ -24,7 +24,6 @@
   vars:
     github_repo: sharkdp/hyperfine
     github_asset: hyperfine
-    github_asset_dest: "{{ download_dir }}/hyperfine"
     type: deb
 
 - name: Download and install fd
@@ -32,7 +31,6 @@
   vars:
     github_repo: sharkdp/fd
     github_asset: fd
-    github_asset_dest: "{{ download_dir }}/fd"
     type: deb
 
 - name: Download and install sd
@@ -40,7 +38,6 @@
   vars:
     github_repo: chmln/sd
     github_asset: sd
-    github_asset_dest: "{{ download_dir }}/sd"
     type: tar.gz
 
 - name: Download and install ripgrep
@@ -48,7 +45,6 @@
   vars:
     github_repo: BurntSushi/ripgrep
     github_asset: ripgrep
-    github_asset_dest: "{{ download_dir }}/ripgrep"
     type: deb
 
 - name: Download and install Dust
@@ -56,7 +52,6 @@
   vars:
     github_repo: bootandy/dust
     github_asset: dust
-    github_asset_dest: "{{ download_dir }}/dust"
     type: deb
 
 - name: Download and install duf
@@ -64,7 +59,6 @@
   vars:
     github_repo: muesli/duf
     github_asset: duf
-    github_asset_dest: "{{ download_dir }}/duf"
     type: deb
 
 - name: Download and install bottom
@@ -72,7 +66,6 @@
   vars:
     github_repo: ClementTsang/bottom
     github_asset: bottom
-    github_asset_dest: "{{ download_dir }}/bottom"
     type: deb
 
 - name: Download and install curlie
@@ -80,20 +73,18 @@
   vars:
     github_repo: rs/curlie
     github_asset: curlie
-    github_asset_dest: "{{ download_dir }}/curlie"
     type: deb
 
-# - name: Add azlux repository
-#   ansible.builtin.shell:
-#     cmd: |
-#       echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bullseye main" | tee /etc/apt/sources.list.d/azlux.list \
-#       && wget -O /usr/share/keyrings/azlux-archive-keyring.gpg  https://azlux.fr/repo.gpg
-#     chdir: "{{ download_dir }}"
+- name: Download and install oha
+  ansible.builtin.include_tasks: install_github_asset.yaml
+  vars:
+    github_repo: hatoo/oha
+    github_asset: oha
+    type: binary
 
-# - name: Install azlux packages
-#   ansible.builtin.apt:
-#     update_cache: true
-#     name:
-#       - oha
-#       - broot
-#       - gping
+- name: Download and install gping
+  ansible.builtin.include_tasks: install_github_asset.yaml
+  vars:
+    github_repo: orf/gping
+    github_asset: gping
+    type: binary

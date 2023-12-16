@@ -3,6 +3,10 @@
   ansible.builtin.set_fact:
     type: deb
 
+- name: "Set github_asset_dest to {{ download_dir }}/{{ github_asset }}"
+  ansible.builtin.set_fact:
+    github_asset_dest: "{{ download_dir}}/{{ github_asset }}"
+
 - name: Get latest release info
   ansible.builtin.uri:
     url: https://api.github.com/repos/{{ github_repo }}/releases/latest
@@ -10,11 +14,15 @@
     body_format: json
   register: github_release_info
 
+- name: Convert release info to lowercase
+  ansible.builtin.set_fact:
+    github_release_info: "{{ github_release_info.json | lower }}"
+
 - name: Print latest release info
   ansible.builtin.debug:
-    msg: "{{ github_release_info.json.assets
+    msg: "{{ github_release_info.assets
           | selectattr('name', 'search', 'amd64|x86_64|x86-64')
-          | rejectattr('name', 'search', 'darwin|windows|musl|arm|sha256')
+          | rejectattr('name', 'search', 'darwin|windows|musl|arm|aarch64|sha256')
           | map(attribute='browser_download_url')
           | first }}"
 
@@ -23,9 +31,9 @@
   block:
     - name: Filter binary asset URL
       ansible.builtin.set_fact:
-        binary_asset_url: "{{ github_release_info.json.assets
+        binary_asset_url: "{{ github_release_info.assets
           | selectattr('name', 'search', 'amd64|x86_64|x86-64')
-          | rejectattr('name', 'search', 'darwin|windows|musl|arm|sha256')
+          | rejectattr('name', 'search', 'darwin|windows|musl|arm|aarch64|sha256')
           | map(attribute='browser_download_url')
           | first }}"
 
@@ -47,9 +55,9 @@
   block:
     - name: Filter deb asset URL
       ansible.builtin.set_fact:
-        deb_asset_url: "{{ github_release_info.json.assets
+        deb_asset_url: "{{ github_release_info.assets
           | selectattr('name', 'search', 'amd64|x86_64|x86-64')
-          | rejectattr('name', 'search', 'darwin|windows|musl|arm|sha256')
+          | rejectattr('name', 'search', 'darwin|windows|musl|arm|aarch64|sha256')
           | selectattr('name', 'search', 'deb')
           | map(attribute='browser_download_url')
           | first }}"
@@ -70,9 +78,9 @@
   block:
     - name: Filter tar.gz asset URL
       ansible.builtin.set_fact:
-        tar_gz_asset_url: "{{ github_release_info.json.assets
+        tar_gz_asset_url: "{{ github_release_info.assets
           | selectattr('name', 'search', 'amd64|x86_64|x86-64|linux')
-          | rejectattr('name', 'search', 'darwin|windows|musl|arm|sha256')
+          | rejectattr('name', 'search', 'darwin|windows|musl|arm|aarch64|sha256')
           | selectattr('name', 'search', 'tar.gz')
           | map(attribute='browser_download_url')
           | first }}"
@@ -82,7 +90,6 @@
         url: "{{ tar_gz_asset_url }}"
         dest: "{{ github_asset_dest }}.tar.gz"
         mode: "0755"
-
 
     - name: Create directory for extracted asset
       ansible.builtin.file:
