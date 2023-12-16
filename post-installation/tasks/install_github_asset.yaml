@@ -10,6 +10,14 @@
     body_format: json
   register: github_release_info
 
+- name: Print latest release info
+  ansible.builtin.debug:
+    msg: "{{ github_release_info.json.assets
+          | selectattr('name', 'search', 'amd64|x86_64|x86-64')
+          | rejectattr('name', 'search', 'darwin|windows|musl|arm|sha256')
+          | map(attribute='browser_download_url')
+          | first }}"
+
 - name: Download binary asset {{ github_asset }}
   when: type == "binary"
   block:
@@ -17,7 +25,7 @@
       ansible.builtin.set_fact:
         binary_asset_url: "{{ github_release_info.json.assets
           | selectattr('name', 'search', 'amd64|x86_64|x86-64')
-          | rejectattr('name', 'search', 'darwin|windows|musl|sha256')
+          | rejectattr('name', 'search', 'darwin|windows|musl|arm|sha256')
           | map(attribute='browser_download_url')
           | first }}"
 
@@ -41,7 +49,7 @@
       ansible.builtin.set_fact:
         deb_asset_url: "{{ github_release_info.json.assets
           | selectattr('name', 'search', 'amd64|x86_64|x86-64')
-          | rejectattr('name', 'search', 'darwin|windows|musl|sha256')
+          | rejectattr('name', 'search', 'darwin|windows|musl|arm|sha256')
           | selectattr('name', 'search', 'deb')
           | map(attribute='browser_download_url')
           | first }}"
@@ -64,7 +72,7 @@
       ansible.builtin.set_fact:
         tar_gz_asset_url: "{{ github_release_info.json.assets
           | selectattr('name', 'search', 'amd64|x86_64|x86-64|linux')
-          | rejectattr('name', 'search', 'darwin|windows|musl|sha256')
+          | rejectattr('name', 'search', 'darwin|windows|musl|arm|sha256')
           | selectattr('name', 'search', 'tar.gz')
           | map(attribute='browser_download_url')
           | first }}"
@@ -75,15 +83,33 @@
         dest: "{{ github_asset_dest }}.tar.gz"
         mode: "0755"
 
-    - name: Extract tar.gz asset
+
+    - name: Create directory for extracted asset
+      ansible.builtin.file:
+        path: "{{ github_asset_dest }}"
+        state: directory
+        mode: "0755"
+        owner: "{{ username }}"
+
+    - name: Extract tar.gz asset and register extracted directory path
       ansible.builtin.unarchive:
         src: "{{ github_asset_dest }}.tar.gz"
         dest: "{{ github_asset_dest }}"
         remote_src: true
+      register: extracted_dir
+
+    - name: Find the exact path of the file
+      ansible.builtin.find:
+        paths: "{{ extracted_dir.dest }}"
+        patterns: "{{ github_asset }}"
+        recurse: true
+      register: files_found
 
     - name: Move asset to /usr/local/bin
       ansible.builtin.copy:
-        src: "{{ github_asset_dest }}/{{ github_asset }}"
+        src: "{{ files_found.files[0].path }}"
         dest: "/usr/local/bin/{{ github_asset }}"
         mode: "0755"
+        owner: "{{ username }}"
+        group: "{{ username }}"
         remote_src: true
