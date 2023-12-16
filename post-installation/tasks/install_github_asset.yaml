@@ -80,6 +80,8 @@
         remote_src: true
 
     - name: Move asset to /usr/local/bin
-      ansible.builtin.command: mv "{{ github_asset_dest }}"/{{ github_asset }} "/usr/local/bin/{{ github_asset }}"
-      args:
-        warn: false
+      ansible.builtin.copy:
+        src: "{{ github_asset_dest }}/{{ github_asset }}"
+        dest: "/usr/local/bin/{{ github_asset }}"
+        mode: "0755"
+        remote_src: true

@@ -41,7 +41,7 @@
     github_repo: chmln/sd
     github_asset: sd
     github_asset_dest: "{{ download_dir }}/sd"
-    type: deb
+    type: tar.gz
 
 - name: Download and install ripgrep
   ansible.builtin.include_tasks: install_github_asset.yaml

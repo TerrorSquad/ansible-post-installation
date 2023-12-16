@@ -155,7 +155,7 @@
     mode: 0644
   become_user: "{{ username }}"
 
-- name: Install and install input-remapper
+- name: Download and install input-remapper
   ansible.builtin.include_tasks: install_github_asset.yaml
   vars:
     github_repo: sezanzeb/input-remapper
