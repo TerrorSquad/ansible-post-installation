@@ -1,4 +1,8 @@
 ---
+- name: Set default type to deb
+  ansible.builtin.set_fact:
+    type: deb
+
 - name: Get latest release info
   ansible.builtin.uri:
     url: https://api.github.com/repos/{{ github_repo }}/releases/latest
