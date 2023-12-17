@@ -41,18 +41,20 @@
 - name: Download deb asset {{ github_asset }}
   when: type == "deb"
   block:
-    - name: Filter deb asset URL
-      ansible.builtin.set_fact:
-        deb_asset_url: "{{ github_release_info.json.assets
+    - name: Filter assets by deb type
+      set_fact:
+        deb_asset_url: "{{ github_release_info.json.assets | selectattr('name', 'search', 'deb') }}"
+
+    - name: Apply additional filters to deb assets (multiple only)
+      set_fact:
+        deb_asset_url: "{{ deb_asset_url
           | selectattr('name', 'search', 'amd64|x86_64|x86-64')
-          | rejectattr('name', 'search', '[dD]arwin|windows|musl|arm|aarch64|sha256')
-          | selectattr('name', 'search', 'deb')
-          | map(attribute='browser_download_url')
-          | first }}"
+          | rejectattr('name', 'search', '[dD]arwin|windows|musl|arm|aarch64|sha256') }}"
+      when: deb_asset_url | length > 1
 
     - name: Download deb asset
       ansible.builtin.get_url:
-        url: "{{ deb_asset_url }}"
+        url: "{{ deb_asset_url | map(attribute='browser_download_url')| first }}"
         dest: "{{ github_asset_dest }}.deb"
         mode: "0755"
 
