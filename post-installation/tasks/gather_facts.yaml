@@ -1,9 +1,0 @@
----
-- name: Install python-apt
-  ansible.builtin.apt:
-    name:
-      - python3-apt
-
-- name: "Gather package facts"
-  ansible.builtin.package_facts:
-    manager: apt

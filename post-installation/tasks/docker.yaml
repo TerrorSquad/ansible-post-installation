@@ -32,22 +32,11 @@
     append: true
 
 - name: Install docker-compose
-  block:
-
-    - name: Download docker-compose binary
-      include_tasks: download_github_asset.yaml
-      vars:
-        github_repo: docker/compose
-        github_asset: docker-compose-Linux-x86_64
-        github_asset_dest: "{{ download_dir }}/docker-compose"
-        type: binary
-
-    - name: Install docker-compose
-      ansible.builtin.copy:
-        src: "{{ download_dir }}/docker-compose"
-        dest: "{{ docker_compose }}"
-        mode: 0755
-        remote_src: true
+  ansible.builtin.include_tasks: install_github_asset.yaml
+  vars:
+    github_repo: docker/compose
+    github_asset: docker-compose
+    type: binary
 
 - name: Install lazydocker
   ansible.builtin.shell:

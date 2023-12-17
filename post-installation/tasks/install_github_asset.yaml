@@ -1,0 +1,112 @@
+---
+- name: Set default type to deb
+  ansible.builtin.set_fact:
+    type: deb
+
+- name: "Set github_asset_dest to {{ download_dir }}/{{ github_asset }}"
+  ansible.builtin.set_fact:
+    github_asset_dest: "{{ download_dir}}/{{ github_asset }}"
+
+- name: Get latest release info
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/{{ github_repo }}/releases/latest
+    return_content: true
+    body_format: json
+  register: github_release_info
+
+- name: Download binary asset {{ github_asset }}
+  when: type == "binary"
+  block:
+    - name: Filter binary asset URL
+      ansible.builtin.set_fact:
+        binary_asset_url: "{{ github_release_info.json.assets
+          | selectattr('name', 'search', architecture_filter)
+          | rejectattr('name', 'search', excluded_os_filter)
+          | map(attribute='browser_download_url')
+          | first }}"
+
+    - name: Download binary asset
+      ansible.builtin.get_url:
+        url: "{{ binary_asset_url }}"
+        dest: "{{ github_asset_dest }}"
+        mode: "0755"
+
+    - name: Install binary asset
+      ansible.builtin.copy:
+        src: "{{ download_dir }}/{{ github_asset }}"
+        dest: "/usr/local/bin/{{ github_asset }}"
+        mode: "0755"
+        remote_src: true
+
+- name: Download deb asset {{ github_asset }}
+  when: type == "deb"
+  block:
+    - name: Filter assets by deb type
+      set_fact:
+        deb_asset_url: "{{ github_release_info.json.assets | selectattr('name', 'search', 'deb') }}"
+
+    - name: Apply additional filters to deb assets (multiple only)
+      set_fact:
+        deb_asset_url: "{{ deb_asset_url
+          | selectattr('name', 'search', architecture_filter)
+          | rejectattr('name', 'search', excluded_os_filter) }}"
+      when: deb_asset_url | length > 1
+
+    - name: Download deb asset
+      ansible.builtin.get_url:
+        url: "{{ deb_asset_url | map(attribute='browser_download_url')| first }}"
+        dest: "{{ github_asset_dest }}.deb"
+        mode: "0755"
+
+    - name: Install deb asset
+      ansible.builtin.apt:
+        deb: "{{ github_asset_dest }}.deb"
+        state: present
+
+- name: Download tar.gz asset {{ github_asset }}
+  when: type == "tar.gz"
+  block:
+    - name: Filter tar.gz asset URL
+      ansible.builtin.set_fact:
+        tar_gz_asset_url: "{{ github_release_info.json.assets
+          | selectattr('name', 'search', architecture_filter)
+          | rejectattr('name', 'search', excluded_os_filter)
+          | selectattr('name', 'search', 'tar.gz')
+          | map(attribute='browser_download_url')
+          | first }}"
+
+    - name: Download tar.gz asset
+      ansible.builtin.get_url:
+        url: "{{ tar_gz_asset_url }}"
+        dest: "{{ github_asset_dest }}.tar.gz"
+        mode: "0755"
+
+    - name: Create directory for extracted asset
+      ansible.builtin.file:
+        path: "{{ github_asset_dest }}"
+        state: directory
+        mode: "0755"
+        owner: "{{ username }}"
+
+    - name: Extract tar.gz asset and register extracted directory path
+      ansible.builtin.unarchive:
+        src: "{{ github_asset_dest }}.tar.gz"
+        dest: "{{ github_asset_dest }}"
+        remote_src: true
+      register: extracted_dir
+
+    - name: Find the exact path of the file
+      ansible.builtin.find:
+        paths: "{{ extracted_dir.dest }}"
+        patterns: "{{ github_asset }}"
+        recurse: true
+      register: files_found
+
+    - name: Move asset to /usr/local/bin
+      ansible.builtin.copy:
+        src: "{{ files_found.files[0].path }}"
+        dest: "/usr/local/bin/{{ github_asset }}"
+        mode: "0755"
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        remote_src: true

@@ -48,7 +48,7 @@
         scope: global
         state: present
       become_user: "{{ username }}"
-  when: git_set_user_data == True
+  when: git_set_user_data
 
 # Restore git user data since copying the .gitconfig above will overwrite it
 - block:
@@ -67,18 +67,11 @@
         scope: global
         state: present
       become_user: "{{ username }}"
-  when: git_set_user_data == False
+  when: not git_set_user_data
 
 - name: Download and install delta
-  block:
-    - include_tasks: download_github_asset.yaml
-      vars:
-        github_repo: dandavison/delta
-        github_asset: delta
-        github_asset_dest: "{{ download_dir }}/delta"
-        type: deb
-
-    - name: Install delta
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/delta.deb"
-        force: true
+  ansible.builtin.include_tasks: install_github_asset.yaml
+  vars:
+    github_repo: dandavison/delta
+    github_asset: delta
+    type: deb

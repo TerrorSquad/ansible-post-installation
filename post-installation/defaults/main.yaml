@@ -11,9 +11,9 @@ dev_tools_gui: false
 cli: false
 gui: false
 docker: false
-gaming: false
 gestures: false
 fonts: false
+vpn: false
 all: false
 
 # User directories
@@ -24,7 +24,6 @@ powerlevel_10k: "{{ user_home }}/.powerlevel10k"
 config_home: "{{ user_home }}/.config/"
 autostart_path: "{{ config_home }}/autostart"
 terminator_config_dir: "{{ config_home }}/terminator"
-themes: "{{ user_home }}/.themes/"
 
 # User files
 antidote_file_path: "{{ user_home }}/.antidote.sh"
@@ -46,3 +45,7 @@ docker_compose: "/usr/local/bin/docker-compose"
 # NVIM
 nvim_plugin_manager_path: "{{ user_home }}/.local/share/nvim/site/autoload"
 nvim_config_path: "{{ user_home }}/.config/nvim"
+
+# Github asset download
+architecture_filter: "amd64|x86_64|x86-64"
+excluded_os_filter: "[dD]arwin|windows|musl|arm|aarch64|sha256"
