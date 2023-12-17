@@ -20,8 +20,8 @@
     - name: Filter binary asset URL
       ansible.builtin.set_fact:
         binary_asset_url: "{{ github_release_info.json.assets
-          | selectattr('name', 'search', 'amd64|x86_64|x86-64')
-          | rejectattr('name', 'search', '[dD]arwin|windows|musl|arm|aarch64|sha256')
+          | selectattr('name', 'search', architecture_filter)
+          | rejectattr('name', 'search', excluded_os_filter)
           | map(attribute='browser_download_url')
           | first }}"
 
@@ -48,8 +48,8 @@
     - name: Apply additional filters to deb assets (multiple only)
       set_fact:
         deb_asset_url: "{{ deb_asset_url
-          | selectattr('name', 'search', 'amd64|x86_64|x86-64')
-          | rejectattr('name', 'search', '[dD]arwin|windows|musl|arm|aarch64|sha256') }}"
+          | selectattr('name', 'search', architecture_filter)
+          | rejectattr('name', 'search', excluded_os_filter) }}"
       when: deb_asset_url | length > 1
 
     - name: Download deb asset
@@ -69,8 +69,8 @@
     - name: Filter tar.gz asset URL
       ansible.builtin.set_fact:
         tar_gz_asset_url: "{{ github_release_info.json.assets
-          | selectattr('name', 'search', 'amd64|x86_64|x86-64|linux')
-          | rejectattr('name', 'search', '[dD]arwin|windows|musl|arm|aarch64|sha256')
+          | selectattr('name', 'search', architecture_filter)
+          | rejectattr('name', 'search', excluded_os_filter)
           | selectattr('name', 'search', 'tar.gz')
           | map(attribute='browser_download_url')
           | first }}"
