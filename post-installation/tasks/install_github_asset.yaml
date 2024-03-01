@@ -42,11 +42,11 @@
   when: type == "deb"
   block:
     - name: Filter assets by deb type
-      set_fact:
+      ansible.builtin.set_fact:
         deb_asset_url: "{{ github_release_info.json.assets | selectattr('name', 'search', 'deb') }}"
 
     - name: Apply additional filters to deb assets (multiple only)
-      set_fact:
+      ansible.builtin.set_fact:
         deb_asset_url: "{{ deb_asset_url
           | selectattr('name', 'search', architecture_filter)
           | rejectattr('name', 'search', excluded_os_filter) }}"
@@ -54,7 +54,7 @@
 
     - name: Download deb asset
       ansible.builtin.get_url:
-        url: "{{ deb_asset_url | map(attribute='browser_download_url')| first }}"
+        url: "{{ deb_asset_url | map(attribute='browser_download_url') | first }}"
         dest: "{{ github_asset_dest }}.deb"
         mode: "0755"
 
@@ -62,6 +62,14 @@
       ansible.builtin.apt:
         deb: "{{ github_asset_dest }}.deb"
         state: present
+      register: apt_output
+      failed_when: false
+
+    - name: Check if the deb asset was not installed
+      ansible.builtin.debug:
+        msg: "The package was not installed because a newer version is already installed."
+      when: apt_output is failed
+
 
 - name: Download tar.gz asset {{ github_asset }}
   when: type == "tar.gz"
