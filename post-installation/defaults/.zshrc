@@ -1,27 +1,35 @@
-# Shell startup time benchmark oneliner
-# hyperfine 'zsh -i -c exit'
+# Load the antidote plugin manager
+source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
-# Command for generating static plugins file
-# ping -c 1 google.com && rm -rf ~/.cache/antidote && antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+# Env variables required for plugins
+export NVM_LAZY_LOAD=true
+export NVM_AUTO_USE=true
+export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git' 'gitkraken')
 
-# Set vim as default editor
+# Check if the plugins file is older than the txt file and regenerate it if needed
+zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
+if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
+  antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
+fi
+# Load the plugins
+source ${zsh_plugins}.zsh
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# Set nvim as default editor
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 alias vim=nvim
 
-# Disable double rm -rf verification
+# Disable double rm -rf verification.
+# What it does exactly is that it removes the prompt that asks you to confirm the deletion of files and directories.
 setopt rm_star_silent
-
-# Env variables required for plugins
-export NVM_LAZY_LOAD=true
-export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git' 'gitkraken')
-
-# source antidote
-source ${ZDOTDIR:-~}/.antidote/antidote.zsh
-
-# initialize plugins statically with ${ZDOTDIR:-~}/.zsh_plugins.txt
-source ~/.zsh_plugins.zsh
 
 # Aliases
 alias c="clear"
@@ -53,14 +61,10 @@ update-antidote() {
     ping -c 1 google.com && rm -rf ~/.cache/antidote && antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
 }
 
-getJiraTicketNumber() {
-    local branchName=$(git branch --show-current)
-    echo $branchName | grep -o -E '[A-Z]+-[0-9]+'
+bench() {
+    hyperfine 'zsh -i -c exit' --warmup 3
 }
 
-restartCinnamon() {
-    (nohup cinnamon --replace >/dev/null 2>&1) &
-}
 
 getProgramPids() {
     PROGRAM=$1
@@ -89,47 +93,6 @@ kill_port() {
     fuser -k $1/tcp
 }
 
-magento_find_module_dependencies() {
-    # for all arguments passed to function (if any) execute the following
-
-    for arg in "$@"; do
-        if [ -f $arg ]; then
-            local FOLDER_PATH=$(dirname $arg)
-        else
-            local FOLDER_PATH=$arg
-        fi
-
-        local FOLDER_PATH=$(readlink -f $FOLDER_PATH)
-        echo "Directory: $FOLDER_PATH"
-
-        # Check if registration.php exists and /etc/module.xml exists
-        if [ ! -f $FOLDER_PATH/registration.php ] || [ ! -f $FOLDER_PATH/etc/module.xml ]; then
-            echo "Not a module folder"
-            echo "\n"
-            continue
-        fi
-
-        local MODULE_NAME=$(
-            rg -o "\w{2,}*_\w{2,}" --no-filename --no-line-number $FOLDER_PATH/etc/module.xml |
-                head -1
-        )
-
-        echo "Module name: $MODULE_NAME"
-
-        local MODULES=$(
-            rg "(?:(?: )|(?: \\\\)|(?:\"))((?:\w{2,}?)(?:\\\\)(?:\w{2,}))" -or '$1' --no-filename --no-line-number --type=php --type=xml $FOLDER_PATH | tr -s "\n" | sort | uniq | sed "s/\\\\/_/g"
-        )
-        # Exclude current module from search
-
-        local MODULES=$(
-            echo $MODULES | sed "s/^$MODULE_NAME$//g" | tr -s "\n"
-        )
-
-        echo "Dependencies are:\n"
-        echo $MODULES
-        echo "\n"
-    done
-}
 
 PATH=$PATH:~/.local/bin
 
@@ -140,10 +103,13 @@ export FZF_TMUX_HEIGHT=50
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
-
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# export SDKMAN_DIR="$HOME/.sdkman"
+# [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# bun completions
+[ -s "/home/gninkovic/.bun/_bun" ] && source "/home/gninkovic/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
