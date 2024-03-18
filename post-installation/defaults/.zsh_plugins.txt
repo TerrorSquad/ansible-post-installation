@@ -2,29 +2,26 @@
 romkatv/powerlevel10k
 
 # Jump around in your shell
-rupa/z
+rupa/z kind:defer
 # Additional completion definitions for Zsh.
-zsh-users/zsh-completions
+zsh-users/zsh-completions kind:defer
 
 # Open a file or repository in the web by using the `git open` command
-paulirish/git-open
+paulirish/git-open kind:defer
 
 # This adds the zsh-bench function to benchmark the shell startup time.
 romkatv/zsh-bench kind:path
 
 # A collection of oh-my-zsh plugins
 ohmyzsh/ohmyzsh path:lib
-ohmyzsh/ohmyzsh path:plugins/command-not-found
-ohmyzsh/ohmyzsh path:plugins/git
-ohmyzsh/ohmyzsh path:plugins/history
-ohmyzsh/ohmyzsh path:plugins/composer
-ohmyzsh/ohmyzsh path:plugins/bun
-ohmyzsh/ohmyzsh path:plugins/colored-man-pages
-ohmyzsh/ohmyzsh path:plugins/last-working-dir
-
+ohmyzsh/ohmyzsh path:plugins/command-not-found kind:defer
+ohmyzsh/ohmyzsh path:plugins/git kind:defer
+ohmyzsh/ohmyzsh path:plugins/history kind:defer
+ohmyzsh/ohmyzsh path:plugins/bun kind:defer
+ohmyzsh/ohmyzsh path:plugins/colored-man-pages kind:defer
 
 # Node Version Manager
-lukechilds/zsh-nvm
+lukechilds/zsh-nvm kind:defer
 
 # Provides syntax highlighting for the shell
 zdharma-continuum/fast-syntax-highlighting kind:defer
