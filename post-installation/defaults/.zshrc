@@ -1,10 +1,10 @@
 # Load the antidote plugin manager
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
-# Check if the plugins file is older than the txt file and regenerate it if needed
+# Check if the plugins file is older than the sh file and regenerate it if needed
 zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
-if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
-  antidote bundle <${zsh_plugins}.txt >${zsh_plugins}.zsh
+if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.sh ]]; then
+  antidote bundle <${zsh_plugins}.sh >${zsh_plugins}.zsh
 fi
 # Load the plugins
 source ${zsh_plugins}.zsh
@@ -53,7 +53,7 @@ alias gbc="git branch --show-current"
 # Functions
 
 update-antidote() {
-    ping -c 1 google.com && rm -rf ~/.cache/antidote && antidote bundle < ~/.zsh_plugins.txt > ~/.zsh_plugins.zsh
+    ping -c 1 google.com && rm -rf ~/.cache/antidote && antidote bundle < ~/.zsh_plugins.sh > ~/.zsh_plugins.zsh
 }
 
 bench() {

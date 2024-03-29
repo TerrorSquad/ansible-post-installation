@@ -36,14 +36,14 @@
 
 - name: Configure antidote
   block:
-    - name: Copy .zsh_plugins.txt
+    - name: Copy .zsh_plugins.sh
       ansible.builtin.copy:
-        src: ./defaults/.zsh_plugins.txt
+        src: ./defaults/.zsh_plugins.sh
         dest: "{{ user_home }}"
         mode: 0644
       become_user: "{{ username }}"
 
-    - name: Download antidote bundles from .zsh_plugins.txt
+    - name: Download antidote bundles from .zsh_plugins.sh
       ansible.builtin.shell:
-        cmd: zsh -ic "antidote bundle <~/.zsh_plugins.txt >~/.zsh_plugins.zsh"
+        cmd: zsh -ic "antidote bundle <~/.zsh_plugins.sh >~/.zsh_plugins.zsh"
       become_user: "{{ username }}"

@@ -12,8 +12,10 @@ paulirish/git-open kind:defer
 # This adds the zsh-bench function to benchmark the shell startup time.
 romkatv/zsh-bench kind:path
 
-# A collection of oh-my-zsh plugins
+# This is the main oh-my-zsh library, it mustn't be deferred
 ohmyzsh/ohmyzsh path:lib
+
+# A collection of oh-my-zsh plugins
 ohmyzsh/ohmyzsh path:plugins/command-not-found kind:defer
 ohmyzsh/ohmyzsh path:plugins/git kind:defer
 ohmyzsh/ohmyzsh path:plugins/history kind:defer
