@@ -1,11 +1,6 @@
 # Load the antidote plugin manager
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
-# Env variables required for plugins
-export NVM_LAZY_LOAD=true
-export NVM_AUTO_USE=true
-export NVM_LAZY_LOAD_EXTRA_COMMANDS=('vim' 'nvim' 'code' 'java' 'phpstorm' 'intellij-idea-ultimate' 'intellij-idea-community' 'webstorm' 'git' 'gitkraken')
-
 # Check if the plugins file is older than the txt file and regenerate it if needed
 zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
 if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.txt ]]; then
@@ -113,3 +108,7 @@ export FZF_TMUX_HEIGHT=50
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# volta
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"

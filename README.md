@@ -105,7 +105,7 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - lazydocker
 - libutempter0
 - make
-- nvm with latest nodejs
+- volta with latest nodejs
 - postman
 - python3-pip
 - redshift

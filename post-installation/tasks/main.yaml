@@ -19,9 +19,6 @@
   ansible.builtin.include_tasks: fonts.yaml
   when: fonts or all
 
-- name: Install node and npm with nvm
-  ansible.builtin.include_tasks: node.yaml
-
 - name: Install vpn software
   ansible.builtin.include_tasks: vpn.yaml
   when: vpn or all

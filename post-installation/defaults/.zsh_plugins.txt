@@ -20,9 +20,6 @@ ohmyzsh/ohmyzsh path:plugins/history kind:defer
 ohmyzsh/ohmyzsh path:plugins/bun kind:defer
 ohmyzsh/ohmyzsh path:plugins/colored-man-pages kind:defer
 
-# Node Version Manager
-lukechilds/zsh-nvm kind:defer
-
 # Provides syntax highlighting for the shell
 zdharma-continuum/fast-syntax-highlighting kind:defer
 
