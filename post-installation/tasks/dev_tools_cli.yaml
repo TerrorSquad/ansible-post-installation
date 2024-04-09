@@ -14,20 +14,22 @@
       - python3-pip
       - jq
 
-- name: Install SDKMan
-  ansible.builtin.shell: |
-    curl -s "https://get.sdkman.io" | bash
-  become_user: "{{ username }}"
+# - name: Install SDKMan
+#   ansible.builtin.shell: |
+#     curl -s "https://get.sdkman.io" | bash
+#   become_user: "{{ username }}"
 
 - name: Install Volta
   ansible.builtin.shell: |
     curl https://get.volta.sh | bash
   become_user: "{{ username }}"
 
-- name: Install latest NodeJS using Volta
-  ansible.builtin.shell: >
-    zsh -i -c "volta install node"
-  become_user: "{{ username }}"
+
+
+# - name: Install latest NodeJS using Volta
+#   ansible.builtin.shell: >
+#     zsh -i -c "volta install node"
+#   become_user: "{{ username }}"
 
 - name: Download and install Hyperfine
   ansible.builtin.include_tasks: install_github_asset.yaml

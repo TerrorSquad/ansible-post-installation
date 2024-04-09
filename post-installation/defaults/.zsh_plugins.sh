@@ -3,6 +3,7 @@ romkatv/powerlevel10k
 
 # Jump around in your shell
 rupa/z kind:defer
+
 # Additional completion definitions for Zsh.
 zsh-users/zsh-completions kind:defer
 
@@ -10,7 +11,7 @@ zsh-users/zsh-completions kind:defer
 paulirish/git-open kind:defer
 
 # This adds the zsh-bench function to benchmark the shell startup time.
-romkatv/zsh-bench kind:path
+# romkatv/zsh-bench kind:path
 
 # This is the main oh-my-zsh library, it mustn't be deferred
 ohmyzsh/ohmyzsh path:lib

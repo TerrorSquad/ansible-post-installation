@@ -48,4 +48,4 @@ nvim_config_path: "{{ user_home }}/.config/nvim"
 
 # Github asset download
 architecture_filter: "amd64|x86_64|x86-64"
-excluded_os_filter: "[dD]arwin|windows|musl|arm|aarch64|sha256"
+excluded_os_filter: "[dD]arwin|windows|musl|arm|freebsd|openbsd|loong|aarch64|sha256"
