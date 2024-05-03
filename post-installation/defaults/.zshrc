@@ -14,6 +14,7 @@ if [ $IS_MAC ]; then
     compinit
 elif [ $IS_LINUX ]; then
     ZDOTDIR=~/.antidote
+    alias bat="batcat"
 fi
 
 # Load the antidote plugin manager
@@ -27,7 +28,6 @@ fi
 
 # Load the plugins
 source ${zsh_plugins}.zsh
-
 
 # Set nvim as default editor
 export VISUAL=nvim
@@ -46,7 +46,6 @@ alias ccss="npm run compile:scss"
 alias nrb="npm run build"
 alias tnrb="time npm run build"
 alias gs="gss"
-alias bat="batcat"
 alias code="code --goto"
 alias hsi="history | rg -i"
 alias bm="bin/magento"
@@ -83,7 +82,6 @@ update-antidote() {
     fi
 }
 
-
 getJiraTicketNumber() {
     local branchName=$(git branch --show-current)
     echo $branchName | grep -o -E '[A-Z]+-[0-9]+'
@@ -92,7 +90,6 @@ getJiraTicketNumber() {
 bench() {
     hyperfine 'zsh -i -c exit' --warmup 3
 }
-
 
 getProgramPids() {
     PROGRAM=$1
