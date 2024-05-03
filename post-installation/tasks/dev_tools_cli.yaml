@@ -19,6 +19,13 @@
 #     curl -s "https://get.sdkman.io" | bash
 #   become_user: "{{ username }}"
 
+- name: Copy Zscaler root cert to $HOME
+  ansible.builtin.copy:
+    src: ./defaults/ZscalerRootCA.crt
+    dest: "{{ user_home }}"
+    mode: '0644'
+  become_user: "{{ username }}"
+
 - name: Install Volta
   ansible.builtin.shell: |
     curl https://get.volta.sh | bash

@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Load the antidote plugin manager
 source ${ZDOTDIR:-~}/.antidote/antidote.zsh
 
@@ -6,15 +13,10 @@ zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
 if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.sh ]]; then
   antidote bundle <${zsh_plugins}.sh >${zsh_plugins}.zsh
 fi
+
 # Load the plugins
 source ${zsh_plugins}.zsh
 
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
 
 # Set nvim as default editor
 export VISUAL=nvim
@@ -46,9 +48,12 @@ alias dps="docker ps --format \"table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.S
 
 export BAT_PAGER="less --mouse -RF"
 export LESS="--mouse -RF"
-alias jt=getJiraTicketNumber
 
 alias gbc="git branch --show-current"
+
+if [ -s $HOME/ZscalerRootCA.crt ]; then
+    export NODE_EXTRA_CA_CERTS="$HOME/ZscalerRootCA.crt"
+fi
 
 # Functions
 
@@ -88,22 +93,14 @@ kill_port() {
     fuser -k $1/tcp
 }
 
-
 PATH=$PATH:~/.local/bin
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export FZF_TMUX_HEIGHT=50
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-# export SDKMAN_DIR="$HOME/.sdkman"
-# [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
 # bun completions
-[ -s "/home/gninkovic/.bun/_bun" ] && source "/home/gninkovic/.bun/_bun"
+[ -s ~/.bun/_bun ] && source ~/.bun/_bun
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -112,3 +109,14 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # volta
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
+
+# pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
