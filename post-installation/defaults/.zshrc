@@ -5,16 +5,13 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-
-# Perhaps this is not needed?
-# autoload -Uz compinit
-# compinit
-
 # Antidote
 IS_MAC=$(uname -a | grep -i darwin)
 IS_LINUX=$(uname -a | grep -i linux)
 if [ $IS_MAC ]; then
     ZDOTDIR=$(brew --prefix)/opt/antidote/share/antidote
+    autoload -Uz compinit
+    compinit
 elif [ $IS_LINUX ]; then
     ZDOTDIR=~/.antidote
 fi
@@ -23,7 +20,7 @@ fi
 source ${ZDOTDIR:-~}/antidote.zsh
 
 # Check if the plugins file is older than the sh file and regenerate it if needed
-zsh_plugins=${ZDOTDIR:-$HOME}/.zsh_plugins
+zsh_plugins=~/.zsh_plugins
 if [[ ! ${zsh_plugins}.zsh -nt ${zsh_plugins}.sh ]]; then
   antidote bundle <${zsh_plugins}.sh >${zsh_plugins}.zsh
 fi
