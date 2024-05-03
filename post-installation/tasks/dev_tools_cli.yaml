@@ -36,6 +36,11 @@
     zsh -i -c "volta install node"
   become_user: "{{ username }}"
 
+- name: Install latest PNPM using Volta
+  ansible.builtin.shell: >
+    zsh -i -c "volta install pnpm"
+  become_user: "{{ username }}"
+
 - name: Download and install Hyperfine
   ansible.builtin.include_tasks: install_github_asset.yaml
   vars:
