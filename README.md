@@ -69,7 +69,6 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - `-e git_user_email="your@email.com` - Sets git user.email config value. Must be used with `-e git_set_user_data=true`
 - `-e git_user_name="Your Name` - Sets git user.name config value. Must be used with `-e git_set_user_data=true`
 - `-e undervolt=true` - Calls the `undervolt.yml` role.
-- `-e use_snap=true` - Enables snap and snapd. No snap packages will be installed.
 - `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
 - `-K` - flag used to ask for root password. Required mostly for installing apt packages and updating apt repositories.
 

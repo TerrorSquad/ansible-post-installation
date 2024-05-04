@@ -2,10 +2,6 @@
 - name: Update apt cache and prepare download dir
   ansible.builtin.include_tasks: update_apt_cache_and_prepare_download_dir.yaml
 
-- name: Enable snap support
-  ansible.builtin.include_tasks: snap.yaml
-  when: use_snap
-
 - name: Install homebrew
   ansible.builtin.include_tasks: homebrew.yaml
 
