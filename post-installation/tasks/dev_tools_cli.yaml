@@ -41,72 +41,7 @@
     zsh -i -c "volta install pnpm"
   become_user: "{{ username }}"
 
-- name: Download and install Hyperfine
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: sharkdp/hyperfine
-    github_asset: hyperfine
-    type: deb
-
-- name: Download and install fd
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: sharkdp/fd
-    github_asset: fd
-    type: deb
-
-- name: Download and install sd
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: chmln/sd
-    github_asset: sd
-    type: tar.gz
-
-- name: Download and install ripgrep
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: BurntSushi/ripgrep
-    github_asset: ripgrep
-    type: deb
-
-- name: Download and install Dust
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: bootandy/dust
-    github_asset: dust
-    type: deb
-
-- name: Download and install duf
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: muesli/duf
-    github_asset: duf
-    type: deb
-
-- name: Download and install bottom
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: ClementTsang/bottom
-    github_asset: bottom
-    type: deb
-
-- name: Download and install curlie
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: rs/curlie
-    github_asset: curlie
-    type: deb
-
-- name: Download and install oha
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: hatoo/oha
-    github_asset: oha
-    type: binary
-
-- name: Download and install gping
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: orf/gping
-    github_asset: gping
-    type: binary
+- name: Install homebrew packages
+  ansible.builtin.shell: |
+    brew install hyperfine fd sd ripgrep dust duf bottom curlie oha gping
+  become_user: "{{ username }}"

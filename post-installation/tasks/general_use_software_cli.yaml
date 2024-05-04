@@ -10,17 +10,7 @@
       - tlp
       - unzip
 
-- name: Download and install fzf
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: junegunn/fzf
-    github_asset: fzf
-    type: tar.gz
-
-
-- name: Download and install eza
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: eza-community/eza
-    github_asset: eza
-    type: tar.gz
+- name: Install homebrew packages
+  ansible.builtin.shell: |
+    brew install fzf eza
+  become_user: "{{ username }}"

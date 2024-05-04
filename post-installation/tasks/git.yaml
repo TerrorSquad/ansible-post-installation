@@ -70,8 +70,6 @@
   when: not git_set_user_data
 
 - name: Download and install delta
-  ansible.builtin.include_tasks: install_github_asset.yaml
-  vars:
-    github_repo: dandavison/delta
-    github_asset: delta
-    type: deb
+  ansible.builtin.shell: |
+    brew install git-delta
+  become_user: "{{ username }}"

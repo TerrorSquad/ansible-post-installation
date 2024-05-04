@@ -133,6 +133,10 @@ if [[ -d ~/go/bin ]]; then
   PATH=$PATH:~/go/bin
 fi
 
+if [[ -d /home/linuxbrew/.linuxbrew/bin ]]; then
+  PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
+fi
+
 export FZF_TMUX_HEIGHT=50
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

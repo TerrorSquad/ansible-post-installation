@@ -6,6 +6,9 @@
   ansible.builtin.include_tasks: snap.yaml
   when: use_snap
 
+- name: Install homebrew
+  ansible.builtin.include_tasks: homebrew.yaml
+
 - name: Install basic packages
   ansible.builtin.include_tasks: basic_packages.yaml
 
