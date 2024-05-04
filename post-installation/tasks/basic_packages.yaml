@@ -5,3 +5,4 @@
       - jq
       - xz-utils
       - curl
+      - git

@@ -2,11 +2,11 @@
 - name: Update apt cache and prepare download dir
   ansible.builtin.include_tasks: update_apt_cache_and_prepare_download_dir.yaml
 
-- name: Install homebrew
-  ansible.builtin.include_tasks: homebrew.yaml
-
 - name: Install basic packages
   ansible.builtin.include_tasks: basic_packages.yaml
+
+- name: Install homebrew
+  ansible.builtin.include_tasks: homebrew.yaml
 
 - name: Install git
   ansible.builtin.include_tasks: git.yaml
