@@ -43,7 +43,7 @@
 
 - name: Install homebrew packages
   ansible.builtin.shell: |
-    /home/linuxbrew/.linuxbrew/bin/brew install \
+    HOMEBREW_NO_ENV_HINTS=true /home/linuxbrew/.linuxbrew/bin/brew install \
       hyperfine \
       fd \
       sd \
