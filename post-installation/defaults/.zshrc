@@ -55,7 +55,7 @@ alias bxd="bin/xdebug disable"
 alias open="xdg-open"
 alias sail="./vendor/bin/sail"
 alias dps="docker ps --format \"table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}\""
-which eza >/dev/null && alias ls=eza
+alias ls=eza
 
 export BAT_PAGER="less --mouse -RF"
 export LESS="--mouse -RF"
