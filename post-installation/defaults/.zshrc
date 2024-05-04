@@ -5,13 +5,14 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+autoload -Uz compinit
+compinit
+
 # Antidote
 IS_MAC=$(uname -a | grep -i darwin)
 IS_LINUX=$(uname -a | grep -i linux)
 if [ $IS_MAC ]; then
     ZDOTDIR=$(brew --prefix)/opt/antidote/share/antidote
-    autoload -Uz compinit
-    compinit
 elif [ $IS_LINUX ]; then
     ZDOTDIR=~/.antidote
     alias bat="batcat"
