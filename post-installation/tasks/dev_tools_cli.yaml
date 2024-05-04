@@ -43,5 +43,25 @@
 
 - name: Install homebrew packages
   ansible.builtin.shell: |
-    brew install hyperfine fd sd ripgrep dust duf bottom curlie oha gping
+    /home/linuxbrew/.linuxbrew/bin/brew install \
+      hyperfine \
+      fd \
+      sd \
+      ripgrep \
+      dust \
+      duf \
+      bottom \
+      curlie \
+      oha \
+      gping \
+      broot \
+      tokei \
+      xh \
+      eza \
+      httpstat \
+      gping \
+      lnav \
+      git-quick-stats \
+      gh
+
   become_user: "{{ username }}"

@@ -71,5 +71,5 @@
 
 - name: Download and install delta
   ansible.builtin.shell: |
-    brew install git-delta
+    /home/linuxbrew/.linuxbrew/bin/brew install git-delta
   become_user: "{{ username }}"

@@ -12,5 +12,5 @@
 
 - name: Install homebrew packages
   ansible.builtin.shell: |
-    brew install fzf eza
+    /home/linuxbrew/.linuxbrew/bin/brew install fzf eza
   become_user: "{{ username }}"
