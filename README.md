@@ -164,9 +164,10 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 
 ### Fonts
 
-- hack
-- hack nerd font
-- roboto
+- Hack Mono Nerd Font
+- Fira Code Nerd Font
+- Fira Mono Nerd Font
+- Roboto
 
 ## Testing - Vagrant
 

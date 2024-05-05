@@ -1,16 +1,42 @@
 ---
-- name: Install programming fonts - Hack Nerd Font Regular...
-  ansible.builtin.copy:
-    src: "{{ item }}"
-    dest: /usr/share/fonts/truetype/
-    owner: root
-    mode: "0644"
-  with_fileglob:
-    - defaults/fonts/*
+- vars:
+    fonts:
+      - name: Hack
+        repo: ryanoasis/nerd-fonts
+        filename: Hack.tar.gz
+      - name: Fira Mono
+        repo: ryanoasis/nerd-fonts
+        filename: FiraMono.tar.gz
+      - name: Fira Code
+        repo: ryanoasis/nerd-fonts
+        filename: FiraCode.tar.gz
 
-- name: Install font - Hack, Roboto, Fira
+- name: Get latest release info
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/{{ item.repo }} /releases/latest
+    return_content: true
+    body_format: json
+  register: github_releases
+  loop: "{{ fonts }}"
+
+- name: Download each font
+  ansible.builtin.get_url:
+    url: "{{ item.1.json.assets | selectattr('name', 'search', item.0.filename) | map(attribute='browser_download_url') | first }}"
+    dest: "/tmp/{{ item.0.filename }}"
+    mode: "0755"
+  loop: "{{ github_releases.results | dict2items }}"
+
+- name: Extract fonts
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ item.filename }}"
+    dest: "/usr/share/fonts/truetype"
+    remote_src: true
+  loop: "{{ fonts }}"
+
+- name: Update font cache
+  ansible.builtin.command: fc-cache -f -v
+
+- name: Install font - Roboto
   ansible.builtin.apt:
     name:
-      - fonts-hack
       - fonts-roboto
-      - fonts-firacode
