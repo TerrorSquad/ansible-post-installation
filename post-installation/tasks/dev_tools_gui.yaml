@@ -52,14 +52,14 @@
   ansible.builtin.file:
     dest: "{{ terminator_config_dir }}"
     state: directory
-    mode: 0775
+    mode: "0775"
   become_user: "{{ username }}"
 
 - name: Configure Terminator
   ansible.builtin.copy:
     src: ./defaults/.config/terminator/config
     dest: "{{ terminator_config_file }}"
-    mode: 0644
+    mode: "0644"
   become_user: "{{ username }}"
 
 - name: Download and install JetBrains ToolBox

@@ -7,7 +7,7 @@
   ansible.builtin.file:
     path: "{{ nvim_plugin_manager_path }}"
     state: directory
-    mode: 0775
+    mode: "0775"
   become_user: "{{ username }}"
 
 - name: Install nvim plugin manager
@@ -20,14 +20,14 @@
   ansible.builtin.file:
     path: "{{ nvim_config_path }}"
     state: directory
-    mode: 0775
+    mode: "0775"
   become_user: "{{ username }}"
 
 - name: Copy nvim config file
   ansible.builtin.copy:
     src: ./defaults/.config/nvim/init.vim
     dest: "{{ nvim_config_path }}/init.vim"
-    mode: 0644
+    mode: "0644"
   become_user: "{{ username }}"
 
 - name: Install nvim plugins

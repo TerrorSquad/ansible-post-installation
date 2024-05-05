@@ -22,14 +22,14 @@
   ansible.builtin.copy:
     src: ./defaults/.gitconfig
     dest: "~"
-    mode: 0644
+    mode: "0644"
   become_user: "{{ username }}"
 
 - name: Copy .git-templates directory
   ansible.builtin.copy:
     src: ./defaults/.git-templates
     dest: "~"
-    mode: 0755
+    mode: "0755"
   become_user: "{{ username }}"
 
 - block:

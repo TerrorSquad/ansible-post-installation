@@ -11,7 +11,7 @@
   ansible.builtin.file:
     dest: "{{ download_dir }}"
     state: directory
-    mode: 0777
+    mode: "0777"
 
 - name: Get Ubuntu code name
   ansible.builtin.shell: |

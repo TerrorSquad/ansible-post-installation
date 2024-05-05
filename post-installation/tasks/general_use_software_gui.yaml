@@ -150,7 +150,7 @@
   ansible.builtin.copy:
     src: ./defaults/.config/redshift.conf
     dest: "{{ config_home }}"
-    mode: 0644
+    mode: "0644"
   become_user: "{{ username }}"
 
 - name: Download and install input-remapper
