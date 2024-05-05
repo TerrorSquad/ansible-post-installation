@@ -47,7 +47,7 @@
 
 - name: Install and configure libinput_gestures
   ansible.builtin.include_tasks: libinput_gestures.yaml
-  when: gestures or all
+  when: gestures
 
 - name: Delete downloaded files
   ansible.builtin.include_tasks: delete_downloaded_files.yaml
