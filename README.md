@@ -10,17 +10,10 @@
 - OS: Ubuntu 23.04. (tested with Kubuntu 23.04)
 - Software: `ansible`
 
-If you do not have ansible installed you can do so by running this piece of code:
-
-```bash
-sudo apt install ansible
-```
-
-Check if the installation was correct by running
-
-```bash
-ansible --version
-```
+1. Install ansible
+  `sudo apt install ansible`
+2. Check if the installation was correct by running
+  `ansible --version`
 
 It should print out something similar to this this:
 
@@ -38,19 +31,28 @@ ansible [core 2.11.3]
 
 ## How to run
 
-Clone this repo, enter the directory and run the following command:
+### Clone this repo, enter the directory and run the following command
+
+```bash
+cd ~/Downloads \
+wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip \
+unzip master.zip \
+cd ansible-post-installation-master
+```
+
+### Install all software
 
 ```bash
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true -e=git_set_user_data=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
 ```
 
-If you want to only install CLI tools, run the following command:
+#### If you want to only install CLI tools, run the following command
 
 ```bash
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=cli=true -e=dev_tools_cli=true -e=git_set_user_data=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
 ```
 
-If you want to only install GUI tools, run the following command:
+#### If you want to only install GUI tools, run the following command
 
 ```bash
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true -e=git_set_user_data=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
@@ -80,20 +82,25 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 
 - JetBrains Toolbox
 - bat
+- bottom
+- broot
+- btop
 - code (Visual Studio Code)
-- ctop
 - curl
+- curlie
 - dbeaver-ce
 - delta
-- dust
-- duf
-- bottom
-- curlie
-- albert
 - docker
 - docker-compose
+- duf
+- dust
+- eza
+- fd
+- gh
 - git
+- git-quick-stats
 - gitkraken
+- gping
 - graphviz
 - guake
 - htop
@@ -103,17 +110,23 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - kcachegrind
 - lazydocker
 - libutempter0
+- lnav
 - make
-- volta with latest nodejs
+- oha
 - postman
 - python3-pip
 - redshift
 - redshift-gtk
 - rg
+- ripgrep
+- sd
 - sdkman
 - shellcheck
 - sublime-text
 - terminator
+- tokei
+- volta with latest nodejs
+- xh
 
 ---
 

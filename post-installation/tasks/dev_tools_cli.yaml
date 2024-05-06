@@ -23,7 +23,7 @@
   ansible.builtin.copy:
     src: ./defaults/ZscalerRootCA.crt
     dest: "{{ user_home }}"
-    mode: '0644'
+    mode: "0644"
   become_user: "{{ username }}"
 
 - name: Install Volta
@@ -44,24 +44,25 @@
 - name: Install homebrew packages
   ansible.builtin.shell: |
     HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 /home/linuxbrew/.linuxbrew/bin/brew install \
-      hyperfine \
-      fd \
-      sd \
-      ripgrep \
-      dust \
-      duf \
       bottom \
-      curlie \
-      oha \
-      gping \
       broot \
-      tokei \
-      xh \
+      btop \
+      curlie \
+      duf \
+      dust \
       eza \
-      httpstat \
-      gping \
-      lnav \
+      fd \
+      gh \
       git-quick-stats \
-      gh
+      gping \
+      gping \
+      httpstat \
+      hyperfine \
+      lnav \
+      oha \
+      ripgrep \
+      sd \
+      tokei \
+      xh
 
   become_user: "{{ username }}"
