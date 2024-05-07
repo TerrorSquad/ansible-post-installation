@@ -35,9 +35,9 @@ ansible [core 2.11.3]
 
 ```bash
 cd ~/Downloads \
-wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip \
-unzip master.zip \
-cd ansible-post-installation-master
+&& wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip \
+&& unzip master.zip \
+&& cd ansible-post-installation-master
 ```
 
 ### Install all software
