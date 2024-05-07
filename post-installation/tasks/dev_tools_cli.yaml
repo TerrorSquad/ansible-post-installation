@@ -21,7 +21,7 @@
 
 - name: Copy Zscaler root cert to $HOME
   ansible.builtin.copy:
-    src: ./defaults/ZscalerRootCA.crt
+    src: ./defaults/.ZscalerRootCA.crt
     dest: "{{ user_home }}"
     mode: "0644"
   become_user: "{{ username }}"

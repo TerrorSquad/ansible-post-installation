@@ -64,8 +64,8 @@ export LESS="--mouse -RF"
 
 alias gbc="git branch --show-current"
 
-if [ -s $HOME/ZscalerRootCA.crt ]; then
-    export NODE_EXTRA_CA_CERTS="$HOME/ZscalerRootCA.crt"
+if [ -s $HOME/.ZscalerRootCA.crt ]; then
+    export NODE_EXTRA_CA_CERTS="$HOME/.ZscalerRootCA.crt"
 fi
 
 # Functions
