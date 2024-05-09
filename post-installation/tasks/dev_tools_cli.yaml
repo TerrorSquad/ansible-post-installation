@@ -60,9 +60,12 @@
       hyperfine \
       lnav \
       oha \
+      procs \
       ripgrep \
       sd \
+      tealdeer \
       tokei \
-      xh
+      xh \
+      yazi
 
   become_user: "{{ username }}"
