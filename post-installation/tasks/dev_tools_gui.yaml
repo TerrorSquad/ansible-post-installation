@@ -34,15 +34,12 @@
   block:
     - name: Download Slack page
       ansible.builtin.get_url:
-        url: https://slack.com/intl/en-rs/downloads/instructions/ubuntu
+        url: https://slack.com/downloads/instructions/linux?build=deb
         dest: "{{ download_dir }}/slack.html"
 
     - name: Download latest slack package
       ansible.builtin.shell: |
-        URL=https://downloads.slack-edge.com/releases/linux/;
-        FILE_NAME=$(grep -oP  "(slack-desktop)-([0-9]+\.[0-9]+\.[0-9]+)-(amd64.deb)" "{{ download_dir }}/slack.html" | head -n 1 );
-        VERSION=$(echo $FILE_NAME | egrep -o "[0-9]{1,}\.[0-9]{1,}\.[0-9]{1,}");
-        echo $URL$VERSION/prod/x64/$FILE_NAME | xargs wget -O "{{ download_dir }}/slack.deb"
+        grep -oP "https://downloads.+?\.deb" slack.html | xargs wget -O "{{ download_dir }}/slack.deb"
     - name: Install Slack
       ansible.builtin.apt:
         deb: "{{ download_dir }}/slack.deb"
