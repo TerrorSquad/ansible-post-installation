@@ -39,7 +39,7 @@
 
     - name: Download latest slack package
       ansible.builtin.shell: |
-        grep -oP "https://downloads.+?\.deb" slack.html | xargs wget -O "{{ download_dir }}/slack.deb"
+        grep -oP "https://downloads.+?\.deb" "{{ download_dir }}/slack.html" | xargs wget -O "{{ download_dir }}/slack.deb"
     - name: Install Slack
       ansible.builtin.apt:
         deb: "{{ download_dir }}/slack.deb"
