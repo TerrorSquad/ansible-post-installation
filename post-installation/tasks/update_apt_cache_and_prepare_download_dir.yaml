@@ -4,8 +4,9 @@
     update_cache: true
 
 - name: Upgrade APT applications
-  ansible.builtin.shell:
-    cmd: apt upgrade -y
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: true
 
 - name: Create "{{ download_dir }}
   ansible.builtin.file:
@@ -13,10 +14,11 @@
     state: directory
     mode: "0777"
 
-- name: Get Ubuntu code name
-  ansible.builtin.shell: |
-    grep UBUNTU /etc/os-release  | grep -E -o "=.+" | grep -E -o '[^=].+'
-  register: ubuntu_codename
-- name: set fact
+- name: Get OS facts
+  ansible.builtin.setup:
+    gather_subset:
+      - os
+
+- name: Set ubuntu_codename fact
   ansible.builtin.set_fact:
-    ubuntu_codename: "{{ ubuntu_codename.stdout }}"
+    ubuntu_codename: "{{ ansible_lsb.codename }}"

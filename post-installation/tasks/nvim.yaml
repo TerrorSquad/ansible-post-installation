@@ -34,8 +34,18 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Install nvim plugins
-  ansible.builtin.shell: >
-    rm -rf ~/.vim/plugged || true && nvim +PlugInstall +q +q
+- name: Ensure Neovim plugin directory exists
+  ansible.builtin.file:
+    path: ~/.local/share/nvim/plugged
+    state: directory
+    mode: "0775"
+    owner: "{{ username }}"
+    group: "{{ username }}"
   become_user: "{{ username }}"
-  become: true
+
+- name: Install/update Neovim plugins
+  ansible.builtin.command:
+    cmd: nvim +PlugInstall +qall
+  become_user: "{{ username }}"
+  register: plug_install_result
+  changed_when: "'Installing' in plug_install_result.stderr or 'Updating' in plug_install_result.stderr"

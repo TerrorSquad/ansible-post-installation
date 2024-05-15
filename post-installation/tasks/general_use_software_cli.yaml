@@ -14,3 +14,5 @@
     HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 /home/linuxbrew/.linuxbrew/bin/brew install fzf eza
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.linuxbrew/bin/fzf"

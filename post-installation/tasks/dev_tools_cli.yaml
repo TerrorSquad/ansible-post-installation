@@ -29,22 +29,28 @@
   become: true
 
 - name: Install Volta
-  ansible.builtin.shell: |
-    curl https://get.volta.sh | bash
+  ansible.builtin.command: |
+    bash -c "$(curl -fsSL https://get.volta.sh)"
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.volta"
 
 - name: Install latest NodeJS using Volta
   ansible.builtin.shell: >
     zsh -i -c "volta install node"
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.volta/tools/node"
 
 - name: Install latest PNPM using Volta
   ansible.builtin.shell: >
     zsh -i -c "volta install pnpm"
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.volta/tools/pnpm"
 
 - name: Install homebrew packages
   ansible.builtin.shell: |
@@ -55,6 +61,7 @@
       curlie \
       duf \
       dust \
+      lazydocker \
       eza \
       fd \
       gh \
@@ -75,9 +82,14 @@
 
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.linuxbrew/bin/bottom"
 
 - name: Install Rust tools
   ansible.builtin.shell: |
+    set -o pipefail
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.cargo/bin/rustc"

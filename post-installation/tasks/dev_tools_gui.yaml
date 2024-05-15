@@ -29,7 +29,6 @@
         deb: "{{ download_dir }}/dbeaver.deb"
         force: true
 
-# TODO: Make this a task and pass it the URL
 - name: Download and install Slack
   block:
     - name: Download Slack page
@@ -39,7 +38,13 @@
 
     - name: Download latest slack package
       ansible.builtin.shell: |
+        set -o pipefail
         grep -oP "https://downloads.+?\.deb" "{{ download_dir }}/slack.html" | xargs wget -O "{{ download_dir }}/slack.deb"
+      become_user: "{{ username }}"
+      become: true
+      args:
+        creates: "{{ download_dir }}/slack.deb"
+
     - name: Install Slack
       ansible.builtin.apt:
         deb: "{{ download_dir }}/slack.deb"
@@ -63,9 +68,12 @@
 
 - name: Download and install JetBrains ToolBox
   ansible.builtin.shell: |
+    set -o pipefail
     curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/usr/bin/jetbrains-toolbox"
 
 - name: Download and install Visual Studio Code
   block:
@@ -79,9 +87,13 @@
         force: true
 
 - name: Install Postman
-  ansible.builtin.shell: curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
+  ansible.builtin.shell: |
+    set -o pipefail
+    curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/usr/bin/postman"
 
 - name: Sublime text
   block:
@@ -89,13 +101,20 @@
       ansible.builtin.apt_key:
         url: https://download.sublimetext.com/sublimehq-pub.gpg
 
-    - name: Add apt repository
-      ansible.builtin.shell: |
-        echo "deb [allow-insecure=yes trusted=yes] https://download.sublimetext.com/ apt/stable/" | tee /etc/apt/sources.list.d/sublime-text.list
+    - name: Add Sublime Text apt repository
+      ansible.builtin.apt_repository:
+        repo: "deb [allow-insecure=yes trusted=yes] https://download.sublimetext.com/ apt/stable/"
+        filename: sublime-text
+        state: present
+        update_cache: true
 
     - name: Install dependencies
-      ansible.builtin.shell: |
-        apt install -y ca-certificates apt-transport-https
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - apt-transport-https
+        state: present
+        update_cache: true
 
     - name: Add sublime text
       ansible.builtin.apt:

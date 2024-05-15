@@ -45,9 +45,13 @@
       ansible.builtin.get_url:
         url: https://www.tixati.com/download/linux.html
         dest: "{{ download_dir }}/tixati.html"
+
     - name: Find out latest Tixati URL
       ansible.builtin.shell: |
         grep  -oP "<a href=(.+amd64.deb)\">" "{{ download_dir }}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ download_dir }}/tixati.deb"
+      args:
+        creates: "{{ download_dir }}/tixati.deb"
+
     - name: Install Tixati
       ansible.builtin.apt:
         deb: "{{ download_dir }}/tixati.deb"
@@ -133,17 +137,21 @@
         BASE_URL=https://www.moderncsv.com/
         URL_PATH="release/${NAME}"
         echo $BASE_URL$URL_PATH | xargs wget -O "{{ download_dir }}/moderncsv.tar.gz"
+      args:
+        creates: "{{ download_dir }}/moderncsv.tar.gz"
 
     - name: Extract ModernCSV
-      ansible.builtin.shell:
-        cmd: mkdir "moderncsv" && tar -xvf "{{ download_dir }}/moderncsv.tar.gz" --directory moderncsv
-        chdir: "{{ download_dir }}"
+      ansible.builtin.unarchive:
+        src: "{{ download_dir }}/moderncsv.tar.gz"
+        dest: "{{ download_dir }}"
+        remote_src: true
+        creates: "{{ download_dir }}/moderncsv"
 
-    - name: Install ModernCSV
-      ansible.builtin.shell:
-        cmd: cd $(ls) && bash ./install.sh
+    - name: Install ModernCSV (assuming install.sh is executable)
+      ansible.builtin.command:
+        cmd: "./install.sh"
         chdir: "{{ download_dir }}/moderncsv"
-  # ignore_errors: true
+        creates: "/usr/local/bin/moderncsv"
 
 - name: Copy RedShift configuration file
   ansible.builtin.copy:
