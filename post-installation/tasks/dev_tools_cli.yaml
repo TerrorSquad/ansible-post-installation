@@ -18,6 +18,7 @@
 #   ansible.builtin.shell: |
 #     curl -s "https://get.sdkman.io" | bash
 #   become_user: "{{ username }}"
+#   become: true
 
 - name: Copy Zscaler root cert to $HOME
   ansible.builtin.copy:
@@ -25,21 +26,25 @@
     dest: "{{ user_home }}"
     mode: "0644"
   become_user: "{{ username }}"
+  become: true
 
 - name: Install Volta
   ansible.builtin.shell: |
     curl https://get.volta.sh | bash
   become_user: "{{ username }}"
+  become: true
 
 - name: Install latest NodeJS using Volta
   ansible.builtin.shell: >
     zsh -i -c "volta install node"
   become_user: "{{ username }}"
+  become: true
 
 - name: Install latest PNPM using Volta
   ansible.builtin.shell: >
     zsh -i -c "volta install pnpm"
   become_user: "{{ username }}"
+  become: true
 
 - name: Install homebrew packages
   ansible.builtin.shell: |
@@ -69,3 +74,10 @@
       yazi
 
   become_user: "{{ username }}"
+  become: true
+
+- name: Install Rust tools
+  ansible.builtin.shell: |
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  become_user: "{{ username }}"
+  become: true

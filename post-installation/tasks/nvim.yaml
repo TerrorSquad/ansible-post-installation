@@ -9,12 +9,14 @@
     state: directory
     mode: "0775"
   become_user: "{{ username }}"
+  become: true
 
 - name: Install nvim plugin manager
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: "{{ nvim_plugin_manager_path }}/plug.vim"
   become_user: "{{ username }}"
+  become: true
 
 - name: Create config directory
   ansible.builtin.file:
@@ -22,6 +24,7 @@
     state: directory
     mode: "0775"
   become_user: "{{ username }}"
+  become: true
 
 - name: Copy nvim config file
   ansible.builtin.copy:
@@ -29,8 +32,10 @@
     dest: "{{ nvim_config_path }}/init.vim"
     mode: "0644"
   become_user: "{{ username }}"
+  become: true
 
 - name: Install nvim plugins
   ansible.builtin.shell: >
     rm -rf ~/.vim/plugged || true && nvim +PlugInstall +q +q
   become_user: "{{ username }}"
+  become: true

@@ -5,6 +5,12 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+ZSH_CACHE_DIR=$HOME/.zsh
+
+if [ -d "$HOME/.zsh/completions" ] && [ -r "$HOME/.zsh/completions" ]; then
+  FPATH="$HOME/.zsh/completions:${FPATH}"
+fi
+
 autoload -Uz compinit
 compinit
 

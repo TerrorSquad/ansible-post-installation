@@ -16,7 +16,6 @@
   ansible.builtin.shell: |
     add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  {{ ubuntu_codename }} stable" -y
 
-
 - name: Update apt cache and install docker
   ansible.builtin.apt:
     update_cache: true
@@ -43,3 +42,4 @@
     cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
     chdir: "{{ download_dir }}"
   become_user: "{{ username }}"
+  become: true

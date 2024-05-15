@@ -9,6 +9,7 @@
     name: "user.name"
     scope: global
   become_user: "{{ username }}"
+  become: true
   register: current_git_name
 
 - name: Save current git email
@@ -16,6 +17,7 @@
     name: "user.email"
     scope: global
   become_user: "{{ username }}"
+  become: true
   register: current_git_email
 
 - name: Copy .gitconfig file
@@ -24,6 +26,7 @@
     dest: "~"
     mode: "0644"
   become_user: "{{ username }}"
+  become: true
 
 - name: Copy .git-templates directory
   ansible.builtin.copy:
@@ -31,6 +34,7 @@
     dest: "~"
     mode: "0755"
   become_user: "{{ username }}"
+  become: true
 
 - block:
     - name: Configure git user name
@@ -40,6 +44,7 @@
         scope: global
         state: present
       become_user: "{{ username }}"
+      become: true
 
     - name: Configure git user email
       git_config:
@@ -48,6 +53,7 @@
         scope: global
         state: present
       become_user: "{{ username }}"
+      become: true
   when: git_set_user_data
 
 # Restore git user data since copying the .gitconfig above will overwrite it
@@ -59,6 +65,7 @@
         scope: global
         state: present
       become_user: "{{ username }}"
+      become: true
 
     - name: Revert old git user email
       git_config:
@@ -67,9 +74,11 @@
         scope: global
         state: present
       become_user: "{{ username }}"
+      become: true
   when: not git_set_user_data
 
 - name: Download and install delta
   ansible.builtin.shell: |
     HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 /home/linuxbrew/.linuxbrew/bin/brew install git-delta
   become_user: "{{ username }}"
+  become: true
