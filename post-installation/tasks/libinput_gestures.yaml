@@ -18,6 +18,7 @@
     dest: "{{ config_home }}"
     mode: "0644"
   become_user: "{{ username }}"
+  become: true
 
 - name: Check if repo is cloned
   ansible.builtin.stat:
@@ -32,6 +33,7 @@
     update: true
     force: true
   become_user: "{{ username }}"
+  become: true
   when: not libinput_directory.stat.exists
 
 - name: Make libinput-gestures
@@ -43,8 +45,10 @@
   ansible.builtin.shell: |
     libinput-gestures-setup autostart
   become_user: "{{ username }}"
+  become: true
 
 - name: Run libinput-gestures
   ansible.builtin.shell: |
     libinput-gestures-setup start
   become_user: "{{ username }}"
+  become: true

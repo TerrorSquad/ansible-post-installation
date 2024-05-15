@@ -51,6 +51,7 @@
     state: directory
     mode: "0775"
   become_user: "{{ username }}"
+  become: true
 
 - name: Configure Terminator
   ansible.builtin.copy:
@@ -58,11 +59,13 @@
     dest: "{{ terminator_config_file }}"
     mode: "0644"
   become_user: "{{ username }}"
+  become: true
 
 - name: Download and install JetBrains ToolBox
   ansible.builtin.shell: |
     curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
   become_user: "{{ username }}"
+  become: true
 
 - name: Download and install Visual Studio Code
   block:
@@ -78,6 +81,7 @@
 - name: Install Postman
   ansible.builtin.shell: curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
   become_user: "{{ username }}"
+  become: true
 
 - name: Sublime text
   block:

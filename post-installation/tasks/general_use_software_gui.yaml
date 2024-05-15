@@ -125,7 +125,6 @@
 #         update_cache: true
 #         name:
 #           - appimagelauncher
-
 - name: Install ModernCSV
   block:
     - name: Download ModernCSV
@@ -152,6 +151,7 @@
     dest: "{{ config_home }}"
     mode: "0644"
   become_user: "{{ username }}"
+  become: true
 
 - name: Download and install input-remapper
   ansible.builtin.include_tasks: install_github_asset.yaml

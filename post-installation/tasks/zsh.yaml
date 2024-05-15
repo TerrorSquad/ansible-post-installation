@@ -18,6 +18,7 @@
     dest: "{{ zshrc }}"
     mode: "0644"
   become_user: "{{ username }}"
+  become: true
 
 - name: Create ~/.zsh/completions directory
   ansible.builtin.file:
@@ -25,6 +26,7 @@
     state: directory
     mode: "0755"
   become_user: "{{ username }}"
+  become: true
 
 - name: Copy .p10k.zsh
   ansible.builtin.copy:
@@ -32,6 +34,7 @@
     dest: "{{ user_home }}"
     mode: "0644"
   become_user: "{{ username }}"
+  become: true
 
 - name: Download and install antidote - ZSH plugin manager
   block:
@@ -39,6 +42,7 @@
       ansible.builtin.shell: |
         zsh -c "cd ~ && rm -rf ${ZDOTDIR:-~}/.antidote && git clone --depth=1 https://github.com/mattmc3/antidote.git ${ZDOTDIR:-~}/.antidote"
       become_user: "{{ username }}"
+      become: true
 
 - name: Configure antidote
   block:
@@ -48,8 +52,10 @@
         dest: "{{ user_home }}"
         mode: "0644"
       become_user: "{{ username }}"
+      become: true
 
     - name: Download antidote bundles from .zsh_plugins.sh
       ansible.builtin.shell:
         cmd: zsh -ic "antidote bundle <~/.zsh_plugins.sh >~/.zsh_plugins.zsh"
       become_user: "{{ username }}"
+      become: true

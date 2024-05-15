@@ -3,3 +3,4 @@
   ansible.builtin.shell:
     cmd: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   become_user: "{{ username }}"
+  become: true
