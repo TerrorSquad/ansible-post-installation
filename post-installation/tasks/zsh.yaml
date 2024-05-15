@@ -12,12 +12,18 @@
     name: "{{ username }}"
     shell: "{{ zsh_install_path.stdout }}"
 
-
 - name: Initialize .zshrc
   ansible.builtin.copy:
     src: ./defaults/.zshrc
     dest: "{{ zshrc }}"
     mode: "0644"
+  become_user: "{{ username }}"
+
+- name: Create ~/.zsh/completions directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.zsh/completions"
+    state: directory
+    mode: "0755"
   become_user: "{{ username }}"
 
 - name: Copy .p10k.zsh
