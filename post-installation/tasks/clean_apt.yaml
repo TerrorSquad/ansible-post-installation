@@ -1,4 +1,13 @@
 ---
-- name: Clean apt
-  ansible.builtin.shell:
-    cmd: apt autoclean -y && apt autoremove -y
+- name: Remove useless packages from the cache
+  ansible.builtin.apt:
+    autoclean: yes
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.apt:
+    autoremove: yes
+
+- name: Remove dependencies that are no longer required and purge their configuration files
+  ansible.builtin.apt:
+    autoremove: yes
+    purge: true
