@@ -69,3 +69,14 @@
       yazi
 
   become_user: "{{ username }}"
+
+- name: Install Rust tools
+  ansible.builtin.shell: |
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  become_user: "{{ username }}"
+
+- name: Generate Rust completion scripts
+  ansible.builtin.shell: |
+    /home/{{ username }}/.cargo/bin/rustup completions zsh > /home/{{ username }}/.zsh/completions/_rustup && \
+    /home/{{ username }}/.cargo/bin/rustup completions zsh cargo > /home/{{ username }}/.zsh/completions/_cargo
+  become_user: "{{ username }}"
