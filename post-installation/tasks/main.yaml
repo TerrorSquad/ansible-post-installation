@@ -55,10 +55,6 @@
 - name: Clean apt cache
   ansible.builtin.include_tasks: clean_apt.yaml
 
-- name: Undervolt
-  ansible.builtin.include_tasks: undervolt.yaml
-  when: undervolt
-
 - name: Display post install message
   ansible.builtin.debug:
     msg:
