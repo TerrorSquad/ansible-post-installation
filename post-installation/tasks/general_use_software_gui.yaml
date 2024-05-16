@@ -134,9 +134,9 @@
     - name: Extract ModernCSV
       ansible.builtin.unarchive:
         src: "{{ download_dir }}/moderncsv.tar.gz"
-        dest: "{{ download_dir }}"
+        dest: "{{ download_dir }}/moderncsv"
         remote_src: true
-        creates: "{{ download_dir }}/moderncsv*"
+        creates: "{{ download_dir }}/moderncsv"
 
     - name: Install ModernCSV (assuming install.sh is executable)
       ansible.builtin.command:
