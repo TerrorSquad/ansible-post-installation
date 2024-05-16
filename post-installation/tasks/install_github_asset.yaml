@@ -3,7 +3,7 @@
   ansible.builtin.set_fact:
     type: deb
 
-- name: "Set github_asset_dest to {{ download_dir }}/{{ github_asset }}"
+- name: Set github_asset_dest
   ansible.builtin.set_fact:
     github_asset_dest: "{{ download_dir }}/{{ github_asset }}"
 

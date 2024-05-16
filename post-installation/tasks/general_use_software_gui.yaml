@@ -5,6 +5,8 @@
       ansible.builtin.get_url:
         url: https://www.rescuetime.com/installers/rescuetime_current_amd64.deb
         dest: "{{ download_dir }}/rescuetime.deb"
+        mode: "0644"
+
     - name: Install RescueTime
       ansible.builtin.apt:
         deb: "{{ download_dir }}/rescuetime.deb"
@@ -15,6 +17,8 @@
       ansible.builtin.get_url:
         url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         dest: "{{ download_dir }}/google-chrome-stable_current_amd64.deb"
+        mode: "0644"
+
     - name: Install Google Chrome
       ansible.builtin.apt:
         deb: "{{ download_dir }}/google-chrome-stable_current_amd64.deb"
@@ -25,6 +29,8 @@
       ansible.builtin.get_url:
         url: https://zoom.us/client/latest/zoom_amd64.deb
         dest: "{{ download_dir }}/zoom_amd64.deb"
+        mode: "0644"
+
     - name: Install Zoom
       ansible.builtin.apt:
         deb: "{{ download_dir }}/zoom_amd64.deb"
@@ -35,6 +41,8 @@
       ansible.builtin.get_url:
         url: https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb
         dest: "{{ download_dir }}/viber.deb"
+        mode: "0644"
+
     - name: Install Viber
       ansible.builtin.apt:
         deb: "{{ download_dir }}/viber.deb"
@@ -45,10 +53,14 @@
       ansible.builtin.get_url:
         url: https://www.tixati.com/download/linux.html
         dest: "{{ download_dir }}/tixati.html"
+        mode: "0644"
 
     - name: Find out latest Tixati URL
-      ansible.builtin.shell: |
-        grep  -oP "<a href=(.+amd64.deb)\">" "{{ download_dir }}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ download_dir }}/tixati.deb"
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          grep  -oP "<a href=(.+amd64.deb)\">" "{{ download_dir }}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ download_dir }}/tixati.deb"
+        executable: /bin/bash
       args:
         creates: "{{ download_dir }}/tixati.deb"
 
@@ -56,17 +68,14 @@
       ansible.builtin.apt:
         deb: "{{ download_dir }}/tixati.deb"
 
-- name: Set Tixati as default torrent client
-  ansible.builtin.shell: |
-    gio mime x-scheme-handler/magnet tixati.desktop
-  when: ansible_distribution == 'Linux Mint'
-
 - name: Download and install UnifiedRemote
   block:
     - name: Download UnifiedRemote
       ansible.builtin.get_url:
         url: https://www.unifiedremote.com/download/linux-x64-deb
         dest: "{{ download_dir }}/uremote.deb"
+        mode: "0644"
+
     - name: Install UnifiedRemote
       ansible.builtin.apt:
         deb: "{{ download_dir }}/uremote.deb"
@@ -88,17 +97,6 @@
       - redshift
       - redshift-gtk
 
-- name: Donwload and install skype
-  block:
-    - name: Download skype
-      ansible.builtin.get_url:
-        url: https://go.skype.com/skypeforlinux-64.deb
-        dest: "{{ download_dir }}/skypeforlinux-64.deb"
-    - name: Install skype
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/skypeforlinux-64.deb"
-        force: true
-
 - name: Download and install mailspring
   ansible.builtin.include_tasks: install_github_asset.yaml
   vars:
@@ -112,36 +110,26 @@
       ansible.builtin.get_url:
         url: https://download.onlyoffice.com/install/desktop/editors/linux/onlyoffice-desktopeditors_amd64.deb
         dest: "{{ download_dir }}/onlyoffice-desktopeditors_amd64.deb"
+        mode: "0644"
+
     - name: Install ONLYOFFICE
       ansible.builtin.apt:
         deb: "{{ download_dir }}/onlyoffice-desktopeditors_amd64.deb"
         force: true
 
-# There is no release for Ubuntu Lunar
-# https://github.com/TheAssassin/AppImageLauncher/issues/601
-# - name: Install AppImage Launcher
-#   block:
-#     - name: Add AppImage Launcher PPA
-#       ansible.builtin.shell: |
-#         add-apt-repository ppa:appimagelauncher-team/stable -y
-#     - name:
-#       ansible.builtin.apt:
-#         update_cache: true
-#         name:
-#           - appimagelauncher
 - name: Install ModernCSV
   block:
     - name: Download ModernCSV
-      ansible.builtin.shell: |
-        NAME=$(curl -fsSL https://www.moderncsv.com/download |  grep -oP "ModernCSV-Linux.+tar.gz")
-        BASE_URL=https://www.moderncsv.com/
-        URL_PATH="release/${NAME}"
-        echo $BASE_URL$URL_PATH | xargs wget -O "{{ download_dir }}/moderncsv.tar.gz"
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          NAME=$(curl -fsSL https://www.moderncsv.com/download |  grep -oP "ModernCSV-Linux.+tar.gz")
+          BASE_URL=https://www.moderncsv.com/
+          URL_PATH="release/${NAME}"
+          echo $BASE_URL$URL_PATH | xargs wget -O "{{ download_dir }}/moderncsv.tar.gz"
+        executable: /bin/bash
       args:
         creates: "{{ download_dir }}/moderncsv.tar.gz"
-
-    - name: ls ModernCSV
-      ansible.builtin.shell: ls "{{ download_dir }}"
 
     - name: Extract ModernCSV
       ansible.builtin.unarchive:
