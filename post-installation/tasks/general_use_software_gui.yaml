@@ -140,8 +140,8 @@
 
     - name: Install ModernCSV (assuming install.sh is executable)
       ansible.builtin.command:
-        cmd: "./install.sh"
-        chdir: "{{ download_dir }}/moderncsv*"
+        cmd: "cd $(ls) && bash ./install.sh"
+        chdir: "{{ download_dir }}/moderncsv"
         creates: "/usr/local/bin/moderncsv"
 
 - name: Copy RedShift configuration file
