@@ -32,8 +32,8 @@
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      "curl https://get.volta.sh | bash"
-    executable: /bin/bash
+      curl https://get.volta.sh | bash
+    executable: /usr/bin/zsh
   become_user: "{{ username }}"
   become: true
   args:
