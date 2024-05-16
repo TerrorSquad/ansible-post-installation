@@ -151,7 +151,7 @@
         executable: /bin/bash
         chdir: "{{ download_dir }}/moderncsv"
       register: moderncsv_version
-      when: moderncsv_version.stdout | length > 0
+      changed_when: moderncsv_version.stdout | length > 0
 
     - name: Find install.sh and uninstall.sh files
       ansible.builtin.find:
