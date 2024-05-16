@@ -5,7 +5,7 @@
     groups: input
     append: true
 
-- name: "ansible.builtin.apt: Install libinput-gestures dependencies"
+- name: Install libinput-gestures dependencies
   ansible.builtin.apt:
     name:
       - xdotool
