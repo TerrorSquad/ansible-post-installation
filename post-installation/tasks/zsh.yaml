@@ -43,10 +43,8 @@
       ansible.builtin.file:
         path: "{{ user_home }}/.antidote"
         state: absent
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        mode: "0755"
       become_user: "{{ username }}"
+      become: true
 
     - name: Clone antidote repository
       ansible.builtin.git:
@@ -56,6 +54,7 @@
         force: true
         version: v1.9.6
       become_user: "{{ username }}"
+      become: true
 
 - name: Configure antidote
   block:
@@ -65,6 +64,7 @@
         dest: "{{ user_home }}/.zsh_plugins.sh"
         mode: "0644"
       become_user: "{{ username }}"
+      become: true
 
     - name: Download antidote bundles
       ansible.builtin.shell: |
@@ -73,3 +73,4 @@
         executable: /bin/zsh
         creates: "{{ user_home }}/.zsh_plugins.zsh"
       become_user: "{{ username }}"
+      become: true
