@@ -38,7 +38,6 @@
 
     - name: Download latest slack package
       ansible.builtin.shell: |
-        set -o pipefail
         grep -oP "https://downloads.+?\.deb" "{{ download_dir }}/slack.html" | xargs wget -O "{{ download_dir }}/slack.deb"
       become_user: "{{ username }}"
       become: true
@@ -68,7 +67,6 @@
 
 - name: Download and install JetBrains ToolBox
   ansible.builtin.shell: |
-    set -o pipefail
     curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
   become_user: "{{ username }}"
   become: true
@@ -88,7 +86,6 @@
 
 - name: Install Postman
   ansible.builtin.shell: |
-    set -o pipefail
     curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
   become_user: "{{ username }}"
   become: true

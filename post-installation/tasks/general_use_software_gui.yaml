@@ -140,12 +140,15 @@
       args:
         creates: "{{ download_dir }}/moderncsv.tar.gz"
 
+    - name: ls ModernCSV
+      ansible.builtin.shell: ls "{{ download_dir }}"
+
     - name: Extract ModernCSV
       ansible.builtin.unarchive:
         src: "{{ download_dir }}/moderncsv.tar.gz"
         dest: "{{ download_dir }}"
         remote_src: true
-        creates: "{{ download_dir }}/moderncsv"
+        creates: "{{ download_dir }}/moderncsv*"
 
     - name: Install ModernCSV (assuming install.sh is executable)
       ansible.builtin.command:

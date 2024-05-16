@@ -62,4 +62,4 @@
 - name: Display post install message
   ansible.builtin.debug:
     msg:
-      - 'Installation complete. Please restart your machine.'
+      - "Installation complete. Please restart your machine."

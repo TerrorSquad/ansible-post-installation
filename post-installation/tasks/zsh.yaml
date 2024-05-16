@@ -54,7 +54,7 @@
         dest: "{{ user_home }}/.antidote"
         depth: 1
         force: true
-        version: master
+        version: v1.9.6
       become_user: "{{ username }}"
 
 - name: Configure antidote
@@ -68,8 +68,7 @@
 
     - name: Download antidote bundles
       ansible.builtin.shell: |
-        . /etc/zsh/zshenv
-        antidote bundle <~/.zsh_plugins.sh >~/.zsh_plugins.zsh
+        zsh -ic "update-antidote && exit"
       args:
         executable: /bin/zsh
         creates: "{{ user_home }}/.zsh_plugins.zsh"
