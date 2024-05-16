@@ -8,6 +8,11 @@ on:
       - master
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
+
+concurrency:
+  group: ${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: "${{ matrix.os }}"
