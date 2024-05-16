@@ -143,15 +143,27 @@
         src: "{{ download_dir }}/moderncsv.tar.gz"
         dest: "{{ download_dir }}/moderncsv"
         remote_src: true
-        creates: "{{ download_dir }}/moderncsv"
 
-    - name: Install ModernCSV (assuming install.sh is executable)
+    - name: Uninstall ModernCSV
+      ansible.builtin.shell:
+        cmd: |
+          cd $(ls) && bash ./uninstall.sh
+        executable: /bin/bash
+        chdir: "{{ download_dir }}/moderncsv"
+        removes: /opt/moderncsv
+
+    - name: Remove symlink
+      ansible.builtin.file:
+        path: /usr/bin/moderncsv
+        state: absent
+
+    - name: Install ModernCSV
       ansible.builtin.shell:
         cmd: |
           cd $(ls) && bash ./install.sh
         executable: /bin/bash
         chdir: "{{ download_dir }}/moderncsv"
-        creates: "/usr/local/bin/moderncsv"
+        creates: /opt/moderncsv
 
 - name: Copy RedShift configuration file
   ansible.builtin.copy:
