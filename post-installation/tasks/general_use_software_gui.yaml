@@ -144,6 +144,31 @@
         dest: "{{ download_dir }}/moderncsv"
         remote_src: true
 
+    - name: Get version number from the desktop file
+      ansible.builtin.shell:
+        cmd: |
+          cd $(ls) && grep -oP '(?<=Version=)[^=]+' moderncsv.desktop
+        executable: /bin/bash
+        chdir: "{{ download_dir }}/moderncsv"
+      register: moderncsv_version
+      when: moderncsv_version.stdout | length > 0
+
+    - name: Find install.sh and uninstall.sh files
+      ansible.builtin.find:
+        paths: "{{ download_dir }}/moderncsv/"
+        patterns:
+          - install.sh
+          - uninstall.sh
+        recurse: true
+      register: script_files
+
+    - name: Replace version number in found script files
+      ansible.builtin.replace:
+        path: "{{ item.path }}"
+        regexp: "^(.*)VERSION_NUM=.+(.*)$"
+        replace: "VERSION_NUM={{ moderncsv_version.stdout }}"
+      loop: "{{ script_files.files }}"
+
     - name: Uninstall ModernCSV
       ansible.builtin.shell:
         cmd: |
