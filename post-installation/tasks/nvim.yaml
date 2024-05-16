@@ -34,18 +34,19 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Ensure Neovim plugin directory exists
+- name: Delete Neovim plugin directory
   ansible.builtin.file:
-    path: ~/.local/share/nvim/plugged
-    state: directory
-    mode: "0775"
-    owner: "{{ username }}"
-    group: "{{ username }}"
+    path: "{{ user_home }}/.vim/plugged"
+    state: absent
   become_user: "{{ username }}"
+  become: true
 
 - name: Install/update Neovim plugins
-  ansible.builtin.command:
-    cmd: nvim +PlugInstall +qall
+  ansible.builtin.shell:
+    cmd: |
+      nvim +PlugInstall +qall
+    executable: /bin/bash
   become_user: "{{ username }}"
+  become: true
   register: plug_install_result
   changed_when: "'Installing' in plug_install_result.stderr or 'Updating' in plug_install_result.stderr"
