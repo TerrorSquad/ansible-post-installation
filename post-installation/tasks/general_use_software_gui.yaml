@@ -131,6 +131,13 @@
       args:
         creates: "{{ download_dir }}/moderncsv.tar.gz"
 
+    - name: Create directory for ModernCSV
+      ansible.builtin.file:
+        path: "{{ download_dir }}/moderncsv"
+        state: directory
+        mode: "0755"
+        owner: "{{ username }}"
+
     - name: Extract ModernCSV
       ansible.builtin.unarchive:
         src: "{{ download_dir }}/moderncsv.tar.gz"
