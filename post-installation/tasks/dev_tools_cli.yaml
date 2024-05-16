@@ -29,18 +29,10 @@
   become: true
 
 - name: Install Volta
-  ansible.builtin.get_url:
-    url: "https://get.volta.sh"
-    dest: "/tmp/volta.sh"
-    mode: "0755"
-  become_user: "{{ username }}"
-  become: true
-
-- name: Execute Volta installation script
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      "/tmp/volta.sh | bash"
+      "https://get.volta.sh | bash"
     executable: /bin/bash
   become_user: "{{ username }}"
   become: true
