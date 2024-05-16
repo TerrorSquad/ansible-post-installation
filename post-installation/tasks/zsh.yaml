@@ -39,10 +39,10 @@
 
 - name: Install antidote (ZSH plugin manager)
   block:
-    - name: Ensure antidote directory exists
+    - name: Delete existing antidote directory
       ansible.builtin.file:
         path: "{{ user_home }}/.antidote"
-        state: directory
+        state: absent
         owner: "{{ username }}"
         group: "{{ username }}"
         mode: "0755"
