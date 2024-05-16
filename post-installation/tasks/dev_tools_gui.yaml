@@ -13,6 +13,8 @@
       ansible.builtin.get_url:
         url: https://release.axocdn.com/linux/gitkraken-amd64.deb
         dest: "{{ download_dir }}/gitkraken.deb"
+        mode: "0644"
+
     - name: Install GitKraken
       ansible.builtin.apt:
         deb: "{{ download_dir }}/gitkraken.deb"
@@ -24,6 +26,8 @@
       ansible.builtin.get_url:
         url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
         dest: "{{ download_dir }}/dbeaver.deb"
+        mode: "0644"
+
     - name: Install DBeaver
       ansible.builtin.apt:
         deb: "{{ download_dir }}/dbeaver.deb"
@@ -35,10 +39,14 @@
       ansible.builtin.get_url:
         url: https://slack.com/downloads/instructions/linux?build=deb
         dest: "{{ download_dir }}/slack.html"
+        mode: "0644"
 
     - name: Download latest slack package
-      ansible.builtin.shell: |
-        grep -oP "https://downloads.+?\.deb" "{{ download_dir }}/slack.html" | xargs wget -O "{{ download_dir }}/slack.deb"
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+          grep -oP "https://downloads.+?\.deb" "{{ download_dir }}/slack.html" | xargs wget -O "{{ download_dir }}/slack.deb"
+        executable: /bin/bash
       become_user: "{{ username }}"
       become: true
       args:
@@ -66,8 +74,11 @@
   become: true
 
 - name: Download and install JetBrains ToolBox
-  ansible.builtin.shell: |
-    curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
+    executable: /bin/bash
   become_user: "{{ username }}"
   become: true
   args:
@@ -79,14 +90,19 @@
       ansible.builtin.get_url:
         url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
         dest: "{{ download_dir }}/vscode.deb"
+        mode: "0644"
+
     - name: Install Visual Studio Code
       ansible.builtin.apt:
         deb: "{{ download_dir }}/vscode.deb"
         force: true
 
 - name: Install Postman
-  ansible.builtin.shell: |
-    curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
+    executable: /bin/bash
   become_user: "{{ username }}"
   become: true
   args:
