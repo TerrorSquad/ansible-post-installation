@@ -146,8 +146,10 @@
         creates: "{{ download_dir }}/moderncsv"
 
     - name: Install ModernCSV (assuming install.sh is executable)
-      ansible.builtin.command:
-        cmd: "cd $(ls) && bash ./install.sh"
+      ansible.builtin.shell:
+        cmd: |
+          cd $(ls) && bash ./install.sh
+        executable: /bin/bash
         chdir: "{{ download_dir }}/moderncsv"
         creates: "/usr/local/bin/moderncsv"
 
