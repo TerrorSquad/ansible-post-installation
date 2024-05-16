@@ -28,6 +28,12 @@
   become_user: "{{ username }}"
   become: true
 
+- name: Remove old Volta binary
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.volta/bin/volta"
+    state: absent
+  become_user: "{{ username }}"
+
 - name: Install Volta
   ansible.builtin.shell:
     cmd: |
@@ -37,7 +43,7 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/home/{{ username }}/.volta"
+    creates: "/home/{{ username }}/.volta/bin/volta"
 
 - name: Install latest NodeJS using Volta
   ansible.builtin.shell: >

@@ -97,6 +97,11 @@
         deb: "{{ download_dir }}/vscode.deb"
         force: true
 
+- name: Remove Postman
+  ansible.builtin.apt:
+    name: postman
+    state: absent
+
 - name: Install Postman
   ansible.builtin.shell:
     cmd: |

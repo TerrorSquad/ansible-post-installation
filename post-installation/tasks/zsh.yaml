@@ -66,6 +66,11 @@
       become_user: "{{ username }}"
       become: true
 
+    - name: Remove existing .zsh_plugins.zsh
+      ansible.builtin.file:
+        path: "{{ user_home }}/.zsh_plugins.zsh"
+        state: absent
+
     - name: Download antidote bundles
       ansible.builtin.shell: |
         zsh -ic "update-antidote && exit"
