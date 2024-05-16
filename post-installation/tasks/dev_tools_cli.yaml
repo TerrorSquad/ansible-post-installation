@@ -30,7 +30,7 @@
 
 - name: Install Volta
   ansible.builtin.command: |
-    bash -c "$(curl -fsSL https://get.volta.sh)"
+    zsh -c "$(curl -fsSL https://get.volta.sh)"
   become_user: "{{ username }}"
   become: true
   args:
