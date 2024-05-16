@@ -5,7 +5,7 @@
     groups: input
     append: true
 
-- name: "ansible.builtin.apt: Install libinput-gestures dependencies"
+- name: Install libinput-gestures dependencies
   ansible.builtin.apt:
     name:
       - xdotool
@@ -32,6 +32,7 @@
     clone: true
     update: true
     force: true
+    version: master
   become_user: "{{ username }}"
   become: true
   when: not libinput_directory.stat.exists
@@ -46,9 +47,5 @@
     libinput-gestures-setup autostart
   become_user: "{{ username }}"
   become: true
-
-- name: Run libinput-gestures
-  ansible.builtin.shell: |
-    libinput-gestures-setup start
-  become_user: "{{ username }}"
-  become: true
+  args:
+    creates: "/home/{{ username }}/.config/autostart/libinput-gestures.desktop"

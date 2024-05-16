@@ -28,23 +28,38 @@
   become_user: "{{ username }}"
   become: true
 
+- name: Remove old Volta binary
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.volta/bin/volta"
+    state: absent
+  become_user: "{{ username }}"
+
 - name: Install Volta
-  ansible.builtin.shell: |
-    curl https://get.volta.sh | bash
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl https://get.volta.sh | bash
+    executable: /usr/bin/zsh
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.volta/bin/volta"
 
 - name: Install latest NodeJS using Volta
   ansible.builtin.shell: >
     zsh -i -c "volta install node"
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.volta/tools/node"
 
 - name: Install latest PNPM using Volta
   ansible.builtin.shell: >
     zsh -i -c "volta install pnpm"
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.volta/tools/pnpm"
 
 - name: Install homebrew packages
   ansible.builtin.shell: |
@@ -55,6 +70,7 @@
       curlie \
       duf \
       dust \
+      lazydocker \
       eza \
       fd \
       gh \
@@ -75,9 +91,16 @@
 
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.linuxbrew/bin/bottom"
 
 - name: Install Rust tools
-  ansible.builtin.shell: |
-    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    executable: /bin/bash
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.cargo/bin/rustc"

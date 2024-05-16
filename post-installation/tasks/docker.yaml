@@ -8,13 +8,17 @@
       - gnupg-agent
       - software-properties-common
 
-- name: Add docker repository key
-  ansible.builtin.shell: |
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+- name: Add Docker apt repository key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
 
-- name: Add docker  apt repository
-  ansible.builtin.shell: |
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  {{ ubuntu_codename }} stable" -y
+- name: Add Docker apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable"
+    filename: docker-ce
+    state: present
+    update_cache: true
 
 - name: Update apt cache and install docker
   ansible.builtin.apt:
@@ -36,10 +40,3 @@
     github_repo: docker/compose
     github_asset: docker-compose
     type: binary
-
-- name: Install lazydocker
-  ansible.builtin.shell:
-    cmd: curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash
-    chdir: "{{ download_dir }}"
-  become_user: "{{ username }}"
-  become: true

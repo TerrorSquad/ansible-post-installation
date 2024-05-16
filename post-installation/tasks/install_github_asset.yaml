@@ -3,9 +3,9 @@
   ansible.builtin.set_fact:
     type: deb
 
-- name: "Set github_asset_dest to {{ download_dir }}/{{ github_asset }}"
+- name: Set github_asset_dest
   ansible.builtin.set_fact:
-    github_asset_dest: "{{ download_dir}}/{{ github_asset }}"
+    github_asset_dest: "{{ download_dir }}/{{ github_asset }}"
 
 - name: Get latest release info
   ansible.builtin.uri:
@@ -69,7 +69,6 @@
       ansible.builtin.debug:
         msg: "The package was not installed because a newer version is already installed."
       when: apt_output is failed
-
 
 - name: Download tar.gz asset {{ github_asset }}
   when: type == "tar.gz"

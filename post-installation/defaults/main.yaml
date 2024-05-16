@@ -3,8 +3,6 @@ vagrant_username: vagrant
 git_user_name: Goran Ninkovic
 git_user_email: change@me.com
 git_set_user_data: false
-# Undervolt
-undervolt: false
 dev_tools_cli: false
 dev_tools_gui: false
 cli: false

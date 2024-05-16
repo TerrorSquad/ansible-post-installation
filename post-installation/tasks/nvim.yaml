@@ -15,6 +15,7 @@
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: "{{ nvim_plugin_manager_path }}/plug.vim"
+    mode: "0644"
   become_user: "{{ username }}"
   become: true
 
@@ -34,8 +35,19 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Install nvim plugins
-  ansible.builtin.shell: >
-    rm -rf ~/.vim/plugged || true && nvim +PlugInstall +q +q
+- name: Delete Neovim plugin directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.vim/plugged"
+    state: absent
   become_user: "{{ username }}"
   become: true
+
+- name: Install/update Neovim plugins
+  ansible.builtin.shell:
+    cmd: |
+      nvim +PlugInstall +qall
+    executable: /bin/bash
+  become_user: "{{ username }}"
+  become: true
+  register: plug_install_result
+  changed_when: "'Installing' in plug_install_result.stderr or 'Updating' in plug_install_result.stderr"

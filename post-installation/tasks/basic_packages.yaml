@@ -6,3 +6,4 @@
       - xz-utils
       - curl
       - git
+      - fontconfig

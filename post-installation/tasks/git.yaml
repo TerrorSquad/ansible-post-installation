@@ -36,7 +36,9 @@
   become_user: "{{ username }}"
   become: true
 
-- block:
+- name: Set git user data
+  when: git_set_user_data
+  block:
     - name: Configure git user name
       git_config:
         name: "user.name"
@@ -54,10 +56,11 @@
         state: present
       become_user: "{{ username }}"
       become: true
-  when: git_set_user_data
 
 # Restore git user data since copying the .gitconfig above will overwrite it
-- block:
+- name: Revert git user data
+  when: not git_set_user_data
+  block:
     - name: Revert old git user name
       git_config:
         name: "user.name"
@@ -75,10 +78,12 @@
         state: present
       become_user: "{{ username }}"
       become: true
-  when: not git_set_user_data
 
 - name: Download and install delta
   ansible.builtin.shell: |
-    HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 /home/linuxbrew/.linuxbrew/bin/brew install git-delta
+    HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 /home/linuxbrew/.linuxbrew/bin/brew install git-delta || \
+     /home/linuxbrew/.linuxbrew/bin/brew postinstall gcc
   become_user: "{{ username }}"
   become: true
+  args:
+    creates: "/home/{{ username }}/.linuxbrew/bin/git-delta"

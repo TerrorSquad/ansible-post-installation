@@ -70,7 +70,6 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - `-e git_set_user_data=true` - Used to enable updating git user data.
 - `-e git_user_email="your@email.com` - Sets git user.email config value. Must be used with `-e git_set_user_data=true`
 - `-e git_user_name="Your Name` - Sets git user.name config value. Must be used with `-e git_set_user_data=true`
-- `-e undervolt=true` - Calls the `undervolt.yml` role.
 - `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
 - `-K` - flag used to ask for root password. Required mostly for installing apt packages and updating apt repositories.
 
@@ -161,17 +160,6 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - zoom
 
 ### Additional window manager - i3
-
----
-
-### Thermal optimization software
-
-- undervolt
-- tlp
-  > It's going to undevolt the core, cache and gpu to `-130mv`, create a service file and start the service, which will undervolt the cpu on boot after a 2 minute delay
-  > 130mv works on Dell XPS 15 9570 - it may not work on another system
-
-> Look into your specific CPU and laptop model to see how much undervolting your cpu can support. You can also edit the _undervolt.timer_ file to specify exactly when do you want undervolting to take place (default is 2 minutes after boot)
 
 ---
 

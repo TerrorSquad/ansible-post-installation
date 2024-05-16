@@ -19,15 +19,13 @@
     body_format: json
   register: github_releases
 
-# Read the GitHub API response and extract the download URL
-# Only download the font that is declared in the fonts_to_install array
-
 - name: Download font
   ansible.builtin.get_url:
     url: "{{ github_releases.json.assets
       | selectattr('name', 'search', item.filename)
       | map(attribute='browser_download_url') | first }}"
     dest: "/tmp/{{ item.filename }}"
+    mode: "0644"
   loop: "{{ fonts_to_install }}"
 
 - name: Extract fonts
@@ -39,6 +37,7 @@
 
 - name: Update font cache
   ansible.builtin.command: fc-cache -f -v
+  changed_when: false
 
 - name: Install font - Roboto
   ansible.builtin.apt:
