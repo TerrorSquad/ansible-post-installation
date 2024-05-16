@@ -32,7 +32,7 @@
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      "https://get.volta.sh | bash"
+      "curl https://get.volta.sh | bash"
     executable: /bin/bash
   become_user: "{{ username }}"
   become: true
