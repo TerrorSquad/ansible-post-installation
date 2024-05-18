@@ -7,3 +7,6 @@
       - curl
       - git
       - fontconfig
+      - build-essential
+      - procps
+      - file
