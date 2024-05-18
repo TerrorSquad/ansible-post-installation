@@ -89,6 +89,7 @@
       - xh
       - yazi
     state: present
+    path: "/home/linuxbrew/.linuxbrew/bin"
   become_user: "{{ username }}"
   become: true
 
