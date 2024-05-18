@@ -15,4 +15,4 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/home/{{ username }}/.linuxbrew/bin/fzf"
+    creates: "/home/linuxbrew/.linuxbrew/bin/fzf"

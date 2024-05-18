@@ -108,6 +108,7 @@
       set -o pipefail
       curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
     executable: /bin/bash
+    chdir: "{{ download_dir }}"
   become_user: "{{ username }}"
   become: true
   args:

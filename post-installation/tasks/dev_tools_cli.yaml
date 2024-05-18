@@ -92,7 +92,7 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/home/{{ username }}/.linuxbrew/bin/bottom"
+    creates: "/home/linuxbrew/.linuxbrew/bin/bottom"
 
 - name: Install Rust tools
   ansible.builtin.shell:
