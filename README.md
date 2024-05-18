@@ -18,15 +18,12 @@
 It should print out something similar to this this:
 
 ```bash
-ansible [core 2.11.3]
-  config file = /etc/ansible/ansible.cfg
+ansible 2.10.8
+  config file = None
   configured module search path = ['/home/gninkovic/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
-  ansible python module location = /home/gninkovic/.local/lib/python3.8/site-packages/ansible
-  ansible collection location = /home/gninkovic/.ansible/collections:/usr/share/ansible/collections
-  executable location = /home/gninkovic/.local/bin/ansible
-  python version = 3.8.10 (default, Sep 28 2021, 16:10:42) [GCC 9.3.0]
-  jinja version = 3.0.1
-  libyaml = True
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  executable location = /usr/bin/ansible
+  python version = 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0]
 ```
 
 ## How to run
@@ -193,9 +190,4 @@ In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These 
   ```
 
 > Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
->
-> Box name `generic/ubuntu2204` - <https://app.vagrantup.com/generic/boxes/ubuntu2204>
->
-> Box version - 4.3.2
->
-> Box link - <https://app.vagrantup.com/generic/boxes/ubuntu2204/versions/4.3.2>
+> Box name `ubuntu/mantic64` - <https://app.vagrantup.com/ubuntu/boxes/mantic64>

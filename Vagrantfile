@@ -3,7 +3,6 @@
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/mantic64"
-  # config.vm.box_version = "4.3.2"
   ENV['LC_ALL']="en_US.UTF-8"
 
   #
