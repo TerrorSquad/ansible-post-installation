@@ -78,12 +78,3 @@
         state: present
       become_user: "{{ username }}"
       become: true
-
-- name: Download and install delta
-  ansible.builtin.shell: |
-    HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 /home/linuxbrew/.linuxbrew/bin/brew install git-delta || \
-     /home/linuxbrew/.linuxbrew/bin/brew postinstall gcc
-  become_user: "{{ username }}"
-  become: true
-  args:
-    creates: "/home/linuxbrew/.linuxbrew/bin/git-delta"

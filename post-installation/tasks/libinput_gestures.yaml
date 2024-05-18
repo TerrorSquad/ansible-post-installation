@@ -20,10 +20,10 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Check if repo is cloned
-  ansible.builtin.stat:
+- name: Remove libinput-gestures directory if it exists
+  ansible.builtin.file:
     path: "{{ libinput_home }}"
-  register: libinput_directory
+    state: absent
 
 - name: Clone libinput-gestures repo
   ansible.builtin.git:
@@ -35,11 +35,10 @@
     version: master
   become_user: "{{ username }}"
   become: true
-  when: not libinput_directory.stat.exists
 
 - name: Make libinput-gestures
   ansible.builtin.make:
-    chdir: "{{ libinput_home }}/"
+    chdir: "{{ libinput_home }}"
     target: install
 
 - name: Set libinput-gestures to autostart on OS boot
@@ -48,4 +47,4 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/home/{{ username }}/.config/autostart/libinput-gestures.desktop"
+    creates: "{{ user_home }}/.config/autostart/libinput-gestures.desktop"

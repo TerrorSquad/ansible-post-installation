@@ -30,7 +30,7 @@
 
 - name: Remove old Volta binary
   ansible.builtin.file:
-    path: "/home/{{ username }}/.volta/bin/volta"
+    path: "{{ user_home }}/.volta/bin/volta"
     state: absent
   become_user: "{{ username }}"
 
@@ -43,7 +43,7 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/home/{{ username }}/.volta/bin/volta"
+    creates: "{{ user_home }}/.volta/bin/volta"
 
 - name: Install latest NodeJS using Volta
   ansible.builtin.shell: >
@@ -51,7 +51,7 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/home/{{ username }}/.volta/tools/node"
+    creates: "{{ user_home }}/.volta/tools/node"
 
 - name: Install latest PNPM using Volta
   ansible.builtin.shell: >
@@ -59,40 +59,38 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/home/{{ username }}/.volta/tools/pnpm"
+    creates: "{{ user_home }}/.volta/tools/pnpm"
 
-- name: Install homebrew packages
-  ansible.builtin.shell: |
-    HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 /home/linuxbrew/.linuxbrew/bin/brew install \
-      bottom \
-      broot \
-      btop \
-      curlie \
-      duf \
-      dust \
-      lazydocker \
-      eza \
-      fd \
-      gh \
-      git-quick-stats \
-      gping \
-      gping \
-      httpstat \
-      hyperfine \
-      lnav \
-      oha \
-      procs \
-      ripgrep \
-      sd \
-      tealdeer \
-      tokei \
-      xh \
-      yazi
-
+- name: Install homebrew packages with ansible community module
+  community.general.homebrew:
+    name:
+      - bottom
+      - broot
+      - btop
+      - curlie
+      - duf
+      - dust
+      - lazydocker
+      - eza
+      - fd
+      - gh
+      - git-delta
+      - git-quick-stats
+      - gping
+      - httpstat
+      - hyperfine
+      - lnav
+      - oha
+      - procs
+      - ripgrep
+      - sd
+      - tealdeer
+      - tokei
+      - xh
+      - yazi
+    state: present
   become_user: "{{ username }}"
   become: true
-  args:
-    creates: "/home/linuxbrew/.linuxbrew/bin/bottom"
 
 - name: Install Rust tools
   ansible.builtin.shell:
@@ -103,4 +101,4 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/home/{{ username }}/.cargo/bin/rustc"
+    creates: "{{ user_home }}/.cargo/bin/rustc"

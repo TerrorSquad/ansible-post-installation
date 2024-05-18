@@ -9,10 +9,12 @@
       - tlp
       - unzip
 
-- name: Install homebrew packages
-  ansible.builtin.shell: |
-    HOMEBREW_NO_AUTO_UPDATE=1 HOMEBREW_NO_ENV_HINTS=1 /home/linuxbrew/.linuxbrew/bin/brew install fzf eza
+- name: Install homebrew packages with ansible community module
+  community.general.homebrew:
+    name:
+      - fzf
+      - eza
+      - lsd
+    state: present
   become_user: "{{ username }}"
   become: true
-  args:
-    creates: "/home/linuxbrew/.linuxbrew/bin/fzf"
