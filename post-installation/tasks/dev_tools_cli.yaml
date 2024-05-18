@@ -9,6 +9,7 @@
       - htop
       - libutempter0
       - make
+      - tree
       - shellcheck
       - vim
       - python3-pip
