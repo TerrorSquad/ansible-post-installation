@@ -28,3 +28,4 @@ zdharma-continuum/fast-syntax-highlighting kind:defer
 
 # Provides suggestions as you type
 zsh-users/zsh-autosuggestions kind:defer
+Aloxaf/fzf-tab kind:defer
