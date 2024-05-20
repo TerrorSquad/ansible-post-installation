@@ -10,9 +10,10 @@ ZSH_CACHE_DIR=$HOME/.zsh
 if [ -d "$HOME/.zsh/completions" ] && [ -r "$HOME/.zsh/completions" ]; then
   FPATH="$HOME/.zsh/completions:${FPATH}"
 fi
-
-autoload -Uz compinit
-compinit
+# if compdef is not defined, load the default zsh completion
+if ! type compdef &> /dev/null; then
+  autoload -Uz compinit && compinit
+fi
 
 # Antidote
 IS_MAC=$(uname -a | grep -i darwin)
