@@ -11,13 +11,13 @@ if [ -d "$HOME/.zsh/completions" ] && [ -r "$HOME/.zsh/completions" ]; then
   FPATH="$HOME/.zsh/completions:${FPATH}"
 fi
 
-autoload -Uz compinit
-compinit
 
 # Antidote
 IS_MAC=$(uname -a | grep -i darwin)
 IS_LINUX=$(uname -a | grep -i linux)
 if [ $IS_MAC ]; then
+    autoload -Uz compinit
+    compinit
     ZDOTDIR=$(brew --prefix)/opt/antidote/share/antidote
 elif [ $IS_LINUX ]; then
     ZDOTDIR=~/.antidote
