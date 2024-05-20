@@ -15,6 +15,7 @@
       - fzf
       - eza
       - lsd
+      - neovim
     state: present
     path: "/home/linuxbrew/.linuxbrew/bin"
   become_user: "{{ username }}"

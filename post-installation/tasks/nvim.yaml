@@ -1,8 +1,4 @@
 ---
-- name: Install Neovim
-  ansible.builtin.apt:
-    name: neovim
-
 - name: Create plugin manager directory
   ansible.builtin.file:
     path: "{{ nvim_plugin_manager_path }}"
