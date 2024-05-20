@@ -41,8 +41,8 @@
 - name: Install/update Neovim plugins
   ansible.builtin.shell:
     cmd: |
-      nvim +PlugInstall +qall
-    executable: /bin/bash
+      /home/linuxbrew/.linuxbrew/bin/nvim +PlugInstall +qall
+    executable: /usr/bin/zsh
   become_user: "{{ username }}"
   become: true
   register: plug_install_result

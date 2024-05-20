@@ -75,7 +75,7 @@
       ansible.builtin.shell: |
         zsh -ic "antidote update && exit"
       args:
-        executable: /bin/zsh
+        executable: /usr/bin/zsh
         creates: "{{ user_home }}/.zsh_plugins.zsh"
       become_user: "{{ username }}"
       become: true

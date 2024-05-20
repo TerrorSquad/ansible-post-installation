@@ -99,7 +99,7 @@
     cmd: |
       set -o pipefail
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    executable: /bin/bash
+    executable: /usr/bin/zsh
   become_user: "{{ username }}"
   become: true
   args:

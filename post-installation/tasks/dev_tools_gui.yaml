@@ -46,7 +46,7 @@
         cmd: |
           set -o pipefail
           grep -oP "https://downloads.+?\.deb" "{{ download_dir }}/slack.html" | xargs wget -O "{{ download_dir }}/slack.deb"
-        executable: /bin/bash
+        executable: /usr/bin/zsh
       become_user: "{{ username }}"
       become: true
       args:
@@ -78,7 +78,7 @@
     cmd: |
       set -o pipefail
       curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
-    executable: /bin/bash
+    executable: /usr/bin/zsh
   become_user: "{{ username }}"
   become: true
   args:
@@ -102,7 +102,7 @@
     cmd: |
       set -o pipefail
       curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | sh
-    executable: /bin/bash
+    executable: /usr/bin/zsh
     chdir: "{{ download_dir }}"
   become_user: "{{ username }}"
   become: true
