@@ -13,7 +13,7 @@ paulirish/git-open kind:defer
 # This adds the zsh-bench function to benchmark the shell startup time.
 # romkatv/zsh-bench kind:path
 
-ohmyzsh/ohmyzsh path:lib kind:defer
+ohmyzsh/ohmyzsh path:lib
 
 # A collection of oh-my-zsh plugins
 ohmyzsh/ohmyzsh path:plugins/command-not-found kind:defer
@@ -29,3 +29,6 @@ zdharma-continuum/fast-syntax-highlighting kind:defer
 # Provides suggestions as you type
 zsh-users/zsh-autosuggestions kind:defer
 Aloxaf/fzf-tab kind:defer
+
+~/.zsh/aliases/aliases.plugin.zsh kind:defer
+~/.zsh/functions/functions.plugin.zsh kind:defer

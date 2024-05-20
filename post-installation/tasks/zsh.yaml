@@ -29,6 +29,38 @@
   become_user: "{{ username }}"
   become: true
 
+- name: Create ~/.zsh/aliases directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.zsh/aliases"
+    state: directory
+    mode: "0755"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Copy aliases.plugin.zsh
+  ansible.builtin.copy:
+    src: ./defaults/aliases.plugin.zsh
+    dest: "{{ user_home }}/.zsh/aliases/aliases.plugin.zsh"
+    mode: "0644"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Create functions directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.zsh/functions"
+    state: directory
+    mode: "0755"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Copy functions.plugin.zsh
+  ansible.builtin.copy:
+    src: ./defaults/functions.plugin.zsh
+    dest: "{{ user_home }}/.zsh/functions/functions.plugin.zsh"
+    mode: "0644"
+  become_user: "{{ username }}"
+  become: true
+
 - name: Copy .p10k.zsh
   ansible.builtin.copy:
     src: ./defaults/.p10k.zsh

@@ -40,92 +40,18 @@ source ${zsh_plugins}.zsh
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
-alias vim=nvim
-
 # Disable double rm -rf verification.
 # What it does exactly is that it removes the prompt that asks you to confirm the deletion of files and directories.
 setopt rm_star_silent
 
-# Aliases
-alias c="clear"
-alias cjs="npm run compile:js"
-alias ccss="npm run compile:scss"
-alias nrb="npm run build"
-alias tnrb="time npm run build"
-alias gs="gss"
-alias code="code --goto"
-alias hsi="history | rg -i"
-alias bm="bin/magento"
-alias bdm="bin/debug-magento"
-alias bxe="bin/xdebug enable"
-alias bxd="bin/xdebug disable"
-alias open="xdg-open"
-alias sail="./vendor/bin/sail"
-alias dps="docker ps --format \"table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}\""
-alias eza="eza --icons"
-alias ls=eza
-
 export BAT_PAGER="less --mouse -RF"
 export LESS="--mouse -RF"
 
-alias gbc="git branch --show-current"
 
 if [ -s $HOME/.ZscalerRootCA.crt ]; then
     export NODE_EXTRA_CA_CERTS="$HOME/.ZscalerRootCA.crt"
 fi
 
-# Functions
-
-update-antidote() {
-    IS_ONLINE=$(ping -c 1 google.com)
-    if [ $? -eq 0 ]; then
-        echo "Updating antidote plugins"
-        if [ $IS_MAC ]; then
-            rm -rf ~/Library/Caches/antidote
-        elif [ $IS_LINUX ]; then
-            rm -rf ~/.cache/antidote
-        fi
-        antidote bundle <~/.zsh_plugins.sh >~/.zsh_plugins.zsh
-    else
-        echo "No internet connection"
-    fi
-}
-
-getJiraTicketNumber() {
-    local branchName=$(git branch --show-current)
-    echo $branchName | grep -o -E '[A-Z]+-[0-9]+'
-}
-
-bench() {
-    hyperfine 'zsh -i -c exit' --warmup 3
-}
-
-getProgramPids() {
-    PROGRAM=$1
-    local result=$(ps aux | grep ${PROGRAM} | grep -v grep | tr -s ' ' | cut -d ' ' -f 2)
-    echo $result
-}
-
-kill_by_name() {
-    PROGRAM=$1
-    local PIDS=$(getProgramPids ${PROGRAM})
-    if [ $PIDS ]; then
-        echo ${PIDS} | xargs kill -9
-        return $?
-    else
-        echo "PROGRAM IS STOPPED"
-        return 1
-    fi
-}
-
-kill_port() {
-    if [ $# -eq 0 ]; then
-        echo "No arguments provided"
-        echo "provide port of service you wish to kill"
-        exit 1
-    fi
-    fuser -k $1/tcp
-}
 
 PATH=$PATH:~/.local/bin
 
