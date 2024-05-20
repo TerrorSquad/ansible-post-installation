@@ -82,7 +82,7 @@
   become_user: "{{ username }}"
   become: true
   args:
-    creates: "/usr/bin/jetbrains-toolbox"
+    creates: "{{ local_bin }}/jetbrains-toolbox"
 
 - name: Download and install Visual Studio Code
   block:
