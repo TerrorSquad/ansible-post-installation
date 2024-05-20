@@ -28,38 +28,8 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Copy .git-templates directory
-  ansible.builtin.copy:
-    src: ./defaults/.git-templates
-    dest: "~"
-    mode: "0755"
-  become_user: "{{ username }}"
-  become: true
-
-- name: Set git user data
-  when: git_set_user_data
-  block:
-    - name: Configure git user name
-      git_config:
-        name: "user.name"
-        value: "{{ git_user_name }}"
-        scope: global
-        state: present
-      become_user: "{{ username }}"
-      become: true
-
-    - name: Configure git user email
-      git_config:
-        name: "user.email"
-        value: "{{ git_user_email }}"
-        scope: global
-        state: present
-      become_user: "{{ username }}"
-      become: true
-
 # Restore git user data since copying the .gitconfig above will overwrite it
 - name: Revert git user data
-  when: not git_set_user_data
   block:
     - name: Revert old git user name
       git_config:
@@ -78,3 +48,31 @@
         state: present
       become_user: "{{ username }}"
       become: true
+
+- name: Copy .git-templates directory
+  ansible.builtin.copy:
+    src: ./defaults/.git-templates
+    dest: "~"
+    mode: "0755"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Configure git user name
+  when: git_user_name
+  git_config:
+    name: "user.name"
+    value: "{{ git_user_name }}"
+    scope: global
+    state: present
+  become_user: "{{ username }}"
+  become: true
+
+- name: Configure git user email
+  when: git_user_email
+  git_config:
+    name: "user.email"
+    value: "{{ git_user_email }}"
+    scope: global
+    state: present
+  become_user: "{{ username }}"
+  become: true

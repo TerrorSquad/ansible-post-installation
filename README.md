@@ -40,19 +40,19 @@ cd ~/Downloads \
 ### Install all software
 
 ```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true -e=git_set_user_data=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
 ```
 
 #### If you want to only install CLI tools, run the following command
 
 ```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=cli=true -e=dev_tools_cli=true -e=git_set_user_data=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=cli=true -e=dev_tools_cli=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
 ```
 
 #### If you want to only install GUI tools, run the following command
 
 ```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true -e=git_set_user_data=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
 ```
 
 ### Flags
@@ -64,9 +64,8 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - `-e gui=true` - Installs general tools from `general_use_software_gui.yaml`.
 - `-e gestures=true` - Installs general tools from `libinput_gestures.yaml`.
 - `-e docker=true` - Installs and configures docker.
-- `-e git_set_user_data=true` - Used to enable updating git user data.
-- `-e git_user_email="your@email.com` - Sets git user.email config value. Must be used with `-e git_set_user_data=true`
-- `-e git_user_name="Your Name` - Sets git user.name config value. Must be used with `-e git_set_user_data=true`
+- `-e git_user_email="your@email.com` - Sets git user.email config value.
+- `-e git_user_name="Your Name` - Sets git user.name config value.
 - `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
 - `-K` - flag used to ask for root password. Required mostly for installing apt packages and updating apt repositories.
 
