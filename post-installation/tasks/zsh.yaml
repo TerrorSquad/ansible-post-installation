@@ -73,7 +73,7 @@
 
     - name: Download antidote bundles
       ansible.builtin.shell: |
-        zsh -ic "update-antidote && exit"
+        zsh -ic "antidote update && exit"
       args:
         executable: /bin/zsh
         creates: "{{ user_home }}/.zsh_plugins.zsh"
