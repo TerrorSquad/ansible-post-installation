@@ -17,7 +17,7 @@
 - name: Get OS facts
   ansible.builtin.setup:
     gather_subset:
-      - distribution
+      - all
 
 - name: Set ubuntu_codename fact
   ansible.builtin.set_fact:

@@ -85,6 +85,7 @@
     creates: "{{ local_bin }}/jetbrains-toolbox"
 
 - name: Download and install Visual Studio Code
+  when: '"microsoft" not in ansible_facts["kernel"]'
   block:
     - name: Download Visual Studio Code
       ansible.builtin.get_url:
