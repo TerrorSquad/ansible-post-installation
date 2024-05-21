@@ -36,7 +36,6 @@
         name: "user.name"
         value: "{{ current_git_name.config_value }}"
         scope: global
-        state: present
       become_user: "{{ username }}"
       become: true
 
@@ -45,7 +44,6 @@
         name: "user.email"
         value: "{{ current_git_email.config_value }}"
         scope: global
-        state: present
       become_user: "{{ username }}"
       become: true
 
@@ -58,7 +56,7 @@
   become: true
 
 - name: Configure git user name
-  when: git_user_name
+  when: git_user_name is defined
   git_config:
     name: "user.name"
     value: "{{ git_user_name }}"
@@ -68,7 +66,7 @@
   become: true
 
 - name: Configure git user email
-  when: git_user_email
+  when: git_user_email is defined
   git_config:
     name: "user.email"
     value: "{{ git_user_email }}"
