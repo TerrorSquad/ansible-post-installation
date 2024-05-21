@@ -50,6 +50,7 @@
     src: "./defaults/.zsh/functions"
     dest: "{{ user_home }}/.zsh"
     mode: "0644"
+    force: true
   become_user: "{{ username }}"
   become: true
 
