@@ -11,7 +11,7 @@
 - Software: `ansible`
 
 1. Install ansible
-  `sudo apt install ansible`
+  `sudo apt install -y ansible unzip`
 2. Check if the installation was correct by running
   `ansible --version`
 
