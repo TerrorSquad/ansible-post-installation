@@ -60,7 +60,7 @@
         cmd: |
           set -o pipefail
           grep  -oP "<a href=(.+amd64.deb)\">" "{{ download_dir }}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ download_dir }}/tixati.deb"
-        executable: /usr/bin/zsh
+        executable: /usr/bin/bash
       args:
         creates: "{{ download_dir }}/tixati.deb"
 
@@ -127,7 +127,7 @@
           BASE_URL=https://www.moderncsv.com/
           URL_PATH="release/${NAME}"
           echo $BASE_URL$URL_PATH | xargs wget -O "{{ download_dir }}/moderncsv.tar.gz"
-        executable: /usr/bin/zsh
+        executable: /usr/bin/bash
       args:
         creates: "{{ download_dir }}/moderncsv.tar.gz"
 
@@ -148,7 +148,6 @@
       ansible.builtin.shell:
         cmd: |
           cd $(ls) && grep -oP '(?<=Version=)[^=]+' moderncsv.desktop
-        executable: /usr/bin/zsh
         chdir: "{{ download_dir }}/moderncsv"
       register: moderncsv_version
       changed_when: moderncsv_version.stdout | length > 0
@@ -173,7 +172,6 @@
       ansible.builtin.shell:
         cmd: |
           cd $(ls) && bash ./uninstall.sh
-        executable: /usr/bin/zsh
         chdir: "{{ download_dir }}/moderncsv"
         removes: /opt/moderncsv
 
@@ -186,7 +184,6 @@
       ansible.builtin.shell:
         cmd: |
           cd $(ls) && bash ./install.sh
-        executable: /usr/bin/zsh
         chdir: "{{ download_dir }}/moderncsv"
         creates: /opt/moderncsv
 
