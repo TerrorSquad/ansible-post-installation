@@ -21,14 +21,6 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Create ~/.zsh/completions directory
-  ansible.builtin.file:
-    path: "{{ user_home }}/.zsh/completions"
-    state: directory
-    mode: "0755"
-  become_user: "{{ username }}"
-  become: true
-
 - name: Create ~/.zsh/aliases directory
   ansible.builtin.file:
     path: "{{ user_home }}/.zsh/aliases"
@@ -37,10 +29,10 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Copy aliases.plugin.zsh
+- name: Copy aliases files to ~/.zsh/aliases
   ansible.builtin.copy:
-    src: ./defaults/aliases.plugin.zsh
-    dest: "{{ user_home }}/.zsh/aliases/aliases.plugin.zsh"
+    src: ./defaults/.zsh/aliases
+    dest: "{{ user_home }}/.zsh"
     mode: "0644"
   become_user: "{{ username }}"
   become: true
@@ -53,10 +45,26 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Copy functions.plugin.zsh
+- name: Copy functions files to ~/.zsh/functions
   ansible.builtin.copy:
-    src: ./defaults/functions.plugin.zsh
-    dest: "{{ user_home }}/.zsh/functions/functions.plugin.zsh"
+    src: "./defaults/.zsh/functions"
+    dest: "{{ user_home }}/.zsh"
+    mode: "0644"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Create ~/.zsh/completions directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.zsh/completions"
+    state: directory
+    mode: "0755"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Copy completions files to ~/.zsh/completions
+  ansible.builtin.copy:
+    src: "./defaults/.zsh/completions"
+    dest: "{{ user_home }}/.zsh"
     mode: "0644"
   become_user: "{{ username }}"
   become: true

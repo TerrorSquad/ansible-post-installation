@@ -7,9 +7,14 @@ fi
 
 ZSH_CACHE_DIR=$HOME/.zsh
 
-if [ -d "$HOME/.zsh/completions" ] && [ -r "$HOME/.zsh/completions" ]; then
-  FPATH="$HOME/.zsh/completions:${FPATH}"
+if [ -d "$HOME/.zsh/completions" ]; then
+  fpath=(~/.zsh/completions $fpath)
 fi
+
+if [ -d "/home/linuxbrew/.linuxbrew/share/zsh/site-functions" ] && [ -r "/home/linuxbrew/.linuxbrew/share/zsh/site-functions" ]; then
+  fpath=(/home/linuxbrew/.linuxbrew/share/zsh/site-functions $fpath)
+fi
+
 # if compdef is not defined, load the default zsh completion
 if ! type compdef &> /dev/null; then
   autoload -Uz compinit && compinit

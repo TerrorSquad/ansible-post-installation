@@ -15,5 +15,5 @@ alias open="xdg-open"
 alias sail="./vendor/bin/sail"
 alias dps="docker ps --format \"table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}\""
 alias eza="eza --icons"
-alias ls=eza
+alias ls="eza --icons"
 alias gbc="git branch --show-current"
