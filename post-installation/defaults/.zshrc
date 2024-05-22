@@ -12,21 +12,21 @@ if [ -d "$HOME/.zsh/completions" ]; then
   fpath=(~/.zsh/completions $fpath)
 fi
 
-# Homebrew
-HOMEBREW_PREFIX=$(brew --prefix)
-# Load Homebrew's zsh-completions
-if [ -d "${HOMEBREW_PREFIX}/share/zsh/site-functions" ] && [ -r "${HOMEBREW_PREFIX}/share/zsh/site-functions" ]; then
-  fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
-fi
-
 # Antidote
 IS_MAC=$(uname -a | grep -i darwin)
 IS_LINUX=$(uname -a | grep -i linux)
 if [ $IS_MAC ]; then
+    HOMEBREW_PREFIX="/opt/homebrew"
     ZDOTDIR=${HOMEBREW_PREFIX}/opt/antidote/share/antidote
 elif [ $IS_LINUX ]; then
     ZDOTDIR=~/.antidote
     alias bat="batcat"
+    HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+fi
+
+# Load Homebrew's zsh-completions
+if [ -d "${HOMEBREW_PREFIX}/share/zsh/site-functions" ]; then
+  fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
 fi
 
 # Load the antidote plugin manager
@@ -51,7 +51,6 @@ setopt rm_star_silent
 
 export BAT_PAGER="less --mouse -RF"
 export LESS="--mouse -RF"
-
 
 if [ -s $HOME/.ZscalerRootCA.crt ]; then
     export NODE_EXTRA_CA_CERTS="$HOME/.ZscalerRootCA.crt"

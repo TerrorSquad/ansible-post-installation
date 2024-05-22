@@ -1,8 +1,7 @@
 # Theme
 romkatv/powerlevel10k
 
-# compinit.plugin.zsh must be loaded before oh-my-zsh
-~/.zsh/functions/compinit.plugin.zsh
+~/.zsh/functions/compinit.plugin.zsh kind:defer
 
 # Jump around in your shell
 rupa/z kind:defer
