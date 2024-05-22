@@ -12,7 +12,15 @@ alias bdm="bin/debug-magento"
 alias bxe="bin/xdebug enable"
 alias bxd="bin/xdebug disable"
 alias open="xdg-open"
+# Check if we are in WSL via uname
+if [[ $(uname -a) == *"WSL"* ]]; then
+  alias open="explorer.exe"
+fi
+# Check if we are in macOS via uname
+if [[ $(uname -a) == *"Darwin"* ]]; then
+  alias open="open"
+fi
 alias sail="./vendor/bin/sail"
 alias dps="docker ps --format \"table {{.ID}}\t{{.Names}}\t{{.RunningFor}}\t{{.Status}}\""
-alias ls="eza --icons"
+alias ls="eza --icons=always"
 alias gbc="git branch --show-current"

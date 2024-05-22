@@ -32,5 +32,5 @@ zdharma-continuum/fast-syntax-highlighting kind:defer
 zsh-users/zsh-autosuggestions kind:defer
 Aloxaf/fzf-tab kind:defer
 
-~/.zsh/aliases/aliases.plugin.zsh kind:defer
+~/.zsh/aliases/aliases.plugin.zsh
 ~/.zsh/functions/functions.plugin.zsh kind:defer
