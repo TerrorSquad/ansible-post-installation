@@ -1,8 +1,6 @@
 # Theme
 romkatv/powerlevel10k
 
-~/.zsh/functions/compinit.plugin.zsh
-
 # Jump around in your shell
 rupa/z kind:defer
 
@@ -15,7 +13,13 @@ paulirish/git-open kind:defer
 # This adds the zsh-bench function to benchmark the shell startup time.
 # romkatv/zsh-bench kind:path
 
-ohmyzsh/ohmyzsh path:lib
+# A collection of oh-my-zsh libraries
+
+# History must not be deferred
+ohmyzsh/ohmyzsh path:lib/history.zsh
+ohmyzsh/ohmyzsh path:lib/git.zsh kind:defer
+ohmyzsh/ohmyzsh path:lib/grep.zsh kind:defer
+ohmyzsh/ohmyzsh path:lib/key-bindings.zsh kind:defer
 
 # A collection of oh-my-zsh plugins
 ohmyzsh/ohmyzsh path:plugins/command-not-found kind:defer
@@ -33,5 +37,6 @@ zdharma-continuum/fast-syntax-highlighting kind:defer
 zsh-users/zsh-autosuggestions kind:defer
 Aloxaf/fzf-tab kind:defer
 
-~/.zsh/aliases/aliases.plugin.zsh
+~/.zsh/aliases/aliases.plugin.zsh kind:defer
+~/.zsh/aliases/directories.plugin.zsh kind:defer
 ~/.zsh/functions/functions.plugin.zsh kind:defer
