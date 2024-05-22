@@ -62,10 +62,6 @@ if [[ -d ~/flutter/bin ]]; then
   PATH=$PATH:~/flutter/bin
 fi
 
-if [[ -d ~/.bun/bin ]]; then
-  PATH=$PATH:~/.bun/bin
-fi
-
 if [[ -d ~/go/bin ]]; then
   PATH=$PATH:~/go/bin
 fi
@@ -76,26 +72,9 @@ fi
 
 export FZF_TMUX_HEIGHT=50
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# bun completions
-[ -s ~/.bun/_bun ] && source ~/.bun/_bun
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 # volta
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
-
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

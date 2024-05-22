@@ -24,6 +24,7 @@ ohmyzsh/ohmyzsh path:plugins/history kind:defer
 ohmyzsh/ohmyzsh path:plugins/bun kind:defer
 ohmyzsh/ohmyzsh path:plugins/colored-man-pages kind:defer
 ohmyzsh/ohmyzsh path:plugins/rust kind:defer
+ohmyzsh/ohmyzsh path:plugins/fzf kind:defer
 
 # Provides syntax highlighting for the shell
 zdharma-continuum/fast-syntax-highlighting kind:defer
