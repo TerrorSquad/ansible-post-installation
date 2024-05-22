@@ -2,7 +2,7 @@
 romkatv/powerlevel10k
 
 # compinit.plugin.zsh must be loaded before oh-my-zsh
-~/.zsh/functions/compinit.plugin.zsh kind:defer
+~/.zsh/functions/compinit.plugin.zsh
 
 # Jump around in your shell
 rupa/z kind:defer

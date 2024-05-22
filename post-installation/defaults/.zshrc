@@ -7,24 +7,23 @@ fi
 
 ZSH_CACHE_DIR=$HOME/.zsh
 
+# Load default zsh completions
 if [ -d "$HOME/.zsh/completions" ]; then
   fpath=(~/.zsh/completions $fpath)
 fi
 
-if [ -d "/home/linuxbrew/.linuxbrew/share/zsh/site-functions" ] && [ -r "/home/linuxbrew/.linuxbrew/share/zsh/site-functions" ]; then
-  fpath=(/home/linuxbrew/.linuxbrew/share/zsh/site-functions $fpath)
-fi
-
-# if compdef is not defined, load the default zsh completion
-if ! type compdef &> /dev/null; then
-  autoload -Uz compinit && compinit
+# Homebrew
+HOMEBREW_PREFIX=$(brew --prefix)
+# Load Homebrew's zsh-completions
+if [ -d "${HOMEBREW_PREFIX}/share/zsh/site-functions" ] && [ -r "${HOMEBREW_PREFIX}/share/zsh/site-functions" ]; then
+  fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
 fi
 
 # Antidote
 IS_MAC=$(uname -a | grep -i darwin)
 IS_LINUX=$(uname -a | grep -i linux)
 if [ $IS_MAC ]; then
-    ZDOTDIR=$(brew --prefix)/opt/antidote/share/antidote
+    ZDOTDIR=${HOMEBREW_PREFIX}/opt/antidote/share/antidote
 elif [ $IS_LINUX ]; then
     ZDOTDIR=~/.antidote
     alias bat="batcat"
@@ -57,7 +56,6 @@ export LESS="--mouse -RF"
 if [ -s $HOME/.ZscalerRootCA.crt ]; then
     export NODE_EXTRA_CA_CERTS="$HOME/.ZscalerRootCA.crt"
 fi
-
 
 PATH=$PATH:~/.local/bin
 
