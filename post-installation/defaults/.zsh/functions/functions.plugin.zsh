@@ -48,3 +48,10 @@ kill_port() {
     fi
     fuser -k $1/tcp
 }
+
+if [[ $(uname -a) != *"Darwin"* ]]; then
+    phpstorm() {
+        nohup $HOME/.local/bin/phpstorm "$@" &>/dev/null &
+        disown
+    }
+fi
