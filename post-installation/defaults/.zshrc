@@ -7,27 +7,22 @@ fi
 
 ZSH_CACHE_DIR=$HOME/.zsh
 
-# Load default zsh completions
-if [ -d "$HOME/.zsh/completions" ]; then
-  fpath=(~/.zsh/completions $fpath)
-fi
+fpath=(~/.zsh/completions $fpath)
+
+alias bat="batcat"
+ZDOTDIR=~/.antidote
+HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 
 # Antidote
 IS_MAC=$(uname -a | grep -i darwin)
-IS_LINUX=$(uname -a | grep -i linux)
 if [ $IS_MAC ]; then
     HOMEBREW_PREFIX="/opt/homebrew"
     ZDOTDIR=${HOMEBREW_PREFIX}/opt/antidote/share/antidote
-elif [ $IS_LINUX ]; then
-    ZDOTDIR=~/.antidote
-    alias bat="batcat"
-    HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+    unalias bat
 fi
 
-# Load Homebrew's zsh-completions
-if [ -d "${HOMEBREW_PREFIX}/share/zsh/site-functions" ]; then
-  fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
-fi
+export PATH=$HOMEBREW_PREFIX/bin:$PATH
+fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
 
 # Load the antidote plugin manager
 source ${ZDOTDIR:-~}/antidote.zsh
@@ -56,18 +51,10 @@ if [ -s $HOME/.ZscalerRootCA.crt ]; then
     export NODE_EXTRA_CA_CERTS="$HOME/.ZscalerRootCA.crt"
 fi
 
-PATH=$PATH:~/.local/bin
+export PATH=$PATH:$HOME/.local/bin
 
-if [[ -d ~/flutter/bin ]]; then
-  PATH=$PATH:~/flutter/bin
-fi
-
-if [[ -d ~/go/bin ]]; then
+if [[ -d "$HOME/go/bin" ]]; then
   PATH=$PATH:~/go/bin
-fi
-
-if [[ -d /home/linuxbrew/.linuxbrew/bin ]]; then
-  PATH=$PATH:/home/linuxbrew/.linuxbrew/bin
 fi
 
 export FZF_TMUX_HEIGHT=50
@@ -76,5 +63,5 @@ export FZF_TMUX_HEIGHT=50
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
