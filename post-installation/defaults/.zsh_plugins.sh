@@ -1,7 +1,7 @@
 # Theme
 romkatv/powerlevel10k
 
-~/.zsh/functions/compinit.plugin.zsh kind:defer
+~/.zsh/functions/compinit.plugin.zsh
 
 # Jump around in your shell
 rupa/z kind:defer

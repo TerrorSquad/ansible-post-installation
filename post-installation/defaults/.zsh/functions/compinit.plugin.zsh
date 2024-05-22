@@ -1,3 +1,5 @@
-if type compinit &>/dev/null ; then
-  autoload -Uz compinit && compinit
+if ! type compinit &>/dev/null ; then
+  autoload -Uz compinit
 fi
+
+compinit
