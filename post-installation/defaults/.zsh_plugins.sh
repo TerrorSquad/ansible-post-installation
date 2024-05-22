@@ -40,3 +40,4 @@ Aloxaf/fzf-tab kind:defer
 ~/.zsh/aliases/aliases.plugin.zsh kind:defer
 ~/.zsh/aliases/directories.plugin.zsh kind:defer
 ~/.zsh/functions/functions.plugin.zsh kind:defer
+~/.zsh/functions/compinit.plugin.zsh kind:defer
