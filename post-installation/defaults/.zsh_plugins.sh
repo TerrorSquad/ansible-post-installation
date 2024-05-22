@@ -20,6 +20,9 @@ ohmyzsh/ohmyzsh path:lib/history.zsh
 ohmyzsh/ohmyzsh path:lib/git.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/grep.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/key-bindings.zsh kind:defer
+ohmyzsh/ohmyzsh path:lib/completion.zsh kind:defer
+ohmyzsh/ohmyzsh path:lib/correction.zsh kind:defer
+
 
 # A collection of oh-my-zsh plugins
 ohmyzsh/ohmyzsh path:plugins/command-not-found kind:defer
