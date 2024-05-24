@@ -5,10 +5,11 @@ setopt pushd_ignore_dups
 setopt pushdminus
 
 
-alias -g ...='../..'
-alias -g ....='../../..'
-alias -g .....='../../../..'
-alias -g ......='../../../../..'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 
 alias -- -='cd -'
 alias 1='cd -1'
