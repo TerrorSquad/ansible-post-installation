@@ -21,7 +21,7 @@ if [ $IS_MAC ]; then
     unalias bat
 fi
 
-export PATH=$HOMEBREW_PREFIX/bin:$PATH
+export PATH=$PATH:$HOMEBREW_PREFIX/bin
 fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
 
 # Load the antidote plugin manager
