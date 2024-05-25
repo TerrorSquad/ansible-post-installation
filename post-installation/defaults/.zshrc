@@ -36,9 +36,13 @@ fi
 # Load the plugins
 source ${zsh_plugins}.zsh
 
-# Set nvim as default editor
-export VISUAL=nvim
-export EDITOR="$VISUAL"
+# Neovim
+# VISUAL vs. EDITOR – what’s the difference?
+# https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
+if command -v nvim &>/dev/null; then
+  export EDITOR=nvim
+  export VISUAL=nvim
+fi
 
 # Disable double rm -rf verification.
 # What it does exactly is that it removes the prompt that asks you to confirm the deletion of files and directories.
