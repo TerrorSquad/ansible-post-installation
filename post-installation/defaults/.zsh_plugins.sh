@@ -16,8 +16,9 @@ paulirish/git-open kind:defer
 # A collection of oh-my-zsh libraries
 
 # History must not be deferred
+ohmyzsh/ohmyzsh path:lib/history.zsh
+
 ohmyzsh/ohmyzsh path:lib/theme-and-appearance.zsh kind:defer
-ohmyzsh/ohmyzsh path:lib/history.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/git.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/grep.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/key-bindings.zsh kind:defer
