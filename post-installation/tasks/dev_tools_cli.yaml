@@ -89,7 +89,8 @@
       - tokei
       - xh
       - yazi
-    state: present
+    state: latest
+    upgrade_all: true
     path: "/home/linuxbrew/.linuxbrew/bin"
   become_user: "{{ username }}"
   become: true
