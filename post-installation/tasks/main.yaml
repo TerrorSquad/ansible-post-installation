@@ -14,33 +14,30 @@
 - name: Install zsh
   ansible.builtin.include_tasks: zsh.yaml
 
-- name: Install fonts
-  ansible.builtin.include_tasks: fonts.yaml
-  when: fonts or all
+- name: Install nvim
+  ansible.builtin.include_tasks: nvim.yaml
 
-- name: Install vpn software
-  ansible.builtin.include_tasks: vpn.yaml
-  when: vpn or all
+- name: Install CLI dev tools
+  ansible.builtin.include_tasks: dev_tools_cli.yaml
+
+- name: Install general use CLI software
+  ansible.builtin.include_tasks: general_use_software_cli.yaml
 
 - name: Install docker
   ansible.builtin.include_tasks: docker.yaml
   when: docker or all
 
-- name: Install CLI dev tools
-  ansible.builtin.include_tasks: dev_tools_cli.yaml
-  when: dev_tools_cli or all
+- name: Install fonts
+  ansible.builtin.include_tasks: fonts.yaml
+  when: fonts or gui or all
+
+- name: Install vpn software
+  ansible.builtin.include_tasks: vpn.yaml
+  when: vpn or all
 
 - name: Install GUI dev tools
   ansible.builtin.include_tasks: dev_tools_gui.yaml
   when: dev_tools_gui or all
-
-- name: Install general use CLI software
-  ansible.builtin.include_tasks: general_use_software_cli.yaml
-  when: cli or all
-
-- name: Install nvim
-  ansible.builtin.include_tasks: nvim.yaml
-  when: cli or all
 
 - name: Install general use GUI software
   ansible.builtin.include_tasks: general_use_software_gui.yaml

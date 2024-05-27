@@ -40,16 +40,22 @@ cd ~/Downloads \
 ### Install all software
 
 ```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true
+```
+
+#### If you want to change your git user.email and git user.name, pass the git related extra arguments
+
+```bash
+ansible-playbook ./playbook.yml -K -e=all=true -e username=$(whoami) -e=dev_tools_gui=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
 ```
 
 #### If you want to only install CLI tools, run the following command
 
 ```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=cli=true -e=dev_tools_cli=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
+ansible-playbook ./playbook.yml -K -e username=$(whoami)
 ```
 
-#### If you want to only install GUI tools, run the following command
+#### If you want to also install GUI tools, run the following command
 
 ```bash
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
@@ -58,9 +64,7 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 ### Flags
 
 - `-e all=true` - Installs everything.
-- `-e dev_tools_cli=true` - Installs developer tools from `dev_tools_cli.yaml`.
 - `-e dev_tools_gui=true` - Installs developer tools from `dev_tools_gui.yaml`.
-- `-e cli=true` - Installs general tools from `general_use_software_cli.yaml`.
 - `-e gui=true` - Installs general tools from `general_use_software_gui.yaml`.
 - `-e gestures=true` - Installs general tools from `libinput_gestures.yaml`.
 - `-e docker=true` - Installs and configures docker.

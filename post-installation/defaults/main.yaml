@@ -1,8 +1,6 @@
 username: vagrant
 vagrant_username: vagrant
-dev_tools_cli: false
 dev_tools_gui: false
-cli: false
 gui: false
 docker: false
 gestures: false
