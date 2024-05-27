@@ -29,12 +29,6 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Remove old Volta binary
-  ansible.builtin.file:
-    path: "{{ user_home }}/.volta/bin/volta"
-    state: absent
-  become_user: "{{ username }}"
-
 - name: Install Volta
   ansible.builtin.shell:
     cmd: |
