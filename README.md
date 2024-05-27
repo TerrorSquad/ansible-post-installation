@@ -46,7 +46,7 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true
 #### If you want to change your git user.email and git user.name, pass the git related extra arguments
 
 ```bash
-ansible-playbook ./playbook.yml -K -e=all=true -e username=$(whoami) -e=dev_tools_gui=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
+ansible-playbook ./playbook.yml -K -e=all=true -e username=$(whoami) -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
 ```
 
 #### If you want to only install CLI tools, run the following command
@@ -58,7 +58,7 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami)
 #### If you want to also install GUI tools, run the following command
 
 ```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true
 ```
 
 ### Flags
