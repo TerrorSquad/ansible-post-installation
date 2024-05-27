@@ -14,14 +14,14 @@
 - name: Install zsh
   ansible.builtin.include_tasks: zsh.yaml
 
-- name: Install nvim
+- name: Install general use CLI software
+  ansible.builtin.include_tasks: general_use_software_cli.yaml
+
+- name: Configure nvim
   ansible.builtin.include_tasks: nvim.yaml
 
 - name: Install CLI dev tools
   ansible.builtin.include_tasks: dev_tools_cli.yaml
-
-- name: Install general use CLI software
-  ansible.builtin.include_tasks: general_use_software_cli.yaml
 
 - name: Install docker
   ansible.builtin.include_tasks: docker.yaml
