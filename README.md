@@ -31,8 +31,7 @@ ansible 2.10.8
 ### Clone this repo, enter the directory and run the following command
 
 ```bash
-cd ~/Downloads \
-&& wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip \
+wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip \
 && unzip master.zip \
 && cd ansible-post-installation-master
 ```
