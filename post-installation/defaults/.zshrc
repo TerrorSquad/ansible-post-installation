@@ -57,9 +57,7 @@ fi
 
 export PATH=$PATH:$HOME/.local/bin
 
-if [[ -d "$HOME/go/bin" ]]; then
-  PATH=$PATH:~/go/bin
-fi
+PATH=$PATH:/usr/local/go/bin
 
 export FZF_TMUX_HEIGHT=50
 
