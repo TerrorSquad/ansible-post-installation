@@ -15,11 +15,16 @@
       - python3-pip
       - jq
 
-# - name: Install SDKMan
-#   ansible.builtin.shell: |
-#     curl -s "https://get.sdkman.io" | bash
-#   become_user: "{{ username }}"
-#   become: true
+- name: Install SDKMan
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl -s "https://get.sdkman.io" | bash
+    executable: /usr/bin/bash
+  become_user: "{{ username }}"
+  become: true
+  register: sdkman_install
+  changed_when: sdkman_install.rc == 0
 
 - name: Copy Zscaler root cert to $HOME
   ansible.builtin.copy:
