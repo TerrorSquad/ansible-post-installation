@@ -47,9 +47,9 @@
       become_user: "{{ username }}"
       become: true
 
-- name: Copy .git-templates directory
+- name: Copy .git-templates-sample directory
   ansible.builtin.copy:
-    src: ./defaults/.git-templates
+    src: ./defaults/.git-templates-sample
     dest: "~"
     mode: "0755"
   become_user: "{{ username }}"
