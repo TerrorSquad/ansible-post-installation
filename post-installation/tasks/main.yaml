@@ -34,7 +34,7 @@
   when: rust or all
 
 - name: Install Go
-  ansible.builtin.include_tasks: go.yaml
+  ansible.builtin.include_tasks: golang.yaml
   when: golang or all
 
 - name: Install Java
