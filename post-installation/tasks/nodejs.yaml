@@ -1,0 +1,29 @@
+---
+- name: Install Volta
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl https://get.volta.sh | bash
+    executable: /usr/bin/bash
+  become_user: "{{ username }}"
+  become: true
+  register: volta_install
+  changed_when: volta_install.rc == 0
+
+- name: Install latest NodeJS using Volta
+  ansible.builtin.shell: >
+    zsh -i -c "volta install node@20"
+  become_user: "{{ username }}"
+  become: true
+  register: node_install
+  changed_when: node_install.rc == 0
+  retries: 3
+
+- name: Install latest PNPM using Volta
+  ansible.builtin.shell: >
+    zsh -i -c "volta install pnpm@9"
+  become_user: "{{ username }}"
+  become: true
+  register: pnpm_install
+  changed_when: pnpm_install.rc == 0
+  retries: 3

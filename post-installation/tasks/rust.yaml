@@ -1,0 +1,11 @@
+---
+- name: Install Rust tools
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    executable: /usr/bin/bash
+  become_user: "{{ username }}"
+  become: true
+  register: rust_install
+  changed_when: rust_install.rc == 0

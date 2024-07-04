@@ -2,7 +2,9 @@ username: vagrant
 vagrant_username: vagrant
 dev_tools_gui: false
 gui: false
-docker: false
+java: false
+golang: false
+rust: false
 gestures: false
 fonts: false
 vpn: false

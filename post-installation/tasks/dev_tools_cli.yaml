@@ -15,17 +15,6 @@
       - python3-pip
       - jq
 
-- name: Install SDKMan
-  ansible.builtin.shell:
-    cmd: |
-      set -o pipefail
-      curl -s "https://get.sdkman.io" | bash
-    executable: /usr/bin/bash
-  become_user: "{{ username }}"
-  become: true
-  register: sdkman_install
-  changed_when: sdkman_install.rc == 0
-
 - name: Copy Zscaler root cert to $HOME
   ansible.builtin.copy:
     src: ./defaults/.ZscalerRootCA.crt
@@ -33,33 +22,6 @@
     mode: "0644"
   become_user: "{{ username }}"
   become: true
-
-- name: Install Volta
-  ansible.builtin.shell:
-    cmd: |
-      set -o pipefail
-      curl https://get.volta.sh | bash
-    executable: /usr/bin/bash
-  become_user: "{{ username }}"
-  become: true
-  register: volta_install
-  changed_when: volta_install.rc == 0
-
-- name: Install latest NodeJS using Volta
-  ansible.builtin.shell: >
-    zsh -i -c "volta install node@20"
-  become_user: "{{ username }}"
-  become: true
-  register: node_install
-  changed_when: node_install.rc == 0
-
-- name: Install latest PNPM using Volta
-  ansible.builtin.shell: >
-    zsh -i -c "volta install pnpm@9"
-  become_user: "{{ username }}"
-  become: true
-  register: pnpm_install
-  changed_when: pnpm_install.rc == 0
 
 - name: Install homebrew packages with ansible community module
   community.general.homebrew:
@@ -93,54 +55,3 @@
     path: "/home/linuxbrew/.linuxbrew/bin"
   become_user: "{{ username }}"
   become: true
-
-- name: Install Rust tools
-  ansible.builtin.shell:
-    cmd: |
-      set -o pipefail
-      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    executable: /usr/bin/bash
-  become_user: "{{ username }}"
-  become: true
-  register: rust_install
-  changed_when: rust_install.rc == 0
-
-- name: Fetch latest Go version
-  uri:
-    url: https://go.dev/VERSION?m=text
-    return_content: true
-  register: go_version
-
-- name: Set Go version variable
-  set_fact:
-    golang_version: "{{ go_version.content | regex_replace('\\s|time.*$', '') | regex_replace('^go(.*)$', '\\1') }}"
-
-- name: Set Go architecture for URL
-  set_fact:
-    go_arch: "amd64"
-  when: ansible_architecture == "x86_64"
-
-- name: Set Go architecture for URL (default)
-  set_fact:
-    go_arch: "{{ ansible_architecture }}"
-  when: ansible_architecture != "x86_64"
-
-- name: Check if latest Golang is installed
-  command: go version
-  register: go_version_result
-  ignore_errors: true
-  changed_when: false
-
-- name: Download Golang tarball
-  unarchive:
-    src: "https://go.dev/dl/go{{ golang_version }}.{{ ansible_system | lower }}-{{ go_arch }}.tar.gz"
-    dest: /usr/local
-    remote_src: true
-  when: go_version_result is failed or go_version_result.stdout.find(golang_version) == -1
-
-- name: Add Go to PATH environment variable
-  ansible.builtin.lineinfile:
-    path: /etc/profile.d/goenv.sh
-    create: true
-    mode: "0644"
-    line: "export PATH=$PATH:/usr/local/go/bin"

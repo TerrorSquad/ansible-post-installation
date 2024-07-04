@@ -25,7 +25,21 @@
 
 - name: Install docker
   ansible.builtin.include_tasks: docker.yaml
-  when: docker or all
+
+- name: Install NodeJS
+  ansible.builtin.include_tasks: nodejs.yaml
+
+- name: Install Rust
+  ansible.builtin.include_tasks: rust.yaml
+  when: rust or all
+
+- name: Install Go
+  ansible.builtin.include_tasks: go.yaml
+  when: golang or all
+
+- name: Install Java
+  ansible.builtin.include_tasks: java.yaml
+  when: java or all
 
 - name: Install fonts
   ansible.builtin.include_tasks: fonts.yaml

@@ -66,7 +66,9 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - `-e dev_tools_gui=true` - Installs developer tools from `dev_tools_gui.yaml`.
 - `-e gui=true` - Installs general tools from `general_use_software_gui.yaml`.
 - `-e gestures=true` - Installs general tools from `libinput_gestures.yaml`.
-- `-e docker=true` - Installs and configures docker.
+- `-e rust=true` - Installs Rust from `rust.yaml`.
+- `-e golang=true` - Installs Golang from `golang.yaml`.
+- `-e java=true` - Installs SDKMan from `java.yaml`.
 - `-e git_user_email="your@email.com` - Sets git user.email config value.
 - `-e git_user_name="Your Name` - Sets git user.name config value.
 - `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
