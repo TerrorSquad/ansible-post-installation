@@ -29,6 +29,9 @@
 - name: Install NodeJS
   ansible.builtin.include_tasks: nodejs.yaml
 
+- name: Install DDEV
+  ansible.builtin.include_tasks: ddev.yaml
+
 - name: Install Rust
   ansible.builtin.include_tasks: rust.yaml
   when: rust or all
