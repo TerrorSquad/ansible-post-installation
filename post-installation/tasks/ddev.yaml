@@ -5,6 +5,11 @@
     state: directory
     mode: "0755"
 
+- name: Remove existing DDEV source file
+  ansible.builtin.file:
+    path: /etc/apt/sources.list.d/ddev.list
+    state: absent
+
 - name: Download and add DDEV GPG key
   ansible.builtin.apt_key:
     url: https://pkg.ddev.com/apt/gpg.key
