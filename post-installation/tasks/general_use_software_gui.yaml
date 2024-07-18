@@ -35,14 +35,16 @@
       ansible.builtin.shell:
         cmd: |
           set -o pipefail
-          grep  -oP "<a href=(.+amd64.deb)\">" "{{ download_dir }}/tixati.html" | grep -oP  "http.+amd64.deb"  | xargs wget -O "{{ download_dir }}/tixati.deb"
+          grep  -oP "<a href=(.+amd64.deb)\">" "{{ download_dir }}/tixati.html" | grep -oP  "http.+amd64.deb"  | head -n 1"
         executable: /usr/bin/bash
-      args:
-        creates: "{{ download_dir }}/tixati.deb"
+      register: tixati_url_result
+      changed_when: tixati_url_result.rc == 0
 
     - name: Install Tixati
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/tixati.deb"
+      ansible.builtin.include_tasks: utils/install_remote_deb.yaml
+      vars:
+        remote_software_name: Tixati
+        remote_software_url: "{{ tixati_url_result.stdout }}"
 
 - name: Download and install UnifiedRemote
   ansible.builtin.include_tasks: utils/install_remote_deb.yaml
