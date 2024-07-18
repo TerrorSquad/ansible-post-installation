@@ -35,7 +35,7 @@
     append: true
 
 - name: Install docker-compose
-  ansible.builtin.include_tasks: install_github_asset.yaml
+  ansible.builtin.include_tasks: utils/install_github_asset.yaml
   vars:
     github_repo: docker/compose
     github_asset: docker-compose

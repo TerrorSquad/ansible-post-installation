@@ -98,7 +98,7 @@
       - redshift-gtk
 
 - name: Download and install mailspring
-  ansible.builtin.include_tasks: install_github_asset.yaml
+  ansible.builtin.include_tasks: utils/install_github_asset.yaml
   vars:
     github_repo: Foundry376/mailspring
     github_asset: mailspring
@@ -196,7 +196,7 @@
   become: true
 
 - name: Download and install input-remapper
-  ansible.builtin.include_tasks: install_github_asset.yaml
+  ansible.builtin.include_tasks: utils/install_github_asset.yaml
   vars:
     github_repo: sezanzeb/input-remapper
     github_asset: input-remapper
