@@ -136,3 +136,14 @@
         update_cache: true
         name:
           - sublime-text
+
+- name: Install Zed editor
+  ansible.builtin.shell:
+    cmd: |
+      set -o pipefail
+      curl -f https://zed.dev/install.sh | sh
+    executable: /usr/bin/bash
+  become_user: "{{ username }}"
+  become: false
+  register: zed_installed
+  changed_when: zed_installed.rc == 0
