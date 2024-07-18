@@ -147,3 +147,16 @@
   become: false
   register: zed_installed
   changed_when: zed_installed.rc == 0
+
+- name: Download and install DevToys
+  block:
+    - name: Download DevToys
+      ansible.builtin.get_url:
+        url: https://github.com/DevToys-app/DevToys/releases/download/v2.0.4.0/devtoys_linux_x64.deb
+        dest: "{{ download_dir }}/DevToys.deb"
+        mode: "0644"
+
+    - name: Install DevToys
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/DevToys.deb"
+        force: true
