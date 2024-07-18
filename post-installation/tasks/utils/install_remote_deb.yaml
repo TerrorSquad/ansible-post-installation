@@ -1,0 +1,17 @@
+---
+- name: Download and install {{ remote_software_name }}
+  block:
+    - name: Set deb filename
+      set_fact:
+        deb_filename: "{{ remote_software_name | replace(' ', '_') }}.deb"
+
+    - name: Download {{ remote_software_name }}
+      ansible.builtin.get_url:
+        url: "{{ remote_software_url }}"
+        dest: "{{ download_dir }}/{{ deb_filename }}.deb"
+        mode: "0644"
+
+    - name: Install {{ remote_software_name }}
+      ansible.builtin.apt:
+        deb: "{{ download_dir }}/{{ deb_filename }}.deb"
+        force: true

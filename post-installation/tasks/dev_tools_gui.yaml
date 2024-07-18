@@ -8,30 +8,16 @@
       - graphviz
 
 - name: Download and install GitKraken
-  block:
-    - name: Download GitKraken
-      ansible.builtin.get_url:
-        url: https://release.axocdn.com/linux/gitkraken-amd64.deb
-        dest: "{{ download_dir }}/gitkraken.deb"
-        mode: "0644"
-
-    - name: Install GitKraken
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/gitkraken.deb"
-        force: true
+  ansible.builtin.include_tasks: utils/install_remote_deb.yaml
+  vars:
+    remote_software_name: GitKraken
+    remote_software_url: https://release.axocdn.com/linux/gitkraken-amd64.deb
 
 - name: Download and install DBeaver
-  block:
-    - name: Download DBeaver
-      ansible.builtin.get_url:
-        url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
-        dest: "{{ download_dir }}/dbeaver.deb"
-        mode: "0644"
-
-    - name: Install DBeaver
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/dbeaver.deb"
-        force: true
+  ansible.builtin.include_tasks: utils/install_remote_deb.yaml
+  vars:
+    remote_software_name: DBeaver
+    remote_software_url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
 
 - name: Download and install Slack
   block:
@@ -87,16 +73,11 @@
 - name: Download and install Visual Studio Code
   when: '"microsoft" not in ansible_facts["kernel"]'
   block:
-    - name: Download Visual Studio Code
-      ansible.builtin.get_url:
-        url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
-        dest: "{{ download_dir }}/vscode.deb"
-        mode: "0644"
-
-    - name: Install Visual Studio Code
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/vscode.deb"
-        force: true
+    - name: Download and install Visual Studio Code
+      ansible.builtin.include_tasks: utils/install_remote_deb.yaml
+      vars:
+        remote_software_name: Visual Studio Code
+        remote_software_url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
 
 - name: Install Postman
   ansible.builtin.shell:
@@ -149,14 +130,7 @@
   changed_when: zed_installed.rc == 0
 
 - name: Download and install DevToys
-  block:
-    - name: Download DevToys
-      ansible.builtin.get_url:
-        url: https://github.com/DevToys-app/DevToys/releases/download/v2.0.4.0/devtoys_linux_x64.deb
-        dest: "{{ download_dir }}/DevToys.deb"
-        mode: "0644"
-
-    - name: Install DevToys
-      ansible.builtin.apt:
-        deb: "{{ download_dir }}/DevToys.deb"
-        force: true
+  ansible.builtin.include_tasks: utils/install_remote_deb.yaml
+  vars:
+    remote_software_name: DevToys
+    remote_software_url: https://github.com/DevToys-app/DevToys/releases/download/v2.0.4.0/devtoys_linux_x64.deb
