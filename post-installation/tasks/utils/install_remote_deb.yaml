@@ -1,8 +1,8 @@
 ---
 - name: Download and install {{ remote_software_name }}
   block:
-    - name: Set deb filename
-      set_fact:
+    - name: Set deb filename for {{ remote_software_name }}
+      ansible.builtin.set_fact:
         deb_filename: "{{ remote_software_name | replace(' ', '_') }}.deb"
 
     - name: Download {{ remote_software_name }}

@@ -27,7 +27,7 @@
         dest: "{{ download_dir }}/slack.html"
         mode: "0644"
 
-    - name: Download latest slack package
+    - name: Find out latest Slack URL
       ansible.builtin.shell:
         cmd: |
           set -o pipefail
