@@ -33,6 +33,7 @@
       - duf
       - dust
       - lazydocker
+      - mdcat
       - eza
       - fd
       - gh
