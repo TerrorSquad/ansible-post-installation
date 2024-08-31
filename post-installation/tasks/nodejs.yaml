@@ -10,6 +10,14 @@
   register: volta_install
   changed_when: volta_install.rc == 0
 
+- name: Generate Volta completions
+  ansible.builtin.shell: >
+    zsh -i -c "volta completions zsh > ~/.zsh/completions/_volta"
+  become_user: "{{ username }}"
+  become: true
+  register: volta_completions
+  changed_when: volta_completions.rc == 0
+
 - name: Install latest NodeJS using Volta
   ansible.builtin.shell: >
     zsh -i -c "volta install node@20"
