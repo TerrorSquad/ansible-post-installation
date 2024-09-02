@@ -16,6 +16,7 @@
       - eza
       - lsd
       - neovim
+      - helix
     state: latest
     upgrade_all: true
     path: "/home/linuxbrew/.linuxbrew/bin"
