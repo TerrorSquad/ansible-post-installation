@@ -55,3 +55,11 @@ if [[ $(uname -a) != *"Darwin"* ]]; then
         disown
     }
 fi
+
+sudohx() {
+    sudo $(which hx) "$@"
+}
+
+sudonvim() {
+    sudo $(which nvim) "$@"
+}
