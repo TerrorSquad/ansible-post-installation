@@ -51,8 +51,8 @@ setopt rm_star_silent
 export BAT_PAGER="less --mouse -RF"
 export LESS="--mouse -RF"
 
-if [ -s $HOME/.ZscalerRootCA.crt ]; then
-    export NODE_EXTRA_CA_CERTS="$HOME/.ZscalerRootCA.crt"
+if [ -s /usr/local/share/ca-certificates/ZscalerRootCA.crt ]; then
+    export NODE_EXTRA_CA_CERTS="/usr/local/share/ca-certificates/ZscalerRootCA.crt"
 fi
 
 export PATH=$PATH:$HOME/.local/bin

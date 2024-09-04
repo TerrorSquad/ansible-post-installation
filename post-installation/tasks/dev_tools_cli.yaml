@@ -15,10 +15,10 @@
       - python3-pip
       - jq
 
-- name: Copy Zscaler root cert to $HOME
+- name: Copy Zscaler root cert to /usr/local/share/ca-certificates
   ansible.builtin.copy:
     src: ./defaults/.ZscalerRootCA.crt
-    dest: "{{ user_home }}"
+    dest: "/usr/local/share/ca-certificates/ZscalerRootCA.crt"
     mode: "0644"
   become_user: "{{ username }}"
   become: true
