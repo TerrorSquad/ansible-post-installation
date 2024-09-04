@@ -30,10 +30,12 @@ ansible 2.10.8
 
 If you're behind a proxy such as Zscaler, you will need to add the Zscaler root certificate to the system trust store, usually located in `/usr/local/share/ca-certificates/`. After adding the certificate, run `sudo update-ca-certificates` to update the trust store.
 
-There is a helper script in this repo that you can use to add the Zscaler root certificate to the system trust store. Run the following command:
+There is a helper script in this repo that you can use to add the Zscaler root certificate to the system trust store. Run the following command as root:
+
+> Note: ❗ Review the script before running it to make sure it's safe.
 
 ```bash
-curl -K -s https://raw.githubusercontent.com/TerrorSquad/ansible-post-installation/master/add_zscaler_root_cert.sh | bash
+curl -k -s https://raw.githubusercontent.com/TerrorSquad/ansible-post-installation/master/add_zscaler_root_cert.sh | bash
 ```
 
 ## How to run
