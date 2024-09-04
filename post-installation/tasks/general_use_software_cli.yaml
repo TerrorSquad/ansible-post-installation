@@ -22,3 +22,4 @@
     path: "/home/linuxbrew/.linuxbrew/bin"
   become_user: "{{ username }}"
   become: true
+  retries: 3
