@@ -1,0 +1,154 @@
+
+# What's installed
+
+Every linux system should have a set of tools and software that make it easier to use and manage. This project installs a curated set of software that is useful for developers, system administrators, and general users.
+
+## Shell
+
+### Zsh
+
+`zsh` is a powerful shell that provides many features and plugins to enhance your shell experience. This project installs `zsh` as the default shell.
+
+Learn more about `zsh` [here](https://www.zsh.org/)
+
+#### Plugin manager
+
+`antidote` is a plugin manager for `zsh` that provides a rich set of features and plugins to enhance your shell experience.
+
+Learn more about `antidote` [here](https://getantidote.github.io/)
+
+#### plugins
+
+There are many plugins enabled by default, including:
+
+::list{type="success"}
+- zsh-autosuggestions
+- zdharma-continuum/fast-syntax-highlighting
+- rupa/z
+- ohmyzsh/ohmyzsh
+- paulirish/git-open
+- and many more
+::
+
+
+#### Theme
+
+The default theme is `powerlevel10k`, which is highly customizable and provides a rich set of features.
+
+Learn more about `powerlevel10k` [here](https://github.com/romkatv/powerlevel10k)
+
+
+
+## Development software
+
+### CLI
+
+::list{type="success"}
+- bat
+- bottom
+- broot
+- btop
+- curl
+- curlie
+- dbeaver-ce
+- delta
+- docker
+- docker-compose
+- duf
+- dust
+- eza
+- fd
+- gh
+- git
+- git-quick-stats
+- gitkraken
+- gping
+- graphviz
+- guake
+- htop
+- httpstat
+- hyperfine
+- jq
+- kcachegrind
+- lazydocker
+- libutempter0
+- lnav
+- make
+- oha
+- python3-pip
+- rg
+- sd
+- sdkman
+- shellcheck
+- sublime-text
+- terminator
+- tokei
+- volta with latest nodejs
+- xh
+::
+
+
+### GUI
+
+::list{type="success"}
+- dbeaver-ce
+- code (Visual Studio Code)
+- gitkraken
+- graphviz
+- guake
+- JetBrains Toolbox
+- postman
+- sublime-text
+- terminator
+::
+
+
+## General use software
+
+### CLI
+
+::list{type="success"}
+- fd
+- fzf
+- httpie
+- ncdu
+- nvim
+- peco
+- thefuck
+- unzip
+- vim
+- zip
+::
+
+## GUI
+
+::list{type="success"}
+- bleachbit
+- flameshot
+- google chrome
+- libinput-gestures
+- mailspring
+- onlyoffice-desktopeditors
+- openconnect
+- papirus-icon-theme
+- redshift
+- redshift-gtk
+- rescuetime
+- skype
+- slack
+- tixati
+- unified remote
+- variety
+- viber
+- vlc
+- zoom
+::
+
+## Additional window manager - i3
+
+## Fonts
+
+- Hack Mono Nerd Font
+- Fira Code Nerd Font
+- Fira Mono Nerd Font
+- Roboto

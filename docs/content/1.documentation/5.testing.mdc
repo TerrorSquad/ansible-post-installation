@@ -1,0 +1,27 @@
+
+# Testing - Vagrant
+
+To the the playbook locally we can use Vagrant.
+
+There are `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
+
+- Install Vagrant
+
+  ```bash
+  sudo apt install -y vagrant virtualbox
+  ```
+
+- Create a Vagrant box and provision it
+
+  ```bash
+  vagrant up --provision
+  ```
+
+- Force destroy and recreate the box
+
+  ```bash
+  vagrant destroy --force && vagrant up --provision
+  ```
+
+> Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
+> Box name `ubuntu/mantic64` - <https://app.vagrantup.com/ubuntu/boxes/mantic64>

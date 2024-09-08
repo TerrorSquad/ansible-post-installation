@@ -1,0 +1,11 @@
+# FAQ
+
+## What package manager is used?
+
+- This playbook uses `apt` package manager for installing packages on Debian-based systems.
+- It also uses `brew` for installing other packages not available in the default repositories.
+
+## Installation fails on a `homebrew` task
+
+- If the installation fails on a `homebrew` task, it is most likely due to a network issue.
+- Check your internet connection and try running the playbook again.

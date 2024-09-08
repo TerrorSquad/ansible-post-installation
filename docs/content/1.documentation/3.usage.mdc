@@ -1,0 +1,50 @@
+# Usage
+
+
+## How to run
+
+### Clone this repo, enter the directory and run the following command
+
+```bash
+wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip \
+&& unzip master.zip \
+&& cd ansible-post-installation-master
+```
+
+### Install all software
+
+```bash
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true
+```
+
+#### If you want to change your git user.email and git user.name, pass the git related extra arguments
+
+```bash
+ansible-playbook ./playbook.yml -K -e=all=true -e username=$(whoami) -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
+```
+
+#### If you want to only install CLI tools, run the following command
+
+```bash
+ansible-playbook ./playbook.yml -K -e username=$(whoami)
+```
+
+#### If you want to also install GUI tools, run the following command
+
+```bash
+ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true
+```
+
+### Flags
+
+- `-e all=true` - Installs everything.
+- `-e dev_tools_gui=true` - Installs developer tools from `dev_tools_gui.yaml`.
+- `-e gui=true` - Installs general tools from `general_use_software_gui.yaml`.
+- `-e gestures=true` - Installs general tools from `libinput_gestures.yaml`.
+- `-e rust=true` - Installs Rust from `rust.yaml`.
+- `-e golang=true` - Installs Golang from `golang.yaml`.
+- `-e java=true` - Installs SDKMan from `java.yaml`.
+- `-e git_user_email="your@email.com` - Sets git user.email config value.
+- `-e git_user_name="Your Name` - Sets git user.name config value.
+- `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
+- `-K` - flag used to ask for root password. Required mostly for installing apt packages and updating apt repositories.

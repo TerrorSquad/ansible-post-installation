@@ -1,0 +1,37 @@
+# Installation
+
+## Prerequisites
+
+Before you begin, ensure you have the following packages installed:
+
+- ansible (v2.9 or higher)
+- unzip
+
+```sh
+sudo apt update
+sudo apt install ansible unzip
+```
+
+Verify the installation by running the following commands:
+
+```sh
+ansible --version
+```
+
+### Proxy
+
+If you're behind a proxy such as Zscaler, you will need to add the Zscaler root certificate to the system trust store, usually located in `/usr/local/share/ca-certificates/`. After adding the certificate, run `sudo update-ca-certificates` to update the trust store.
+
+There is a helper script in this repo that you can use to add the Zscaler root certificate to the system trust store. Run the following command as root:
+
+<!-- TODO: Make this more obviouos -->
+
+
+
+::alert{type="danger"}
+Review the script before running it to make sure it's safe.
+::
+
+```sh
+curl -k -s https://raw.githubusercontent.com/TerrorSquad/ansible-post-installation/master/add_zscaler_root_cert.sh | bash
+```

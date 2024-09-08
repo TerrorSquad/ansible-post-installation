@@ -13,5 +13,7 @@ export default defineNuxtConfig({
     // Remove it if you don't use Plausible analytics
     // https://github.com/nuxt-modules/plausible
     '@nuxtjs/plausible'
-  ]
+  ],
+
+  compatibilityDate: '2024-09-08'
 })

@@ -1,0 +1,36 @@
+# Introduction
+
+## Overview
+
+With **Griffin**, you can transform a newly installed Debian-based Linux system into a fully-configured, efficient, and consistent environment with just one command. This project eliminates the need for manual configuration and repetitive post-installation steps, offering a streamlined approach to setting up a well-configured Linux system.
+
+## Purpose
+
+Post-installation tasks can be tedious and time-consuming, particularly when managing multiple systems. By automating these tasks with Ansible playbooks, you can ensure consistency and save valuable time. **Griffin** provides a curated set of tasks and configurations that would otherwise require hours of manual setup. This project is designed to assist system administrators and developers in quickly setting up new systems or maintaining existing ones with minimal effort.
+
+## Why Choose Ansible?
+
+Ansible is a powerful automation tool that allows you to define tasks using YAML files. It offers several advantages:
+
+- **User-Friendly**: Ansible's syntax is simple and easy to understand.
+- **Idempotent Results**: Running a playbook multiple times will yield the same result, ensuring consistent outcomes.
+- **Flexible**: Ansible provides a wide range of modules for interacting with different systems.
+
+## Key Features of **Griffin**
+
+- **Automate Post-Installation Tasks**: Configure system settings, install packages, and perform other common tasks.
+- **Ensure Consistency**: Maintain uniform configuration across multiple systems.
+- **Highly Customizable**: Easily modify playbooks to meet your specific needs.
+
+## Supported Systems
+
+These playbooks are designed to work on Debian-based Linux systems, including:
+
+- Ubuntu
+- Linux Mint
+- Debian
+- WSL (Windows Subsystem for Linux)
+
+## Additional Resources
+
+For more information on Ansible, refer to the [Ansible Documentation](https://docs.ansible.com/ansible/latest/index.html).
