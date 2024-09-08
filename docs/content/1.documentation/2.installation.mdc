@@ -18,7 +18,7 @@ Verify the installation by running the following commands:
 ansible --version
 ```
 
-### Proxy
+## Proxy
 
 If you're behind a proxy such as Zscaler, you will need to add the Zscaler root certificate to the system trust store, usually located in `/usr/local/share/ca-certificates/`. After adding the certificate, run `sudo update-ca-certificates` to update the trust store.
 
