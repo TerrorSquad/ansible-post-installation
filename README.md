@@ -5,6 +5,10 @@
 - Ansible playbook used for installing and configuring software after a system installation
 - The playbook should be run as root user (-K flag) and the user name of the non-root user should be passed as an extra argument or defined in defaults/main.yaml.
 
+## documentation
+
+Documentation is available at [https://terrorsquad.github.io/ansible-post-installation/](https://terrorsquad.github.io/ansible-post-installation/)
+
 ## Requirements
 
 - OS: Ubuntu 23.04. (tested with Kubuntu 23.04)
@@ -86,124 +90,7 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 - `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
 - `-K` - flag used to ask for root password. Required mostly for installing apt packages and updating apt repositories.
 
-## What's installed
+## Copyright
 
-### ZSH and antidote with sane defaults
-
-### Development software
-
-- JetBrains Toolbox
-- bat
-- bottom
-- broot
-- btop
-- code (Visual Studio Code)
-- curl
-- curlie
-- dbeaver-ce
-- delta
-- docker
-- docker-compose
-- duf
-- dust
-- eza
-- fd
-- gh
-- git
-- git-quick-stats
-- gitkraken
-- gping
-- graphviz
-- guake
-- htop
-- httpstat
-- hyperfine
-- jq
-- kcachegrind
-- lazydocker
-- libutempter0
-- lnav
-- make
-- oha
-- postman
-- python3-pip
-- redshift
-- redshift-gtk
-- rg
-- ripgrep
-- sd
-- sdkman
-- shellcheck
-- sublime-text
-- terminator
-- tokei
-- volta with latest nodejs
-- xh
-
----
-
-### General use software
-
-- bleachbit
-- fd
-- flameshot
-- fzf
-- google chrome
-- httpie
-- libinput-gestures
-- mailspring
-- ncdu
-- nvim
-- onlyoffice-desktopeditors
-- openconnect
-- papirus-icon-theme
-- peco
-- rescuetime
-- skype
-- slack
-- thefuck
-- tixati
-- unified remote
-- unzip
-- variety
-- viber
-- vim
-- vlc
-- zip
-- zoom
-
-### Additional window manager - i3
-
----
-
-### Fonts
-
-- Hack Mono Nerd Font
-- Fira Code Nerd Font
-- Fira Mono Nerd Font
-- Roboto
-
-## Testing - Vagrant
-
-In here you will find a `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
-
-- Install Vagrant
-
-  ```bash
-  sudo apt install -y vagrant virtualbox
-  ```
-
-- Create a Vagrant box and provision it
-
-  ```bash
-  vagrant up --provision
-  ```
-
-- Force destroy and recreate the box
-
-  ```bash
-  vagrant destroy --force && vagrant up --provision
-  ```
-
-> Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
-> Box name `ubuntu/mantic64` - <https://app.vagrantup.com/ubuntu/boxes/mantic64>
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+```

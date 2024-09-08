@@ -57,13 +57,7 @@
     name:
       - bleachbit
       - flameshot
-      - httpie
-      - ncdu
       - papirus-icon-theme
-      - peco
-      - thefuck
-      - tlp
-      - unzip
       - variety
       - vlc
       - redshift

@@ -1,5 +1,5 @@
 ---
-- name: Install apt apps - curl, VIm, Terminator, RedShift, htop
+- name: Install apt apps
   ansible.builtin.apt:
     name:
       - guake

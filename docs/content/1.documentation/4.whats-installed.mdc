@@ -38,7 +38,6 @@ The default theme is `powerlevel10k`, which is highly customizable and provides 
 Learn more about `powerlevel10k` [here](https://github.com/romkatv/powerlevel10k)
 
 
-
 ## Development software
 
 ### CLI
@@ -46,13 +45,13 @@ Learn more about `powerlevel10k` [here](https://github.com/romkatv/powerlevel10k
 ::list{type="success"}
 - bat
 - bottom
+- brew
 - broot
 - btop
 - curl
 - curlie
-- dbeaver-ce
-- delta
-- docker
+- ddev
+- docker (docker-ce)
 - docker-compose
 - duf
 - dust
@@ -60,46 +59,55 @@ Learn more about `powerlevel10k` [here](https://github.com/romkatv/powerlevel10k
 - fd
 - gh
 - git
+- git-delta
 - git-quick-stats
-- gitkraken
+- go (Golang)
 - gping
-- graphviz
-- guake
 - htop
 - httpstat
 - hyperfine
 - jq
-- kcachegrind
 - lazydocker
 - libutempter0
 - lnav
 - make
+- mdcat
 - oha
+- procs
 - python3-pip
-- rg
+- ripgrep
+- rust
 - sd
-- sdkman
+- sdkman (Java / Kotlin / Groovy)
 - shellcheck
-- sublime-text
-- terminator
+- tealdeer
 - tokei
-- volta with latest nodejs
+- tree
+- unzip
+- vim
+- volta (Node.js)
 - xh
+- yazi
+- yq
+- zip
 ::
 
 
 ### GUI
 
 ::list{type="success"}
+- alacritty
+- code (Visual Studio Code) (if not running on WSL)
 - dbeaver-ce
-- code (Visual Studio Code)
 - gitkraken
 - graphviz
 - guake
 - JetBrains Toolbox
+- kcachegrind
 - postman
 - sublime-text
 - terminator
+- zed (Zed)
 ::
 
 
@@ -108,13 +116,18 @@ Learn more about `powerlevel10k` [here](https://github.com/romkatv/powerlevel10k
 ### CLI
 
 ::list{type="success"}
+- eza
 - fd
 - fzf
+- helix
 - httpie
+- lsd
 - ncdu
+- neovim
 - nvim
 - peco
 - thefuck
+- tlp
 - unzip
 - vim
 - zip
@@ -125,23 +138,25 @@ Learn more about `powerlevel10k` [here](https://github.com/romkatv/powerlevel10k
 ::list{type="success"}
 - bleachbit
 - flameshot
-- google chrome
+- Google Ghrome
 - libinput-gestures
-- mailspring
-- onlyoffice-desktopeditors
+- Mailspring
+- ModernCSV
+- ONLYOFFICE
 - openconnect
 - papirus-icon-theme
-- redshift
+- Redshift
 - redshift-gtk
-- rescuetime
-- skype
-- slack
-- tixati
-- unified remote
+- Rescue Time
+- sezanzeb/input-remapper
+- Skype
+- Slack
+- Tixati
+- Unified remote
 - variety
-- viber
-- vlc
-- zoom
+- Viber
+- Vlc
+- Zoom
 ::
 
 ## Additional window manager - i3
