@@ -43,6 +43,7 @@
       - tokei
       - xh
       - yazi
+      - yq
     state: latest
     upgrade_all: true
     path: "/home/linuxbrew/.linuxbrew/bin"
