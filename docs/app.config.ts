@@ -1,18 +1,11 @@
 // https://github.com/nuxt-themes/docus/blob/main/nuxt.schema.ts
 export default defineAppConfig({
+
   docus: {
+
     title: 'Griffin',
     description: 'Automate your post-installation tasks with Ansible',
-    // image: 'https://user-images.githubusercontent.com/904724/185365452-87b7ca7b-6030-4813-a2db-5e65c785bf88.png',
-    // socials: {
-    //   twitter: 'nuxt_js',
-    //   github: 'nuxt-themes/docus',
-    //   nuxt: {
-    //     label: 'Nuxt',
-    //     icon: 'simple-icons:nuxtdotjs',
-    //     href: 'https://nuxt.com'
-    //   }
-    // },
+
     github: {
       dir: 'docs/content',
       branch: 'master',
@@ -20,20 +13,40 @@ export default defineAppConfig({
       owner: 'terrorsquad',
       edit: true
     },
+
     aside: {
       level: 0,
       collapsed: false,
       exclude: []
     },
+
     main: {
       padded: true,
-      fluid: true
+      fluid: false
     },
+
     header: {
       logo: false,
       showLinkIcon: true,
       exclude: [],
-      fluid: true
-    }
+      fluid: false
+    },
+
+    titleTemplate: '%s · Griffin',
+
+    socials: {
+      github: 'terrorsquad/ansible-post-installation',
+    },
+
+    layout: 'default',
+
+    footer: {
+      credits: {
+        icon: '🚀',
+        text: 'By Goran Ninkovic 2024',
+        href: 'https://goranninkovic.com'
+      },
+      fluid: false
+    },
   }
 })
