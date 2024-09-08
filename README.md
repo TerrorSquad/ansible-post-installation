@@ -1,96 +1,30 @@
-# Description
+# Griffin: Effortless Linux Configuration
 
-[![Build status](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build.yml)
+[![Build status](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build.yml)  
 
-- Ansible playbook used for installing and configuring software after a system installation
-- The playbook should be run as root user (-K flag) and the user name of the non-root user should be passed as an extra argument or defined in defaults/main.yaml.
+## Overview
 
-## documentation
+Griffin is an Ansible playbook designed to automate the installation and configuration of software on Debian-based Linux systems, making post-installation tasks a breeze.
 
-Documentation is available at [https://terrorsquad.github.io/ansible-post-installation/](https://terrorsquad.github.io/ansible-post-installation/)
+## Key Features
 
-## Requirements
+* **Automates Post-Installation Tasks:** Configure system settings, install packages, and perform other common tasks.
+* **Ensures Consistency:** Maintain uniform configuration across multiple systems.
+* **Highly Customizable:** Easily modify playbooks to meet your specific needs.
 
-- OS: Ubuntu 23.04. (tested with Kubuntu 23.04)
-- Software: `ansible`
+## Supported Systems
 
-1. Install ansible
-  `sudo apt install -y ansible unzip`
-2. Check if the installation was correct by running
-  `ansible --version`
+* Ubuntu
+* Linux Mint
+* Debian
+* WSL (Windows Subsystem for Linux)
 
-It should print out something similar to this this:
+## Get Started
 
-```bash
-ansible 2.10.8
-  config file = None
-  configured module search path = ['/home/gninkovic/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
-  ansible python module location = /usr/lib/python3/dist-packages/ansible
-  executable location = /usr/bin/ansible
-  python version = 3.10.12 (main, Nov 20 2023, 15:14:05) [GCC 11.4.0]
-```
+For detailed installation instructions, usage guides, and FAQs, please refer to our comprehensive documentation:
 
-### Proxy
+[**https://terrorsquad.github.io/ansible-post-installation/**](https://terrorsquad.github.io/ansible-post-installation/)
 
-If you're behind a proxy such as Zscaler, you will need to add the Zscaler root certificate to the system trust store, usually located in `/usr/local/share/ca-certificates/`. After adding the certificate, run `sudo update-ca-certificates` to update the trust store.
+## License
 
-There is a helper script in this repo that you can use to add the Zscaler root certificate to the system trust store. Run the following command as root:
-
-> Note: ❗ Review the script before running it to make sure it's safe.
-
-```bash
-curl -k -s https://raw.githubusercontent.com/TerrorSquad/ansible-post-installation/master/add_zscaler_root_cert.sh | bash
-```
-
-## How to run
-
-### Clone this repo, enter the directory and run the following command
-
-```bash
-wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip \
-&& unzip master.zip \
-&& cd ansible-post-installation-master
-```
-
-### Install all software
-
-```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true
-```
-
-#### If you want to change your git user.email and git user.name, pass the git related extra arguments
-
-```bash
-ansible-playbook ./playbook.yml -K -e=all=true -e username=$(whoami) -e "git_user_email='your@email.com'" -e "git_user_name='Your Name'"
-```
-
-#### If you want to only install CLI tools, run the following command
-
-```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami)
-```
-
-#### If you want to also install GUI tools, run the following command
-
-```bash
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true
-```
-
-### Flags
-
-- `-e all=true` - Installs everything.
-- `-e dev_tools_gui=true` - Installs developer tools from `dev_tools_gui.yaml`.
-- `-e gui=true` - Installs general tools from `general_use_software_gui.yaml`.
-- `-e gestures=true` - Installs general tools from `libinput_gestures.yaml`.
-- `-e rust=true` - Installs Rust from `rust.yaml`.
-- `-e golang=true` - Installs Golang from `golang.yaml`.
-- `-e java=true` - Installs SDKMan from `java.yaml`.
-- `-e git_user_email="your@email.com` - Sets git user.email config value.
-- `-e git_user_name="Your Name` - Sets git user.name config value.
-- `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
-- `-K` - flag used to ask for root password. Required mostly for installing apt packages and updating apt repositories.
-
-## Copyright
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-```
+This project is licensed under the [MIT License](LICENSE.md).

@@ -1,169 +1,60 @@
-
 # What's installed
 
-Every linux system should have a set of tools and software that make it easier to use and manage. This project installs a curated set of software that is useful for developers, system administrators, and general users.
+This project installs a curated set of tools and software to enhance your Linux experience, catering to developers, system administrators, and general users.
 
-## Shell
+## Key Features & Benefits
 
-### Zsh
+- **Streamlined Development:**  A powerful shell, essential CLI tools, code editors, and version control systems to boost your productivity.
+- **Efficient System Management:**  Utilities for system monitoring, disk management, process control, and troubleshooting.
+- **Enhanced User Experience:**  Improved terminal experience, desktop customization, and convenient applications for everyday tasks.
 
-`zsh` is a powerful shell that provides many features and plugins to enhance your shell experience. This project installs `zsh` as the default shell.
+## Tool Categories
 
-Learn more about `zsh` [here](https://www.zsh.org/)
+### Shell & Terminal
 
-#### Plugin manager
+- **Zsh:** A powerful shell with enhanced features and plugins.
+- **Powerlevel10k:** A customizable and visually appealing Zsh theme.
+- **Antidote:** A plugin manager for Zsh, providing a rich ecosystem of extensions.
+- **Alacritty:** A fast and customizable GPU-accelerated terminal emulator.
+- **Terminator:** A feature-rich terminal emulator with split-screen capabilities.
+- **Guake:** A drop-down terminal for quick access.
 
-`antidote` is a plugin manager for `zsh` that provides a rich set of features and plugins to enhance your shell experience.
+### Development Essentials
 
-Learn more about `antidote` [here](https://getantidote.github.io/)
+- **Code Editors & IDEs:** Visual Studio Code, Sublime Text, Vim, Neovim, Helix, Zed
+- **Databases & DBMS:** DBeaver Community Edition
+- **Version Control:** Git, GitKraken, git-delta, git-quick-stats, gh (GitHub CLI)
+- **Package Managers:** Brew, SDKMAN (Java, Kotlin, Groovy)
+- **DevOps & Sysadmin:** Docker, Docker Compose, Lazydocker, ddev (Open source tool for developers to simplify Docker usage)
+- **Programming Languages:** Go, Python, Rust, Node.js (via Volta)
+- **CLI Tools:** bat, bottom, broot,  curl, curlie,  make, mdcat, oha,  shellcheck, tealdeer, tokei, tree,  yazi, yq
 
-#### plugins
+### System & Productivity
 
-There are many plugins enabled by default, including:
+- **File Management:** eza, fd, fzf, lsd, ncdu, unzip, zip
+- **System Monitoring & Control:** btop, htop, procs, tlp
+- **Productivity Boosters:**  helix, libinput-gestures, peco, thefuck, variety
+- **System Utilities:** bleachbit, RescueTime, sezanzeb/input-remapper, Unified Remote
 
-::list{type="success"}
-- zsh-autosuggestions
-- zdharma-continuum/fast-syntax-highlighting
-- rupa/z
-- ohmyzsh/ohmyzsh
-- paulirish/git-open
-- and many more
-::
+### Internet & Networking
 
+- **Web Browser:** Google Chrome
+- **Networking Tools:** curl, curlie, gping, httpie, httpstat, openconnect, xh
+- **Torrent Client:** Tixati
 
-#### Theme
+### Communication & Office
 
-The default theme is `powerlevel10k`, which is highly customizable and provides a rich set of features.
+- **Communication:** Skype, Slack, Viber, Zoom
+- **Office Suite:** ONLYOFFICE
+- **Email Client:** Mailspring
 
-Learn more about `powerlevel10k` [here](https://github.com/romkatv/powerlevel10k)
+### Multimedia & Graphics
 
+- **Media Player:** VLC
+- **Screenshot Tool:** Flameshot
+- **Graph Visualization:** Graphviz
 
-## Development software
+### Additional Enhancements
 
-### CLI
-
-::list{type="success"}
-- bat
-- bottom
-- brew
-- broot
-- btop
-- curl
-- curlie
-- ddev
-- docker (docker-ce)
-- docker-compose
-- duf
-- dust
-- eza
-- fd
-- gh
-- git
-- git-delta
-- git-quick-stats
-- go (Golang)
-- gping
-- htop
-- httpstat
-- hyperfine
-- jq
-- lazydocker
-- libutempter0
-- lnav
-- make
-- mdcat
-- oha
-- procs
-- python3-pip
-- ripgrep
-- rust
-- sd
-- sdkman (Java / Kotlin / Groovy)
-- shellcheck
-- tealdeer
-- tokei
-- tree
-- unzip
-- vim
-- volta (Node.js)
-- xh
-- yazi
-- yq
-- zip
-::
-
-
-### GUI
-
-::list{type="success"}
-- alacritty
-- code (Visual Studio Code) (if not running on WSL)
-- dbeaver-ce
-- gitkraken
-- graphviz
-- guake
-- JetBrains Toolbox
-- kcachegrind
-- postman
-- sublime-text
-- terminator
-- zed (Zed)
-::
-
-
-## General use software
-
-### CLI
-
-::list{type="success"}
-- eza
-- fd
-- fzf
-- helix
-- httpie
-- lsd
-- ncdu
-- neovim
-- nvim
-- peco
-- thefuck
-- tlp
-- unzip
-- vim
-- zip
-::
-
-## GUI
-
-::list{type="success"}
-- bleachbit
-- flameshot
-- Google Ghrome
-- libinput-gestures
-- Mailspring
-- ModernCSV
-- ONLYOFFICE
-- openconnect
-- papirus-icon-theme
-- Redshift
-- redshift-gtk
-- Rescue Time
-- sezanzeb/input-remapper
-- Skype
-- Slack
-- Tixati
-- Unified remote
-- variety
-- Viber
-- Vlc
-- Zoom
-::
-
-## Additional window manager - i3
-
-## Fonts
-
-- Hack Mono Nerd Font
-- Fira Code Nerd Font
-- Fira Mono Nerd Font
-- Roboto
+- **Window manager:** i3
+- **Fonts:** Hack Mono Nerd Font, Fira Code Nerd Font, Fira Mono Nerd Font, Roboto

@@ -1,27 +1,54 @@
+# Testing with Vagrant
 
-# Testing - Vagrant
+To test the Ansible playbook locally, you can leverage the power of Vagrant to create a virtualized environment.
 
-To the the playbook locally we can use Vagrant.
+## Prerequisites
 
-There are `Vagrantfile` and a `playbook_vagrant.yml` files. These two are set up for working with Vagrant and testing the configuration.
+Before you begin, make sure you have the following software installed on your system:
 
-- Install Vagrant
+*   **Vagrant:**  A tool for building and managing virtual machine environments.
+*   **VirtualBox:** A virtualization platform that Vagrant can use to create the virtual machine.
 
-  ```bash
-  sudo apt install -y vagrant virtualbox
-  ```
+You can install these on Debian-based systems using the following command:
 
-- Create a Vagrant box and provision it
+```bash
+sudo apt install -y vagrant virtualbox
+```
 
-  ```bash
-  vagrant up --provision
-  ```
+## Testing Steps
 
-- Force destroy and recreate the box
+Follow these steps to set up and test your Ansible playbook with Vagrant:
 
-  ```bash
-  vagrant destroy --force && vagrant up --provision
-  ```
+1. Navigate to the Project Directory:
+  ::alert
+    Ensure you are in the root directory of your Griffin project where the Vagrantfile and playbook_vagrant.yml files are located.
+  ::
 
-> Vagrantfile will use `playbook_vagrant.yml` file as the `Ansible` entrypoint.
-> Box name `ubuntu/mantic64` - <https://app.vagrantup.com/ubuntu/boxes/mantic64>
+2. Create and Provision the Vagrant Box:
+  Run the following command to create a new Vagrant box and provision it with your Ansible playbook:
+    ```bash
+    vagrant up --provision
+    ```
+
+This will:
+
+1. Download the specified Ubuntu image (if not already present).
+2. Create a virtual machine based on that image.
+3. Execute the `playbook_vagrant.yml` Ansible playbook to configure the virtual machine.
+4. Force Destroy and Recreate (Optional):
+
+If you need to start from a clean slate or make changes to your Ansible playbook, you can force destroy the existing box and recreate it with the latest configuration:
+
+```bash
+vagrant destroy --force && vagrant up --provision
+```
+
+## Important Notes
+
+::alert{type="info"}
+Vagrantfile Configuration: The Vagrantfile in your project is already configured to use playbook_vagrant.yml as the Ansible entry point.
+Base Box: The Vagrant setup uses the ubuntu/mantic64 box. You can find more information about this box on the Vagrant Cloud.
+::
+
+## Troubleshooting
+If you encounter any issues during the testing process, consult the [FAQ](faq) for assistance.

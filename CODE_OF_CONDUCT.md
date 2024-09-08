@@ -1,0 +1,44 @@
+# Griffin Code of Conduct
+
+## Our Pledge
+
+We, the Griffin community, are committed to creating a welcoming and inclusive environment for everyone, regardless of their background or identity. We value respect, collaboration, and open communication.
+
+## Our Standards
+
+We expect all participants in the Griffin community to adhere to the following standards:
+
+* **Be Respectful:** Treat everyone with kindness and consideration. Avoid any language or behavior that could be considered offensive, discriminatory, or harassing.
+* **Be Collaborative:**  Work together constructively and be open to feedback. Value diverse perspectives and strive for consensus.
+* **Be Welcoming:** Encourage participation from everyone and create an environment where everyone feels comfortable contributing.
+* **Be Professional:** Maintain a professional and respectful demeanor in all interactions.
+
+## Unacceptable Behavior
+
+Unacceptable behavior includes, but is not limited to:
+
+*   Harassment, discrimination, or intimidation of
+ any kind.
+*   Offensive comments or jokes related to gender, sexual orientation, race, ethnicity, religion, disability, or other personal characteristics.
+*   Personal attacks, insults, or trolling.
+*   Spamming or other disruptive behavior.
+
+## Reporting Issues
+
+If you experience or witness any unacceptable behavior, please report it to the project maintainers. All reports will be handled with discretion and confidentiality.
+
+## Enforcement
+
+Project maintainers are responsible for enforcing this Code of Conduct. They will review reported incidents and take appropriate action, which may include:
+
+*   Issuing warnings to individuals.
+*   Temporarily or permanently banning individuals from the community.
+
+## Attribution
+
+This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org/), version 2.0.
+
+
+## Contact
+
+If you have any questions or concerns about this Code of Conduct, please contact the project maintainers.

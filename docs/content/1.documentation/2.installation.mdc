@@ -1,37 +1,53 @@
-# Installation
+# Installation Guide
 
-## Prerequisites
+Let's get Griffin up and running on your system!
 
-Before you begin, ensure you have the following packages installed:
+## Before You Start
 
-- ansible (v2.9 or higher)
-- unzip
+Before diving into the installation, ensure you have the following prerequisites in place:
 
-```sh
+- **Ansible:**  Version 2.9 or higher is required.
+- **Unzip:**  This utility is needed to extract downloaded files.
+
+If you're unsure whether you have these packages installed, you can quickly check using these commands:
+
+```bash
+ansible --version
+unzip --version
+```
+
+If either of these commands results in an error, you'll need to install the missing package(s). Here's how to do it on Debian-based systems:
+
+```bash
 sudo apt update
 sudo apt install ansible unzip
 ```
 
-Verify the installation by running the following commands:
+## Behind a Proxy?
+If you're behind a proxy like Zscaler, there's an additional step:
 
-```sh
-ansible --version
-```
+Add the Zscaler root certificate:
 
-## Proxy
+You'll need to add the Zscaler root certificate to your system's trust store. This is typically located at `/usr/local/share/ca-certificates/`.
 
-If you're behind a proxy such as Zscaler, you will need to add the Zscaler root certificate to the system trust store, usually located in `/usr/local/share/ca-certificates/`. After adding the certificate, run `sudo update-ca-certificates` to update the trust store.
+We've included a helper script to simplify this process.
 
-There is a helper script in this repo that you can use to add the Zscaler root certificate to the system trust store. Run the following command as root:
-
-<!-- TODO: Make this more obviouos -->
-
-
-
-::alert{type="danger"}
-Review the script before running it to make sure it's safe.
+::alert{type="warning"}
+Always review any script before running it to ensure it's safe.
 ::
 
-```sh
-curl -k -s https://raw.githubusercontent.com/TerrorSquad/ansible-post-installation/master/add_zscaler_root_cert.sh | bash
+```bash
+curl -k -s [https://raw.githubusercontent.com/TerrorSquad/ansible-post-installation/master/add_zscaler_root_cert.sh](https://raw.githubusercontent.com/TerrorSquad/ansible-post-installation/master/add_zscaler_root_cert.sh) | bash
 ```
+
+## Troubleshooting
+
+If you encounter any issues during the installation, refer to the [FAQ](faq) for assistance.
+
+## Congratulations!
+You've successfully installed **Griffin**! Now you can enjoy a streamlined and efficient Linux experience.
+
+## Next Steps
+
+Explore the features and customizations **Griffin** offers.
+Learn how to contribute to the project.

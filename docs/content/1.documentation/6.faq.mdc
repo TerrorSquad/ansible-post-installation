@@ -1,11 +1,73 @@
-# FAQ
+# Frequently Asked Questions (FAQ)
 
-## What package manager is used?
+## General
 
-- This playbook uses `apt` package manager for installing packages on Debian-based systems.
-- It also uses `brew` for installing other packages not available in the default repositories.
+### What package manager is used?
 
-## Installation fails on a `homebrew` task
+::list
+- This playbook primarily uses `apt` for installing packages on Debian-based systems.
+- It also utilizes `brew` (Homebrew) for installing additional packages not available in the default repositories.
+::
 
+### Installation fails on a `homebrew` task
+
+::list
 - If the installation fails on a `homebrew` task, it is most likely due to a network issue.
 - Check your internet connection and try running the playbook again.
+::
+
+## Troubleshooting
+
+### I'm getting an error about missing permissions.
+
+::alert{type="warning"}
+Ensure you are running the Ansible playbook with `sudo` or as the `root` user. Some tasks require elevated privileges to modify system settings or install packages.
+::
+
+### The installation is taking a very long time.
+
+::p
+The installation time can vary depending on your internet connection speed and the number of packages being installed. If it seems excessively long, check your network connectivity and ensure no other processes are heavily utilizing your system resources.
+::
+
+### Can I customize the list of installed software?
+
+::p
+Absolutely! Griffin is designed to be flexible. You can edit the Ansible playbooks (`.yml` files) to add, remove, or modify the list of installed software to suit your specific needs.
+::
+
+### How do I update the installed software?
+
+::p
+You can rerun the Ansible playbook to update the installed software to their latest versions. The idempotent nature of Ansible ensures that only necessary updates will be performed.
+::
+
+### I'm encountering an error I can't resolve. Where can I get help?
+
+::p
+If you're facing an issue you can't troubleshoot, you can:
+::
+::list
+- Create an issue on the project's GitHub repository.
+::
+
+## Contributing
+
+### How can I contribute to Griffin?
+
+::p
+We welcome contributions from the community! You can contribute by:
+::
+::list
+- Reporting bugs or suggesting enhancements.
+- Submitting pull requests with code improvements or new features
+- Helping with documentation or translations
+::
+
+::p
+Please refer to the [Contributing Guidelines](CONTRIBUTING) for detailed information on how to get involved
+::
+
+## Other Questions
+
+If you have any other questions not addressed here, feel free to reach out to the community or open an issue on the project's GitHub repository.

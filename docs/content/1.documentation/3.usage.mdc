@@ -1,7 +1,6 @@
 # Usage
 
-
-## How to run
+## Getting Started
 
 Clone this repo, enter the directory and run the following command
 
@@ -10,13 +9,11 @@ wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads
 && unzip master.zip \
 && cd ansible-post-installation-master
 ```
+## Running Playbooks
 
+### Default: Install CLI Tools
 
-
-## Only install CLI tools
-
-This is the default playbook that will install CLI tools.
-Useful for servers or headless systems such as WSL.
+This is the default playbook that installs command-line interface (CLI) tools. It's useful for servers or headless systems like WSL.
 
 ```bash
 ansible-playbook ./playbook.yml -K -e username=$(whoami)
@@ -32,7 +29,7 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e "git_user_email='you
 
 ## Install GUI tools
 
-This will enable GUI tools installation.
+This playbook enables the installation of graphical user interface (GUI) tools.
 
 ```bash
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tools_gui=true
@@ -40,22 +37,26 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=gui=true -e=dev_tool
 
 ## Install all software
 
-To install all software, use the following command:
+To install all available software (both CLI and GUI), use the following command:
 
 ```bash
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e=all=true
 ```
 
-## Flags
+## Available Flags
 
-- `-e all=true` - Installs everything.
-- `-e dev_tools_gui=true` - Installs developer tools from `dev_tools_gui.yaml`.
-- `-e gui=true` - Installs general tools from `general_use_software_gui.yaml`.
-- `-e gestures=true` - Installs general tools from `libinput_gestures.yaml`.
-- `-e rust=true` - Installs Rust from `rust.yaml`.
-- `-e golang=true` - Installs Golang from `golang.yaml`.
-- `-e java=true` - Installs SDKMan from `java.yaml`.
-- `-e git_user_email="your@email.com` - Sets git user.email config value.
-- `-e git_user_name="Your Name` - Sets git user.name config value.
-- `username` - defined in `defaults/main.yaml` - can be overridden. Sets the username of the user for who the configuration should happen.
-- `-K` - flag used to ask for root password. Required mostly for installing apt packages and updating apt repositories.
+You can customize the installation by using these flags:
+
+
+::list{type="info"}
+- `-e all=true`: Installs all software, including both CLI and GUI tools.
+- `-e dev_tools_gui=true`: Installs GUI tools specifically for development from the dev_tools_gui.yaml file.
+- `-e gui=true`: Installs general-purpose GUI tools from the general_use_software_gui.yaml file
+- `-e gestures=true`: Installs tools related to libinput gestures from the libinput_gestures.yaml file
+- `-e rust=true`: Installs the Rust programming language and associated tools.
+- `-e golang=true`: Installs the Go programming language (Golang) and associated tools
+- `-e java=true`: Installs SDKMan, a tool for managing multiple Java versions
+- `-e git_user_email="your@email.com" and -e git_user_name="Your Name"`: Sets the Git user configuration values
+username: Sets the username for which the configuration should be applied. Can be overridden from its default value in defaults/main.yaml
+- `-K`: Prompts for the root password, necessary for certain installation and update tasks
+::
