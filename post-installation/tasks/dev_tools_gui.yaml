@@ -98,7 +98,7 @@
 
     - name: Add Sublime Text apt repository
       ansible.builtin.apt_repository:
-        repo: "deb [allow-insecure=yes trusted=yes] https://download.sublimetext.com/ apt/stable/"
+        repo: "deb https://download.sublimetext.com/ apt/stable/"
         filename: sublime-text
         state: present
         update_cache: true
