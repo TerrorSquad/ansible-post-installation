@@ -3,9 +3,13 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'post-installation/**/*'
   pull_request:
     branches:
       - master
+    paths:
+      - 'post-installation/**/*'
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
