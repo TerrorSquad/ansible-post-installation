@@ -28,6 +28,7 @@
       - mdcat
       - eza
       - fd
+      - fx
       - gh
       - git-delta
       - git-quick-stats
