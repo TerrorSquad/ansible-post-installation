@@ -1,4 +1,9 @@
 ---
+- name: Install neovim with APT
+  ansible.builtin.apt:
+    name:
+      - neovim
+
 - name: Create plugin manager directory
   ansible.builtin.file:
     path: "{{ nvim_plugin_manager_path }}"
@@ -41,7 +46,7 @@
 - name: Install/update Neovim plugins
   ansible.builtin.shell:
     cmd: |
-      /home/linuxbrew/.linuxbrew/bin/nvim +PlugInstall +qall
+      nvim +PlugInstall +qall
     executable: /usr/bin/zsh
   become_user: "{{ username }}"
   become: true

@@ -15,7 +15,6 @@
       - fzf
       - eza
       - lsd
-      - neovim
       - helix
     state: latest
     upgrade_all: true
