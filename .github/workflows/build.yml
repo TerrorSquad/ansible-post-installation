@@ -29,3 +29,18 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run ansible playbook
         run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+  build-windows:
+      runs-on: windows-latest
+      defaults:
+        run:
+          shell: wsl-bash {0}
+      steps:
+
+          - uses: Vampire/setup-wsl@v4
+            with:
+              distribution: Ubuntu-24.04
+
+          - uses: actions/checkout@v4
+
+          - name: Run ansible playbook
+            run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
