@@ -5,11 +5,13 @@ on:
       - master
     paths:
       - 'post-installation/**/*'
+      - '.github/workflows/build.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'post-installation/**/*'
+      - '.github/workflows/build.yml'
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
