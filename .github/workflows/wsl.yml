@@ -51,13 +51,6 @@ jobs:
 
       - run: ls -la
 
-      - run: echo testpw > ansible_become_password.txt
-
-      - shell: wsl-bash -u root {0}
-        run: chmod 666 ansible_become_password.txt
-
-      - run: ls -la ansible_become_password.txt
-
       - name: Run ansible playbook
         run: |
-          ansible-playbook ./playbook.yml --become-password-file ansible_become_password.txt -e username=$(whoami) -e all=true
+          ansible-playbook ./playbook.yml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true
