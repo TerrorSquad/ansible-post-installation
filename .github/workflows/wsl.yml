@@ -40,11 +40,15 @@ jobs:
 
           - uses: actions/checkout@v4
 
-          - run: chage -l $USER
+          - shell: wsl-bash -u root {0}
+            run: id
 
           - run: echo $USER
 
-          - run: echo $USER | sudo -S chown -R $USER:$USER .
+          - shell: wsl-bash -u root {0}
+            run: echo testpw | sudo -S passwd test
+
+          - run: echo testpw | sudo -S chown -R $USER:$USER .
 
           - run: pwd
 
@@ -52,4 +56,4 @@ jobs:
 
           - name: Run ansible playbook
             run: |
-              echo $USER | xargs ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+              echo testpw | xargs ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
