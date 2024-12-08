@@ -1,8 +1,8 @@
 # Griffin: Effortless Linux Configuration
 
-[![Build status Ubuntu](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build-ubuntu.yml)
+[![Build Ubuntu](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build-ubuntu.yml)
 
-[![Build status WSL](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build-wsl.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build-wsl.yml)
+[![Build WSL](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build-wsl.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/build-wsl.yml)
 
 ## Overview
 

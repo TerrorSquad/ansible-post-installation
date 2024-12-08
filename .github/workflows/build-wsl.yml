@@ -1,4 +1,4 @@
-name: Build status
+name: Build WSL
 on:
   push:
     branches:
@@ -26,7 +26,6 @@ jobs:
 
           - uses: Vampire/setup-wsl@v4
             with:
-              wsl-shell-command: ash -eu
               distribution: Ubuntu-24.04
               wsl-version: 2
               set-as-default: 'true'
@@ -35,7 +34,7 @@ jobs:
                 ansible
                 unzip
 
-          - shell: wsl-ash {0}
+          - shell: wsl-bash {0}
             run: id
 
           - shell: wsl-bash {0}
@@ -45,4 +44,7 @@ jobs:
           - uses: actions/checkout@v4
 
           - name: Run ansible playbook
-            run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+            shell: wsl-bash {0}
+            run: |
+              cd ${{ github.workspace }}
+              ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
