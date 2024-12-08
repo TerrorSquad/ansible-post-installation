@@ -1,0 +1,58 @@
+name: Run ansible playbook on WSL
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "post-installation/**/*"
+      - ".github/workflows/wsl.yml"
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "post-installation/**/*"
+      - ".github/workflows/wsl.yml"
+  schedule:
+    - cron: "0 0 * * 1" # Every Monday at 00:00
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ansible:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: wsl-bash {0}
+    steps:
+      - uses: Vampire/setup-wsl@v4
+        with:
+          wsl-shell-user: test
+          distribution: Ubuntu-24.04
+          wsl-version: 2
+          set-as-default: "true"
+          update: "false"
+          additional-packages: ansible
+            unzip
+
+      # Set password for test user
+      - shell: wsl-bash -u root {0}
+        run: echo "test:testpw" | chpasswd
+
+      # Add test user to sudo group
+      - shell: wsl-bash -u root {0}
+        run: usermod -a -G sudo test
+
+      - run: cd /home/test && wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip
+      - run: cd /home/test && unzip master.zip
+      - run: mv /home/test/ansible-post-installation-master /home/test/ansible-post-installation
+      - run: cd /home/test/ansible-post-installation && echo "testpw" > .github/workflows/ansible_become_password.txt
+
+      - run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
+
+      - run: ls -la /home/test/ansible-post-installation/.github/workflows
+
+      - name: Run ansible playbook
+        run: |
+          cd /home/test/ansible-post-installation/ && ansible-playbook ./playbook.yml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true

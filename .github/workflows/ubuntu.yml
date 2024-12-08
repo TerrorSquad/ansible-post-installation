@@ -1,17 +1,17 @@
-name: Build status
+name: Run ansible playbook on Ubuntu
 on:
   push:
     branches:
       - master
     paths:
       - 'post-installation/**/*'
-      - '.github/workflows/build.yml'
+      - '.github/workflows/ubuntu.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'post-installation/**/*'
-      - '.github/workflows/build.yml'
+      - '.github/workflows/ubuntu.yml'
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  ansible:
     runs-on: "${{ matrix.os }}"
     strategy:
       matrix:
@@ -31,18 +31,3 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run ansible playbook
         run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
-  build-windows:
-      runs-on: windows-latest
-      defaults:
-        run:
-          shell: wsl-bash {0}
-      steps:
-
-          - uses: Vampire/setup-wsl@v4
-            with:
-              distribution: Ubuntu-24.04
-
-          - uses: actions/checkout@v4
-
-          - name: Run ansible playbook
-            run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
