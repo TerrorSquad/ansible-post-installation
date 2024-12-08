@@ -40,7 +40,12 @@ jobs:
 
           - uses: actions/checkout@v4
 
+          - run: echo $USER
+
+          - run: pwd
+
+          - run: ls -la
+
           - name: Run ansible playbook
             run: |
-              ls -la
               ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
