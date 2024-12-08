@@ -45,11 +45,9 @@ jobs:
         run: usermod -a -G sudo test
 
       - shell: wsl-bash -u root {0}
-        run: cd /mnt/d/a/ansible-post-installation && chown test:test -R  .
+        run: chown test:test -R /mnt/d/a/ansible-post-installation
 
-      - run: pwd
-
-      - run: ls -la
+      - run: ls -la .github/workflows
 
       - name: Run ansible playbook
         run: |
