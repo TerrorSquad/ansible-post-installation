@@ -44,7 +44,7 @@ jobs:
 
           - run: echo $USER
 
-          - run: echo | sudo -S chown -R $USER:$USER .
+          - run: echo $USER | sudo -S chown -R $USER:$USER .
 
           - run: pwd
 
@@ -52,4 +52,4 @@ jobs:
 
           - name: Run ansible playbook
             run: |
-              echo | xargs ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+              echo $USER | xargs ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
