@@ -47,12 +47,15 @@ jobs:
             run: usermod -a -G sudo test
 
           - shell: wsl-bash -u root {0}
-            run: chown -R test:test .
+            run: cd /mnt/d/a/ansible-post-installation/ansible-post-installation && chown -R test:test .
 
           - run: pwd
 
           - run: ls -la
 
+          - run: |
+                echo testpw > ansible_become_password.txt
+
           - name: Run ansible playbook
             run: |
-              echo testpw | ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+              echo testpw | ansible-playbook ./playbook.yml --become-password-file ansible_become_password.txt -e username=$(whoami) -e all=true
