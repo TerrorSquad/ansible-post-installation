@@ -6,11 +6,13 @@ on:
       - master
     paths:
       - 'docs/**/*'
+      - '.github/workflows/documentation.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'docs/**/*'
+      - '.github/workflows/documentation.yml'
 jobs:
   build:
     runs-on: ubuntu-latest

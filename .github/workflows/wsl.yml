@@ -5,13 +5,13 @@ on:
       - master
     paths:
       - 'post-installation/**/*'
-      - '.github/workflows/build-wsl.yml'
+      - '.github/workflows/wsl.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'post-installation/**/*'
-      - '.github/workflows/build-wsl.yml'
+      - '.github/workflows/wsl.yml'
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
