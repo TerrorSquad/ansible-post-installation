@@ -46,7 +46,7 @@ jobs:
           - run: echo $USER
 
           - shell: wsl-bash -u root {0}
-            run: echo testpw | sudo -S passwd test
+            run: echo testpw | passwd test
 
           - run: echo testpw | sudo -S chown -R $USER:$USER .
 
