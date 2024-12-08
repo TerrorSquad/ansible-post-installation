@@ -29,6 +29,7 @@ jobs:
 
           - uses: Vampire/setup-wsl@v4
             with:
+              wsl-shell-user: test
               distribution: Ubuntu-24.04
               wsl-version: 2
               set-as-default: 'true'
