@@ -45,7 +45,7 @@ jobs:
         run: usermod -a -G sudo test
 
       - shell: wsl-bash -u root {0}
-        run: cd /mnt/d/a/ansible-post-installation && chown -R test:test .
+        run: cd /mnt/d/a/ansible-post-installation && chown test:test -R  .
 
       - run: pwd
 
@@ -55,6 +55,8 @@ jobs:
 
       - shell: wsl-bash -u root {0}
         run: chmod 666 ansible_become_password.txt
+
+      - run: ls -la ansible_become_password.txt
 
       - name: Run ansible playbook
         run: |
