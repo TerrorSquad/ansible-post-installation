@@ -58,4 +58,4 @@ jobs:
 
           - name: Run ansible playbook
             run: |
-              echo testpw | ansible-playbook ./playbook.yml --become-password-file ansible_become_password.txt -e username=$(whoami) -e all=true
+              ansible-playbook ./playbook.yml --become-password-file ansible_become_password.txt -e username=$(whoami) -e all=true
