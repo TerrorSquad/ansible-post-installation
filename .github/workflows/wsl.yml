@@ -29,7 +29,6 @@ jobs:
 
           - uses: Vampire/setup-wsl@v4
             with:
-              wsl-shell-user: test
               distribution: Ubuntu-24.04
               wsl-version: 2
               set-as-default: 'true'
@@ -40,9 +39,16 @@ jobs:
 
           - uses: actions/checkout@v4
 
-          - run: chown -R $USER:$USER .
+          - run: |
+                useradd -m -p 4qBD5NWD3IkbU test
+
+          - uses: Vampire/setup-wsl@v4
+            with:
+                wsl-shell-command: bash -c "sudo -u test bash --noprofile --norc -euo pipefail "\
 
           - run: echo $USER
+
+          - run: echo 4qBD5NWD3IkbU | sudo -S chown -R $USER:$USER .
 
           - run: pwd
 
@@ -50,4 +56,4 @@ jobs:
 
           - name: Run ansible playbook
             run: |
-              ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+              echo 4qBD5NWD3IkbU | xargs ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
