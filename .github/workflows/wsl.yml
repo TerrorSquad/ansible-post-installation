@@ -49,7 +49,7 @@ jobs:
       - run: ls -la /home/test
 
       - shell: wsl-bash -u root {0}
-        run: rsync -avz /mnt/d/a/ansible-post-installation /home/test
+        run: rsync -avz /mnt/d/a/ansible-post-installation/ansible-post-installation /home/test
 
       - run: ls -la /home/test
 
