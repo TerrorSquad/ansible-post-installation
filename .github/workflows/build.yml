@@ -42,7 +42,11 @@ jobs:
             with:
               distribution: Ubuntu-22.04
               wsl-version: 2
-              set-as-default: true
+              set-as-default: 'true'
+              update: 'true'
+              additional-packages:
+                ansible
+                unzip
 
           - uses: actions/checkout@v4
 
