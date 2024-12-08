@@ -44,17 +44,9 @@ jobs:
       - shell: wsl-bash -u root {0}
         run: usermod -a -G sudo test
 
-      - uses: actions/checkout@v4
-
-      - run: ls -la /home/test
-
-      - shell: wsl-bash -u root {0}
-        run: rsync -avz /mnt/d/a/ansible-post-installation/ansible-post-installation /home/test
-
-      - run: ls -la /home/test
-
-      - shell: wsl-bash -u root {0}
-        run: chown test:test -R /home/test/ansible-post-installation
+      - run: cd /home/test && wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip
+      - run: cd /home/test && unzip master.zip
+      - run: mv /home/test/ansible-post-installation-master /home/test/ansible-post-installation
 
       - shell: wsl-bash -u root {0}
         run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
