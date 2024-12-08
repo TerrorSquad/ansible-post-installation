@@ -1,4 +1,4 @@
-name: Run ansible playbook on WSL
+name: WSL
 on:
   push:
     branches:
