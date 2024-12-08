@@ -33,13 +33,11 @@ jobs:
         run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
   build-windows:
       runs-on: windows-latest
-      defaults:
-        run:
-          shell: wsl-bash {0}
       steps:
 
           - uses: Vampire/setup-wsl@v4
             with:
+              wsl-shell-command: ash -eu
               distribution: Ubuntu-22.04
               wsl-version: 2
               set-as-default: 'true'
@@ -47,6 +45,13 @@ jobs:
               additional-packages:
                 ansible
                 unzip
+
+          - shell: wsl-ash {0}
+            run: id
+
+          - shell: wsl-bash {0}
+            run: |
+                useradd -m -p 4qBD5NWD3IkbU test
 
           - uses: actions/checkout@v4
 
