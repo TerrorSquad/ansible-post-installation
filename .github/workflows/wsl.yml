@@ -4,14 +4,14 @@ on:
     branches:
       - master
     paths:
-      - 'post-installation/**/*'
-      - '.github/workflows/wsl.yml'
+      - "post-installation/**/*"
+      - ".github/workflows/wsl.yml"
   pull_request:
     branches:
       - master
     paths:
-      - 'post-installation/**/*'
-      - '.github/workflows/wsl.yml'
+      - "post-installation/**/*"
+      - ".github/workflows/wsl.yml"
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
@@ -21,41 +21,40 @@ concurrency:
 
 jobs:
   ansible:
-      runs-on: windows-latest
-      defaults:
-        run:
-            shell: wsl-bash {0}
-      steps:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: wsl-bash {0}
+    steps:
+      - uses: Vampire/setup-wsl@v4
+        with:
+          wsl-shell-user: test
+          distribution: Ubuntu-24.04
+          wsl-version: 2
+          set-as-default: "true"
+          update: "false"
+          additional-packages: ansible
+            unzip
 
-          - uses: Vampire/setup-wsl@v4
-            with:
-              wsl-shell-user: test
-              distribution: Ubuntu-24.04
-              wsl-version: 2
-              set-as-default: 'true'
-              update: 'false'
-              additional-packages:
-                ansible
-                unzip
+      - uses: actions/checkout@v4
 
-          - uses: actions/checkout@v4
+      - shell: wsl-bash -u root {0}
+        run: echo "test:testpw" | chpasswd
 
-          - shell: wsl-bash -u root {0}
-            run: echo "test:testpw" | chpasswd
+      - shell: wsl-bash -u root {0}
+        run: usermod -a -G sudo test
 
-          - shell: wsl-bash -u root {0}
-            run: usermod -a -G sudo test
+      - shell: wsl-bash -u root {0}
+        run: cd /mnt/d/a/ansible-post-installation/ansible-post-installation && chown -R test:test .
 
-          - shell: wsl-bash -u root {0}
-            run: cd /mnt/d/a/ansible-post-installation/ansible-post-installation && chown -R test:test .
+      - run: pwd
 
-          - run: pwd
+      - run: ls -la
 
-          - run: ls -la
+      - run: |
+          echo testpw > ansible_become_password.txt
+          chmod 600 ansible_become_password.txt
 
-          - run: |
-                echo testpw > ansible_become_password.txt
-
-          - name: Run ansible playbook
-            run: |
-              ansible-playbook ./playbook.yml --become-password-file ansible_become_password.txt -e username=$(whoami) -e all=true
+      - name: Run ansible playbook
+        run: |
+          ansible-playbook ./playbook.yml --become-password-file ansible_become_password.txt -e username=$(whoami) -e all=true
