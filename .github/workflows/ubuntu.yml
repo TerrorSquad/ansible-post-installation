@@ -1,17 +1,17 @@
-name: Build Ubuntu
+name: BRun ansible playbook on Ubuntu
 on:
   push:
     branches:
       - master
     paths:
       - 'post-installation/**/*'
-      - '.github/workflows/build-ubuntu.yml'
+      - '.github/workflows/ubuntu.yml'
   pull_request:
     branches:
       - master
     paths:
       - 'post-installation/**/*'
-      - '.github/workflows/build-ubuntu.yml'
+      - '.github/workflows/ubuntu.yml'
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-ubuntu:
+  ansible:
     runs-on: "${{ matrix.os }}"
     strategy:
       matrix:

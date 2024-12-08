@@ -1,4 +1,4 @@
-name: Build WSL
+name: Run ansible playbook on WSL
 on:
   push:
     branches:
@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-wsl:
+  ansible:
       runs-on: windows-latest
       defaults:
         run:
