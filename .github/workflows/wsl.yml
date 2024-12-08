@@ -36,19 +36,31 @@ jobs:
           additional-packages: ansible
             unzip
 
-      - uses: actions/checkout@v4
-
+      # Set password for test user
       - shell: wsl-bash -u root {0}
         run: echo "test:testpw" | chpasswd
 
+      # Add test user to sudo group
       - shell: wsl-bash -u root {0}
         run: usermod -a -G sudo test
 
-      - shell: wsl-bash -u root {0}
-        run: chown test:test -R /mnt/d/a/ansible-post-installation
+      - uses: actions/checkout@v4
 
-      - run: ls -la .github/workflows
+      - run: ls -la /home/test
+
+      - shell: wsl-bash -u root {0}
+        run: rsync -avz /mnt/d/a/ansible-post-installation /home/test
+
+      - run: ls -la /home/test
+
+      - shell: wsl-bash -u root {0}
+        run: chown test:test -R /home/test/ansible-post-installation
+
+      - shell: wsl-bash -u root {0}
+        run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
+
+      - run: ls -la /home/test/ansible-post-installation/.github/workflows
 
       - name: Run ansible playbook
         run: |
-          ansible-playbook ./playbook.yml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true
+          cd /home/test/ansible-post-installation/ && ansible-playbook ./playbook.yml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true
