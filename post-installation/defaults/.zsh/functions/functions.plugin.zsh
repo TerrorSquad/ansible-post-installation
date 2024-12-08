@@ -63,3 +63,7 @@ sudohx() {
 sudonvim() {
     sudo $(which nvim) "$@"
 }
+
+sudosd() {
+    sudo $(which sd) "$@"
+}
