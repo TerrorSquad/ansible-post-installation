@@ -42,10 +42,6 @@ jobs:
           - run: |
                 useradd -m -p 4qBD5NWD3IkbU test
 
-          - uses: Vampire/setup-wsl@v4
-            with:
-                wsl-shell-command: bash -c "sudo -u test bash --noprofile --norc -euo pipefail "\
-
           - run: echo $USER
 
           - run: echo 4qBD5NWD3IkbU | sudo -S chown -R $USER:$USER .
