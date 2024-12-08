@@ -46,5 +46,5 @@ jobs:
           - name: Run ansible playbook
             shell: wsl-bash {0}
             run: |
-              cd ${{ github.workspace }}
+              ls -la
               ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
