@@ -46,7 +46,8 @@ jobs:
           - shell: wsl-bash -u root {0}
             run: usermod -a -G sudo test
 
-          - run: echo testpw | sudo chown -R $USER:$USER .
+          - shell: wsl-bash -u root {0}
+            run: chown -R test:test .
 
           - run: pwd
 
