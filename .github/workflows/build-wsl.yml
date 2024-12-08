@@ -22,10 +22,14 @@ concurrency:
 jobs:
   build-wsl:
       runs-on: windows-latest
+      defaults:
+        run:
+            shell: wsl-bash {0}
       steps:
 
           - uses: Vampire/setup-wsl@v4
             with:
+              wsl-shell-user: test
               distribution: Ubuntu-24.04
               wsl-version: 2
               set-as-default: 'true'
@@ -34,17 +38,9 @@ jobs:
                 ansible
                 unzip
 
-          - shell: wsl-bash {0}
-            run: id
-
-          - shell: wsl-bash {0}
-            run: |
-                useradd -m -p 4qBD5NWD3IkbU test
-
           - uses: actions/checkout@v4
 
           - name: Run ansible playbook
-            shell: wsl-bash {0}
             run: |
               ls -la
               ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
