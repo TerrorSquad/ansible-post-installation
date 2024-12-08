@@ -1,4 +1,4 @@
-name: BRun ansible playbook on Ubuntu
+name: Run ansible playbook on Ubuntu
 on:
   push:
     branches:
