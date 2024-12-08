@@ -1,0 +1,33 @@
+name: Build status
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'post-installation/**/*'
+      - '.github/workflows/build-ubuntu.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'post-installation/**/*'
+      - '.github/workflows/build-ubuntu.yml'
+  schedule:
+    - cron: "0 0 * * 1" # Every Monday at 00:00
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-ubuntu:
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        os:
+          - ubuntu-24.04
+          - ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run ansible playbook
+        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
