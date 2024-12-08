@@ -41,12 +41,7 @@ jobs:
           - uses: actions/checkout@v4
 
           - shell: wsl-bash -u root {0}
-            run: id
-
-          - run: echo $USER
-
-          - shell: wsl-bash -u root {0}
-            run: echo testpw | passwd test
+            run: echo "test:testpw" | chpasswd
 
           - run: echo testpw | sudo -S chown -R $USER:$USER .
 
