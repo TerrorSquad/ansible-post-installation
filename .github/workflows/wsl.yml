@@ -47,9 +47,9 @@ jobs:
       - run: cd /home/test && wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip
       - run: cd /home/test && unzip master.zip
       - run: mv /home/test/ansible-post-installation-master /home/test/ansible-post-installation
+      - run: cd /home/test/ansible-post-installation && echo "testpw" > .github/workflows/ansible_become_password.txt
 
-      - shell: wsl-bash -u root {0}
-        run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
+      - run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
 
       - run: ls -la /home/test/ansible-post-installation/.github/workflows
 
