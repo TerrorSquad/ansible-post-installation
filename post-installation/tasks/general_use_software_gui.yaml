@@ -82,10 +82,7 @@
       ansible.builtin.shell:
         cmd: |
           set -o pipefail
-          NAME=$(curl -fsSL https://www.moderncsv.com/download |  grep -oP "ModernCSV-Linux.+tar.gz")
-          BASE_URL=https://www.moderncsv.com/
-          URL_PATH="release/${NAME}"
-          echo $BASE_URL$URL_PATH | xargs wget -O "{{ download_dir }}/moderncsv.tar.gz"
+          wget -O "{{ download_dir }}/moderncsv.tar.gz" https://www.moderncsv.com/download-linux
         executable: /usr/bin/bash
       args:
         creates: "{{ download_dir }}/moderncsv.tar.gz"
