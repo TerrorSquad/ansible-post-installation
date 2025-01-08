@@ -67,3 +67,7 @@ sudonvim() {
 sudosd() {
     sudo $(which sd) "$@"
 }
+
+restartPlasma() {
+    kquitapp6 plasmashell || kstart plasmashell
+}
