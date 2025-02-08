@@ -18,6 +18,7 @@ powerlevel_10k: "{{ user_home }}/.powerlevel10k"
 config_home: "{{ user_home }}/.config/"
 autostart_path: "{{ config_home }}/autostart"
 terminator_config_dir: "{{ config_home }}/terminator"
+themes: "{{ user_home }}/.themes/"
 
 # User files
 antidote_file_path: "{{ user_home }}/.antidote.sh"

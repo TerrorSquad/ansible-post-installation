@@ -19,6 +19,15 @@
     gather_subset:
       - all
 
+- name: Read /etc/os-release file
+  ansible.builtin.slurp:
+    src: /etc/os-release
+  register: os_release_file
+
 - name: Set ubuntu_codename fact
   ansible.builtin.set_fact:
-    ubuntu_codename: "{{ ansible_lsb.codename }}"
+    ubuntu_codename: "{{ os_release_file['content'] | b64decode | regex_search('UBUNTU_CODENAME=(.*)', '\\1') }}"
+
+- name: Print ubuntu_codename fact
+  ansible.builtin.debug:
+    msg: "Ubuntu codename is {{ ubuntu_codename }}"

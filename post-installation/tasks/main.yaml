@@ -64,6 +64,14 @@
   ansible.builtin.include_tasks: libinput_gestures.yaml
   when: gestures
 
+- name: Include themes configuration
+  ansible.builtin.include_tasks: themes.yaml
+  when: ansible_distribution == 'Linux Mint'
+
+- name: Include dconf configuration
+  ansible.builtin.include_tasks: dconf.yaml
+  when: ansible_distribution == 'Linux Mint'
+
 - name: Delete downloaded files
   ansible.builtin.include_tasks: delete_downloaded_files.yaml
 
