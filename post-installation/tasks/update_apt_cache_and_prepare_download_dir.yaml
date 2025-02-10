@@ -26,7 +26,7 @@
 
 - name: Set ubuntu_codename fact
   ansible.builtin.set_fact:
-    ubuntu_codename: "{{ os_release_file['content'] | b64decode | regex_search('UBUNTU_CODENAME=(.*)', '\\1') }}"
+    ubuntu_codename: "{{ (os_release_file['content'] | b64decode | regex_search('UBUNTU_CODENAME=(.*)', '\\1'))[0] }}"
 
 - name: Print ubuntu_codename fact
   ansible.builtin.debug:
