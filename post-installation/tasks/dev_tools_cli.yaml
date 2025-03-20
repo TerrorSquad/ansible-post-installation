@@ -16,8 +16,8 @@
       - jq
 
 - name: Install homebrew packages with ansible community module
-  community.general.homebrew:
-    name:
+  vars:
+    homebrew_packages:
       - bottom
       - broot
       - btop
@@ -45,9 +45,21 @@
       - xh
       - yazi
       - yq
-    state: latest
-    upgrade_all: true
-    path: "/home/linuxbrew/.linuxbrew/bin"
-  become_user: "{{ username }}"
-  become: true
-  retries: 3
+  block:
+    - name: Install homebrew package
+      community.general.homebrew:
+        name: "{{ item }}"
+        state: latest
+        path: "/home/linuxbrew/.linuxbrew/bin"
+      become_user: "{{ username }}"
+      become: true
+      retries: 3
+      ignore_errors: true
+      register: result
+      loop: "{{ homebrew_packages }}"
+
+    - name: Log failed packages
+      ansible.builtin.debug:
+        msg: "Failed to install package: {{ item.item }}"
+      when: item.failed
+      loop: "{{ result.results }}"
