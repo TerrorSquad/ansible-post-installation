@@ -62,7 +62,7 @@
   ansible.builtin.shell:
     cmd: |
       set -o pipefail
-      curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | zsh
+      curl -fsSL https://raw.githubusercontent.com/terrorsquad/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | zsh
     executable: /usr/bin/bash
   become_user: "{{ username }}"
   become: true
