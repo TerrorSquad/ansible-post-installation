@@ -127,6 +127,7 @@
   become: false
   register: zed_installed
   changed_when: zed_installed.rc == 0
+  ignore_errors: true
 
 - name: Download and install DevToys
   ansible.builtin.include_tasks: utils/install_remote_deb.yaml
