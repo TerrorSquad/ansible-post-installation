@@ -43,7 +43,7 @@ export default defineAppConfig({
     footer: {
       credits: {
         icon: '🚀',
-        text: 'By Goran Ninkovic 2024',
+        text: 'By Goran Ninkovic ' + (new Date()).getFullYear(),
         href: 'https://goranninkovic.com'
       },
       fluid: false
