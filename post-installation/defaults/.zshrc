@@ -45,8 +45,10 @@ if command -v nvim &>/dev/null; then
 fi
 
 # Disable double rm -rf verification.
-# What it does exactly is that it removes the prompt that asks you to confirm the deletion of files and directories.
+# Removes the prompt that asks you to confirm the deletion of files and directories.
 setopt rm_star_silent
+# Don't record commands that start with a space
+setopt HIST_IGNORE_SPACE
 
 export BAT_PAGER="less --mouse -RF"
 export LESS="--mouse -RF"
