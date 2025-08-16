@@ -26,7 +26,11 @@
       | map(attribute='browser_download_url') | first }}"
     dest: "/tmp/{{ item.filename }}"
     mode: "0644"
+    timeout: 60
   loop: "{{ fonts_to_install }}"
+  when: github_releases.json is defined
+  retries: 3
+  delay: 2
 
 - name: Create fonts directory
   ansible.builtin.file:
@@ -42,6 +46,7 @@
     remote_src: true
     owner: "{{ username }}"
   loop: "{{ fonts_to_install }}"
+  when: github_releases.json is defined
 
 - name: Install font - Roboto
   community.general.homebrew_cask:

@@ -18,7 +18,7 @@
   delay: 2
 
 - name: Download binary asset {{ github_asset }}
-  when: type == "binary"
+  when: type == "binary" and github_release_info.json is defined
   block:
     - name: Filter binary asset URL
       ansible.builtin.set_fact:
@@ -46,7 +46,7 @@
       become: true
 
 - name: "Download deb asset {{ github_asset }}"
-  when: type == "deb"
+  when: type == "deb" and github_release_info.json is defined
   block:
     - name: Filter assets by deb type
       ansible.builtin.set_fact:
@@ -81,7 +81,7 @@
       when: apt_output is failed
 
 - name: Download tar.gz asset {{ github_asset }}
-  when: type == "tar.gz"
+  when: type == "tar.gz" and github_release_info.json is defined
   block:
     - name: Filter tar.gz asset URL
       ansible.builtin.set_fact:
