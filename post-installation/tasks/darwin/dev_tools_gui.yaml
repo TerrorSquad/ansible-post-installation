@@ -27,6 +27,7 @@
     - alfred
     - tableplus
     - orbstack
+  retries: 3
   register: dev_cask_results
   failed_when: false
 

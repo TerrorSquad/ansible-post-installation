@@ -22,6 +22,7 @@
     path: "{{ homebrew_path }}"
   become_user: "{{ username }}"
   become: true
+  retries: 3
   when: ansible_os_family == 'Darwin'
 
 - name: Install homebrew packages with ansible community module

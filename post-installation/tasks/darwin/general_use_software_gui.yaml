@@ -48,6 +48,7 @@
     - adguard-vpn
     - ticktick
     - whatsapp
+  retries: 3
   register: gui_cask_results
   failed_when: false
 
@@ -93,6 +94,7 @@
     - rectangle
     - shottr
     - unzipone
+  retries: 3
   register: utility_cask_results
   failed_when: false
 

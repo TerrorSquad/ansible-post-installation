@@ -26,4 +26,5 @@
     path: "{{ homebrew_path }}"
   become_user: "{{ username }}"
   become: true
+  retries: 3
   when: homebrew_check.stat.exists
