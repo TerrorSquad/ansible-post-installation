@@ -13,6 +13,8 @@
     return_content: true
     body_format: json
   register: github_release_info
+  retries: 3
+  delay: 2
 
 - name: Download binary asset {{ github_asset }}
   when: type == "binary"
@@ -30,6 +32,8 @@
         url: "{{ binary_asset_url }}"
         dest: "{{ github_asset_dest }}"
         mode: "0755"
+      retries: 3
+      delay: 2
 
     - name: Install binary asset
       ansible.builtin.copy:
@@ -58,6 +62,8 @@
         url: "{{ deb_asset_url | map(attribute='browser_download_url') | first }}"
         dest: "{{ github_asset_dest }}.deb"
         mode: "0755"
+      retries: 3
+      delay: 2
 
     - name: Install deb asset
       ansible.builtin.apt:
@@ -88,6 +94,8 @@
         url: "{{ tar_gz_asset_url }}"
         dest: "{{ github_asset_dest }}.tar.gz"
         mode: "0755"
+      retries: 3
+      delay: 2
 
     - name: Create directory for extracted asset
       ansible.builtin.file:
