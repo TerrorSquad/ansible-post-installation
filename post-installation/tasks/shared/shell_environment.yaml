@@ -1,0 +1,7 @@
+---
+# Shell and terminal environment configuration
+- name: Install and configure ZSH
+  ansible.builtin.include_tasks: shared/zsh.yaml
+
+- name: Install general use CLI software
+  ansible.builtin.include_tasks: shared/general_use_software_cli.yaml

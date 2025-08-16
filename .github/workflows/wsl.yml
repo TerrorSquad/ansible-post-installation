@@ -34,7 +34,6 @@ jobs:
           set-as-default: "true"
           update: "false"
           additional-packages: ansible
-            unzip
 
       # Set password for test user
       - shell: wsl-bash -u root {0}
@@ -44,15 +43,30 @@ jobs:
       - shell: wsl-bash -u root {0}
         run: usermod -a -G sudo test
 
-      - run: cd /home/test && wget https://github.com/TerrorSquad/ansible-post-installation/archive/refs/heads/master.zip
-      - run: cd /home/test && unzip master.zip
-      - run: mv /home/test/ansible-post-installation-master /home/test/ansible-post-installation
-      - run: cd /home/test/ansible-post-installation && echo "testpw" > .github/workflows/ansible_become_password.txt
+      # Checkout the current repository code
+      - uses: actions/checkout@v4
 
-      - run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
+      # Copy the repository to WSL user home directory
+      - shell: wsl-bash {0}
+        run: |
+          WORKSPACE_PATH=$(wslpath "${{ github.workspace }}")
+          cp -r "$WORKSPACE_PATH" /home/test/ansible-post-installation
 
-      - run: ls -la /home/test/ansible-post-installation/.github/workflows
+      - shell: wsl-bash {0}
+        run: cd /home/test/ansible-post-installation && echo "testpw" > .github/workflows/ansible_become_password.txt
+
+      - shell: wsl-bash {0}
+        run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
+
+      - shell: wsl-bash {0}
+        run: ls -la /home/test/ansible-post-installation/.github/workflows
+
+      - name: Install Ansible collections
+        shell: wsl-bash {0}
+        run: |
+          cd /home/test/ansible-post-installation/ && ansible-galaxy collection install -r requirements.yml
 
       - name: Run ansible playbook
+        shell: wsl-bash {0}
         run: |
           cd /home/test/ansible-post-installation/ && ansible-playbook ./playbook.yml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true

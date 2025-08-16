@@ -1,0 +1,24 @@
+---
+- name: Install VPN clients via Homebrew
+  community.general.homebrew:
+    name:
+      - openconnect
+    state: present
+    path: "{{ homebrew_path }}"
+  retries: 3
+  become: false
+
+- name: Install VPN GUI clients via Homebrew Cask
+  community.general.homebrew_cask:
+    name:
+      - tunnelblick
+    state: present
+  become_user: "{{ username }}"
+  become: true
+  retries: 3
+  register: vpn_cask_result
+  failed_when: false
+
+- name: Log VPN cask installation status
+  ansible.builtin.debug:
+    msg: "VPN GUI installation {{ 'succeeded' if not vpn_cask_result.failed else 'had issues - this is non-critical' }}"

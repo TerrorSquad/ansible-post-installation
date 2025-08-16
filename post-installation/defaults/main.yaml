@@ -5,17 +5,18 @@ gui: false
 java: false
 golang: false
 rust: false
+docker: false
 gestures: false
 fonts: false
 vpn: false
 all: false
 
-# User directories
-user_home: "/home/{{ username }}"
+# User directories (OS-specific)
+user_home: "{% if ansible_os_family == 'Darwin' %}/Users/{{ username }}{% else %}/home/{{ username }}{% endif %}"
 libinput_home: "{{ user_home }}/.libinput-gestures"
 local_bin: "{{ user_home }}/.local/bin"
 powerlevel_10k: "{{ user_home }}/.powerlevel10k"
-config_home: "{{ user_home }}/.config/"
+config_home: "{% if ansible_os_family == 'Darwin' %}{{ user_home }}/Library/Application Support{% else %}{{ user_home }}/.config{% endif %}/"
 autostart_path: "{{ config_home }}/autostart"
 terminator_config_dir: "{{ config_home }}/terminator"
 themes: "{{ user_home }}/.themes/"
@@ -25,11 +26,11 @@ antidote_file_path: "{{ user_home }}/.antidote.sh"
 zshrc: "{{ user_home }}/.zshrc"
 terminator_config_file: "{{ terminator_config_dir }}/config"
 
-# System directories
+# System directories (OS-specific)
 systemd_system: "/etc/systemd/system/"
-profile: "/etc/profile"
 sysfs: "/etc/sysfs.conf"
 snap_bin_path: "/snap/bin"
+homebrew_path: "{% if ansible_os_family == 'Darwin' %}/opt/homebrew/bin{% else %}/home/linuxbrew/.linuxbrew/bin{% endif %}"
 
 # Download directory
 download_dir: "/tmp/ansible"
@@ -41,6 +42,25 @@ docker_compose: "/usr/local/bin/docker-compose"
 nvim_plugin_manager_path: "{{ user_home }}/.local/share/nvim/site/autoload"
 nvim_config_path: "{{ user_home }}/.config/nvim"
 
-# Github asset download
-architecture_filter: "amd64|x86_64|x86-64"
-excluded_os_filter: "[dD]arwin|windows|musl|arm|freebsd|openbsd|loong|aarch64|sha256"
+# Github asset download (updated for macOS)
+architecture_filter: >-
+  {% if ansible_os_family == 'Darwin' %}
+  darwin|macos|x86_64|arm64
+  {% else %}
+  amd64|x86_64|x86-64
+  {% endif %}
+excluded_os_filter: >-
+  {% if ansible_os_family == 'Darwin' %}
+  windows|musl|freebsd|openbsd|loong|aarch64|sha256
+  {% else %}
+  [dD]arwin|windows|musl|arm|freebsd|openbsd|loong|aarch64|sha256
+  {% endif %}
+
+# Docker Compose platform prefix
+docker_compose_platform_prefix: "{% if ansible_os_family == 'Darwin' %}darwin{% else %}linux{% endif %}"
+
+# Docker Compose architecture mapping
+docker_compose_architecture:
+  x86_64: "{{ docker_compose_platform_prefix }}-x86_64"
+  arm64: "{{ docker_compose_platform_prefix }}-aarch64"
+  aarch64: "{{ docker_compose_platform_prefix }}-aarch64"

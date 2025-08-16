@@ -1,0 +1,8 @@
+---
+# Cleanup and finalization
+- name: Delete downloaded files
+  ansible.builtin.include_tasks: shared/delete_downloaded_files.yaml
+
+- name: Clean package cache (Debian only)
+  ansible.builtin.include_tasks: debian/clean_apt.yaml
+  when: ansible_os_family == 'Debian'

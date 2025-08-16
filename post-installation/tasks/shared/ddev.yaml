@@ -1,0 +1,72 @@
+---
+# Linux installation
+- name: Install DDEV (Linux)
+  when: ansible_os_family == 'Debian'
+  block:
+    - name: Ensure /etc/apt/keyrings exists
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: "0755"
+
+    - name: Remove existing DDEV source file
+      ansible.builtin.file:
+        path: /etc/apt/sources.list.d/ddev.list
+        state: absent
+
+    - name: Download and add DDEV GPG key
+      ansible.builtin.apt_key:
+        url: https://pkg.ddev.com/apt/gpg.key
+        keyring: /etc/apt/keyrings/ddev.gpg
+        state: present
+
+    - name: Add DDEV package repository
+      ansible.builtin.apt_repository:
+        repo: "deb [signed-by=/etc/apt/keyrings/ddev.gpg] https://pkg.ddev.com/apt/ * *"
+        filename: ddev
+        state: present
+
+    - name: Install DDEV
+      ansible.builtin.apt:
+        name: ddev
+        state: present
+
+    - name: Install mkcert
+      ansible.builtin.apt:
+        name: mkcert
+        state: present
+
+# macOS installation
+- name: Install DDEV and mkcert (macOS)
+  when: ansible_os_family == 'Darwin'
+  block:
+    - name: Add DDEV tap
+      community.general.homebrew_tap:
+        name: ddev/ddev
+        state: present
+      retries: 3
+      become: false
+
+    - name: Install DDEV via Homebrew
+      community.general.homebrew:
+        name: ddev/ddev/ddev
+        state: present
+        path: "{{ homebrew_path }}"
+      retries: 3
+      become: false
+
+    - name: Install mkcert via Homebrew
+      community.general.homebrew:
+        name: mkcert
+        state: present
+        path: "{{ homebrew_path }}"
+      retries: 3
+      become: false
+
+# Common for both platforms
+- name: Initialize mkcert
+  ansible.builtin.command: mkcert -install
+  register: mkcert_init
+  changed_when: mkcert_init.rc == 0
+  become_user: "{{ username }}"
+  become: true

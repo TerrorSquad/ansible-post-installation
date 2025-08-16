@@ -1,84 +1,49 @@
 ---
-- name: Update apt cache and prepare download dir
-  ansible.builtin.include_tasks: update_apt_cache_and_prepare_download_dir.yaml
+# ==============================================================================
+# GRIFFIN: Cross-Platform Post-Installation Automation
+# ==============================================================================
 
-- name: Install basic packages
-  ansible.builtin.include_tasks: basic_packages.yaml
+# Phase 1: System Preparation
+- name: System preparation and basic setup
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/system_setup.yaml"
 
-- name: Install homebrew
-  ansible.builtin.include_tasks: homebrew.yaml
+# Phase 2: Package Managers and Core Tools
+- name: Package managers and essential tools
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/core_tools.yaml"
 
-- name: Install git
-  ansible.builtin.include_tasks: git.yaml
+# Phase 3: Development Environment Foundation
+- name: Shell and terminal configuration
+  ansible.builtin.include_tasks: shared/shell_environment.yaml
 
-- name: Install zsh
-  ansible.builtin.include_tasks: zsh.yaml
+- name: Version control and editors
+  ansible.builtin.include_tasks: shared/development_foundation.yaml
 
-- name: Install general use CLI software
-  ansible.builtin.include_tasks: general_use_software_cli.yaml
+# Phase 4: Programming Languages (Optional)
+- name: Programming language environments
+  ansible.builtin.include_tasks: shared/programming_languages.yaml
+  when: rust or golang or java or all
 
-- name: Configure nvim
-  ansible.builtin.include_tasks: nvim.yaml
+# Phase 5: Development Tools and Containers
+- name: Development tools and containerization
+  ansible.builtin.include_tasks: shared/development_tools.yaml
 
-- name: Install CLI dev tools
-  ansible.builtin.include_tasks: dev_tools_cli.yaml
+# Phase 6: GUI Applications (Optional)
+- name: GUI applications and tools
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/gui_applications.yaml"
+  when: gui or dev_tools_gui or all
 
-- name: Install docker
-  ansible.builtin.include_tasks: docker.yaml
+# Phase 7: System Customization (Platform-specific)
+- name: Platform-specific customization
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/system_customization.yaml"
+  when: ansible_os_family == 'Debian'
 
-- name: Install NodeJS
-  ansible.builtin.include_tasks: nodejs.yaml
+# Phase 8: Cleanup and Finalization
+- name: Cleanup and finalization
+  ansible.builtin.include_tasks: shared/finalization.yaml
 
-- name: Install DDEV
-  ansible.builtin.include_tasks: ddev.yaml
-
-- name: Install Rust
-  ansible.builtin.include_tasks: rust.yaml
-  when: rust or all
-
-- name: Install Go
-  ansible.builtin.include_tasks: golang.yaml
-  when: golang or all
-
-- name: Install Java
-  ansible.builtin.include_tasks: java.yaml
-  when: java or all
-
-- name: Install fonts
-  ansible.builtin.include_tasks: fonts.yaml
-  when: fonts or gui or all
-
-- name: Install vpn software
-  ansible.builtin.include_tasks: vpn.yaml
-  when: vpn or all
-
-- name: Install GUI dev tools
-  ansible.builtin.include_tasks: dev_tools_gui.yaml
-  when: dev_tools_gui or all
-
-- name: Install general use GUI software
-  ansible.builtin.include_tasks: general_use_software_gui.yaml
-  when: gui or all
-
-- name: Install and configure libinput_gestures
-  ansible.builtin.include_tasks: libinput_gestures.yaml
-  when: gestures
-
-- name: Include themes configuration
-  ansible.builtin.include_tasks: themes.yaml
-  when: ansible_distribution == 'Linux Mint'
-
-- name: Include dconf configuration
-  ansible.builtin.include_tasks: dconf.yaml
-  when: ansible_distribution == 'Linux Mint'
-
-- name: Delete downloaded files
-  ansible.builtin.include_tasks: delete_downloaded_files.yaml
-
-- name: Clean apt cache
-  ansible.builtin.include_tasks: clean_apt.yaml
-
-- name: Display post install message
+- name: Display completion message
   ansible.builtin.debug:
     msg:
-      - "Installation complete. Please restart your machine."
+      - "🎉 Griffin installation complete!"
+      - "Please restart your machine to ensure all changes take effect."
+      - "Check the documentation at: https://terrorsquad.github.io/ansible-post-installation/"

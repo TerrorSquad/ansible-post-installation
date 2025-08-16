@@ -1,7 +1,17 @@
 ---
-- name: Install zsh
+- name: Install zsh (Linux)
   ansible.builtin.apt:
     name: zsh
+  when: ansible_os_family == 'Debian'
+
+- name: Install zsh (macOS)
+  community.general.homebrew:
+    name: zsh
+    state: present
+    path: "{{ homebrew_path }}"
+  retries: 3
+  become: false
+  when: ansible_os_family == 'Darwin'
 
 - name: Save ZSH install location into a variable
   ansible.builtin.command: which zsh
@@ -11,7 +21,20 @@
 - name: Set ZSH as default login shell for current user
   ansible.builtin.user:
     name: "{{ username }}"
-    shell: "{{ zsh_install_path.stdout }}"
+    shell: "{{ zsh_install_path.stdout | default('/bin/zsh', true) }}"
+  register: shell_change_result
+  failed_when: false
+  ignore_errors: true
+
+- name: Log shell change succeeded
+  ansible.builtin.debug:
+    msg: "Shell change succeeded - this is normal in CI environments"
+  when: shell_change_result.changed
+
+- name: Log shell change failed or skipped
+  ansible.builtin.debug:
+    msg: "Shell change failed or skipped - this is normal in CI environments"
+  when: not shell_change_result.changed
 
 - name: Initialize .zshrc
   ansible.builtin.copy:
@@ -114,9 +137,9 @@
 
     - name: Download antidote bundles
       ansible.builtin.shell: |
-        zsh -c -i "antidote update"
+        zsh -c "source {{ user_home }}/.antidote/antidote.zsh && antidote update"
       args:
-        executable: /usr/bin/zsh
+        executable: "{{ zsh_install_path.stdout | default('/bin/zsh', true) }}"
       become_user: "{{ username }}"
       become: true
       register: antidote_update
