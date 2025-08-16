@@ -15,20 +15,22 @@
   when: ansible_os_family == 'Darwin'
 
 - name: Save current git name
-  git_config:
+  community.general.git_config_info:
     name: "user.name"
     scope: global
   become_user: "{{ username }}"
   become: true
   register: current_git_name
+  ignore_errors: true
 
 - name: Save current git email
-  git_config:
+  community.general.git_config_info:
     name: "user.email"
     scope: global
   become_user: "{{ username }}"
   become: true
   register: current_git_email
+  ignore_errors: true
 
 - name: Copy .gitconfig file
   ansible.builtin.copy:
@@ -42,20 +44,22 @@
 - name: Revert git user data
   block:
     - name: Revert old git user name
-      git_config:
+      community.general.git_config:
         name: "user.name"
         value: "{{ current_git_name.config_value }}"
         scope: global
       become_user: "{{ username }}"
       become: true
+      when: current_git_name.config_value is defined
 
     - name: Revert old git user email
-      git_config:
+      community.general.git_config:
         name: "user.email"
         value: "{{ current_git_email.config_value }}"
         scope: global
       become_user: "{{ username }}"
       become: true
+      when: current_git_email.config_value is defined
 
 - name: Copy .git-templates-sample directory
   ansible.builtin.copy:
@@ -67,7 +71,7 @@
 
 - name: Configure git user name
   when: git_user_name is defined
-  git_config:
+  community.general.git_config:
     name: "user.name"
     value: "{{ git_user_name }}"
     scope: global
@@ -77,7 +81,7 @@
 
 - name: Configure git user email
   when: git_user_email is defined
-  git_config:
+  community.general.git_config:
     name: "user.email"
     value: "{{ git_user_email }}"
     scope: global
