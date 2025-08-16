@@ -14,6 +14,10 @@
     - sublime-text
     - microsoft-teams
     - viber
+    # - onlyoffice  # Temporarily disabled to test password prompt
+    - adguard-vpn
+    - ticktick
+    - whatsapp
   register: existing_casks
   failed_when: false
   changed_when: false
@@ -23,8 +27,10 @@
     name: "{{ item }}"
     state: latest
     upgrade_all: false
+    sudo_password: null
   environment:
     HOMEBREW_CASK_OPTS: "--no-quarantine"
+    HOMEBREW_NO_AUTO_UPDATE: "1"
   loop:
     - visual-studio-code
     - google-chrome
@@ -38,6 +44,10 @@
     - sublime-text
     - microsoft-teams
     - viber
+    # - onlyoffice  # Temporarily disabled to test password prompt
+    - adguard-vpn
+    - ticktick
+    - whatsapp
   register: gui_cask_results
   failed_when: false
 
@@ -64,3 +74,42 @@
     msg: "Failed to install cask: {{ item.item }} - {{ item.msg | default('Unknown error') }}"
   when: item.failed | default(false) and 'already an App' not in (item.msg | default(''))
   loop: "{{ gui_cask_results.results | default([]) }}"
+
+- name: Install productivity and utility applications via Homebrew Cask
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: latest
+    upgrade_all: false
+  environment:
+    HOMEBREW_CASK_OPTS: "--no-quarantine"
+    HOMEBREW_NO_AUTO_UPDATE: "1"
+  loop:
+    - alt-tab
+    - autoraise
+    - appcleaner
+    - betterdisplay
+    - copyclip
+    - mos
+    - rectangle
+    - shottr
+    - unzipone
+  register: utility_cask_results
+  failed_when: false
+
+- name: Log successful utility installations
+  ansible.builtin.debug:
+    msg: "Successfully installed/updated utility: {{ item.item }}"
+  when: item.changed | default(false)
+  loop: "{{ utility_cask_results.results | default([]) }}"
+
+- name: Log already installed utilities
+  ansible.builtin.debug:
+    msg: "Utility already up-to-date: {{ item.item }}"
+  when: not (item.changed | default(false)) and not (item.failed | default(false))
+  loop: "{{ utility_cask_results.results | default([]) }}"
+
+- name: Log failed utility installations
+  ansible.builtin.debug:
+    msg: "Failed to install utility: {{ item.item }} - {{ item.msg | default('Unknown error') }}"
+  when: item.failed | default(false)
+  loop: "{{ utility_cask_results.results | default([]) }}"

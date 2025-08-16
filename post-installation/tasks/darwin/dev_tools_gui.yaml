@@ -4,8 +4,10 @@
   loop:
     - jetbrains-toolbox
     - iterm2
-    - wezterm
     - zed
+    - alfred
+    - tableplus
+    - orbstack
   register: existing_dev_casks
   failed_when: false
   changed_when: false
@@ -17,11 +19,14 @@
     upgrade_all: false
   environment:
     HOMEBREW_CASK_OPTS: "--no-quarantine"
+    HOMEBREW_NO_AUTO_UPDATE: "1"
   loop:
     - jetbrains-toolbox
     - iterm2
-    - wezterm
     - zed
+    - alfred
+    - tableplus
+    - orbstack
   register: dev_cask_results
   failed_when: false
 
