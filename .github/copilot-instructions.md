@@ -36,7 +36,7 @@ download_dir: "/tmp/ansible"
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
 
 # macOS  
-ansible-playbook ./playbook_macos.yml -e username=$(whoami) -e all=true
+ansible-playbook ./playbook_macos.yml -K -e username=$(whoami) -e all=true
 ```
 
 ### Adding New Software:
@@ -136,8 +136,8 @@ ansible-playbook ./playbook.yml -K -e username=$(whoami)
 # Full GUI environment (Linux)
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
 
-# macOS (no sudo required)
-ansible-playbook ./playbook_macos.yml -e username=$(whoami) -e all=true
+# macOS (elevated rights required)
+ansible-playbook ./playbook_macos.yml -K -e username=$(whoami) -e all=true
 ```
 
 ### Idempotency Requirements:
