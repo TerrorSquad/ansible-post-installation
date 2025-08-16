@@ -53,7 +53,7 @@ ansible-playbook ./playbook_macos.yml -K -e username=$(whoami) -e all=true
 
 ### Task Naming & Structure:
 ```yaml
-- name: Install depdendencies  # Descriptive action-based names
+- name: Install dependencies  # Descriptive action-based names
   ansible.builtin.apt:          # Always use FQCN module names
     name:                       # Array format for multiple packages
       - apt-transport-https
