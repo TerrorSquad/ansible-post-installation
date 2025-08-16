@@ -126,7 +126,7 @@
       ansible.builtin.shell: |
         zsh -c -i "antidote update"
       args:
-        executable: "{{ zsh_install_path.stdout }}"
+        executable: "{{ zsh_install_path.stdout | default('/bin/zsh', true) }}"
       become_user: "{{ username }}"
       become: true
       register: antidote_update

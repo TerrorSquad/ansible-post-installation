@@ -38,8 +38,8 @@
         mode: "0755"
         remote_src: true
 
-- name: "Download deb asset {{ github_asset }} (Linux only)"
-  when: type == "deb" and ansible_os_family == 'Debian'
+- name: "Download deb asset {{ github_asset }}"
+  when: type == "deb"
   block:
     - name: Filter assets by deb type
       ansible.builtin.set_fact:

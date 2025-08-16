@@ -27,13 +27,13 @@ terminator_config_file: "{{ terminator_config_dir }}/config"
 
 # System directories (OS-specific)
 systemd_system: "/etc/systemd/system/"
-profile: "{% if ansible_os_family == 'Darwin' %}/etc/profile{% else %}/etc/profile{% endif %}"
+profile: "/etc/profile"
 sysfs: "/etc/sysfs.conf"
 snap_bin_path: "/snap/bin"
 homebrew_path: "{% if ansible_os_family == 'Darwin' %}/opt/homebrew/bin{% else %}/home/linuxbrew/.linuxbrew/bin{% endif %}"
 
 # Download directory
-download_dir: "{% if ansible_os_family == 'Darwin' %}/tmp/ansible{% else %}/tmp/ansible{% endif %}"
+download_dir: "/tmp/ansible"
 
 # System files
 docker_compose: "/usr/local/bin/docker-compose"
