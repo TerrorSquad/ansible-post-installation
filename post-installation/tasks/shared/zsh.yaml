@@ -21,7 +21,7 @@
 - name: Set ZSH as default login shell for current user
   ansible.builtin.user:
     name: "{{ username }}"
-    shell: "{{ zsh_install_path.stdout }}"
+    shell: "{{ zsh_install_path.stdout | default('/bin/zsh', true) }}"
   register: shell_change_result
   failed_when: false
   ignore_errors: true
