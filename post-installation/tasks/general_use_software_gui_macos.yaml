@@ -1,0 +1,28 @@
+---
+- name: Install GUI applications via Homebrew Cask
+  community.general.homebrew_cask:
+    name:
+      - visual-studio-code
+      - google-chrome
+      - slack
+      - zoom
+      - skype
+      - vlc
+      - postman
+      - dbeaver-community
+      - gitkraken
+      - sublime-text
+      - microsoft-teams
+      - viber
+    state: present
+  become_user: "{{ username }}"
+  become: true
+  retries: 3
+  ignore_errors: true
+  register: result
+
+- name: Log failed cask packages
+  ansible.builtin.debug:
+    msg: "Failed to install cask: {{ item.item }}"
+  when: item.failed | default(false)
+  loop: "{{ result.results | default([]) }}"

@@ -1,7 +1,17 @@
 ---
-- name: Install zsh
+- name: Install zsh (Linux)
   ansible.builtin.apt:
     name: zsh
+  when: ansible_os_family == 'Debian'
+
+- name: Install zsh (macOS)
+  community.general.homebrew:
+    name: zsh
+    state: present
+    path: "{{ homebrew_path }}"
+  become_user: "{{ username }}"
+  become: true
+  when: ansible_os_family == 'Darwin'
 
 - name: Save ZSH install location into a variable
   ansible.builtin.command: which zsh
@@ -116,7 +126,7 @@
       ansible.builtin.shell: |
         zsh -c -i "antidote update"
       args:
-        executable: /usr/bin/zsh
+        executable: "{{ zsh_install_path.stdout }}"
       become_user: "{{ username }}"
       become: true
       register: antidote_update

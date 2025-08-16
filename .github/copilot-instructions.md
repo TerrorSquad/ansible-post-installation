@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Griffin is an Ansible-based automation project that transforms fresh Debian-based Linux systems into fully-configured development environments. It automates post-installation tasks for Ubuntu, Linux Mint, Debian, and WSL environments.
+Griffin is an Ansible-based automation project that transforms fresh Debian-based Linux systems and macOS into fully-configured development environments. It automates post-installation tasks for Ubuntu, Linux Mint, Debian, macOS, and WSL environments.
 
 ## Architecture & Core Components
 
@@ -32,7 +32,11 @@ download_dir: "/tmp/ansible"
 
 ### Testing Command (matches CI):
 ```bash
+# Linux
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+
+# macOS  
+ansible-playbook ./playbook_macos.yml -e username=$(whoami) -e all=true
 ```
 
 ### Adding New Software:
@@ -82,6 +86,8 @@ vars:
 - **Linux Mint**: Special `themes.yaml` and `dconf.yaml` tasks
 - **WSL Detection**: Conditional `code` installation logic
 - **Ubuntu Codename**: Dynamic repository configuration using `{{ ubuntu_codename }}`
+- **macOS**: Uses Homebrew Cask for GUI apps, different paths (`/opt/homebrew` vs `/home/linuxbrew`)
+- **Cross-Platform**: OS detection via `ansible_os_family` ('Darwin' for macOS, 'Debian' for Linux)
 
 ## Proxy/Corporate Environment Support
 
@@ -127,8 +133,11 @@ ci: add Ubuntu 24.04 to test matrix
 # CLI-only (servers/WSL)
 ansible-playbook ./playbook.yml -K -e username=$(whoami)
 
-# Full GUI environment
+# Full GUI environment (Linux)
 ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+
+# macOS (no sudo required)
+ansible-playbook ./playbook_macos.yml -e username=$(whoami) -e all=true
 ```
 
 ### Idempotency Requirements:

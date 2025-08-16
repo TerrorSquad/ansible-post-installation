@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: true
+
+  roles:
+    - role: post-installation
+      tags: post-installation

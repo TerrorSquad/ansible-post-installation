@@ -28,18 +28,46 @@
     mode: "0644"
   loop: "{{ fonts_to_install }}"
 
-- name: Extract fonts
+- name: Extract fonts (Linux)
   ansible.builtin.unarchive:
     src: "/tmp/{{ item.filename }}"
     dest: "/usr/share/fonts/truetype"
     remote_src: true
   loop: "{{ fonts_to_install }}"
+  when: ansible_os_family == 'Debian'
 
-- name: Update font cache
+- name: Create fonts directory (macOS)
+  ansible.builtin.file:
+    path: "{{ user_home }}/Library/Fonts"
+    state: directory
+    owner: "{{ username }}"
+    mode: '0755'
+  when: ansible_os_family == 'Darwin'
+
+- name: Extract fonts (macOS)
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ item.filename }}"
+    dest: "{{ user_home }}/Library/Fonts"
+    remote_src: true
+    owner: "{{ username }}"
+  loop: "{{ fonts_to_install }}"
+  when: ansible_os_family == 'Darwin'
+
+- name: Update font cache (Linux)
   ansible.builtin.command: fc-cache -f -v
   changed_when: false
+  when: ansible_os_family == 'Debian'
 
-- name: Install font - Roboto
+- name: Install font - Roboto (Linux)
   ansible.builtin.apt:
     name:
       - fonts-roboto
+  when: ansible_os_family == 'Debian'
+
+- name: Install font - Roboto (macOS)
+  community.general.homebrew_cask:
+    name: font-roboto
+    state: present
+  become_user: "{{ username }}"
+  become: true
+  when: ansible_os_family == 'Darwin'

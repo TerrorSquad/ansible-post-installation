@@ -1,5 +1,5 @@
 ---
-- name: Install apt apps
+- name: Install apt apps (Linux only)
   ansible.builtin.apt:
     name:
       - bat
@@ -14,6 +14,35 @@
       - vim
       - python3-pip
       - jq
+  when: ansible_os_family == 'Debian'
+
+- name: Install macOS equivalents via Homebrew
+  community.general.homebrew:
+    name:
+      - bat
+      - curl
+      - zip
+      - unzip
+      - htop
+      - make
+      - tree
+      - shellcheck
+      - vim
+      - jq
+    state: present
+    path: "{{ homebrew_path }}"
+  become_user: "{{ username }}"
+  become: true
+  when: ansible_os_family == 'Darwin'
+
+- name: Install Python via Homebrew (macOS)
+  community.general.homebrew:
+    name: python
+    state: present
+    path: "{{ homebrew_path }}"
+  become_user: "{{ username }}"
+  become: true
+  when: ansible_os_family == 'Darwin'
 
 - name: Install homebrew packages with ansible community module
   vars:
@@ -50,7 +79,7 @@
       community.general.homebrew:
         name: "{{ item }}"
         state: latest
-        path: "/home/linuxbrew/.linuxbrew/bin"
+        path: "{{ homebrew_path }}"
       become_user: "{{ username }}"
       become: true
       retries: 3

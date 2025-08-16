@@ -4,7 +4,7 @@
     cmd: |
       set -o pipefail
       curl https://get.volta.sh | bash
-    executable: /usr/bin/bash
+    executable: "{% if ansible_os_family == 'Darwin' %}/bin/bash{% else %}/usr/bin/bash{% endif %}"
   become_user: "{{ username }}"
   become: true
   register: volta_install

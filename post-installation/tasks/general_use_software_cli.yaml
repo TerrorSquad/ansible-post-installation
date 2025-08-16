@@ -1,5 +1,5 @@
 ---
-- name: Install apt apps
+- name: Install apt apps (Linux only)
   ansible.builtin.apt:
     name:
       - httpie
@@ -8,6 +8,21 @@
       - thefuck
       - tlp
       - unzip
+  when: ansible_os_family == 'Debian'
+
+- name: Install macOS equivalents via Homebrew
+  community.general.homebrew:
+    name:
+      - httpie
+      - ncdu
+      - peco
+      - thefuck
+      - unzip
+    state: present
+    path: "{{ homebrew_path }}"
+  become_user: "{{ username }}"
+  become: true
+  when: ansible_os_family == 'Darwin'
 
 - name: Install homebrew packages with ansible community module
   community.general.homebrew:
@@ -18,7 +33,7 @@
       - helix
     state: latest
     upgrade_all: true
-    path: "/home/linuxbrew/.linuxbrew/bin"
+    path: "{{ homebrew_path }}"
   become_user: "{{ username }}"
   become: true
   retries: 3

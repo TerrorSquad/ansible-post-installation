@@ -1,0 +1,41 @@
+name: macOS
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'post-installation/**/*'
+      - '.github/workflows/macos.yml'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'post-installation/**/*'
+      - '.github/workflows/macos.yml'
+  schedule:
+    - cron: "0 0 * * 1" # Every Monday at 00:00
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ansible:
+    runs-on: "${{ matrix.os }}"
+    strategy:
+      matrix:
+        os:
+          - macos-13
+          - macos-14
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install Ansible
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install ansible
+          
+      - name: Run ansible playbook
+        run: |
+          cd ${{ github.workspace }}
+          ansible-playbook ./playbook_macos.yml -e username=$(whoami) -e all=true

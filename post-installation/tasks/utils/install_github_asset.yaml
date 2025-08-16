@@ -38,8 +38,8 @@
         mode: "0755"
         remote_src: true
 
-- name: Download deb asset {{ github_asset }}
-  when: type == "deb"
+- name: "Download deb asset {{ github_asset }} (Linux only)"
+  when: type == "deb" and ansible_os_family == 'Debian'
   block:
     - name: Filter assets by deb type
       ansible.builtin.set_fact:
@@ -117,3 +117,14 @@
         owner: "{{ username }}"
         group: "{{ username }}"
         remote_src: true
+
+- name: "Install via Homebrew (macOS fallback) - {{ github_asset }}"
+  when: type == "homebrew" and ansible_os_family == 'Darwin'
+  block:
+    - name: "Install via Homebrew - {{ github_asset }}"
+      community.general.homebrew:
+        name: "{{ github_asset }}"
+        state: present
+        path: "{{ homebrew_path }}"
+      become_user: "{{ username }}"
+      become: true

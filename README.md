@@ -1,12 +1,12 @@
 # Griffin: Effortless Linux Configuration
 
 [![Ubuntu](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/ubuntu.yml)
-
 [![WSL](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/wsl.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/wsl.yml)
+[![macOS](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/macos.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/macos.yml)
 
 ## Overview
 
-Griffin is an Ansible playbook designed to automate the installation and configuration of software on Debian-based Linux systems, making post-installation tasks a breeze.
+Griffin is an Ansible playbook designed to automate the installation and configuration of software on Debian-based Linux systems and macOS, making post-installation tasks a breeze.
 
 ## Key Features
 
@@ -19,6 +19,7 @@ Griffin is an Ansible playbook designed to automate the installation and configu
 * Ubuntu
 * Linux Mint
 * Debian
+* macOS
 * WSL (Windows Subsystem for Linux)
 
 ## Get Started
