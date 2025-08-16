@@ -1,0 +1,7 @@
+---
+# System preparation for Debian-based systems
+- name: Update apt cache and prepare download dir
+  ansible.builtin.include_tasks: debian/update_apt_cache_and_prepare_download_dir.yaml
+
+- name: Install basic system packages
+  ansible.builtin.include_tasks: debian/basic_packages.yaml

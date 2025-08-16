@@ -1,0 +1,9 @@
+---
+# GUI applications for macOS
+- name: Install GUI development tools
+  ansible.builtin.include_tasks: darwin/dev_tools_gui.yaml
+  when: dev_tools_gui or all
+
+- name: Install general GUI software
+  ansible.builtin.include_tasks: darwin/general_use_software_gui.yaml
+  when: gui or all

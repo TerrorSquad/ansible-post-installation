@@ -1,0 +1,66 @@
+---
+- name: Check which GUI applications are already installed via Homebrew Cask
+  ansible.builtin.shell: brew list --cask {{ item }} 2>/dev/null
+  loop:
+    - visual-studio-code
+    - google-chrome
+    - slack
+    - zoom
+    - skype
+    - vlc
+    - postman
+    - dbeaver-community
+    - gitkraken
+    - sublime-text
+    - microsoft-teams
+    - viber
+  register: existing_casks
+  failed_when: false
+  changed_when: false
+
+- name: Install GUI applications via Homebrew Cask (only if not conflicting)
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: latest
+    upgrade_all: false
+  environment:
+    HOMEBREW_CASK_OPTS: "--no-quarantine"
+  loop:
+    - visual-studio-code
+    - google-chrome
+    - slack
+    - zoom
+    - skype
+    - vlc
+    - postman
+    - dbeaver-community
+    - gitkraken
+    - sublime-text
+    - microsoft-teams
+    - viber
+  register: gui_cask_results
+  failed_when: false
+
+- name: Log successful cask installations
+  ansible.builtin.debug:
+    msg: "Successfully installed/updated: {{ item.item }}"
+  when: item.changed | default(false)
+  loop: "{{ gui_cask_results.results | default([]) }}"
+
+- name: Log already installed casks
+  ansible.builtin.debug:
+    msg: "Already up-to-date: {{ item.item }}"
+  when: not (item.changed | default(false)) and not (item.failed | default(false))
+  loop: "{{ gui_cask_results.results | default([]) }}"
+
+- name: Log skipped installations (app exists but not via Homebrew)
+  ansible.builtin.debug:
+    msg: "Skipped {{ item.item }} - application exists but not installed via Homebrew Cask"
+  when: item.failed | default(false) and 'already an App' in (item.msg | default(''))
+  loop: "{{ gui_cask_results.results | default([]) }}"
+
+- name: Log other failed cask packages
+  ansible.builtin.debug:
+    msg: "Failed to install cask: {{ item.item }} - {{ item.msg | default('Unknown error') }}"
+  when: item.failed | default(false) and 'already an App' not in (item.msg | default(''))
+  loop: "{{ gui_cask_results.results | default([]) }}"

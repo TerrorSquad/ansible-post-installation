@@ -1,0 +1,13 @@
+---
+# Programming language environments
+- name: Install Rust
+  ansible.builtin.include_tasks: shared/rust.yaml
+  when: rust or all
+
+- name: Install Go
+  ansible.builtin.include_tasks: shared/golang.yaml
+  when: golang or all
+
+- name: Install Java
+  ansible.builtin.include_tasks: shared/java.yaml
+  when: java or all

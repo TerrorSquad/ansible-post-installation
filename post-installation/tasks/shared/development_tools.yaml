@@ -1,0 +1,18 @@
+---
+# Development tools and containerization
+- name: Install Docker
+  ansible.builtin.include_tasks: shared/docker.yaml
+
+- name: Install Node.js environment
+  ansible.builtin.include_tasks: shared/nodejs.yaml
+
+- name: Install DDEV local development environment
+  ansible.builtin.include_tasks: shared/ddev.yaml
+
+- name: Install fonts
+  ansible.builtin.include_tasks: shared/fonts.yaml
+  when: fonts or gui or all
+
+- name: Install VPN software
+  ansible.builtin.include_tasks: shared/vpn.yaml
+  when: vpn or all

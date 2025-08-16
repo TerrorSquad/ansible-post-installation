@@ -1,0 +1,10 @@
+---
+# Development foundation: version control, editors, and CLI dev tools
+- name: Install and configure Git
+  ansible.builtin.include_tasks: shared/git.yaml
+
+- name: Configure Neovim
+  ansible.builtin.include_tasks: shared/nvim.yaml
+
+- name: Install CLI development tools
+  ansible.builtin.include_tasks: shared/dev_tools_cli.yaml

@@ -1,0 +1,50 @@
+---
+- name: Check which development GUI tools are already installed via Homebrew Cask
+  ansible.builtin.shell: brew list --cask {{ item }} 2>/dev/null
+  loop:
+    - jetbrains-toolbox
+    - iterm2
+    - wezterm
+    - zed
+  register: existing_dev_casks
+  failed_when: false
+  changed_when: false
+
+- name: Install development GUI tools via Homebrew Cask
+  community.general.homebrew_cask:
+    name: "{{ item }}"
+    state: latest
+    upgrade_all: false
+  environment:
+    HOMEBREW_CASK_OPTS: "--no-quarantine"
+  loop:
+    - jetbrains-toolbox
+    - iterm2
+    - wezterm
+    - zed
+  register: dev_cask_results
+  failed_when: false
+
+- name: Log successful development cask installations
+  ansible.builtin.debug:
+    msg: "Successfully installed/updated: {{ item.item }}"
+  when: item.changed | default(false)
+  loop: "{{ dev_cask_results.results | default([]) }}"
+
+- name: Log already installed development casks
+  ansible.builtin.debug:
+    msg: "Already up-to-date: {{ item.item }}"
+  when: not (item.changed | default(false)) and not (item.failed | default(false))
+  loop: "{{ dev_cask_results.results | default([]) }}"
+
+- name: Log skipped development installations (app exists but not via Homebrew)
+  ansible.builtin.debug:
+    msg: "Skipped {{ item.item }} - application exists but not installed via Homebrew Cask"
+  when: item.failed | default(false) and 'already an App' in (item.msg | default(''))
+  loop: "{{ dev_cask_results.results | default([]) }}"
+
+- name: Log other failed development cask packages
+  ansible.builtin.debug:
+    msg: "Failed to install development cask: {{ item.item }} - {{ item.msg | default('Unknown error') }}"
+  when: item.failed | default(false) and 'already an App' not in (item.msg | default(''))
+  loop: "{{ dev_cask_results.results | default([]) }}"

@@ -131,7 +131,7 @@
 
     - name: Download antidote bundles
       ansible.builtin.shell: |
-        zsh -c -i "antidote update"
+        zsh -c "source {{ user_home }}/.antidote/antidote.zsh && antidote update"
       args:
         executable: "{{ zsh_install_path.stdout | default('/bin/zsh', true) }}"
       become_user: "{{ username }}"
