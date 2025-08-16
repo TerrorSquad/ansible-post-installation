@@ -11,6 +11,7 @@
     path: "{{ homebrew_path }}"
   become_user: "{{ username }}"
   become: true
+  retries: 3
   when: ansible_os_family == 'Darwin'
 
 - name: Save ZSH install location into a variable
@@ -26,9 +27,15 @@
   failed_when: false
   ignore_errors: true
 
-- name: Log shell change status
+- name: Log shell change succeeded
   ansible.builtin.debug:
-    msg: "Shell change {{ 'succeeded' if shell_change_result.changed else 'failed or skipped' }} - this is normal in CI environments"
+    msg: "Shell change succeeded - this is normal in CI environments"
+  when: shell_change_result.changed
+
+- name: Log shell change failed or skipped
+  ansible.builtin.debug:
+    msg: "Shell change failed or skipped - this is normal in CI environments"
+  when: not shell_change_result.changed
 
 - name: Initialize .zshrc
   ansible.builtin.copy:

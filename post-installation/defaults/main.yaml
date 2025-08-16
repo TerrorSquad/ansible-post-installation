@@ -56,8 +56,11 @@ excluded_os_filter: >-
   [dD]arwin|windows|musl|arm|freebsd|openbsd|loong|aarch64|sha256
   {% endif %}
 
+# Docker Compose platform prefix
+docker_compose_platform_prefix: "{% if ansible_os_family == 'Darwin' %}darwin{% else %}linux{% endif %}"
+
 # Docker Compose architecture mapping
 docker_compose_architecture:
-  x86_64: "{% if ansible_os_family == 'Darwin' %}darwin-x86_64{% else %}linux-x86_64{% endif %}"
-  arm64: "{% if ansible_os_family == 'Darwin' %}darwin-aarch64{% else %}linux-aarch64{% endif %}"
-  aarch64: "{% if ansible_os_family == 'Darwin' %}darwin-aarch64{% else %}linux-aarch64{% endif %}"
+  x86_64: "{{ docker_compose_platform_prefix }}-x86_64"
+  arm64: "{{ docker_compose_platform_prefix }}-aarch64"
+  aarch64: "{{ docker_compose_platform_prefix }}-aarch64"

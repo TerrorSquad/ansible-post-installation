@@ -6,6 +6,7 @@
     path: "{{ homebrew_path }}"
   become_user: "{{ username }}"
   become: true
+  retries: 3
 
 - name: Create plugin manager directory
   ansible.builtin.file:

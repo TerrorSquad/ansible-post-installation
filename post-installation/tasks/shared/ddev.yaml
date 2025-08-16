@@ -46,6 +46,7 @@
         state: present
       become_user: "{{ username }}"
       become: true
+      retries: 3
 
     - name: Install DDEV via Homebrew
       community.general.homebrew:
@@ -54,6 +55,7 @@
         path: "{{ homebrew_path }}"
       become_user: "{{ username }}"
       become: true
+      retries: 3
 
     - name: Install mkcert via Homebrew
       community.general.homebrew:
@@ -62,6 +64,7 @@
         path: "{{ homebrew_path }}"
       become_user: "{{ username }}"
       become: true
+      retries: 3
 
 # Common for both platforms
 - name: Initialize mkcert

@@ -10,6 +10,7 @@
     state: present
     path: "{{ homebrew_path }}"
   when: not docker_app_exists.stat.exists
+  retries: 3
   register: docker_install_result
   failed_when: false
 

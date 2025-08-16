@@ -7,6 +7,7 @@
     path: "{{ homebrew_path }}"
   become_user: "{{ username }}"
   become: true
+  retries: 3
 
 - name: Install VPN GUI clients via Homebrew Cask
   community.general.homebrew_cask:
@@ -15,6 +16,7 @@
     state: present
   become_user: "{{ username }}"
   become: true
+  retries: 3
   register: vpn_cask_result
   failed_when: false
 

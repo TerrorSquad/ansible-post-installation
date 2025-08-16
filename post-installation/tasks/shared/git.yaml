@@ -12,6 +12,7 @@
     path: "{{ homebrew_path }}"
   become_user: "{{ username }}"
   become: true
+  retries: 3
   when: ansible_os_family == 'Darwin'
 
 - name: Save current git name
