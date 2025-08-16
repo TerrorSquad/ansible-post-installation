@@ -12,6 +12,7 @@
     url: https://api.github.com/repos/{{ github_repo }}/releases/latest
     return_content: true
     body_format: json
+    timeout: 30
   register: github_release_info
   retries: 3
   delay: 2
@@ -32,6 +33,7 @@
         url: "{{ binary_asset_url }}"
         dest: "{{ github_asset_dest }}"
         mode: "0755"
+        timeout: 60
       retries: 3
       delay: 2
 
@@ -62,6 +64,7 @@
         url: "{{ deb_asset_url | map(attribute='browser_download_url') | first }}"
         dest: "{{ github_asset_dest }}.deb"
         mode: "0755"
+        timeout: 60
       retries: 3
       delay: 2
 
@@ -94,6 +97,7 @@
         url: "{{ tar_gz_asset_url }}"
         dest: "{{ github_asset_dest }}.tar.gz"
         mode: "0755"
+        timeout: 60
       retries: 3
       delay: 2
 

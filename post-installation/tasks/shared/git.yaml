@@ -3,6 +3,8 @@
   ansible.builtin.apt:
     name:
       - git
+  retries: 3
+  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install git (macOS)

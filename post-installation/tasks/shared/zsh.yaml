@@ -2,6 +2,8 @@
 - name: Install zsh (Linux)
   ansible.builtin.apt:
     name: zsh
+  retries: 3
+  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install zsh (macOS)
@@ -31,14 +33,18 @@
   failed_when: false
   ignore_errors: true
 
+- name: Validate ZSH installation path
+  ansible.builtin.debug:
+    msg: "Using ZSH path: {{ zsh_path }}"
+
 - name: Log shell change succeeded
   ansible.builtin.debug:
-    msg: "Shell change succeeded - this is normal in CI environments"
+    msg: "✅ Shell change succeeded - ZSH is now the default shell"
   when: shell_change_result.changed
 
 - name: Log shell change failed or skipped
   ansible.builtin.debug:
-    msg: "Shell change failed or skipped - this is normal in CI environments"
+    msg: "ℹ️  Shell change failed or skipped - this is normal in CI environments or if ZSH is already the default"
   when: not shell_change_result.changed
 
 - name: Initialize .zshrc

@@ -64,3 +64,33 @@ docker_compose_architecture:
   x86_64: "{{ docker_compose_platform_prefix }}-x86_64"
   arm64: "{{ docker_compose_platform_prefix }}-aarch64"
   aarch64: "{{ docker_compose_platform_prefix }}-aarch64"
+
+# Package definitions for cross-platform consistency
+package_lists:
+  # Basic CLI tools available on both platforms
+  cross_platform_cli:
+    - httpie
+    - ncdu
+    - peco
+    - thefuck
+    - unzip
+  
+  # Modern CLI tools (primarily Homebrew, some available via apt)
+  modern_cli_tools:
+    - fzf
+    - eza
+    - lsd
+    - helix
+  
+  # Development essentials
+  dev_essentials:
+    - bat
+    - curl
+    - zip
+    - unzip
+    - htop
+    - make
+    - tree
+    - shellcheck
+    - vim
+    - jq

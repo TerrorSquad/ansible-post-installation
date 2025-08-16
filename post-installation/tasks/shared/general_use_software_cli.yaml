@@ -1,22 +1,14 @@
 ---
-# Cross-platform packages available on both Debian and Homebrew
-- name: Set cross-platform package list
-  ansible.builtin.set_fact:
-    cross_platform_packages:
-      - httpie
-      - ncdu
-      - peco
-      - thefuck
-      - unzip
-
 - name: Install apt apps (Linux only)
   ansible.builtin.apt:
-    name: "{{ cross_platform_packages + ['tlp'] }}"
+    name: "{{ package_lists.cross_platform_cli + ['tlp'] }}"
+  retries: 3
+  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install macOS equivalents via Homebrew
   community.general.homebrew:
-    name: "{{ cross_platform_packages }}"
+    name: "{{ package_lists.cross_platform_cli }}"
     state: present
     path: "{{ homebrew_path }}"
   retries: 3
@@ -25,11 +17,7 @@
 
 - name: Install homebrew packages with ansible community module
   community.general.homebrew:
-    name:
-      - fzf
-      - eza
-      - lsd
-      - helix
+    name: "{{ package_lists.modern_cli_tools }}"
     state: present
     path: "{{ homebrew_path }}"
   retries: 3

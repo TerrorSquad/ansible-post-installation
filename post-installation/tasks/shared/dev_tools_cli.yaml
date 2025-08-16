@@ -1,34 +1,14 @@
 ---
 - name: Install apt apps (Linux only)
   ansible.builtin.apt:
-    name:
-      - bat
-      - curl
-      - zip
-      - unzip
-      - htop
-      - libutempter0
-      - make
-      - tree
-      - shellcheck
-      - vim
-      - python3-pip
-      - jq
+    name: "{{ package_lists.dev_essentials + ['libutempter0', 'python3-pip'] }}"
+  retries: 3
+  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install macOS equivalents via Homebrew
   community.general.homebrew:
-    name:
-      - bat
-      - curl
-      - zip
-      - unzip
-      - htop
-      - make
-      - tree
-      - shellcheck
-      - vim
-      - jq
+    name: "{{ package_lists.dev_essentials }}"
     state: present
     path: "{{ homebrew_path }}"
   retries: 3
