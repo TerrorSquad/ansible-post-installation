@@ -5,6 +5,7 @@ gui: false
 java: false
 golang: false
 rust: false
+docker: false
 gestures: false
 fonts: false
 vpn: false
@@ -27,7 +28,6 @@ terminator_config_file: "{{ terminator_config_dir }}/config"
 
 # System directories (OS-specific)
 systemd_system: "/etc/systemd/system/"
-profile: "/etc/profile"
 sysfs: "/etc/sysfs.conf"
 snap_bin_path: "/snap/bin"
 homebrew_path: "{% if ansible_os_family == 'Darwin' %}/opt/homebrew/bin{% else %}/home/linuxbrew/.linuxbrew/bin{% endif %}"

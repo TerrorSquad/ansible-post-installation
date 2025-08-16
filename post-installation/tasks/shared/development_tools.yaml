@@ -2,6 +2,7 @@
 # Development tools and containerization
 - name: Install Docker
   ansible.builtin.include_tasks: shared/docker.yaml
+  when: docker or all
 
 - name: Install Node.js environment
   ansible.builtin.include_tasks: shared/nodejs.yaml
