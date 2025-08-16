@@ -13,12 +13,3 @@
   register: homebrew_install
   changed_when: homebrew_install.rc == 0
   when: not homebrew_exists.stat.exists
-
-- name: Add Homebrew to PATH in shell profile
-  ansible.builtin.lineinfile:
-    path: "{{ user_home }}/.zshrc"
-    line: 'eval "$(/opt/homebrew/bin/brew shellenv)"'
-    create: true
-    owner: "{{ username }}"
-    mode: '0644'
-  when: not homebrew_exists.stat.exists
