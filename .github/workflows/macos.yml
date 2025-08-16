@@ -21,12 +21,7 @@ concurrency:
 
 jobs:
   ansible:
-    runs-on: "${{ matrix.os }}"
-    strategy:
-      matrix:
-        os:
-          - macos-13
-          - macos-14
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
       
