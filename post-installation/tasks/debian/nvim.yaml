@@ -1,0 +1,54 @@
+---
+- name: Install neovim with APT
+  ansible.builtin.apt:
+    name:
+      - neovim
+
+- name: Create plugin manager directory
+  ansible.builtin.file:
+    path: "{{ nvim_plugin_manager_path }}"
+    state: directory
+    mode: "0775"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Install nvim plugin manager
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: "{{ nvim_plugin_manager_path }}/plug.vim"
+    mode: "0644"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Create config directory
+  ansible.builtin.file:
+    path: "{{ nvim_config_path }}"
+    state: directory
+    mode: "0775"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Copy nvim config file
+  ansible.builtin.copy:
+    src: ./defaults/.config/nvim/init.vim
+    dest: "{{ nvim_config_path }}/init.vim"
+    mode: "0644"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Delete Neovim plugin directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.vim/plugged"
+    state: absent
+  become_user: "{{ username }}"
+  become: true
+
+- name: Install/update Neovim plugins
+  ansible.builtin.shell:
+    cmd: |
+      nvim +PlugInstall +qall
+    executable: /usr/bin/zsh
+  become_user: "{{ username }}"
+  become: true
+  register: plug_install_result
+  changed_when: "'Installing' in plug_install_result.stderr or 'Updating' in plug_install_result.stderr"

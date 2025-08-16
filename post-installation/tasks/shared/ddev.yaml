@@ -40,9 +40,16 @@
 - name: Install DDEV and mkcert (macOS)
   when: ansible_os_family == 'Darwin'
   block:
+    - name: Add DDEV tap
+      community.general.homebrew_tap:
+        name: ddev/ddev
+        state: present
+      become_user: "{{ username }}"
+      become: true
+
     - name: Install DDEV via Homebrew
       community.general.homebrew:
-        name: ddev
+        name: ddev/ddev/ddev
         state: present
         path: "{{ homebrew_path }}"
       become_user: "{{ username }}"

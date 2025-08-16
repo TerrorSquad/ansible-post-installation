@@ -1,0 +1,37 @@
+---
+- name: Check if Docker Desktop is already installed
+  ansible.builtin.stat:
+    path: /Applications/Docker.app
+  register: docker_app_exists
+
+- name: Install Docker Desktop via Homebrew Cask
+  community.general.homebrew_cask:
+    name: docker
+    state: present
+    path: "{{ homebrew_path }}"
+  when: not docker_app_exists.stat.exists
+  register: docker_install_result
+  failed_when: false
+
+- name: Log Docker installation status
+  ansible.builtin.debug:
+    msg: >
+      Docker Desktop
+      {{ 'already installed' if docker_app_exists.stat.exists else
+         ('installed successfully' if docker_install_result.changed else
+          'installation skipped or failed') }}
+
+- name: Ensure download directory exists
+  ansible.builtin.file:
+    path: "{{ download_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Install docker-compose (Cross-platform)
+  ansible.builtin.include_tasks: ../shared/utils/install_github_asset.yaml
+  vars:
+    github_repo: docker/compose
+    github_asset: docker-compose
+    type: binary
+    excluded_os_filter: "sha256sum"
+    architecture_filter: "{{ docker_compose_architecture[ansible_architecture] }}"

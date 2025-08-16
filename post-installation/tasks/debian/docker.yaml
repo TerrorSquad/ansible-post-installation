@@ -1,0 +1,45 @@
+---
+- name: Add Docker's official GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ubuntu_codename }} stable"
+    state: present
+
+- name: Update APT cache after adding Docker repository
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install Docker Engine
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ username }}"
+    groups: docker
+    append: true
+
+- name: Ensure download directory exists
+  ansible.builtin.file:
+    path: "{{ download_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Install docker-compose (Cross-platform)
+  ansible.builtin.include_tasks: ../shared/utils/install_github_asset.yaml
+  vars:
+    github_repo: docker/compose
+    github_asset: docker-compose
+    type: binary
+    excluded_os_filter: "sha256sum"
+    architecture_filter: "{{ docker_compose_architecture[ansible_architecture] }}"
