@@ -27,8 +27,7 @@ jobs:
 
       - name: Install Ansible
         run: |
-          python3 -m pip install --upgrade pip --break-system-packages
-          python3 -m pip install ansible --break-system-packages
+          brew install ansible
 
       - name: Run ansible playbook
         run: |
