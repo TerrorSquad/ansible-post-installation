@@ -48,18 +48,25 @@ jobs:
 
       # Copy the repository to WSL user home directory
       - shell: wsl-bash {0}
-        run: cp -r /mnt/c/actions-runner/_work/ansible-post-installation/ansible-post-installation /home/test/ansible-post-installation
+        run: |
+          WORKSPACE_PATH=$(wslpath "${{ github.workspace }}")
+          cp -r "$WORKSPACE_PATH" /home/test/ansible-post-installation
 
-      - run: cd /home/test/ansible-post-installation && echo "testpw" > .github/workflows/ansible_become_password.txt
+      - shell: wsl-bash {0}
+        run: cd /home/test/ansible-post-installation && echo "testpw" > .github/workflows/ansible_become_password.txt
 
-      - run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
+      - shell: wsl-bash {0}
+        run: chmod 600 /home/test/ansible-post-installation/.github/workflows/ansible_become_password.txt
 
-      - run: ls -la /home/test/ansible-post-installation/.github/workflows
+      - shell: wsl-bash {0}
+        run: ls -la /home/test/ansible-post-installation/.github/workflows
 
       - name: Install Ansible collections
+        shell: wsl-bash {0}
         run: |
           cd /home/test/ansible-post-installation/ && ansible-galaxy collection install -r requirements.yml
 
       - name: Run ansible playbook
+        shell: wsl-bash {0}
         run: |
           cd /home/test/ansible-post-installation/ && ansible-playbook ./playbook.yml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true
