@@ -1,17 +1,21 @@
 ---
-- name: Install neovim with APT (Linux)
-  ansible.builtin.apt:
-    name:
-      - neovim
+- name: Install neovim (Linux)
+  block:
+    - name: Install neovim with APT
+      ansible.builtin.apt:
+        name:
+          - neovim
   when: ansible_os_family == 'Debian'
 
-- name: Install neovim with Homebrew (macOS)
-  community.general.homebrew:
-    name: neovim
-    state: present
-    path: "{{ homebrew_path }}"
-  become_user: "{{ username }}"
-  become: true
+- name: Install neovim (macOS)
+  block:
+    - name: Install neovim with Homebrew
+      community.general.homebrew:
+        name: neovim
+        state: present
+        path: "{{ homebrew_path }}"
+      become_user: "{{ username }}"
+      become: true
   when: ansible_os_family == 'Darwin'
 
 - name: Create plugin manager directory

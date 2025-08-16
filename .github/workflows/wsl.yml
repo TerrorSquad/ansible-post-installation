@@ -53,6 +53,10 @@ jobs:
 
       - run: ls -la /home/test/ansible-post-installation/.github/workflows
 
+      - name: Install Ansible collections
+        run: |
+          cd /home/test/ansible-post-installation/ && ansible-galaxy collection install -r requirements.yml
+
       - name: Run ansible playbook
         run: |
           cd /home/test/ansible-post-installation/ && ansible-playbook ./playbook.yml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true

@@ -30,27 +30,55 @@
   ignore_errors: true
   changed_when: false
 
+- name: Create Go directory (macOS)
+  ansible.builtin.file:
+    path: "{{ user_home }}/go"
+    state: directory
+    owner: "{{ username }}"
+    mode: '0755'
+  become_user: "{{ username }}"
+  become: true
+  when: ansible_os_family == 'Darwin'
+
+- name: Create Go directory (Linux)
+  ansible.builtin.file:
+    path: "{{ user_home }}/go"
+    state: directory
+    owner: "{{ username }}"
+    mode: '0755'
+  become_user: "{{ username }}"
+  become: true
+  when: ansible_os_family == 'Debian'
+
 - name: Download Golang tarball (Linux)
   ansible.builtin.unarchive:
     src: "https://go.dev/dl/go{{ golang_version }}.{{ ansible_system | lower }}-{{ go_arch }}.tar.gz"
-    dest: /usr/local
+    dest: "{{ user_home }}"
     remote_src: true
+    owner: "{{ username }}"
+  become_user: "{{ username }}"
+  become: true
   when: (go_version_result is failed or go_version_result.stdout.find(golang_version) == -1) and ansible_os_family == 'Debian'
 
 - name: Download Golang tarball (macOS)
   ansible.builtin.unarchive:
     src: "https://go.dev/dl/go{{ golang_version }}.{{ ansible_system | lower }}-{{ go_arch }}.tar.gz"
-    dest: /usr/local
+    dest: "{{ user_home }}"
     remote_src: true
+    owner: "{{ username }}"
+  become_user: "{{ username }}"
   become: true
   when: (go_version_result is failed or go_version_result.stdout.find(golang_version) == -1) and ansible_os_family == 'Darwin'
 
 - name: Add Go to PATH environment variable (Linux)
   ansible.builtin.lineinfile:
-    path: /etc/profile.d/goenv.sh
+    path: "{{ user_home }}/.zshrc"
     create: true
     mode: "0644"
-    line: "export PATH=$PATH:/usr/local/go/bin"
+    line: "export PATH=$PATH:{{ user_home }}/go/bin"
+    owner: "{{ username }}"
+  become_user: "{{ username }}"
+  become: true
   when: ansible_os_family == 'Debian'
 
 - name: Add Go to PATH environment variable (macOS)
@@ -58,6 +86,8 @@
     path: "{{ user_home }}/.zshrc"
     create: true
     mode: "0644"
-    line: "export PATH=$PATH:/usr/local/go/bin"
+    line: "export PATH=$PATH:{{ user_home }}/go/bin"
     owner: "{{ username }}"
+  become_user: "{{ username }}"
+  become: true
   when: ansible_os_family == 'Darwin'

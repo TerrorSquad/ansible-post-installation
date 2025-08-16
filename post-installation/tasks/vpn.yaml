@@ -1,8 +1,35 @@
 ---
-- name: Install openconnect and L2TP VPN client for gnome
+- name: Install openconnect and L2TP VPN client for gnome (Linux)
   ansible.builtin.apt:
     name:
       - network-manager-openconnect
       - network-manager-openconnect-gnome
       - network-manager-l2tp
       - network-manager-l2tp-gnome
+  when: ansible_os_family == 'Debian'
+
+- name: Install VPN clients via Homebrew (macOS)
+  community.general.homebrew:
+    name:
+      - openconnect
+    state: present
+    path: "{{ homebrew_path }}"
+  become_user: "{{ username }}"
+  become: true
+  when: ansible_os_family == 'Darwin'
+
+- name: Install VPN GUI clients via Homebrew Cask (macOS)
+  community.general.homebrew_cask:
+    name:
+      - tunnelblick
+    state: present
+  become_user: "{{ username }}"
+  become: true
+  register: vpn_cask_result
+  failed_when: false
+  when: ansible_os_family == 'Darwin'
+
+- name: Log VPN cask installation status
+  ansible.builtin.debug:
+    msg: "VPN GUI installation {{ 'succeeded' if not vpn_cask_result.failed else 'had issues - this is non-critical' }}"
+  when: ansible_os_family == 'Darwin'

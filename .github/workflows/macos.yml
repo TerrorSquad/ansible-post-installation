@@ -29,6 +29,10 @@ jobs:
         run: |
           brew install ansible
 
+      - name: Install Ansible collections
+        run: |
+          ansible-galaxy collection install -r requirements.yml
+
       - name: Run ansible playbook
         run: |
           cd ${{ github.workspace }}
