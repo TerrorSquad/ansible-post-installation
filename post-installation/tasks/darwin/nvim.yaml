@@ -1,11 +1,9 @@
 ---
-- name: Install neovim with Homebrew
+- name: Install Neovim via Homebrew
   community.general.homebrew:
     name: neovim
     state: present
     path: "{{ homebrew_path }}"
-  become_user: "{{ username }}"
-  become: true
   retries: 3
 
 - name: Create plugin manager directory

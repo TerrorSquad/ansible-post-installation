@@ -31,8 +31,6 @@
       - jq
     state: present
     path: "{{ homebrew_path }}"
-  become_user: "{{ username }}"
-  become: true
   retries: 3
   when: ansible_os_family == 'Darwin'
 
@@ -41,8 +39,6 @@
     name: python
     state: present
     path: "{{ homebrew_path }}"
-  become_user: "{{ username }}"
-  become: true
   retries: 3
   when: ansible_os_family == 'Darwin'
 
@@ -82,8 +78,6 @@
         name: "{{ item }}"
         state: latest
         path: "{{ homebrew_path }}"
-      become_user: "{{ username }}"
-      become: true
       retries: 3
       ignore_errors: true
       register: result

@@ -5,8 +5,6 @@
       - openconnect
     state: present
     path: "{{ homebrew_path }}"
-  become_user: "{{ username }}"
-  become: true
   retries: 3
 
 - name: Install VPN GUI clients via Homebrew Cask

@@ -20,8 +20,6 @@
       - unzip
     state: present
     path: "{{ homebrew_path }}"
-  become_user: "{{ username }}"
-  become: true
   retries: 3
   when: ansible_os_family == 'Darwin'
 
@@ -35,6 +33,4 @@
     state: latest
     upgrade_all: true
     path: "{{ homebrew_path }}"
-  become_user: "{{ username }}"
-  become: true
   retries: 3
