@@ -24,12 +24,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install Ansible
         run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install ansible
-          
+          python3 -m pip install --upgrade pip --break-system-packages
+          python3 -m pip install ansible --break-system-packages
+
       - name: Run ansible playbook
         run: |
           cd ${{ github.workspace }}
