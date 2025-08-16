@@ -1,0 +1,39 @@
+---
+galaxy_info:
+  role_name: post_installation
+  namespace: terrorsquad
+  author: TerrorSquad
+  description: Griffin - Effortless Cross-Platform Configuration for Linux and macOS
+  company: TerrorSquad
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy    # 22.04
+        - noble    # 24.04
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+    - name: MacOSX
+      versions:
+        - "10.15"  # Catalina and newer
+        - all
+  galaxy_tags:
+    - development
+    - automation
+    - configuration
+    - cross-platform
+    - homebrew
+    - apt
+    - post-installation
+    - macos
+    - linux
+    - ubuntu
+    - debian
+
+dependencies: []
+
+# Release please will update this version
+version: "1.0.0"
