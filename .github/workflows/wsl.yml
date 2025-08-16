@@ -45,8 +45,9 @@ jobs:
 
       # Checkout the current repository code
       - uses: actions/checkout@v4
-        with:
-          path: /home/test/ansible-post-installation
+
+      # Copy the repository to WSL user home directory
+      - run: cp -r $GITHUB_WORKSPACE /home/test/ansible-post-installation
 
       - run: cd /home/test/ansible-post-installation && echo "testpw" > .github/workflows/ansible_become_password.txt
 
