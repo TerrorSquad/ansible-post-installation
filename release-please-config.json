@@ -2,14 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "packages": {
     ".": {
-      "release-type": "simple",
-      "extra-files": [
-        {
-          "type": "yaml",
-          "path": "post-installation/meta/main.yml",
-          "jsonpath": "$.version"
-        }
-      ]
+      "release-type": "simple"
     }
   }
 }

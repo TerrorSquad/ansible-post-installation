@@ -34,6 +34,3 @@ galaxy_info:
     - debian
 
 dependencies: []
-
-# Release please will update this version
-version: "1.0.0"
