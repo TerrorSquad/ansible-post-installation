@@ -6,6 +6,7 @@
     state: present
     path: "{{ homebrew_path }}"
   retries: 3
+  become: false
 
 - name: Install VPN GUI clients via Homebrew Cask
   community.general.homebrew_cask:

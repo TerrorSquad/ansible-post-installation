@@ -32,6 +32,7 @@
     state: present
     path: "{{ homebrew_path }}"
   retries: 3
+  become: false
   when: ansible_os_family == 'Darwin'
 
 - name: Install Python via Homebrew (macOS)
@@ -40,6 +41,7 @@
     state: present
     path: "{{ homebrew_path }}"
   retries: 3
+  become: false
   when: ansible_os_family == 'Darwin'
 
 - name: Install homebrew packages with ansible community module
@@ -79,6 +81,7 @@
         state: latest
         path: "{{ homebrew_path }}"
       retries: 3
+      become: false
       ignore_errors: true
       register: result
       loop: "{{ homebrew_packages }}"
