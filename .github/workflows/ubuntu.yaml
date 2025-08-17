@@ -5,14 +5,14 @@ on:
     branches:
       - master
     paths:
-      - 'post-installation/**/*'
-      - '.github/workflows/ubuntu.yml'
+      - "post-installation/**/*"
+      - ".github/workflows/ubuntu.yaml"
   pull_request:
     branches:
       - master
     paths:
-      - 'post-installation/**/*'
-      - '.github/workflows/ubuntu.yml'
+      - "post-installation/**/*"
+      - ".github/workflows/ubuntu.yaml"
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
@@ -33,7 +33,7 @@ jobs:
 
       - name: Install Ansible collections
         run: |
-          ansible-galaxy collection install -r requirements.yml
+          ansible-galaxy collection install -r requirements.yaml
 
       - name: Run ansible playbook
-        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -e username=$(whoami) -e all=true
+        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yaml -e username=$(whoami) -e all=true

@@ -6,13 +6,13 @@ on:
       - master
     paths:
       - "post-installation/**/*"
-      - ".github/workflows/wsl.yml"
+      - ".github/workflows/wsl.yaml"
   pull_request:
     branches:
       - master
     paths:
       - "post-installation/**/*"
-      - ".github/workflows/wsl.yml"
+      - ".github/workflows/wsl.yaml"
   schedule:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
@@ -65,9 +65,9 @@ jobs:
       - name: Install Ansible collections
         shell: wsl-bash {0}
         run: |
-          cd /home/test/ansible-post-installation/ && ansible-galaxy collection install -r requirements.yml
+          cd /home/test/ansible-post-installation/ && ansible-galaxy collection install -r requirements.yaml
 
       - name: Run ansible playbook
         shell: wsl-bash {0}
         run: |
-          cd /home/test/ansible-post-installation/ && ansible-playbook ./playbook.yml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true
+          cd /home/test/ansible-post-installation/ && ansible-playbook ./playbook.yaml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true

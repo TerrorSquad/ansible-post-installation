@@ -1,8 +1,8 @@
 # Griffin: Effortless Cross-Platform Configuration
 
-[![Ubuntu](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/ubuntu.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/ubuntu.yml)
-[![WSL](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/wsl.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/wsl.yml)
-[![macOS](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/macos.yml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/macos.yml)
+[![Ubuntu](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/ubuntu.yaml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/ubuntu.yaml)
+[![WSL](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/wsl.yaml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/wsl.yaml)
+[![macOS](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/macos.yaml/badge.svg)](https://github.com/TerrorSquad/ansible-post-installation/actions/workflows/macos.yaml)
 
 ## Overview
 

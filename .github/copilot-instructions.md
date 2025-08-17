@@ -7,7 +7,7 @@ Griffin is an Ansible-based automation project that transforms fresh Debian-base
 ## Architecture & Core Components
 
 ### Execution Flow
-1. **Main Entry Points**: `playbook.yml` (localhost) vs `playbook_vagrant.yml` (remote vagrant)
+1. **Main Entry Points**: `playbook.yaml` (localhost) vs `playbook_vagrant.yaml` (remote vagrant)
 2. **Role Structure**: Single `post-installation` role with sequential task inclusion
 3. **Conditional Logic**: Feature flags (`all`, `gui`, `dev_tools_gui`, `rust`, `golang`, `java`, etc.) control installation scope
 4. **Task Organization**: Modular tasks in `post-installation/tasks/` with utility helpers in `utils/`
@@ -33,10 +33,10 @@ download_dir: "/tmp/ansible"
 ### Testing Command (matches CI):
 ```bash
 # Linux
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+ansible-playbook ./playbook.yaml -K -e username=$(whoami) -e all=true
 
 # macOS  
-ansible-playbook ./playbook_macos.yml -K -e username=$(whoami) -e all=true
+ansible-playbook ./playbook_macos.yaml -K -e username=$(whoami) -e all=true
 ```
 
 ### Adding New Software:
@@ -130,13 +130,13 @@ feat: implement project improvements and check-mode compatibility
 ### Manual Testing:
 ```bash
 # CLI-only (servers/WSL)
-ansible-playbook ./playbook.yml -K -e username=$(whoami)
+ansible-playbook ./playbook.yaml -K -e username=$(whoami)
 
 # Full GUI environment (Linux)
-ansible-playbook ./playbook.yml -K -e username=$(whoami) -e all=true
+ansible-playbook ./playbook.yaml -K -e username=$(whoami) -e all=true
 
 # macOS (elevated rights required)
-ansible-playbook ./playbook_macos.yml -K -e username=$(whoami) -e all=true
+ansible-playbook ./playbook_macos.yaml -K -e username=$(whoami) -e all=true
 ```
 
 ### Idempotency Requirements:

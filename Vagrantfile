@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
       'vagrant' => ['default']
     }
 
-    ansible.playbook = "playbook_vagrant.yml"
+    ansible.playbook = "playbook_vagrant.yaml"
     ansible.extra_vars = {
        "all" => true
   }
