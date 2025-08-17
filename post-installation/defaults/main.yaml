@@ -62,7 +62,7 @@ docker_compose_platform_prefix: "{% if ansible_os_family == 'Darwin' %}darwin{% 
 # Docker Compose architecture mapping
 docker_compose_architecture:
   x86_64: "{{ docker_compose_platform_prefix }}-x86_64"
-  amd64: "{{ docker_compose_platform_prefix }}-x86_64"  # WSL/Ubuntu often reports amd64
+  amd64: "{{ docker_compose_platform_prefix }}-x86_64" # WSL/Ubuntu often reports amd64
   arm64: "{{ docker_compose_platform_prefix }}-aarch64"
   aarch64: "{{ docker_compose_platform_prefix }}-aarch64"
 
@@ -78,7 +78,7 @@ package_lists:
     - peco
     - thefuck
     - unzip
-  
+
   # Development essentials (available via apt on Debian, homebrew on macOS)
   dev_essentials:
     - bat
@@ -91,15 +91,15 @@ package_lists:
     - shellcheck
     - vim
     - jq
-  
+
   # Modern CLI tools available via apt on Debian
   modern_cli_tools_apt:
     - fzf
     - helix
     - btop
-    - fd-find  # equivalent to fd
+    - fd-find # equivalent to fd
     - ripgrep
-  
+
   # Modern CLI tools only available via Homebrew (both platforms)
   modern_cli_tools_homebrew:
     - eza
@@ -111,7 +111,7 @@ package_lists:
     - dust
     - lazydocker
     - mdcat
-    - fd  # macOS version via homebrew
+    - fd # macOS version via homebrew
     - fx
     - gh
     - git-delta
