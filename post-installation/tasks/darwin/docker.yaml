@@ -17,8 +17,7 @@
 - name: Log Docker installation status
   ansible.builtin.debug:
     msg: >
-      Docker Desktop
-      {{ 'already installed' if docker_app_exists.stat.exists else
+      Docker Desktop {{ 'already installed' if docker_app_exists.stat.exists else
          ('installed successfully' if docker_install_result.changed else
           'installation skipped or failed') }}
 

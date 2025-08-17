@@ -21,9 +21,7 @@
 
 - name: Download font
   ansible.builtin.get_url:
-    url: "{{ github_releases.json.assets
-      | selectattr('name', 'search', item.filename)
-      | map(attribute='browser_download_url') | first }}"
+    url: "{{ github_releases.json.assets | selectattr('name', 'search', item.filename) | map(attribute='browser_download_url') | first }}"
     dest: "/tmp/{{ item.filename }}"
     mode: "0644"
     timeout: 60

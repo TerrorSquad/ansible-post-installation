@@ -1,3 +1,4 @@
+---
 name: Ubuntu
 on:
   push:
@@ -29,10 +30,10 @@ jobs:
           - ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Install Ansible collections
         run: |
           ansible-galaxy collection install -r requirements.yml
-      
+
       - name: Run ansible playbook
         run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yml -e username=$(whoami) -e all=true

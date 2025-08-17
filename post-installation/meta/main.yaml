@@ -10,15 +10,15 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - jammy    # 22.04
-        - noble    # 24.04
+        - jammy # 22.04
+        - noble # 24.04
     - name: Debian
       versions:
         - bullseye
         - bookworm
     - name: MacOSX
       versions:
-        - "10.15"  # Catalina and newer
+        - "10.15" # Catalina and newer
         - all
   galaxy_tags:
     - development

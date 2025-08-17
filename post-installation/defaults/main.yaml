@@ -1,3 +1,4 @@
+---
 username: vagrant
 vagrant_username: vagrant
 dev_tools_gui: false
@@ -44,18 +45,9 @@ nvim_config_path: "{{ user_home }}/.config/nvim"
 
 # Github asset download (updated for macOS)
 architecture_filter: >-
-  {% if ansible_os_family == 'Darwin' %}
-  darwin|macos|x86_64|arm64
-  {% else %}
-  amd64|x86_64|x86-64
-  {% endif %}
+  {% if ansible_os_family == 'Darwin' %} darwin|macos|x86_64|arm64 {% else %} amd64|x86_64|x86-64 {% endif %}
 excluded_os_filter: >-
-  {% if ansible_os_family == 'Darwin' %}
-  windows|musl|freebsd|openbsd|loong|aarch64|sha256
-  {% else %}
-  [dD]arwin|windows|musl|arm|freebsd|openbsd|loong|aarch64|sha256
-  {% endif %}
-
+  {% if ansible_os_family == 'Darwin' %} windows|musl|freebsd|openbsd|loong|aarch64|sha256 {% else %} [dD]arwin|windows|musl|arm|freebsd|openbsd|loong|aarch64|sha256 {% endif %} #magic___^_^___line
 # Docker Compose platform prefix
 docker_compose_platform_prefix: "{% if ansible_os_family == 'Darwin' %}darwin{% else %}linux{% endif %}"
 

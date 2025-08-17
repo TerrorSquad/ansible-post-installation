@@ -1,3 +1,4 @@
+---
 name: reviewdog
 on:
   pull_request:

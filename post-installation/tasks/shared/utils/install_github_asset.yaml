@@ -170,10 +170,10 @@
       Assets available: {{ github_release_info.json.assets | default([]) | length }} assets found
       Skipping installation.
   when: >
-    github_release_info.status is defined and 
-    (github_release_info.status != 200 or 
-     github_release_info.json is not defined or 
-     github_release_info.json.assets is not defined or 
+    github_release_info.status is defined and
+    (github_release_info.status != 200 or
+     github_release_info.json is not defined or
+     github_release_info.json.assets is not defined or
      (github_release_info.json.assets | length == 0))
 
 - name: "Log missing architecture filter for {{ github_asset }}"
