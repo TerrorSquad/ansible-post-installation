@@ -1,38 +1,56 @@
 ---
 - name: Install apt apps (Linux only)
   ansible.builtin.apt:
-    name:
-      - httpie
-      - ncdu
-      - peco
-      - thefuck
-      - tlp
-      - unzip
+    name: "{{ package_lists.cross_platform_cli + ['tlp'] }}"
+  retries: 3
+  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install macOS equivalents via Homebrew
   community.general.homebrew:
-    name:
-      - httpie
-      - ncdu
-      - peco
-      - thefuck
-      - unzip
+    name: "{{ item }}"
     state: present
     path: "{{ homebrew_path }}"
   retries: 3
   become: false
+  failed_when: false
+  register: cross_platform_result
+  loop: "{{ package_lists.cross_platform_cli }}"
   when: ansible_os_family == 'Darwin'
 
-- name: Install homebrew packages with ansible community module
+- name: Install modern CLI tools via Homebrew (macOS)
   community.general.homebrew:
-    name:
-      - fzf
-      - eza
-      - lsd
-      - helix
-    state: latest
-    upgrade_all: true
+    name: "{{ item }}"
+    state: present
     path: "{{ homebrew_path }}"
   retries: 3
   become: false
+  failed_when: false
+  register: modern_tools_result
+  loop: "{{ package_lists.modern_cli_tools_apt + package_lists.modern_cli_tools_homebrew }}"
+  when: ansible_os_family == 'Darwin'
+
+- name: Install modern CLI tools available via apt (Debian)
+  ansible.builtin.apt:
+    name: "{{ package_lists.modern_cli_tools_apt + package_lists.dev_essentials }}"
+  retries: 3
+  delay: 2
+  failed_when: false
+  when: ansible_os_family == 'Debian'
+
+- name: Install Homebrew on Debian for packages not available via apt
+  ansible.builtin.include_tasks: ../debian/homebrew.yaml
+  when: ansible_os_family == 'Debian'
+
+- name: Install modern CLI tools via Homebrew (Debian - for packages not in apt)
+  community.general.homebrew:
+    name: "{{ item }}"
+    state: present
+    path: "{{ homebrew_path }}"
+  retries: 3
+  become: true
+  become_user: "{{ username }}"
+  failed_when: false
+  register: debian_homebrew_result
+  loop: "{{ package_lists.modern_cli_tools_homebrew }}"
+  when: ansible_os_family == 'Debian'

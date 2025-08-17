@@ -1,38 +1,21 @@
 ---
 - name: Install apt apps (Linux only)
   ansible.builtin.apt:
-    name:
-      - bat
-      - curl
-      - zip
-      - unzip
-      - htop
-      - libutempter0
-      - make
-      - tree
-      - shellcheck
-      - vim
-      - python3-pip
-      - jq
+    name: "{{ package_lists.dev_essentials + ['libutempter0', 'python3-pip'] }}"
+  retries: 3
+  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install macOS equivalents via Homebrew
   community.general.homebrew:
-    name:
-      - bat
-      - curl
-      - zip
-      - unzip
-      - htop
-      - make
-      - tree
-      - shellcheck
-      - vim
-      - jq
+    name: "{{ item }}"
     state: present
     path: "{{ homebrew_path }}"
   retries: 3
   become: false
+  failed_when: false
+  register: dev_essentials_result
+  loop: "{{ package_lists.dev_essentials }}"
   when: ansible_os_family == 'Darwin'
 
 - name: Install Python via Homebrew (macOS)
@@ -43,51 +26,3 @@
   retries: 3
   become: false
   when: ansible_os_family == 'Darwin'
-
-- name: Install homebrew packages with ansible community module
-  vars:
-    homebrew_packages:
-      - bottom
-      - broot
-      - btop
-      - curlie
-      - duf
-      - dust
-      - lazydocker
-      - mdcat
-      - eza
-      - fd
-      - fx
-      - gh
-      - git-delta
-      - git-quick-stats
-      - gping
-      - httpstat
-      - hyperfine
-      - lnav
-      - oha
-      - procs
-      - ripgrep
-      - sd
-      - tealdeer
-      - tokei
-      - xh
-      - yazi
-      - yq
-  block:
-    - name: Install homebrew package
-      community.general.homebrew:
-        name: "{{ item }}"
-        state: latest
-        path: "{{ homebrew_path }}"
-      retries: 3
-      become: false
-      ignore_errors: true
-      register: result
-      loop: "{{ homebrew_packages }}"
-
-    - name: Log failed packages
-      ansible.builtin.debug:
-        msg: "Failed to install package: {{ item.item }}"
-      when: item.failed
-      loop: "{{ result.results }}"

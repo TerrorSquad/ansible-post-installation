@@ -8,6 +8,12 @@
 - name: Set Go version variable
   ansible.builtin.set_fact:
     golang_version: "{{ go_version.content | regex_replace('\\s|time.*$', '') | regex_replace('^go(.*)$', '\\1') }}"
+  when: go_version.content is defined
+
+- name: Set fallback Go version for check mode
+  ansible.builtin.set_fact:
+    golang_version: "1.21.0"
+  when: go_version.content is not defined
 
 - name: Set Go architecture for URL (Apple Silicon)
   ansible.builtin.set_fact:

@@ -102,11 +102,9 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 ### Commit Message Format:
 ```
 <type>[optional scope]: <description>
-
-[optional body]
-
-[optional footer(s)]
 ```
+
+**Note**: Use short commit messages without body text unless absolutely necessary for complex changes.
 
 ### Common Types:
 - `feat`: New feature or functionality
@@ -124,6 +122,7 @@ feat(docker): add docker-compose installation via GitHub releases
 fix(homebrew): handle installation failures gracefully
 docs: update usage examples in README
 ci: add Ubuntu 24.04 to test matrix
+feat: implement project improvements and check-mode compatibility
 ```
 
 ## Testing & Validation

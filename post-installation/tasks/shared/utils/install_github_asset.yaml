@@ -7,15 +7,19 @@
   ansible.builtin.set_fact:
     github_asset_dest: "{{ download_dir }}/{{ github_asset }}"
 
-- name: Get latest release info
+- name: Fetch GitHub release information
   ansible.builtin.uri:
     url: https://api.github.com/repos/{{ github_repo }}/releases/latest
     return_content: true
     body_format: json
+    timeout: 30
   register: github_release_info
+  retries: 3
+  delay: 2
+  failed_when: false
 
 - name: Download binary asset {{ github_asset }}
-  when: type == "binary"
+  when: type == "binary" and github_release_info.json is defined
   block:
     - name: Filter binary asset URL
       ansible.builtin.set_fact:
@@ -30,6 +34,9 @@
         url: "{{ binary_asset_url }}"
         dest: "{{ github_asset_dest }}"
         mode: "0755"
+        timeout: 60
+      retries: 3
+      delay: 2
 
     - name: Install binary asset
       ansible.builtin.copy:
@@ -40,7 +47,7 @@
       become: true
 
 - name: "Download deb asset {{ github_asset }}"
-  when: type == "deb"
+  when: type == "deb" and github_release_info.json is defined
   block:
     - name: Filter assets by deb type
       ansible.builtin.set_fact:
@@ -58,6 +65,9 @@
         url: "{{ deb_asset_url | map(attribute='browser_download_url') | first }}"
         dest: "{{ github_asset_dest }}.deb"
         mode: "0755"
+        timeout: 60
+      retries: 3
+      delay: 2
 
     - name: Install deb asset
       ansible.builtin.apt:
@@ -72,7 +82,7 @@
       when: apt_output is failed
 
 - name: Download tar.gz asset {{ github_asset }}
-  when: type == "tar.gz"
+  when: type == "tar.gz" and github_release_info.json is defined
   block:
     - name: Filter tar.gz asset URL
       ansible.builtin.set_fact:
@@ -88,6 +98,9 @@
         url: "{{ tar_gz_asset_url }}"
         dest: "{{ github_asset_dest }}.tar.gz"
         mode: "0755"
+        timeout: 60
+      retries: 3
+      delay: 2
 
     - name: Create directory for extracted asset
       ansible.builtin.file:

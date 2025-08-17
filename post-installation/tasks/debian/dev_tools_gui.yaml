@@ -109,11 +109,9 @@
           - ca-certificates
           - apt-transport-https
         state: present
-        update_cache: true
 
     - name: Add sublime text
       ansible.builtin.apt:
-        update_cache: true
         name:
           - sublime-text
 
