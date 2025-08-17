@@ -7,7 +7,7 @@
   ansible.builtin.set_fact:
     github_asset_dest: "{{ download_dir }}/{{ github_asset }}"
 
-- name: Get latest release info
+- name: Fetch GitHub release information
   ansible.builtin.uri:
     url: https://api.github.com/repos/{{ github_repo }}/releases/latest
     return_content: true
@@ -16,6 +16,7 @@
   register: github_release_info
   retries: 3
   delay: 2
+  failed_when: false
 
 - name: Download binary asset {{ github_asset }}
   when: type == "binary" and github_release_info.json is defined
