@@ -42,4 +42,4 @@
     github_asset: docker-compose
     type: binary
     excluded_os_filter: "sha256sum"
-    architecture_filter: "{{ docker_compose_architecture[ansible_architecture] }}"
+    architecture_filter: "{{ docker_compose_arch_fallback }}"

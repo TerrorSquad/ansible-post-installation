@@ -62,8 +62,12 @@ docker_compose_platform_prefix: "{% if ansible_os_family == 'Darwin' %}darwin{% 
 # Docker Compose architecture mapping
 docker_compose_architecture:
   x86_64: "{{ docker_compose_platform_prefix }}-x86_64"
+  amd64: "{{ docker_compose_platform_prefix }}-x86_64"  # WSL/Ubuntu often reports amd64
   arm64: "{{ docker_compose_platform_prefix }}-aarch64"
   aarch64: "{{ docker_compose_platform_prefix }}-aarch64"
+
+# Fallback docker-compose architecture detection
+docker_compose_arch_fallback: "{{ docker_compose_architecture[ansible_architecture] | default(docker_compose_platform_prefix + '-x86_64') }}"
 
 # Package definitions for cross-platform consistency
 package_lists:
