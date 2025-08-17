@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.1.0...v2.2.0) (2025-08-17)
+
+
+### Features
+
+* enhance cross-platform support with package lists and improved installation tasks ([284f73e](https://github.com/TerrorSquad/ansible-post-installation/commit/284f73e239d093394e1bdedd2033c64496c44c64))
+
 ## [2.1.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.0.0...v2.1.0) (2025-08-16)
 
 
