@@ -2,11 +2,11 @@
 # Development tools and containerization
 - name: Install Docker (Darwin)
   ansible.builtin.include_tasks: darwin/docker.yaml
-  when: (docker or all) and ansible_os_family == 'Darwin'
+  when: ansible_os_family == 'Darwin'
 
 - name: Install Docker (Debian)
   ansible.builtin.include_tasks: debian/docker.yaml
-  when: (docker or all) and ansible_os_family == 'Debian'
+  when: ansible_os_family == 'Debian'
 
 - name: Install Node.js environment
   ansible.builtin.include_tasks: shared/nodejs.yaml
