@@ -1,9 +1,11 @@
 ---
 - name: Install apt apps (Linux only)
   ansible.builtin.apt:
-    name: "{{ package_lists.cross_platform_cli + ['tlp'] }}"
+    name: "{{ item }}"
+    state: present
   retries: 3
   delay: 2
+  loop: "{{ package_lists.cross_platform_cli + ['tlp'] }}"
   when: ansible_os_family == 'Debian'
 
 - name: Install macOS equivalents via Homebrew
@@ -32,9 +34,11 @@
 
 - name: Install modern CLI tools available via apt (Debian)
   ansible.builtin.apt:
-    name: "{{ package_lists.modern_cli_tools_apt + package_lists.dev_essentials }}"
+    name: "{{ item }}"
+    state: present
   retries: 3
   delay: 2
+  loop: "{{ package_lists.modern_cli_tools_apt + package_lists.dev_essentials }}"
   failed_when: false
   when: ansible_os_family == 'Debian'
 

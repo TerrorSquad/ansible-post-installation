@@ -1,9 +1,11 @@
 ---
 - name: Install apt apps (Linux only)
   ansible.builtin.apt:
-    name: "{{ package_lists.dev_essentials + ['libutempter0', 'python3-pip'] }}"
+    name: "{{ item }}"
+    state: present
   retries: 3
   delay: 2
+  loop: "{{ package_lists.dev_essentials + ['libutempter0', 'python3-pip'] }}"
   when: ansible_os_family == 'Debian'
 
 - name: Install macOS equivalents via Homebrew
