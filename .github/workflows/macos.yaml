@@ -17,7 +17,7 @@ on:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
 concurrency:
-  group: github-api-rate-limit
+  group: github-api-rate-limit-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
