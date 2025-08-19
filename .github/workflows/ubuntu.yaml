@@ -17,8 +17,8 @@ on:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: github-api-rate-limit
+  cancel-in-progress: false
 
 jobs:
   ansible:
@@ -36,4 +36,6 @@ jobs:
           ansible-galaxy collection install -r requirements.yaml
 
       - name: Run ansible playbook
-        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yaml -e username=$(whoami) -e all=true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yaml -e username=$(whoami) -e all=true -e github_token=$GITHUB_TOKEN

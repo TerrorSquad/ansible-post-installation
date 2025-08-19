@@ -17,8 +17,8 @@ on:
     - cron: "0 0 * * 1" # Every Monday at 00:00
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: github-api-rate-limit
+  cancel-in-progress: false
 
 jobs:
   ansible:
@@ -69,5 +69,12 @@ jobs:
 
       - name: Run ansible playbook
         shell: wsl-bash {0}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd /home/test/ansible-post-installation/ && ansible-playbook ./playbook.yaml --become-password-file .github/workflows/ansible_become_password.txt -e username=$(whoami) -e all=true
+          cd /home/test/ansible-post-installation/ && \
+          ansible-playbook ./playbook.yaml \
+            --become-password-file .github/workflows/ansible_become_password.txt \
+            -e username=$(whoami) \
+            -e all=true \
+            -e github_token=$GITHUB_TOKEN

@@ -22,10 +22,48 @@
     return_content: true
     body_format: json
     timeout: 30
+    headers:
+      User-Agent: "Griffin-Ansible-Installer"
+      Authorization: "{{ 'token ' + github_token if github_token is defined and github_token else omit }}"
   register: github_release_info
-  retries: 3
-  delay: 2
+  retries: 5
+  delay: 10
   failed_when: false
+
+- name: Check if GitHub API rate limit was hit
+  ansible.builtin.set_fact:
+    rate_limited: "{{ github_release_info.status == 403 and 'rate limit' in (github_release_info.msg | default('') | lower) }}"
+
+- name: Wait for rate limit reset if needed
+  ansible.builtin.pause:
+    seconds: 60
+  when: rate_limited | default(false)
+
+- name: Retry GitHub API call after rate limit wait
+  ansible.builtin.uri:
+    url: https://api.github.com/repos/{{ github_repo }}/releases/latest
+    return_content: true
+    body_format: json
+    timeout: 30
+    headers:
+      User-Agent: "Griffin-Ansible-Installer"
+      Authorization: "{{ 'token ' + github_token if github_token is defined and github_token else omit }}"
+  register: github_release_info_retry
+  when: rate_limited | default(false)
+  failed_when: false
+
+- name: Use retry result if rate limit was hit
+  ansible.builtin.set_fact:
+    github_release_info: "{{ github_release_info_retry }}"
+  when: rate_limited | default(false) and github_release_info_retry is defined
+
+- name: Check GitHub API response conditions
+  ansible.builtin.set_fact:
+    api_success: >-
+      {{ github_release_info.status == 200 and
+         github_release_info.json is defined and
+         github_release_info.json.assets is defined and
+         (github_release_info.json.assets | length > 0) }}
 
 - name: Debug GitHub API response
   ansible.builtin.debug:
@@ -33,7 +71,7 @@
   when: github_release_info.status is defined
 
 - name: Download binary asset {{ github_asset }}
-  when: type == "binary" and github_release_info.status == 200 and github_release_info.json is defined and github_release_info.json.assets is defined and (github_release_info.json.assets | length > 0)
+  when: type == "binary" and api_success
   block:
     - name: Filter binary asset URL
       ansible.builtin.set_fact:
@@ -62,7 +100,7 @@
       become: true
 
 - name: "Download deb asset {{ github_asset }}"
-  when: type == "deb" and github_release_info.status == 200 and github_release_info.json is defined and github_release_info.json.assets is defined
+  when: type == "deb" and api_success
   block:
     - name: Filter assets by deb type
       ansible.builtin.set_fact:
@@ -97,7 +135,7 @@
       when: apt_output is failed
 
 - name: Download tar.gz asset {{ github_asset }}
-  when: type == "tar.gz" and github_release_info.status == 200 and github_release_info.json is defined and github_release_info.json.assets is defined
+  when: type == "tar.gz" and api_success
   block:
     - name: Filter tar.gz asset URL
       ansible.builtin.set_fact:
