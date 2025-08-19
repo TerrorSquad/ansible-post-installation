@@ -1,7 +1,9 @@
 ---
-- hosts: localhost
+- name: Griffin Post-Installation Setup
+  hosts: localhost
   connection: local
   gather_facts: true
+  strategy: linear
 
   roles:
     - role: post-installation

@@ -1,8 +1,10 @@
 ---
-- hosts: vagrant
+- name: Griffin Post-Installation Setup
+  hosts: vagrant
+  gather_facts: true
+  strategy: linear
   become: true
   remote_user: root
-  strategy: free
 
   roles:
     - role: post-installation
