@@ -7,6 +7,7 @@ update-antidote() {
         elif [ $IS_LINUX ]; then
             rm -rf ~/.cache/antidote
         fi
+        antidote update
         antidote bundle <~/.zsh_plugins.sh >~/.zsh_plugins.zsh
     else
         echo "No internet connection"

@@ -127,7 +127,6 @@
         dest: "{{ user_home }}/.antidote"
         depth: 1
         force: true
-        version: v1.9.6
       become_user: "{{ username }}"
       become: true
       retries: 3
