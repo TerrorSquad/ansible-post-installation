@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.2.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.2.0...v2.2.1) (2025-08-21)
+
+
+### Bug Fixes
+
+* always install docker ([0b3faad](https://github.com/TerrorSquad/ansible-post-installation/commit/0b3faad84f29338268a1489cb2c5db743092ae92))
+* enhance GitHub API handling with token support and rate limit management ([e8cfb55](https://github.com/TerrorSquad/ansible-post-installation/commit/e8cfb55a6c54f1564f5a8fffe6013f6d9b4a921e))
+* improve docker-compose architecture handling and add debug logging for installation processes ([bf4683c](https://github.com/TerrorSquad/ansible-post-installation/commit/bf4683ce8393c3f30bdd97a5978e1bbfa76b5fb9))
+* update antidote function to include plugin update step and remove version pinning ([ca12d84](https://github.com/TerrorSquad/ansible-post-installation/commit/ca12d8414814b72f559e7e28aa9d389d309f8713))
+
 ## [2.2.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.1.0...v2.2.0) (2025-08-17)
 
 
