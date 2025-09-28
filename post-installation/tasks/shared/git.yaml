@@ -52,7 +52,10 @@
         scope: global
       become_user: "{{ username }}"
       become: true
-      when: current_git_name.config_value is defined
+      when:
+        - current_git_name.config_value is defined
+        - current_git_name.config_value != ""
+        - current_git_name.config_value != None
 
     - name: Revert old git user email
       community.general.git_config:
@@ -61,7 +64,10 @@
         scope: global
       become_user: "{{ username }}"
       become: true
-      when: current_git_email.config_value is defined
+      when:
+        - current_git_email.config_value is defined
+        - current_git_email.config_value != ""
+        - current_git_email.config_value != None
 
 - name: Copy .git-templates-sample directory
   ansible.builtin.copy:
