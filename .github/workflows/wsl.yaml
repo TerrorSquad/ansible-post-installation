@@ -72,9 +72,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          cd /home/test/ansible-post-installation/ && \
+          cd /home/test/ansible-post-installation/
           ansible-playbook ./playbook.yaml \
             --become-password-file .github/workflows/ansible_become_password.txt \
             -e username=$(whoami) \
             -e all=true \
-            -e github_token=$GITHUB_TOKEN
+            -e github_token="$GITHUB_TOKEN"
