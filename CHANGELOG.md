@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.2.2](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.2.1...v2.2.2) (2025-09-28)
+
+
+### Bug Fixes
+
+* correct syntax for GitHub token usage in Ansible playbook execution ([f56b794](https://github.com/TerrorSquad/ansible-post-installation/commit/f56b794d174de21d0aecff905330e23d1fe24f93))
+* enhance conditions for reverting git user data to ensure valid values ([f45aa01](https://github.com/TerrorSquad/ansible-post-installation/commit/f45aa018f88d7bc3b172b23fe0a6737343338603))
+* update GitHub token usage in Ansible playbook execution to use secrets directly ([b663dd2](https://github.com/TerrorSquad/ansible-post-installation/commit/b663dd2500909a18dabac3deaf135615c95e1dab))
+
 ## [2.2.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.2.0...v2.2.1) (2025-08-21)
 
 
