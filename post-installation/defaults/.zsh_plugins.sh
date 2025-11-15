@@ -13,7 +13,6 @@ zsh-users/zsh-completions kind:defer
 # Open a file or repository in the web by using the `git open` command
 paulirish/git-open kind:defer
 
-
 # A collection of oh-my-zsh libraries
 
 # History must not be deferred
@@ -27,7 +26,6 @@ ohmyzsh/ohmyzsh path:lib/completion.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/functions.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/misc.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/correction.zsh kind:defer
-
 
 # A collection of oh-my-zsh plugins
 
@@ -54,3 +52,5 @@ Aloxaf/fzf-tab kind:defer
 
 # This adds the zsh-bench function to benchmark the shell startup time.
 # romkatv/zsh-bench kind:path
+
+wintermi/zsh-mise kind:defer

@@ -28,3 +28,14 @@
   retries: 3
   become: false
   when: ansible_os_family == 'Darwin'
+
+- name: Install usage tool via mise (required for zsh completions)
+  ansible.builtin.shell: |
+    {{ homebrew_path }}/mise use --global usage@latest
+  args:
+    executable: /bin/zsh
+  become_user: "{{ username }}"
+  become: true
+  register: mise_usage_install
+  changed_when: "'Installing' in mise_usage_install.stdout or 'Downloading' in mise_usage_install.stdout"
+  failed_when: false

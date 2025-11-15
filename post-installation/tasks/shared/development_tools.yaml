@@ -8,9 +8,6 @@
   ansible.builtin.include_tasks: debian/docker.yaml
   when: ansible_os_family == 'Debian'
 
-- name: Install Node.js environment
-  ansible.builtin.include_tasks: shared/nodejs.yaml
-
 - name: Install DDEV local development environment
   ansible.builtin.include_tasks: shared/ddev.yaml
 

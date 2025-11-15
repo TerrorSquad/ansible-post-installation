@@ -48,7 +48,6 @@ post-installation/tasks/
     ├── nvim.yaml                     # Neovim editor
     ├── dev_tools_cli.yaml            # CLI development tools
     ├── docker.yaml                   # Docker (cross-platform)
-    ├── nodejs.yaml                   # Node.js ecosystem
     ├── ddev.yaml                     # Local development
     ├── rust.yaml                     # Rust language
     ├── golang.yaml                   # Go language
@@ -155,7 +154,7 @@ Each phase has coordinator files that delegate to specific implementations:
   └── shared/programming_languages.yaml → rust.yaml, golang.yaml, java.yaml
 
 🔨 Phase 5: Development tools
-  └── shared/development_tools.yaml → docker.yaml, nodejs.yaml, ddev.yaml, fonts.yaml, vpn.yaml
+  └── shared/development_tools.yaml → docker.yaml, ddev.yaml, fonts.yaml, vpn.yaml
 
 🖥️ Phase 6: GUI applications (optional)
   └── debian/gui_applications.yaml → dev_tools_gui.yaml, general_use_software_gui.yaml

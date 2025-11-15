@@ -35,7 +35,6 @@ This directory contains Ansible tasks that work across both Linux and macOS plat
 
 ### Development Tools:
 - `docker.yaml` - Docker installation with platform detection
-- `nodejs.yaml` - Node.js and npm installation
 - `ddev.yaml` - DDEV local development environment
 - `fonts.yaml` - Font installation across platforms
 - `vpn.yaml` - VPN client software

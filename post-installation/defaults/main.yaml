@@ -103,6 +103,7 @@ package_lists:
     - dust
     - lazydocker
     - mdcat
+    - mise
     - fd # macOS version via homebrew
     - fx
     - gh

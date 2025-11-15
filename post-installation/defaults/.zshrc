@@ -63,10 +63,6 @@ PATH=$PATH:/usr/local/go/bin
 
 export FZF_TMUX_HEIGHT=50
 
-# volta
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
-
 # # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
