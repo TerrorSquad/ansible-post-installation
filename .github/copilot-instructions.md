@@ -45,7 +45,7 @@ ansible-playbook ./playbook_macos.yaml -K -e username=$(whoami) -e all=true
 3. Use utility tasks for GitHub releases: `ansible.builtin.include_tasks: utils/install_github_asset.yaml`
 
 ### CI Testing Strategy:
-- Ubuntu 22.04/24.04 matrix in GitHub Actions
+- Ubuntu 24.04 in GitHub Actions
 - Full installation with `all=true` flag
 - Triggered on `post-installation/**/*` path changes
 

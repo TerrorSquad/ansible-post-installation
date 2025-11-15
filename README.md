@@ -17,7 +17,7 @@ Griffin is an Ansible playbook designed to automate the installation and configu
 ## Supported Platforms
 
 ### Linux
-- **Ubuntu** 22.04, 24.04 LTS
+- **Ubuntu** 24.04 LTS
 - **Linux Mint** (latest versions)
 - **Debian** (latest stable)
 - **WSL** (Windows Subsystem for Linux)
