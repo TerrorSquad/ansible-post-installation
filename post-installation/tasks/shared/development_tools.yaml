@@ -13,16 +13,16 @@
 
 - name: Install fonts (Darwin)
   ansible.builtin.include_tasks: darwin/fonts.yaml
-  when: (fonts or gui or all) and ansible_os_family == 'Darwin'
+  when: ((fonts | bool) or (gui | bool) or (all | bool)) and ansible_os_family == 'Darwin'
 
 - name: Install fonts (Debian)
   ansible.builtin.include_tasks: debian/fonts.yaml
-  when: (fonts or gui or all) and ansible_os_family == 'Debian'
+  when: ((fonts | bool) or (gui | bool) or (all | bool)) and ansible_os_family == 'Debian'
 
 - name: Install VPN software (Darwin)
   ansible.builtin.include_tasks: darwin/vpn.yaml
-  when: (vpn or all) and ansible_os_family == 'Darwin'
+  when: ((vpn | bool) or (all | bool)) and ansible_os_family == 'Darwin'
 
 - name: Install VPN software (Debian)
   ansible.builtin.include_tasks: debian/vpn.yaml
-  when: (vpn or all) and ansible_os_family == 'Debian'
+  when: ((vpn | bool) or (all | bool)) and ansible_os_family == 'Debian'

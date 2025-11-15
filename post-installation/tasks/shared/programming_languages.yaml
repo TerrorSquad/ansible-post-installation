@@ -2,16 +2,16 @@
 # Programming language environments
 - name: Install Rust
   ansible.builtin.include_tasks: shared/rust.yaml
-  when: rust or all
+  when: (rust | bool) or (all | bool)
 
 - name: Install Go (Darwin)
   ansible.builtin.include_tasks: darwin/golang.yaml
-  when: (golang or all) and ansible_os_family == 'Darwin'
+  when: ((golang | bool) or (all | bool)) and ansible_os_family == 'Darwin'
 
 - name: Install Go (Debian)
   ansible.builtin.include_tasks: debian/golang.yaml
-  when: (golang or all) and ansible_os_family == 'Debian'
+  when: ((golang | bool) or (all | bool)) and ansible_os_family == 'Debian'
 
 - name: Install Java
   ansible.builtin.include_tasks: shared/java.yaml
-  when: java or all
+  when: (java | bool) or (all | bool)

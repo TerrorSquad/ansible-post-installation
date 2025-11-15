@@ -21,7 +21,7 @@
 # Phase 4: Programming Languages (Optional)
 - name: Programming language environments
   ansible.builtin.include_tasks: shared/programming_languages.yaml
-  when: rust or golang or java or all
+  when: (rust | bool) or (golang | bool) or (java | bool) or (all | bool)
 
 # Phase 5: Development Tools and Containers
 - name: Development tools and containerization
@@ -30,7 +30,7 @@
 # Phase 6: GUI Applications (Optional)
 - name: GUI applications and tools
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/gui_applications.yaml"
-  when: gui or dev_tools_gui or all
+  when: (gui | bool) or (dev_tools_gui | bool) or (all | bool)
 
 # Phase 7: System Customization (Platform-specific)
 - name: Platform-specific customization
