@@ -22,13 +22,13 @@
 - name: Download font
   ansible.builtin.get_url:
     url: "{{ github_releases.json.assets | selectattr('name', 'search', item.filename) | map(attribute='browser_download_url') | first }}"
-    dest: "/tmp/{{ item.filename }}"
+    dest: "{{ download_dir }}/{{ item.filename }}"
     mode: "0644"
   loop: "{{ fonts_to_install }}"
 
 - name: Extract fonts
   ansible.builtin.unarchive:
-    src: "/tmp/{{ item.filename }}"
+    src: "{{ download_dir }}/{{ item.filename }}"
     dest: "/usr/share/fonts/truetype"
     remote_src: true
   loop: "{{ fonts_to_install }}"

@@ -22,7 +22,7 @@
 - name: Download font
   ansible.builtin.get_url:
     url: "{{ github_releases.json.assets | selectattr('name', 'search', item.filename) | map(attribute='browser_download_url') | first }}"
-    dest: "/tmp/{{ item.filename }}"
+    dest: "{{ download_dir }}/{{ item.filename }}"
     mode: "0644"
     timeout: 60
   loop: "{{ fonts_to_install }}"
@@ -35,11 +35,11 @@
     path: "{{ user_home }}/Library/Fonts"
     state: directory
     owner: "{{ username }}"
-    mode: '0755'
+    mode: "0755"
 
 - name: Extract fonts
   ansible.builtin.unarchive:
-    src: "/tmp/{{ item.filename }}"
+    src: "{{ download_dir }}/{{ item.filename }}"
     dest: "{{ user_home }}/Library/Fonts"
     remote_src: true
     owner: "{{ username }}"
