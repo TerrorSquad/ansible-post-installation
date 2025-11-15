@@ -6,7 +6,6 @@
     - google-chrome
     - slack
     - zoom
-    - skype
     - vlc
     - postman
     - dbeaver-community
@@ -14,7 +13,7 @@
     - sublime-text
     - microsoft-teams
     - viber
-    # - onlyoffice  # Temporarily disabled to test password prompt
+    - onlyoffice
     - adguard-vpn
     - ticktick
     - whatsapp
@@ -35,7 +34,6 @@
     - google-chrome
     - slack
     - zoom
-    - skype
     - vlc
     - postman
     - dbeaver-community
@@ -43,7 +41,7 @@
     - sublime-text
     - microsoft-teams
     - viber
-    # - onlyoffice  # Temporarily disabled to test password prompt
+    - onlyoffice
     - adguard-vpn
     - ticktick
     - whatsapp
@@ -68,14 +66,12 @@
     HOMEBREW_NO_AUTO_UPDATE: "1"
   loop:
     - alt-tab
-    - autoraise
     - appcleaner
     - betterdisplay
     - copyclip
     - mos
     - rectangle
     - shottr
-    - unzipone
   retries: 3
   register: utility_cask_results
   failed_when: false
