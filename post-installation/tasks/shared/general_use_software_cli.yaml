@@ -5,7 +5,7 @@
     state: present
   retries: 3
   delay: 2
-  loop: "{{ tool_sets.cross_platform_cli + ['tlp'] }}"
+  loop: "{{ tool_sets.cross_platform_cli + ([] if is_wsl | default(false) else ['tlp']) }}"
   when: ansible_os_family == 'Debian'
 
 - name: Install cross-platform CLI tools via Homebrew (macOS)

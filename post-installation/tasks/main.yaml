@@ -3,6 +3,11 @@
 # GRIFFIN: Cross-Platform Post-Installation Automation
 # ==============================================================================
 
+# Detect WSL environment
+- name: Detect if running on WSL
+  ansible.builtin.set_fact:
+    is_wsl: "{{ 'microsoft' in ansible_kernel | lower or 'wsl' in ansible_kernel | lower }}"
+
 # Phase 1: System Preparation
 - name: System preparation and basic setup
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/system_setup.yaml"

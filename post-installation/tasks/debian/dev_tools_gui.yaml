@@ -70,7 +70,7 @@
   changed_when: jetbrains_toolbox_installed.rc == 0
 
 - name: Download and install Visual Studio Code
-  when: '"microsoft" not in ansible_facts["kernel"]'
+  when: not (is_wsl | default(false))
   block:
     - name: Download and install Visual Studio Code
       ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
