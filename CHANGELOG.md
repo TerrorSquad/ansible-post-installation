@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.3.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.2.2...v2.3.0) (2025-11-16)
+
+
+### Features
+
+* add Homebrew installation, update, and upgrade tasks for Debian ([3e7c6fd](https://github.com/TerrorSquad/ansible-post-installation/commit/3e7c6fda5151ca5ae29678c02a5750555fa4c2b6))
+* replace volta with mise ([7c7f0dc](https://github.com/TerrorSquad/ansible-post-installation/commit/7c7f0dc5c00d7c6ece36927f6ead6ecd9f5b978b))
+
+
+### Bug Fixes
+
+* ensure boolean evaluations in conditions (ansible 12 compat) ([b004632](https://github.com/TerrorSquad/ansible-post-installation/commit/b00463294eac45a096b4069c5822af5e18e7334b))
+* remove HOMEBREW_CASK_OPTS to prevent quarantine issues ([d1e04e4](https://github.com/TerrorSquad/ansible-post-installation/commit/d1e04e445e390efe9686e850c848b0f856dc65ce))
+* remove Ubuntu 22.04 references ([c54af71](https://github.com/TerrorSquad/ansible-post-installation/commit/c54af71b35d39fee9eb36d28979cd6fcece1aece))
+* remove unused applications from installation list ([a6d176a](https://github.com/TerrorSquad/ansible-post-installation/commit/a6d176a258ea0cb8b08912b4e4251364fc609040))
+* simplify job configuration by removing matrix strategy for OS ([7ef1882](https://github.com/TerrorSquad/ansible-post-installation/commit/7ef18827d10aa2fbf683ea70dc30c6c37aaa3077))
+* update font download and extraction paths to use download_dir variable ([a6db4be](https://github.com/TerrorSquad/ansible-post-installation/commit/a6db4beaa3ad35a6de6166d90aeaf8199ee22ea0))
+* update installation tasks to include sudo password and improve summary output ([2619291](https://github.com/TerrorSquad/ansible-post-installation/commit/2619291af27368a99f9126f7f13af195bff6e843))
+
 ## [2.2.2](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.2.1...v2.2.2) (2025-09-28)
 
 
