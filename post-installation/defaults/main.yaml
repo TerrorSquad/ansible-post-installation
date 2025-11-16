@@ -61,17 +61,9 @@ docker_compose_architecture:
 # Fallback docker-compose architecture detection
 docker_compose_arch_fallback: "{{ docker_compose_architecture[ansible_architecture] | default(docker_compose_platform_prefix + '-x86_64') }}"
 
-# Package definitions for cross-platform consistency
-package_lists:
-  # Basic CLI tools available on both platforms
-  cross_platform_cli:
-    - httpie
-    - ncdu
-    - peco
-    - thefuck
-    - unzip
-
-  # Development essentials (available via apt on Debian, homebrew on macOS)
+# Canonical tool sets (WP1: Baseline Refactor - single source of truth)
+tool_sets:
+  # Development essentials (available on both platforms)
   dev_essentials:
     - bat
     - curl
@@ -84,16 +76,25 @@ package_lists:
     - vim
     - jq
 
-  # Modern CLI tools available via apt on Debian
-  modern_cli_tools_apt:
+  # Cross-platform CLI tools
+  cross_platform_cli:
+    - httpie
+    - ncdu
+    - peco
+    - thefuck
+    - unzip
+
+  # Modern CLI tools available via apt (Debian)
+  modern_cli_apt:
     - fzf
     - helix
     - btop
-    - fd-find # equivalent to fd
+    - fd-find
     - ripgrep
+    - bat
 
-  # Modern CLI tools only available via Homebrew (both platforms)
-  modern_cli_tools_homebrew:
+  # Modern CLI tools only via Homebrew (supplement apt on Debian, primary on macOS)
+  modern_cli_homebrew:
     - eza
     - lsd
     - bottom
@@ -104,7 +105,7 @@ package_lists:
     - lazydocker
     - mdcat
     - mise
-    - fd # macOS version via homebrew
+    - fd
     - fx
     - gh
     - git-delta
@@ -122,3 +123,40 @@ package_lists:
     - yazi
     - yamlfmt
     - yq
+
+  # GUI development tools (macOS)
+  gui_dev_macos:
+    - jetbrains-toolbox
+    - iterm2
+    - zed
+    - alfred
+    - tableplus
+    - orbstack
+
+  # GUI applications (macOS)
+  gui_apps_macos:
+    - visual-studio-code
+    - google-chrome
+    - slack
+    - zoom
+    - vlc
+    - postman
+    - dbeaver-community
+    - gitkraken
+    - sublime-text
+    - microsoft-teams
+    - viber
+    - onlyoffice
+    - adguard-vpn
+    - ticktick
+    - whatsapp
+
+  # Utility applications (macOS)
+  utility_apps_macos:
+    - alt-tab
+    - appcleaner
+    - betterdisplay
+    - copyclip
+    - mos
+    - rectangle
+    - shottr

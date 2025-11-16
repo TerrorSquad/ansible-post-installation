@@ -1,14 +1,14 @@
 ---
-- name: Install apt apps (Linux only)
+- name: Install development essentials via apt (Debian)
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
   retries: 3
   delay: 2
-  loop: "{{ package_lists.dev_essentials + ['libutempter0', 'python3-pip'] }}"
+  loop: "{{ tool_sets.dev_essentials + ['libutempter0', 'python3-pip'] }}"
   when: ansible_os_family == 'Debian'
 
-- name: Install macOS equivalents via Homebrew
+- name: Install development essentials via Homebrew (macOS)
   community.general.homebrew:
     name: "{{ item }}"
     state: present
@@ -17,7 +17,7 @@
   become: false
   failed_when: false
   register: dev_essentials_result
-  loop: "{{ package_lists.dev_essentials }}"
+  loop: "{{ tool_sets.dev_essentials }}"
   when: ansible_os_family == 'Darwin'
 
 - name: Install Python via Homebrew (macOS)

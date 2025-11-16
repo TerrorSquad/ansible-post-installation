@@ -1,17 +1,4 @@
 ---
-- name: Check which development GUI tools are already installed via Homebrew Cask
-  ansible.builtin.shell: brew list --cask {{ item }} 2>/dev/null
-  loop:
-    - jetbrains-toolbox
-    - iterm2
-    - zed
-    - alfred
-    - tableplus
-    - orbstack
-  register: existing_dev_casks
-  failed_when: false
-  changed_when: false
-
 - name: Install development GUI tools via Homebrew Cask
   community.general.homebrew_cask:
     name: "{{ item }}"
@@ -22,13 +9,7 @@
   become_user: "{{ username }}"
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
-  loop:
-    - jetbrains-toolbox
-    - iterm2
-    - zed
-    - alfred
-    - tableplus
-    - orbstack
+  loop: "{{ tool_sets.gui_dev_macos }}"
   retries: 3
   register: dev_cask_results
   failed_when: false

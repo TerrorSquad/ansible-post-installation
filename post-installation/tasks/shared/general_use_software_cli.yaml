@@ -1,14 +1,14 @@
 ---
-- name: Install apt apps (Linux only)
+- name: Install cross-platform CLI tools via apt (Debian)
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
   retries: 3
   delay: 2
-  loop: "{{ package_lists.cross_platform_cli + ['tlp'] }}"
+  loop: "{{ tool_sets.cross_platform_cli + ['tlp'] }}"
   when: ansible_os_family == 'Debian'
 
-- name: Install macOS equivalents via Homebrew
+- name: Install cross-platform CLI tools via Homebrew (macOS)
   community.general.homebrew:
     name: "{{ item }}"
     state: present
@@ -17,7 +17,7 @@
   become: false
   failed_when: false
   register: cross_platform_result
-  loop: "{{ package_lists.cross_platform_cli }}"
+  loop: "{{ tool_sets.cross_platform_cli }}"
   when: ansible_os_family == 'Darwin'
 
 - name: Install modern CLI tools via Homebrew (macOS)
@@ -29,16 +29,16 @@
   become: false
   failed_when: false
   register: modern_tools_result
-  loop: "{{ package_lists.modern_cli_tools_apt + package_lists.modern_cli_tools_homebrew }}"
+  loop: "{{ tool_sets.modern_cli_apt + tool_sets.modern_cli_homebrew }}"
   when: ansible_os_family == 'Darwin'
 
-- name: Install modern CLI tools available via apt (Debian)
+- name: Install modern CLI tools via apt (Debian)
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
   retries: 3
   delay: 2
-  loop: "{{ package_lists.modern_cli_tools_apt + package_lists.dev_essentials }}"
+  loop: "{{ tool_sets.modern_cli_apt + tool_sets.dev_essentials }}"
   failed_when: false
   when: ansible_os_family == 'Debian'
 
@@ -56,5 +56,5 @@
   become_user: "{{ username }}"
   failed_when: false
   register: debian_homebrew_result
-  loop: "{{ package_lists.modern_cli_tools_homebrew }}"
+  loop: "{{ tool_sets.modern_cli_homebrew }}"
   when: ansible_os_family == 'Debian'

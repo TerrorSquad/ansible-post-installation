@@ -1,26 +1,4 @@
 ---
-- name: Check which GUI applications are already installed via Homebrew Cask
-  ansible.builtin.shell: brew list --cask {{ item }} 2>/dev/null
-  loop:
-    - visual-studio-code
-    - google-chrome
-    - slack
-    - zoom
-    - vlc
-    - postman
-    - dbeaver-community
-    - gitkraken
-    - sublime-text
-    - microsoft-teams
-    - viber
-    - onlyoffice
-    - adguard-vpn
-    - ticktick
-    - whatsapp
-  register: existing_casks
-  failed_when: false
-  changed_when: false
-
 - name: Install GUI applications via Homebrew Cask (only if not conflicting)
   community.general.homebrew_cask:
     name: "{{ item }}"
@@ -31,22 +9,7 @@
   become_user: "{{ username }}"
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
-  loop:
-    - visual-studio-code
-    - google-chrome
-    - slack
-    - zoom
-    - vlc
-    - postman
-    - dbeaver-community
-    - gitkraken
-    - sublime-text
-    - microsoft-teams
-    - viber
-    - onlyoffice
-    - adguard-vpn
-    - ticktick
-    - whatsapp
+  loop: "{{ tool_sets.gui_apps_macos }}"
   retries: 3
   register: gui_cask_results
   failed_when: false
@@ -75,14 +38,7 @@
   become_user: "{{ username }}"
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
-  loop:
-    - alt-tab
-    - appcleaner
-    - betterdisplay
-    - copyclip
-    - mos
-    - rectangle
-    - shottr
+  loop: "{{ tool_sets.utility_apps_macos }}"
   retries: 3
   register: utility_cask_results
   failed_when: false
