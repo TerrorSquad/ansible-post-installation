@@ -1,4 +1,9 @@
 ---
+- name: Check if Homebrew is already installed
+  ansible.builtin.stat:
+    path: "{{ homebrew_path }}/brew"
+  register: homebrew_exists
+
 - name: Install homebrew
   ansible.builtin.shell:
     cmd: NONINTERACTIVE=1 /usr/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -7,3 +12,21 @@
   become: true
   register: homebrew_install
   changed_when: homebrew_install.rc == 0
+  when: not homebrew_exists.stat.exists
+
+- name: Update Homebrew
+  community.general.homebrew:
+    update_homebrew: true
+    path: "{{ homebrew_path }}"
+  become: true
+  become_user: "{{ username }}"
+  failed_when: false
+
+- name: Upgrade all Homebrew packages
+  community.general.homebrew:
+    upgrade_all: true
+    path: "{{ homebrew_path }}"
+  become: true
+  become_user: "{{ username }}"
+  failed_when: false
+  register: brew_upgrade_result

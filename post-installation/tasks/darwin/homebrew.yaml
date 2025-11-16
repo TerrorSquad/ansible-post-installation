@@ -15,3 +15,18 @@
   retries: 3
   delay: 5
   when: not homebrew_exists.stat.exists
+
+- name: Update Homebrew
+  community.general.homebrew:
+    update_homebrew: true
+    path: "{{ homebrew_path }}"
+  become: false
+  failed_when: false
+
+- name: Upgrade all Homebrew packages
+  community.general.homebrew:
+    upgrade_all: true
+    path: "{{ homebrew_path }}"
+  become: false
+  failed_when: false
+  register: brew_upgrade_result
