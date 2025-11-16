@@ -1,4 +1,17 @@
 ---
+# GitHub Asset Installer - Downloads and installs software from GitHub releases
+#
+# Required: github_repo (owner/repo), github_asset (binary name), type (binary|deb|tar.gz|homebrew)
+# Optional: github_token (for higher rate limits), architecture_filter, excluded_os_filter
+#
+# Example:
+#   vars:
+#     github_repo: docker/compose
+#     github_asset: docker-compose
+#     type: binary
+#     architecture_filter: "{{ docker_compose_arch_fallback }}"
+#     excluded_os_filter: "sha256sum"
+
 - name: Set default type to deb
   ansible.builtin.set_fact:
     type: deb
