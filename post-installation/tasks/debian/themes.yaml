@@ -5,7 +5,7 @@
       ansible.builtin.file:
         dest: "{{ themes }}"
         state: directory
-        mode: 0775
+        mode: "0775"
       become_user: "{{ username }}"
 
     - name: Download Adapta-Nokto
@@ -41,7 +41,7 @@
       ansible.builtin.file:
         path: "{{ local_bin }}"
         state: directory
-        mode: 0775
+        mode: "0775"
       become_user: "{{ username }}"
 
     - name: Copy theme_changer.sh script
