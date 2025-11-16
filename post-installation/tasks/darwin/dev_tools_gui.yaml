@@ -17,6 +17,9 @@
     name: "{{ item }}"
     state: latest
     upgrade_all: false
+    sudo_password: "{{ ansible_become_pass | default(omit) }}"
+  become: true
+  become_user: "{{ username }}"
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
   loop:
@@ -34,6 +37,12 @@
   ansible.builtin.debug:
     msg:
       - "Development GUI Tools Summary:"
-      - "  Installed/Updated: {{ dev_cask_results.results | selectattr('changed', 'equalto', true) | list | length }}"
-      - "  Already up-to-date: {{ dev_cask_results.results | rejectattr('changed') | rejectattr('failed') | list | length }}"
-      - "  Failed/Skipped: {{ dev_cask_results.results | selectattr('failed', 'equalto', true) | list | length }}"
+      - >-
+        {% set installed = dev_cask_results.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list %}
+        Installed/Updated ({{ installed | length }}): {{ installed | join(', ') }}
+      - >-
+        {% set uptodate = dev_cask_results.results | rejectattr('changed') | rejectattr('failed') | map(attribute='item') | list %}
+        Already up-to-date ({{ uptodate | length }}): {{ uptodate | join(', ') }}
+      - >-
+        {% set failed = dev_cask_results.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list %}
+        Failed/Skipped ({{ failed | length }}): {{ failed | join(', ') }}

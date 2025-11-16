@@ -26,7 +26,9 @@
     name: "{{ item }}"
     state: latest
     upgrade_all: false
-    sudo_password: null
+    sudo_password: "{{ ansible_become_pass | default(omit) }}"
+  become: true
+  become_user: "{{ username }}"
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
   loop:
@@ -53,15 +55,24 @@
   ansible.builtin.debug:
     msg:
       - "GUI Applications Summary:"
-      - "  Installed/Updated: {{ gui_cask_results.results | selectattr('changed', 'equalto', true) | list | length }}"
-      - "  Already up-to-date: {{ gui_cask_results.results | rejectattr('changed') | rejectattr('failed') | list | length }}"
-      - "  Failed/Skipped: {{ gui_cask_results.results | selectattr('failed', 'equalto', true) | list | length }}"
+      - >-
+        {% set installed = gui_cask_results.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list %}
+        Installed/Updated ({{ installed | length }}): {{ installed | join(', ') }}
+      - >-
+        {% set uptodate = gui_cask_results.results | rejectattr('changed') | rejectattr('failed') | map(attribute='item') | list %}
+        Already up-to-date ({{ uptodate | length }}): {{ uptodate | join(', ') }}
+      - >-
+        {% set failed = gui_cask_results.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list %}
+        Failed/Skipped ({{ failed | length }}): {{ failed | join(', ') }}
 
 - name: Install productivity and utility applications via Homebrew Cask
   community.general.homebrew_cask:
     name: "{{ item }}"
     state: latest
     upgrade_all: false
+    sudo_password: "{{ ansible_become_pass | default(omit) }}"
+  become: true
+  become_user: "{{ username }}"
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
   loop:
@@ -80,6 +91,12 @@
   ansible.builtin.debug:
     msg:
       - "Utility Applications Summary:"
-      - "  Installed/Updated: {{ utility_cask_results.results | selectattr('changed', 'equalto', true) | list | length }}"
-      - "  Already up-to-date: {{ utility_cask_results.results | rejectattr('changed') | rejectattr('failed') | list | length }}"
-      - "  Failed/Skipped: {{ utility_cask_results.results | selectattr('failed', 'equalto', true) | list | length }}"
+      - >-
+        {% set installed = utility_cask_results.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list %}
+        Installed/Updated ({{ installed | length }}): {{ installed | join(', ') }}
+      - >-
+        {% set uptodate = utility_cask_results.results | rejectattr('changed') | rejectattr('failed') | map(attribute='item') | list %}
+        Already up-to-date ({{ uptodate | length }}): {{ uptodate | join(', ') }}
+      - >-
+        {% set failed = utility_cask_results.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list %}
+        Failed/Skipped ({{ failed | length }}): {{ failed | join(', ') }}
