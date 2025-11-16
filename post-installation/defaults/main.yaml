@@ -160,3 +160,19 @@ tool_sets:
     - mos
     - rectangle
     - shottr
+
+  # Nerd Fonts (cross-platform)
+  nerd_fonts:
+    - name: Hack
+      filename: Hack.tar.xz
+    - name: Fira Mono
+      filename: FiraMono.tar.xz
+    - name: Fira Code
+      filename: FiraCode.tar.xz
+
+  # Additional fonts
+  additional_fonts:
+    debian:
+      - fonts-roboto
+    macos:
+      - font-roboto

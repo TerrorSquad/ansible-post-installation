@@ -1,17 +1,4 @@
 ---
-- name: Set font
-  ansible.builtin.set_fact:
-    fonts_to_install:
-      - name: Hack
-        repo: ryanoasis/nerd-fonts
-        filename: Hack.tar.xz
-      - name: Fira Mono
-        repo: ryanoasis/nerd-fonts
-        filename: FiraMono.tar.xz
-      - name: Fira Code
-        repo: ryanoasis/nerd-fonts
-        filename: FiraCode.tar.xz
-
 - name: Get latest release info
   ansible.builtin.uri:
     url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
@@ -19,13 +6,13 @@
     body_format: json
   register: github_releases
 
-- name: Download font
+- name: Download Nerd Fonts
   ansible.builtin.get_url:
     url: "{{ github_releases.json.assets | selectattr('name', 'search', item.filename) | map(attribute='browser_download_url') | first }}"
     dest: "{{ download_dir }}/{{ item.filename }}"
     mode: "0644"
     timeout: 60
-  loop: "{{ fonts_to_install }}"
+  loop: "{{ tool_sets.nerd_fonts }}"
   when: github_releases.json is defined
   retries: 3
   delay: 2
@@ -37,19 +24,21 @@
     owner: "{{ username }}"
     mode: "0755"
 
-- name: Extract fonts
+- name: Extract Nerd Fonts
   ansible.builtin.unarchive:
     src: "{{ download_dir }}/{{ item.filename }}"
     dest: "{{ user_home }}/Library/Fonts"
     remote_src: true
     owner: "{{ username }}"
-  loop: "{{ fonts_to_install }}"
+  loop: "{{ tool_sets.nerd_fonts }}"
   when: github_releases.json is defined
 
-- name: Install font - Roboto
+- name: Install additional fonts via Homebrew Cask
   community.general.homebrew_cask:
-    name: font-roboto
+    name: "{{ item }}"
     state: present
+  loop: "{{ tool_sets.additional_fonts.macos }}"
   become_user: "{{ username }}"
   become: true
   retries: 3
+  failed_when: false

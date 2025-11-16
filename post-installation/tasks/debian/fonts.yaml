@@ -1,17 +1,4 @@
 ---
-- name: Set font
-  ansible.builtin.set_fact:
-    fonts_to_install:
-      - name: Hack
-        repo: ryanoasis/nerd-fonts
-        filename: Hack.tar.xz
-      - name: Fira Mono
-        repo: ryanoasis/nerd-fonts
-        filename: FiraMono.tar.xz
-      - name: Fira Code
-        repo: ryanoasis/nerd-fonts
-        filename: FiraCode.tar.xz
-
 - name: Get latest release info
   ansible.builtin.uri:
     url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
@@ -19,25 +6,30 @@
     body_format: json
   register: github_releases
 
-- name: Download font
+- name: Download Nerd Fonts
   ansible.builtin.get_url:
     url: "{{ github_releases.json.assets | selectattr('name', 'search', item.filename) | map(attribute='browser_download_url') | first }}"
     dest: "{{ download_dir }}/{{ item.filename }}"
     mode: "0644"
-  loop: "{{ fonts_to_install }}"
+    timeout: 60
+  loop: "{{ tool_sets.nerd_fonts }}"
+  retries: 3
+  delay: 2
 
-- name: Extract fonts
+- name: Extract Nerd Fonts
   ansible.builtin.unarchive:
     src: "{{ download_dir }}/{{ item.filename }}"
     dest: "/usr/share/fonts/truetype"
     remote_src: true
-  loop: "{{ fonts_to_install }}"
+  loop: "{{ tool_sets.nerd_fonts }}"
+  become: true
 
 - name: Update font cache
   ansible.builtin.command: fc-cache -f -v
   changed_when: false
 
-- name: Install font - Roboto
+- name: Install additional fonts via apt
   ansible.builtin.apt:
-    name:
-      - fonts-roboto
+    name: "{{ tool_sets.additional_fonts.debian }}"
+    state: present
+  become: true
