@@ -46,6 +46,7 @@
   ansible.builtin.debug:
     msg: "✅ Shell change succeeded - ZSH is now the default shell"
   when: shell_change_result.changed
+  # noqa: no-handler
 
 - name: Log shell change failed or skipped
   ansible.builtin.debug:
@@ -132,12 +133,14 @@
         dest: "{{ user_home }}/.antidote"
         depth: 1
         force: true
+        version: master
       become_user: "{{ username }}"
       become: true
       register: git_antidote_result
       until: git_antidote_result is success
       retries: 3
       delay: 2
+      # noqa: latest[git]
 
 - name: Configure antidote
   block:

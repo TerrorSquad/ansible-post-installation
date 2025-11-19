@@ -7,11 +7,13 @@
         state: directory
         mode: "0775"
       become_user: "{{ username }}"
+      become: true
 
     - name: Download Adapta-Nokto
       ansible.builtin.get_url:
         url: https://cinnamon-spices.linuxmint.com/files/themes/Adapta-Nokto.zip
         dest: "{{ download_dir }}/Adapta-Nokto.zip"
+        mode: "0644"
 
     - name: Move theme in to {{ themes }}
       ansible.builtin.unarchive:
@@ -24,6 +26,7 @@
       ansible.builtin.get_url:
         url: https://cinnamon-spices.linuxmint.com/files/themes/Adapta.zip
         dest: "{{ download_dir }}/Adapta.zip"
+        mode: "0644"
 
     - name: Move theme in to {{ themes }}
       ansible.builtin.unarchive:
@@ -37,12 +40,13 @@
         name: arc-theme
         state: present
 
-    - name: "Create {{ local_bin }} directory"
+    - name: Create local bin directory at {{ local_bin }}
       ansible.builtin.file:
         path: "{{ local_bin }}"
         state: directory
         mode: "0775"
       become_user: "{{ username }}"
+      become: true
 
     - name: Copy theme_changer.sh script
       ansible.builtin.copy:
@@ -50,10 +54,12 @@
         dest: "{{ local_bin }}"
         mode: u+x
       become_user: "{{ username }}"
+      become: true
 
     - name: Set up theme changer autostart
       ansible.builtin.copy:
         src: ./defaults/.config/autostart/theme_changer.desktop
         dest: "{{ autostart_path }}"
-        mode: 0664
+        mode: "0664"
       become_user: "{{ username }}"
+      become: true

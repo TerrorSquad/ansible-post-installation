@@ -37,7 +37,7 @@
   become: true
 
 - name: Make libinput-gestures
-  ansible.builtin.make:
+  community.general.make:
     chdir: "{{ libinput_home }}"
     target: install
 
