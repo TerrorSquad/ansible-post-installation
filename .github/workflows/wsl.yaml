@@ -1,12 +1,6 @@
 ---
 name: WSL
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - "post-installation/**/*"
-      - ".github/workflows/wsl.yaml"
   pull_request:
     branches:
       - master
