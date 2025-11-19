@@ -4,6 +4,8 @@
     url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
     return_content: true
     body_format: json
+    headers:
+      Authorization: "{{ 'token ' + github_token if github_token is defined and github_token else omit }}"
   register: github_releases
 
 - name: Download Nerd Fonts
