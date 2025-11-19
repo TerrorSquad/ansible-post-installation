@@ -10,8 +10,10 @@
     state: present
     path: "{{ homebrew_path }}"
   when: not docker_app_exists.stat.exists
-  retries: 3
   register: docker_install_result
+  until: docker_install_result is success
+  retries: 3
+  delay: 2
   failed_when: false
 
 - name: Log Docker installation status

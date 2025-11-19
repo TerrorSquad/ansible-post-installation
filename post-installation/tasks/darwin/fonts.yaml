@@ -16,6 +16,8 @@
     timeout: 60
   loop: "{{ tool_sets.nerd_fonts }}"
   when: github_releases.json is defined
+  register: download_fonts_result
+  until: download_fonts_result is success
   retries: 3
   delay: 2
 

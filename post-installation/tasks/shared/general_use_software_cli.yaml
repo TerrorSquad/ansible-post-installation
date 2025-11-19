@@ -1,44 +1,48 @@
 ---
 - name: Install cross-platform CLI tools via apt (Debian)
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name: "{{ tool_sets.cross_platform_cli + ([] if is_wsl | default(false) else ['tlp']) }}"
     state: present
+  register: apt_result
+  until: apt_result is success
   retries: 3
   delay: 2
-  loop: "{{ tool_sets.cross_platform_cli + ([] if is_wsl | default(false) else ['tlp']) }}"
   when: ansible_os_family == 'Debian'
 
 - name: Install cross-platform CLI tools via Homebrew (macOS)
   community.general.homebrew:
-    name: "{{ item }}"
+    name: "{{ tool_sets.cross_platform_cli }}"
     state: present
     path: "{{ homebrew_path }}"
+  register: brew_result
+  until: brew_result is success
   retries: 3
+  delay: 2
   become: false
   failed_when: false
-  register: cross_platform_result
-  loop: "{{ tool_sets.cross_platform_cli }}"
   when: ansible_os_family == 'Darwin'
 
 - name: Install modern CLI tools via Homebrew (macOS)
   community.general.homebrew:
-    name: "{{ item }}"
+    name: "{{ tool_sets.modern_cli_apt + tool_sets.modern_cli_homebrew }}"
     state: present
     path: "{{ homebrew_path }}"
+  register: brew_modern_result
+  until: brew_modern_result is success
   retries: 3
+  delay: 2
   become: false
   failed_when: false
-  register: modern_tools_result
-  loop: "{{ tool_sets.modern_cli_apt + tool_sets.modern_cli_homebrew }}"
   when: ansible_os_family == 'Darwin'
 
 - name: Install modern CLI tools via apt (Debian)
   ansible.builtin.apt:
-    name: "{{ item }}"
+    name: "{{ tool_sets.modern_cli_apt + tool_sets.dev_essentials }}"
     state: present
+  register: apt_modern_result
+  until: apt_modern_result is success
   retries: 3
   delay: 2
-  loop: "{{ tool_sets.modern_cli_apt + tool_sets.dev_essentials }}"
   failed_when: false
   when: ansible_os_family == 'Debian'
 
@@ -48,13 +52,14 @@
 
 - name: Install modern CLI tools via Homebrew (Debian - for packages not in apt)
   community.general.homebrew:
-    name: "{{ item }}"
+    name: "{{ tool_sets.modern_cli_homebrew }}"
     state: present
     path: "{{ homebrew_path }}"
+  register: debian_homebrew_result
+  until: debian_homebrew_result is success
   retries: 3
+  delay: 2
   become: true
   become_user: "{{ username }}"
   failed_when: false
-  register: debian_homebrew_result
-  loop: "{{ tool_sets.modern_cli_homebrew }}"
   when: ansible_os_family == 'Debian'

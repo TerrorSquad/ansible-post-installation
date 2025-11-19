@@ -2,6 +2,10 @@
 - name: Install zsh (Linux)
   ansible.builtin.apt:
     name: zsh
+  register: apt_zsh_result
+  until: apt_zsh_result is success
+  retries: 3
+  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install zsh (macOS)
@@ -9,7 +13,10 @@
     name: zsh
     state: present
     path: "{{ homebrew_path }}"
+  register: brew_zsh_result
+  until: brew_zsh_result is success
   retries: 3
+  delay: 2
   become: false
   when: ansible_os_family == 'Darwin'
 
@@ -127,6 +134,8 @@
         force: true
       become_user: "{{ username }}"
       become: true
+      register: git_antidote_result
+      until: git_antidote_result is success
       retries: 3
       delay: 2
 

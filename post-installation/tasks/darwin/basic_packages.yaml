@@ -24,6 +24,9 @@
       - xz
     state: present
     path: "{{ homebrew_path }}"
+  register: brew_basic_result
+  until: brew_basic_result is success
   retries: 3
+  delay: 2
   become: false
   when: homebrew_check.stat.exists

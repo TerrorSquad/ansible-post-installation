@@ -19,6 +19,10 @@
         url: https://pkg.ddev.com/apt/gpg.key
         keyring: /etc/apt/keyrings/ddev.gpg
         state: present
+      register: apt_key_result
+      until: apt_key_result is success
+      retries: 3
+      delay: 2
 
     - name: Add DDEV package repository
       ansible.builtin.apt_repository:
@@ -44,7 +48,10 @@
       community.general.homebrew_tap:
         name: ddev/ddev
         state: present
+      register: tap_result
+      until: tap_result is success
       retries: 3
+      delay: 2
       become: false
 
     - name: Install DDEV via Homebrew
@@ -52,7 +59,10 @@
         name: ddev/ddev/ddev
         state: present
         path: "{{ homebrew_path }}"
+      register: brew_ddev_result
+      until: brew_ddev_result is success
       retries: 3
+      delay: 2
       become: false
 
     - name: Install mkcert via Homebrew
@@ -60,7 +70,10 @@
         name: mkcert
         state: present
         path: "{{ homebrew_path }}"
+      register: brew_mkcert_result
+      until: brew_mkcert_result is success
       retries: 3
+      delay: 2
       become: false
 
 # Common for both platforms

@@ -101,6 +101,8 @@
         dest: "{{ github_asset_dest }}"
         mode: "0755"
         timeout: 60
+      register: download_binary_result
+      until: download_binary_result is success
       retries: 3
       delay: 2
 
@@ -132,6 +134,8 @@
         dest: "{{ github_asset_dest }}.deb"
         mode: "0755"
         timeout: 60
+      register: download_deb_result
+      until: download_deb_result is success
       retries: 3
       delay: 2
 
@@ -165,6 +169,8 @@
         dest: "{{ github_asset_dest }}.tar.gz"
         mode: "0755"
         timeout: 60
+      register: download_tar_result
+      until: download_tar_result is success
       retries: 3
       delay: 2
 

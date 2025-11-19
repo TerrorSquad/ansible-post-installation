@@ -10,8 +10,10 @@
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
   loop: "{{ tool_sets.gui_apps_macos }}"
-  retries: 3
   register: gui_cask_results
+  until: gui_cask_results is success
+  retries: 3
+  delay: 2
   failed_when: false
 
 - name: GUI applications installation summary
@@ -39,8 +41,10 @@
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
   loop: "{{ tool_sets.utility_apps_macos }}"
-  retries: 3
   register: utility_cask_results
+  until: utility_cask_results is success
+  retries: 3
+  delay: 2
   failed_when: false
 
 - name: Utility applications installation summary
