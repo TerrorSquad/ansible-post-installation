@@ -1,0 +1,12 @@
+---
+# .ansible-lint
+profile: production
+exclude_paths:
+  - .github/
+  - docs/
+  - .vscode/
+  - add_zscaler_root_cert.sh
+# Skip specific rules if needed (example)
+# skip_list:
+#   - yaml
+#   - role-name

@@ -27,13 +27,11 @@
     remote_src: true
   loop: "{{ tool_sets.nerd_fonts }}"
   become: true
-
-- name: Update font cache
-  ansible.builtin.command: fc-cache -f -v
-  changed_when: false
+  notify: Update font cache
 
 - name: Install additional fonts via apt
   ansible.builtin.apt:
     name: "{{ tool_sets.additional_fonts.debian }}"
     state: present
   become: true
+  notify: Update font cache

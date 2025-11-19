@@ -23,6 +23,7 @@
 
 - **Molecule**: Consider adding Molecule for local testing of roles. This allows for more granular testing than the current "run the whole playbook" approach.
 - **Linting**: Add `ansible-lint` to the CI pipeline to catch issues early. The current `reviewdog` setup is good, but a strict local linting step (pre-commit hook) would be better.
+    - **Status**: ✅ Added `.ansible-lint` config and `.github/workflows/lint.yaml` for strict CI linting.
 
 ## 4. Documentation
 
@@ -32,6 +33,7 @@
 ## 5. Code Structure
 
 - **Handlers**: Use handlers for service restarts (if any) or cache updates instead of running them as tasks.
+    - **Status**: ✅ Moved `fc-cache` update to a handler in `post-installation/handlers/main.yaml`.
 - **Tags**: Ensure all tasks have appropriate tags. This allows users to run specific parts of the setup (e.g., `ansible-playbook ... --tags "dotfiles,zsh"`).
 - **Block/Rescue**: Use `block` and `rescue` for critical sections that might fail, providing better error messages or fallback mechanisms.
 
