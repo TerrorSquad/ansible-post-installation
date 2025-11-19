@@ -13,9 +13,6 @@ This directory contains Ansible tasks that are specific to macOS systems.
 - `dev_tools_gui.yaml` - GUI development tools
 - `general_use_software_gui.yaml` - General GUI applications
 
-### System Customization:
-- `system_customization.yaml` - Platform-specific customizations (future use)
-
 ### Infrastructure:
 - `basic_packages.yaml` - Essential system packages via Homebrew
 - `homebrew.yaml` - Homebrew installation and configuration

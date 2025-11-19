@@ -4,16 +4,6 @@
 ### Ansible ###
 *.retry
 
-### Vagrant ###
-# General
-.vagrant/
-
-# Log files (if you are creating logs in debug mode, uncomment this)
-# *.log
-
-### Vagrant Patch ###
-*.box
-
 # End of https://www.gitignore.io/api/vagrant,ansible
 *.log
 .ansible

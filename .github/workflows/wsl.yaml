@@ -18,7 +18,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   ansible:
@@ -33,7 +33,7 @@ jobs:
           distribution: Ubuntu-24.04
           wsl-version: 2
           set-as-default: "true"
-          update: "false"
+          update: "true"
           additional-packages: ansible
 
       # Set password for test user

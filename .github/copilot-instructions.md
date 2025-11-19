@@ -7,21 +7,21 @@ Griffin is an Ansible-based automation project that transforms fresh Debian-base
 ## Architecture & Core Components
 
 ### Execution Flow
-1. **Main Entry Points**: `playbook.yaml` (localhost) vs `playbook_vagrant.yaml` (remote vagrant)
-2. **Role Structure**: Single `post-installation` role with sequential task inclusion
+1. **Main Entry Points**: `playbook.yaml` (Linux/WSL) and `playbook_macos.yaml` (macOS)
+2. **Role Structure**: Single `post-installation` role with tasks organized by OS (`darwin`, `debian`) and `shared`
 3. **Conditional Logic**: Feature flags (`all`, `gui`, `dev_tools_gui`, `rust`, `golang`, `java`, etc.) control installation scope
-4. **Task Organization**: Modular tasks in `post-installation/tasks/` with utility helpers in `utils/`
+4. **Task Organization**: Modular tasks in `post-installation/tasks/` split into `darwin/`, `debian/`, and `shared/` directories
 
 ### Key Architectural Patterns
 
 **Variable-Driven Configuration**: All paths, usernames, and features controlled via `defaults/main.yaml`:
 ```yaml
-username: vagrant  # Override with -e username=$(whoami)
+username: ansible  # Override with -e username=$(whoami)
 user_home: "/home/{{ username }}"
 download_dir: "/tmp/ansible"
 ```
 
-**Utility Task Pattern**: Reusable GitHub asset installer (`utils/install_github_asset.yaml`) handles:
+**Utility Task Pattern**: Reusable GitHub asset installer (`shared/utils/install_github_asset.yaml`) handles:
 - Binary downloads to `/usr/local/bin/`
 - Deb package installations 
 - Tar.gz extraction with architecture filtering
@@ -41,8 +41,8 @@ ansible-playbook ./playbook_macos.yaml -K -e username=$(whoami) -e all=true
 
 ### Adding New Software:
 1. Choose task file: `*_cli.yaml` vs `*_gui.yaml` vs dedicated file for complex installs
-2. Add conditional inclusion to `main.yaml` with appropriate `when:` clause
-3. Use utility tasks for GitHub releases: `ansible.builtin.include_tasks: utils/install_github_asset.yaml`
+2. Add conditional inclusion to `main.yaml` or appropriate coordinator file
+3. Use utility tasks for GitHub releases: `ansible.builtin.include_tasks: shared/utils/install_github_asset.yaml`
 
 ### CI Testing Strategy:
 - Ubuntu 24.04 in GitHub Actions
