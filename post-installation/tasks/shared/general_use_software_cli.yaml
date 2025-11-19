@@ -44,7 +44,7 @@
   when: ansible_os_family == 'Debian'
 
 - name: Install Homebrew on Debian for packages not available via apt
-  ansible.builtin.include_tasks: ../debian/homebrew.yaml
+  ansible.builtin.include_tasks: debian/homebrew.yaml
   when: ansible_os_family == 'Debian'
 
 - name: Install modern CLI tools via Homebrew (Debian - for packages not in apt)

@@ -1,6 +1,6 @@
 ---
 - name: Download Nerd Fonts
-  ansible.builtin.include_tasks: ../shared/utils/download_font.yaml
+  ansible.builtin.include_tasks: shared/utils/download_font.yaml
   loop: "{{ tool_sets.nerd_fonts }}"
 
 - name: Extract Nerd Fonts
