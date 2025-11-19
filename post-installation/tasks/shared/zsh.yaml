@@ -163,3 +163,7 @@
       become: true
       register: antidote_update
       changed_when: antidote_update.rc == 0
+  rescue:
+    - name: Warn about Antidote failure
+      ansible.builtin.debug:
+        msg: "⚠️ Failed to configure Antidote or download bundles. Zsh plugins might not be available."

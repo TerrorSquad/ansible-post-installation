@@ -40,6 +40,7 @@
     - **Status**: ✅ Added high-level tags (`system`, `core`, `shell`, `dev`, `languages`, `gui`, `cleanup`) to `post-installation/tasks/main.yaml`.
     - **Status**: ✅ Implemented "Tags imply Variables" logic so running `--tags gui` automatically enables `gui=true`.
 - **Block/Rescue**: Use `block` and `rescue` for critical sections that might fail, providing better error messages or fallback mechanisms.
+    - **Status**: ✅ Added `rescue` blocks to `zsh.yaml` (Antidote) and `install_github_asset.yaml` (binary/deb/tar.gz downloads) to gracefully handle failures.
 
 ## 6. Specific Task Improvements
 

@@ -113,6 +113,10 @@
         mode: "0755"
         remote_src: true
       become: true
+  rescue:
+    - name: Warn about binary installation failure
+      ansible.builtin.debug:
+        msg: "⚠️ Failed to download or install binary asset {{ github_asset }}."
 
 - name: "Download deb asset {{ github_asset }}"
   when: type == "deb" and api_success
@@ -150,6 +154,10 @@
       ansible.builtin.debug:
         msg: "The package was not installed because a newer version is already installed."
       when: apt_output is failed
+  rescue:
+    - name: Warn about deb installation failure
+      ansible.builtin.debug:
+        msg: "⚠️ Failed to download or install deb asset {{ github_asset }}."
 
 - name: Download tar.gz asset {{ github_asset }}
   when: type == "tar.gz" and api_success
@@ -204,6 +212,10 @@
         group: "{{ username }}"
         remote_src: true
       become: true
+  rescue:
+    - name: Warn about tar.gz installation failure
+      ansible.builtin.debug:
+        msg: "⚠️ Failed to download or install tar.gz asset {{ github_asset }}."
 
 - name: "Install via Homebrew (macOS fallback) - {{ github_asset }}"
   when: type == "homebrew" and ansible_os_family == 'Darwin'
