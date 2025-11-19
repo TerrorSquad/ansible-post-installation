@@ -19,7 +19,6 @@
   retries: 3
   delay: 2
   become: false
-  failed_when: false
   when: ansible_os_family == 'Darwin'
 
 - name: Install modern CLI tools via Homebrew (macOS)
@@ -32,7 +31,6 @@
   retries: 3
   delay: 2
   become: false
-  failed_when: false
   when: ansible_os_family == 'Darwin'
 
 - name: Install modern CLI tools via apt (Debian)
@@ -43,7 +41,6 @@
   until: apt_modern_result is success
   retries: 3
   delay: 2
-  failed_when: false
   when: ansible_os_family == 'Debian'
 
 - name: Install Homebrew on Debian for packages not available via apt
@@ -61,5 +58,4 @@
   delay: 2
   become: true
   become_user: "{{ username }}"
-  failed_when: false
   when: ansible_os_family == 'Debian'
