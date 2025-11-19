@@ -28,7 +28,7 @@
 
 - name: Set fallback ZSH path if which command failed
   ansible.builtin.set_fact:
-    zsh_path: "{{ zsh_install_path.stdout if zsh_install_path.rc == 0 and zsh_install_path.stdout else '/bin/zsh' }}"
+    zsh_path: "{{ zsh_install_path.stdout if zsh_install_path.rc == 0 and zsh_install_path.stdout else zsh_executable }}"
 
 - name: Set ZSH as default login shell for current user
   ansible.builtin.user:

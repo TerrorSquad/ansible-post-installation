@@ -4,10 +4,10 @@
     path: "{{ homebrew_path }}/brew"
   register: homebrew_exists
 
-- name: Download and install Homebrew
+- name: Install homebrew
   ansible.builtin.shell:
-    cmd: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    executable: /bin/bash
+    cmd: NONINTERACTIVE=1 {{ bash_executable }} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    executable: "{{ bash_executable }}"
   become_user: "{{ username }}"
   become: true
   register: homebrew_install

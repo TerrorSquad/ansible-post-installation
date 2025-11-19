@@ -36,7 +36,7 @@
         cmd: |
           set -o pipefail
           grep -oP "href=(.https.+?amd64.deb)" "{{ download_dir }}/tixati.html" | grep -oP "https.+"
-        executable: /usr/bin/bash
+        executable: "{{ bash_executable }}"
       register: tixati_url_result
       changed_when: false
 
@@ -83,7 +83,7 @@
         cmd: |
           set -o pipefail
           wget -O "{{ download_dir }}/moderncsv.tar.gz" https://www.moderncsv.com/download-linux
-        executable: /usr/bin/bash
+        executable: "{{ bash_executable }}"
       args:
         creates: "{{ download_dir }}/moderncsv.tar.gz"
 

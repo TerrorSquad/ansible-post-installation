@@ -109,7 +109,7 @@
     - name: Install binary asset
       ansible.builtin.copy:
         src: "{{ download_dir }}/{{ github_asset }}"
-        dest: "/usr/local/bin/{{ github_asset }}"
+        dest: "{{ system_bin }}/{{ github_asset }}"
         mode: "0755"
         remote_src: true
       become: true
@@ -195,10 +195,10 @@
         recurse: true
       register: files_found
 
-    - name: Move asset to /usr/local/bin
+    - name: Move asset to {{ system_bin }}
       ansible.builtin.copy:
         src: "{{ files_found.files[0].path }}"
-        dest: "/usr/local/bin/{{ github_asset }}"
+        dest: "{{ system_bin }}/{{ github_asset }}"
         mode: "0755"
         owner: "{{ username }}"
         group: "{{ username }}"

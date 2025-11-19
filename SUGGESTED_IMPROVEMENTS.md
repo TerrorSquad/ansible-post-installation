@@ -17,6 +17,7 @@
     - **Status**: ✅ Split variables into `vars/debian.yaml` and `vars/darwin.yaml` and loaded them in `tasks/main.yaml`.
 - **Hardcoded Paths**: There are still some hardcoded paths or assumptions about user home directories in scripts.
     - *Recommendation*: consistently use `{{ user_home }}` and other variables.
+    - **Status**: ✅ Replaced hardcoded paths (`/bin/bash`, `/usr/bin/bash`, `/usr/local/bin`, etc.) with variables (`bash_executable`, `system_bin`) defined in platform-specific vars files.
 
 ## 3. Testing & CI
 

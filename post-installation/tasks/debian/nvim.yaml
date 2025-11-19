@@ -47,7 +47,7 @@
   ansible.builtin.shell:
     cmd: |
       nvim +PlugInstall +qall
-    executable: /usr/bin/zsh
+    executable: "{{ zsh_executable }}"
   become_user: "{{ username }}"
   become: true
   register: plug_install_result

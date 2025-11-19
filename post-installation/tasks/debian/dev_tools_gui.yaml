@@ -32,7 +32,7 @@
         cmd: |
           set -o pipefail
           grep -oP "https://downloads.*?\.deb" "{{ download_dir }}/slack.html" | head -n 1
-        executable: /usr/bin/bash
+        executable: "{{ bash_executable }}"
       register: slack_url_result
       changed_when: slack_url_result.rc == 0
 
@@ -63,7 +63,7 @@
     cmd: |
       set -o pipefail
       curl -fsSL https://raw.githubusercontent.com/terrorsquad/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | zsh
-    executable: /usr/bin/bash
+    executable: "{{ bash_executable }}"
   become_user: "{{ username }}"
   become: true
   register: jetbrains_toolbox_installed
@@ -84,7 +84,7 @@
       set -o pipefail
       curl https://gist.githubusercontent.com/SanderTheDragon/1331397932abaa1d6fbbf63baed5f043/raw/postman-deb.sh | zsh
     chdir: "{{ download_dir }}"
-    executable: /usr/bin/bash
+    executable: "{{ bash_executable }}"
   become_user: "{{ username }}"
   become: true
   register: postman_installed
@@ -120,7 +120,7 @@
     cmd: |
       set -o pipefail
       curl -f https://zed.dev/install.sh | sh
-    executable: /usr/bin/bash
+    executable: "{{ bash_executable }}"
   become_user: "{{ username }}"
   become: false
   register: zed_installed

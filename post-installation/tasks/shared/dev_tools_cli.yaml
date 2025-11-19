@@ -38,7 +38,7 @@
   ansible.builtin.shell: |
     {{ homebrew_path }}/mise use --global usage@latest
   args:
-    executable: /bin/zsh
+    executable: "{{ zsh_executable }}"
   become_user: "{{ username }}"
   become: true
   register: mise_usage_install
