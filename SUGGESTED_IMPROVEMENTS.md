@@ -22,6 +22,7 @@
 ## 3. Testing & CI
 
 - **Molecule**: Consider adding Molecule for local testing of roles. This allows for more granular testing than the current "run the whole playbook" approach.
+    - **Status**: ✅ Added Molecule configuration in `post-installation/molecule/default/` using Docker driver and Ubuntu 24.04 image.
 - **Linting**: Add `ansible-lint` to the CI pipeline to catch issues early. The current `reviewdog` setup is good, but a strict local linting step (pre-commit hook) would be better.
     - **Status**: ✅ Added `.ansible-lint` config and `.github/workflows/lint.yaml` for strict CI linting.
 
