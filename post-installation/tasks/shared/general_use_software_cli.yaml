@@ -23,7 +23,7 @@
 
 - name: Install modern CLI tools via Homebrew (macOS)
   community.general.homebrew:
-    name: "{{ tool_sets.modern_cli_apt + tool_sets.modern_cli_homebrew }}"
+    name: "{{ tool_sets.modern_cli_homebrew }}"
     state: present
     path: "{{ homebrew_path }}"
   register: brew_modern_result
@@ -35,7 +35,7 @@
 
 - name: Install modern CLI tools via apt (Debian)
   ansible.builtin.apt:
-    name: "{{ tool_sets.modern_cli_apt + tool_sets.dev_essentials }}"
+    name: "{{ tool_sets.dev_essentials }}"
     state: present
   register: apt_modern_result
   until: apt_modern_result is success

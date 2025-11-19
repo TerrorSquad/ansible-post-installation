@@ -73,44 +73,40 @@ tool_sets:
     - thefuck
     - unzip
 
-  # Modern CLI tools available via apt (Debian)
-  modern_cli_apt:
-    - fzf
-    - btop
-    - fd-find
-    - ripgrep
-    - bat
-
   # Modern CLI tools only via Homebrew (supplement apt on Debian, primary on macOS)
   modern_cli_homebrew:
-    - helix
-    - eza
-    - lsd
+    - bat
     - bottom
     - broot
+    - btop
     - curlie
     - duf
     - dust
-    - lazydocker
-    - mdcat
-    - mise
+    - eza
     - fd
     - fx
+    - fzf
     - gh
     - git-delta
     - git-quick-stats
     - gping
+    - helix
     - httpstat
     - hyperfine
+    - lazydocker
     - lnav
+    - lsd
+    - mdcat
+    - mise
     - oha
     - procs
+    - ripgrep
     - sd
     - tealdeer
     - tokei
     - xh
-    - yazi
     - yamlfmt
+    - yazi
     - yq
 
   # GUI development tools (macOS)
