@@ -23,6 +23,7 @@
     rust: "{{ true if 'rust' in ansible_run_tags and 'all' not in ansible_run_tags else rust }}"
     golang: "{{ true if 'golang' in ansible_run_tags and 'all' not in ansible_run_tags else golang }}"
     java: "{{ true if 'java' in ansible_run_tags and 'all' not in ansible_run_tags else java }}"
+    ddev: "{{ true if 'ddev' in ansible_run_tags and 'all' not in ansible_run_tags else ddev }}"
     vpn: "{{ true if 'vpn' in ansible_run_tags and 'all' not in ansible_run_tags else vpn }}"
     fonts: "{{ true if 'fonts' in ansible_run_tags and 'all' not in ansible_run_tags else fonts }}"
   when: ansible_run_tags != ['all']

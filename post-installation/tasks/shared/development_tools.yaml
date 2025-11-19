@@ -6,6 +6,7 @@
 
 - name: Install DDEV local development environment
   ansible.builtin.include_tasks: shared/ddev.yaml
+  when: (ddev | default(false) | bool) or (all | bool)
   tags: [ddev]
 
 - name: Install fonts

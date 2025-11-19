@@ -6,6 +6,7 @@ java: false
 golang: false
 rust: false
 docker: false
+ddev: false
 gestures: false
 fonts: false
 vpn: false

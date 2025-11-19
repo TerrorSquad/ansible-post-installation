@@ -156,7 +156,7 @@
 
     - name: Copy configure_antidote.sh script
       ansible.builtin.copy:
-        src: ./defaults/scripts/configure_antidote.sh
+        src: "{{ role_path }}/defaults/scripts/configure_antidote.sh"
         dest: "{{ download_dir }}/configure_antidote.sh"
         mode: "0755"
       become_user: "{{ username }}"
