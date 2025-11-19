@@ -1,30 +1,33 @@
 ---
-- name: Install development GUI tools via Homebrew Cask
-  community.general.homebrew_cask:
-    name: "{{ item }}"
-    state: latest
-    upgrade_all: false
-    sudo_password: "{{ ansible_become_pass | default(omit) }}"
-  become: true
-  become_user: "{{ username }}"
-  environment:
-    HOMEBREW_NO_AUTO_UPDATE: "1"
-  loop: "{{ tool_sets.gui_dev_macos }}"
-  register: dev_cask_results
-  until: dev_cask_results is success
-  retries: 3
-  delay: 2
+- name: Install development GUI tools with summary
+  block:
+    - name: Install development GUI tools via Homebrew Cask
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+        state: latest
+        upgrade_all: false
+        sudo_password: "{{ ansible_become_pass | default(omit) }}"
+      become: true
+      become_user: "{{ username }}"
+      environment:
+        HOMEBREW_NO_AUTO_UPDATE: "1"
+      loop: "{{ tool_sets.gui_dev_macos }}"
+      register: dev_cask_results
+      until: dev_cask_results is success
+      retries: 3
+      delay: 2
 
-- name: Development tools installation summary
-  ansible.builtin.debug:
-    msg:
-      - "Development GUI Tools Summary:"
-      - >-
-        {% set installed = dev_cask_results.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list %}
-        Installed/Updated ({{ installed | length }}): {{ installed | join(', ') }}
-      - >-
-        {% set uptodate = dev_cask_results.results | rejectattr('changed') | rejectattr('failed') | map(attribute='item') | list %}
-        Already up-to-date ({{ uptodate | length }}): {{ uptodate | join(', ') }}
-      - >-
-        {% set failed = dev_cask_results.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list %}
-        Failed/Skipped ({{ failed | length }}): {{ failed | join(', ') }}
+  always:
+    - name: Development tools installation summary
+      ansible.builtin.debug:
+        msg:
+          - "Development GUI Tools Summary:"
+          - >-
+            {% set installed = dev_cask_results.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list %}
+            Installed/Updated ({{ installed | length }}): {{ installed | join(', ') }}
+          - >-
+            {% set uptodate = dev_cask_results.results | rejectattr('changed') | rejectattr('failed') | map(attribute='item') | list %}
+            Already up-to-date ({{ uptodate | length }}): {{ uptodate | join(', ') }}
+          - >-
+            {% set failed = dev_cask_results.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list %}
+            Failed/Skipped ({{ failed | length }}): {{ failed | join(', ') }}

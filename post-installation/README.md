@@ -68,3 +68,19 @@ ansible-playbook playbook.yaml -K -e username=$(whoami) --tags "rust,golang"
 - `vars/`: OS-specific variable definitions
 - `defaults/`: Default variable values
 - `handlers/`: Event handlers (e.g., cache updates)
+
+## Retry Strategy & Error Handling
+
+This playbook employs a **"Fail Fast with Retries"** strategy:
+
+1.  **Network Operations**: Tasks involving downloads (Homebrew, GitHub assets, Fonts) are configured with `retries: 3` (or 5) and `delay: 2` (or 10) to handle transient network issues.
+2.  **Fail Fast**: If retries are exhausted, the task fails, and the playbook stops execution immediately. This ensures the system is not left in an inconsistent state.
+3.  **Reporting**: GUI application tasks are wrapped in `block/always` structures. This ensures that even if the installation fails (triggering a playbook stop), the "Installation Summary" is printed first, showing exactly which apps succeeded and which one failed.
+
+### Known Limitations
+
+**"Retry Storm" in GUI Tasks**:
+For macOS GUI applications (`dev_tools_gui.yaml`, `general_use_software_gui.yaml`), we use `loop` combined with `until/retries`.
+- **Behavior**: If item #10 fails, Ansible retries the *entire loop* from item #1.
+- **Reason**: This structure is maintained to populate the `register` variable with individual results for the detailed "Installation Summary".
+- **Mitigation**: Homebrew Cask is idempotent and fast for already-installed apps, so the re-check overhead is minimal.
