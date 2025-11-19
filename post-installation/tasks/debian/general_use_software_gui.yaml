@@ -38,7 +38,7 @@
           grep -oP "href=(.https.+?amd64.deb)" "{{ download_dir }}/tixati.html" | grep -oP "https.+"
         executable: /usr/bin/bash
       register: tixati_url_result
-      changed_when: tixati_url_result.rc == 0
+      changed_when: false
 
     - name: Install Tixati
       ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
@@ -106,7 +106,7 @@
           cd $(ls) && grep -oP '(?<=Version=)[^=]+' moderncsv.desktop
         chdir: "{{ download_dir }}/moderncsv"
       register: moderncsv_version
-      changed_when: moderncsv_version.stdout | length > 0
+      changed_when: false
 
     - name: Find install.sh and uninstall.sh files
       ansible.builtin.find:

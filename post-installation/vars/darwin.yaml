@@ -1,0 +1,7 @@
+---
+user_home: "/Users/{{ username }}"
+config_home: "{{ user_home }}/Library/Application Support/"
+homebrew_path: "/opt/homebrew/bin"
+architecture_filter: "darwin|macos|x86_64|arm64"
+excluded_os_filter: "windows|musl|freebsd|openbsd|loong|aarch64|sha256"
+docker_compose_platform_prefix: "darwin"

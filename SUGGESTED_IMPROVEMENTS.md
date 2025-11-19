@@ -5,6 +5,7 @@
 - **`shell` and `command` modules**: Several tasks use `shell` or `command` without `changed_when` or `creates` parameters. This makes it hard to determine if a change actually occurred and breaks idempotency.
     - *Example*: `post-installation/tasks/shared/zsh.yaml` (Antidote installation)
     - *Recommendation*: Use `creates` to check for existing files or `changed_when` to parse output.
+    - **Status**: ✅ Added `changed_when` and `creates` to all `shell` and `command` tasks.
 - **`apt` retries**: As noted in recent fixes, `retries` on `apt` tasks don't work without an `until` loop.
     - *Recommendation*: Implement a standard retry loop pattern for all network-dependent tasks (apt, get_url, git, etc.) or use a custom block/rescue strategy.
     - **Status**: ✅ Implemented standard retry loop pattern with `register` and `until` across all tasks.
@@ -13,6 +14,7 @@
 
 - **`defaults/main.yaml` bloat**: This file is getting large.
     - *Recommendation*: Split variables into platform-specific files (e.g., `defaults/debian.yaml`, `defaults/darwin.yaml`) and load them conditionally, or use `vars/` for static data and keep `defaults/` for user-overridable settings.
+    - **Status**: ✅ Split variables into `vars/debian.yaml` and `vars/darwin.yaml` and loaded them in `tasks/main.yaml`.
 - **Hardcoded Paths**: There are still some hardcoded paths or assumptions about user home directories in scripts.
     - *Recommendation*: consistently use `{{ user_home }}` and other variables.
 
