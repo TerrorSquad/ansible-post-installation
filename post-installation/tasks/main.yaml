@@ -34,10 +34,10 @@
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/system_setup.yaml"
   tags: [system, setup]
 
-# Phase 2: Package Managers and Core Tools
-- name: Package managers and essential tools
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/core_tools.yaml"
-  tags: [core, packages]
+# Phase 2: Package Managers
+- name: Install and configure Homebrew
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/homebrew.yaml"
+  tags: [homebrew, packages]
 
 # Phase 3: Development Environment Foundation
 - name: Shell and terminal configuration

@@ -5,8 +5,8 @@ This directory contains Ansible tasks that are specific to macOS systems.
 ## Organization:
 
 ### Core System Files:
-- `system_setup.yaml` - Initial system preparation and basic packages
-- `core_tools.yaml` - Package managers and essential tools
+- `system_setup.yaml` - System preparation (Xcode Command Line Tools, download directory)
+- `homebrew.yaml` - Homebrew installation and configuration
 
 ### GUI and Applications:
 - `gui_applications.yaml` - GUI applications coordinator
@@ -14,7 +14,6 @@ This directory contains Ansible tasks that are specific to macOS systems.
 - `general_use_software_gui.yaml` - General GUI applications
 
 ### Infrastructure:
-- `basic_packages.yaml` - Essential system packages via Homebrew
 - `homebrew.yaml` - Homebrew installation and configuration
 
 ## Platform Requirements:

@@ -52,20 +52,16 @@ docker_compose_arch_fallback: "{{ docker_compose_architecture[ansible_architectu
 
 # Canonical tool sets (WP1: Baseline Refactor - single source of truth)
 tool_sets:
-  # Development essentials APT packages (Debian)
-  dev_essentials:
-    - bat
+  # Minimal system prerequisites (apt only - required for Homebrew bootstrap)
+  system_prerequisites:
+    - build-essential
     - curl
-    - zip
-    - unzip
-    - htop
-    - make
-    - tree
-    - shellcheck
-    - vim
-    - jq
+    - git
+    - python3-pip
+    - procps
+    - file
 
-  # Modern CLI tools only via Homebrew (supplement apt on Debian, primary on macOS)
+  # All CLI tools via Homebrew (both Debian and macOS)
   modern_cli_homebrew:
     - bat
     - bottom
@@ -85,10 +81,13 @@ tool_sets:
     - helix
     - httpie
     - httpstat
+    - htop
     - hyperfine
+    - jq
     - lazydocker
     - lnav
     - lsd
+    - make
     - mdcat
     - mise
     - ncdu
@@ -97,14 +96,18 @@ tool_sets:
     - procs
     - ripgrep
     - sd
+    - shellcheck
     - tealdeer
     - thefuck
     - tokei
+    - tree
     - unzip
+    - vim
     - xh
     - yamlfmt
     - yazi
     - yq
+    - zip
 
   # GUI development tools (macOS)
   gui_dev_macos:

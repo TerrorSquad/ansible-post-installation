@@ -1,10 +1,14 @@
 ---
 # System preparation for macOS
-- name: Prepare download directory
+- name: Create download directory
   ansible.builtin.file:
     path: "{{ download_dir }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
-- name: Install Xcode Command Line Tools and basic packages
-  ansible.builtin.include_tasks: darwin/basic_packages.yaml
+- name: Install Xcode Command Line Tools
+  ansible.builtin.command:
+    cmd: xcode-select --install
+  register: xcode_install
+  failed_when: false
+  changed_when: xcode_install.rc == 0

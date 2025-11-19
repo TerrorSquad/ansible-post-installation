@@ -21,12 +21,10 @@ This directory contains Ansible tasks that work across both Linux and macOS plat
 
 ### Shell and Environment:
 - `zsh.yaml` - Zsh shell configuration
-- `general_use_software_cli.yaml` - General CLI applications
 
 ### Development Foundation:
 - `git.yaml` - Git installation and configuration
 - `nvim.yaml` - Neovim editor installation
-- `dev_tools_cli.yaml` - Command-line development tools
 
 ### Programming Languages:
 - `rust.yaml` - Rust programming language installation

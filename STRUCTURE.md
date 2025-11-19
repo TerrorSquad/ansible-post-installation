@@ -11,47 +11,44 @@ post-installation/tasks/
 ├── main.yaml                           # Main orchestration with 8 logical phases
 ├── debian/                            # Debian-based system tasks (Ubuntu, Mint, Debian)
 │   ├── README.md
-│   ├── system_setup.yaml             # 🔧 Phase 1: System preparation coordinator
-│   ├── core_tools.yaml               # 📦 Phase 2: Package managers coordinator  
+│   ├── system_setup.yaml             # 🔧 Phase 1: System preparation (apt update, upgrade, prerequisites)
+│   ├── homebrew.yaml                 # 📦 Homebrew on Linux
 │   ├── gui_applications.yaml         # 🖥️  Phase 6: GUI applications coordinator
-│   ├── basic_packages.yaml           # Essential APT packages
-│   ├── homebrew.yaml                 # Homebrew on Linux
 │   ├── dev_tools_gui.yaml            # GUI development tools
 │   ├── general_use_software_gui.yaml # General GUI applications
 │   ├── libinput_gestures.yaml        # Touchpad gestures
 │   ├── themes.yaml                   # Linux Mint themes
 │   ├── dconf.yaml                    # Linux Mint desktop config
 │   ├── i3.yaml                       # i3 window manager
-│   ├── update_apt_cache_and_prepare_download_dir.yaml
+│   ├── docker.yaml                   # Docker installation
+│   ├── fonts.yaml                    # Font installation
+│   ├── golang.yaml                   # Go language
+│   ├── nvim.yaml                     # Neovim editor
+│   ├── vpn.yaml                      # VPN software
 │   └── clean_apt.yaml                # APT cleanup
 ├── darwin/                           # macOS system tasks
 │   ├── README.md
-│   ├── system_setup.yaml             # 🔧 Phase 1: System preparation coordinator
-│   ├── core_tools.yaml               # 📦 Phase 2: Package managers coordinator
+│   ├── system_setup.yaml             # 🔧 Phase 1: System preparation (Xcode, download dir)
+│   ├── homebrew.yaml                 # 📦 Homebrew on macOS
 │   ├── gui_applications.yaml         # 🖥️  Phase 6: GUI applications coordinator
-│   ├── basic_packages.yaml           # Essential Homebrew packages
-│   ├── homebrew.yaml                 # Homebrew on macOS
 │   ├── dev_tools_gui.yaml            # GUI development tools
-│   └── general_use_software_gui.yaml # General GUI applications
+│   ├── general_use_software_gui.yaml # General GUI applications
+│   ├── docker.yaml                   # Docker installation
+│   ├── fonts.yaml                    # Font installation
+│   ├── golang.yaml                   # Go language
+│   └── nvim.yaml                     # Neovim editor
 └── shared/                           # Cross-platform tasks with coordinators
     ├── README.md
-    ├── shell_environment.yaml        # 🐚 Phase 3: Shell/terminal coordinator
-    ├── development_foundation.yaml   # 🛠️  Phase 3: Dev foundation coordinator
+    ├── shell_environment.yaml        # 🐚 Phase 3: Shell/terminal coordinator (zsh + CLI tools via Homebrew)
+    ├── development_foundation.yaml   # 🛠️  Phase 3: Dev foundation coordinator (git + nvim)
     ├── programming_languages.yaml    # 💻 Phase 4: Programming languages coordinator
     ├── development_tools.yaml        # 🔨 Phase 5: Dev tools coordinator
     ├── finalization.yaml             # 🏁 Phase 8: Cleanup coordinator
     ├── zsh.yaml                      # ZSH shell configuration
-    ├── general_use_software_cli.yaml # General CLI applications
     ├── git.yaml                      # Git setup
-    ├── nvim.yaml                     # Neovim editor
-    ├── dev_tools_cli.yaml            # CLI development tools
-    ├── docker.yaml                   # Docker (cross-platform)
     ├── ddev.yaml                     # Local development
     ├── rust.yaml                     # Rust language
-    ├── golang.yaml                   # Go language
     ├── java.yaml                     # Java development
-    ├── fonts.yaml                    # Font installation
-    ├── vpn.yaml                      # VPN software
     ├── delete_downloaded_files.yaml  # Cleanup utility
     └── utils/
         ├── install_github_asset.yaml # GitHub releases installer
@@ -66,9 +63,9 @@ post-installation/tasks/
 - name: System preparation and basic setup
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/system_setup.yaml"
 
-# Phase 2: Package Managers and Core Tools  
-- name: Package managers and essential tools
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/core_tools.yaml"
+# Phase 2: Package Managers
+- name: Install and configure Homebrew
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/homebrew.yaml"
 
 # ... continues through 8 logical phases
 ```
@@ -80,7 +77,7 @@ post-installation/tasks/
 
 ### 3. **Coordinator Pattern**
 Each phase has coordinator files that delegate to specific implementations:
-- **Platform coordinators**: `system_setup.yaml`, `core_tools.yaml`, `gui_applications.yaml`
+- **Platform tasks**: `system_setup.yaml`, `homebrew.yaml`, `gui_applications.yaml`
 - **Feature coordinators**: `shell_environment.yaml`, `development_foundation.yaml`, `programming_languages.yaml`
 
 ### 4. **Logical Grouping by Function**
@@ -136,16 +133,16 @@ Each phase has coordinator files that delegate to specific implementations:
 
 ```
 🔧 Phase 1: System preparation
-  └── debian/system_setup.yaml → basic_packages.yaml, update_apt_cache...
+  └── debian/system_setup.yaml → apt update, upgrade, system_prerequisites
 
 📦 Phase 2: Package managers  
-  └── debian/core_tools.yaml → homebrew.yaml
+  └── debian/homebrew.yaml (direct call)
 
 🐚 Phase 3: Shell environment
-  └── shared/shell_environment.yaml → zsh.yaml, general_use_software_cli.yaml
+  └── shared/shell_environment.yaml → zsh.yaml, modern_cli_homebrew (Homebrew)
 
 🛠️ Phase 3: Development foundation
-  └── shared/development_foundation.yaml → git.yaml, nvim.yaml, dev_tools_cli.yaml
+  └── shared/development_foundation.yaml → git.yaml, nvim.yaml
 
 💻 Phase 4: Programming languages (optional)
   └── shared/programming_languages.yaml → rust.yaml, golang.yaml, java.yaml
