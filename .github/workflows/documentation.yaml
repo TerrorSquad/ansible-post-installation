@@ -8,12 +8,6 @@ on:
     paths:
       - "docs/**/*"
       - ".github/workflows/documentation.yaml"
-  pull_request:
-    branches:
-      - master
-    paths:
-      - "docs/**/*"
-      - ".github/workflows/documentation.yaml"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,7 +17,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: "22"
+          node-version: "24"
 
       - name: Install bun
         run: curl -fsSL https://bun.sh/install | bash
