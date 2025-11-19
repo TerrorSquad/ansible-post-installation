@@ -17,16 +17,16 @@
 # Dynamic Variable Activation based on Tags
 - name: Enable features based on tags
   ansible.builtin.set_fact:
-    gui: "{{ true if 'gui' in ansible_run_tags and 'all' not in ansible_run_tags else gui }}"
-    dev_tools_gui: "{{ true if 'dev-tools' in ansible_run_tags and 'all' not in ansible_run_tags else dev_tools_gui }}"
-    docker: "{{ true if 'docker' in ansible_run_tags and 'all' not in ansible_run_tags else docker }}"
-    rust: "{{ true if 'rust' in ansible_run_tags and 'all' not in ansible_run_tags else rust }}"
-    golang: "{{ true if 'golang' in ansible_run_tags and 'all' not in ansible_run_tags else golang }}"
-    java: "{{ true if 'java' in ansible_run_tags and 'all' not in ansible_run_tags else java }}"
-    ddev: "{{ true if 'ddev' in ansible_run_tags and 'all' not in ansible_run_tags else ddev }}"
-    vpn: "{{ true if 'vpn' in ansible_run_tags and 'all' not in ansible_run_tags else vpn }}"
-    fonts: "{{ true if 'fonts' in ansible_run_tags and 'all' not in ansible_run_tags else fonts }}"
-  when: ansible_run_tags != ['all']
+    gui: "{{ true if 'gui' in ansible_run_tags else gui }}"
+    dev_tools_gui: "{{ true if 'dev-tools' in ansible_run_tags else dev_tools_gui }}"
+    docker: "{{ true if 'docker' in ansible_run_tags else docker }}"
+    rust: "{{ true if 'rust' in ansible_run_tags else rust }}"
+    golang: "{{ true if 'golang' in ansible_run_tags else golang }}"
+    java: "{{ true if 'java' in ansible_run_tags else java }}"
+    ddev: "{{ true if 'ddev' in ansible_run_tags else ddev }}"
+    vpn: "{{ true if 'vpn' in ansible_run_tags else vpn }}"
+    fonts: "{{ true if 'fonts' in ansible_run_tags else fonts }}"
+  when: ansible_run_tags | difference(['all']) | length > 0
   tags: [always]
 
 # Phase 1: System Preparation
