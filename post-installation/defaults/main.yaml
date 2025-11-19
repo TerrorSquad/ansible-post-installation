@@ -75,7 +75,6 @@ tool_sets:
   # Modern CLI tools available via apt (Debian)
   modern_cli_apt:
     - fzf
-    - helix
     - btop
     - fd-find
     - ripgrep
@@ -83,6 +82,7 @@ tool_sets:
 
   # Modern CLI tools only via Homebrew (supplement apt on Debian, primary on macOS)
   modern_cli_homebrew:
+    - helix
     - eza
     - lsd
     - bottom
