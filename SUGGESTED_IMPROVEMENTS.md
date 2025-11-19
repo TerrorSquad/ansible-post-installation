@@ -28,7 +28,9 @@
 ## 4. Documentation
 
 - **Role Documentation**: The `post-installation` role could have its own `README.md` detailing input variables and example usage.
+    - **Status**: ✅ Created `post-installation/README.md` with detailed variable and tag documentation.
 - **Developer Guide**: A guide on how to add new tools (similar to what was added to `copilot-instructions.md`) would be beneficial for contributors.
+    - **Status**: ✅ Updated `docs/content/1.documentation/3.usage.md` with new Tag usage instructions.
 
 ## 5. Code Structure
 
