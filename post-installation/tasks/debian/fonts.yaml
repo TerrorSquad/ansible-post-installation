@@ -1,16 +1,7 @@
 ---
-- name: Get latest release info
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
-    return_content: true
-    body_format: json
-    headers:
-      Authorization: "{{ 'token ' + github_token if github_token is defined and github_token else omit }}"
-  register: github_releases
-
 - name: Download Nerd Fonts
   ansible.builtin.get_url:
-    url: "{{ github_releases.json.assets | selectattr('name', 'search', item.filename) | map(attribute='browser_download_url') | first }}"
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item.filename }}"
     dest: "{{ download_dir }}/{{ item.filename }}"
     mode: "0644"
     timeout: 60

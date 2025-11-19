@@ -45,5 +45,7 @@
 ## 6. Specific Task Improvements
 
 - **`zsh.yaml`**: The Antidote installation logic is complex. It could be moved to a dedicated script or a custom module if it grows further.
+    - **Status**: ✅ Moved Antidote configuration logic to `post-installation/defaults/scripts/configure_antidote.sh`.
 - **`fonts.yaml`**: The URL parsing for Nerd Fonts is fragile. If the release asset naming scheme changes, it will break.
     - *Recommendation*: Use a more robust method to find the correct asset URL, perhaps by querying the GitHub API more specifically or using a dedicated Ansible collection for fonts if available.
+    - **Status**: ✅ Simplified URL construction to use GitHub's `releases/latest/download/` endpoint, removing the need for complex API parsing and Jinja2 filters.
