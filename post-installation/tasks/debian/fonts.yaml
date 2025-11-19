@@ -1,15 +1,7 @@
 ---
 - name: Download Nerd Fonts
-  ansible.builtin.get_url:
-    url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item.filename }}"
-    dest: "{{ download_dir }}/{{ item.filename }}"
-    mode: "0644"
-    timeout: 60
+  ansible.builtin.include_tasks: ../shared/utils/download_font.yaml
   loop: "{{ tool_sets.nerd_fonts }}"
-  register: download_fonts_result
-  until: download_fonts_result is success
-  retries: 3
-  delay: 2
 
 - name: Extract Nerd Fonts
   ansible.builtin.unarchive:
