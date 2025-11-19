@@ -1,28 +1,15 @@
 ---
 # Development tools and containerization
-- name: Install Docker (Darwin)
-  ansible.builtin.include_tasks: darwin/docker.yaml
-  when: ansible_os_family == 'Darwin'
-
-- name: Install Docker (Debian)
-  ansible.builtin.include_tasks: debian/docker.yaml
-  when: ansible_os_family == 'Debian'
+- name: Install Docker
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/docker.yaml"
 
 - name: Install DDEV local development environment
   ansible.builtin.include_tasks: shared/ddev.yaml
 
-- name: Install fonts (Darwin)
-  ansible.builtin.include_tasks: darwin/fonts.yaml
-  when: ((fonts | bool) or (gui | bool) or (all | bool)) and ansible_os_family == 'Darwin'
+- name: Install fonts
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/fonts.yaml"
+  when: (fonts | bool) or (gui | bool) or (all | bool)
 
-- name: Install fonts (Debian)
-  ansible.builtin.include_tasks: debian/fonts.yaml
-  when: ((fonts | bool) or (gui | bool) or (all | bool)) and ansible_os_family == 'Debian'
-
-- name: Install VPN software (Darwin)
-  ansible.builtin.include_tasks: darwin/vpn.yaml
-  when: ((vpn | bool) or (all | bool)) and ansible_os_family == 'Darwin'
-
-- name: Install VPN software (Debian)
-  ansible.builtin.include_tasks: debian/vpn.yaml
-  when: ((vpn | bool) or (all | bool)) and ansible_os_family == 'Debian'
+- name: Install VPN software
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/vpn.yaml"
+  when: (vpn | bool) or (all | bool)

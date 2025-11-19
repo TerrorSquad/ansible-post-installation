@@ -46,7 +46,7 @@
 
     - name: Copy theme_changer.sh script
       ansible.builtin.copy:
-        src: "./defaults/scripts/theme_changer.sh"
+        src: "{{ role_path }}/defaults/scripts/theme_changer.sh"
         dest: "{{ local_bin }}"
         mode: u+x
       become_user: "{{ username }}"

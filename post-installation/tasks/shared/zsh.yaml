@@ -2,8 +2,6 @@
 - name: Install zsh (Linux)
   ansible.builtin.apt:
     name: zsh
-  retries: 3
-  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install zsh (macOS)

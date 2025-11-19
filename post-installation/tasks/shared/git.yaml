@@ -3,8 +3,6 @@
   ansible.builtin.apt:
     name:
       - git
-  retries: 3
-  delay: 2
   when: ansible_os_family == 'Debian'
 
 - name: Install git (macOS)
@@ -36,7 +34,7 @@
 
 - name: Copy .gitconfig file
   ansible.builtin.copy:
-    src: ./defaults/.gitconfig
+    src: "{{ role_path }}/defaults/.gitconfig"
     dest: "~"
     mode: "0644"
   become_user: "{{ username }}"

@@ -3,13 +3,8 @@
 - name: Install and configure Git
   ansible.builtin.include_tasks: shared/git.yaml
 
-- name: Configure Neovim (Darwin)
-  ansible.builtin.include_tasks: darwin/nvim.yaml
-  when: ansible_os_family == 'Darwin'
-
-- name: Configure Neovim (Debian)
-  ansible.builtin.include_tasks: debian/nvim.yaml
-  when: ansible_os_family == 'Debian'
+- name: Configure Neovim
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/nvim.yaml"
 
 - name: Install CLI development tools
   ansible.builtin.include_tasks: shared/dev_tools_cli.yaml

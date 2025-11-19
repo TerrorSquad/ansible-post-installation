@@ -2,21 +2,36 @@
 - name: Configure dconf applications
   block:
     - name: Configure guake
-      ansible.builtin.shell: |
-        cat ./post-installation/defaults/dconf-settings/apps.guake.ini | dconf load "/apps/guake/"
+      ansible.builtin.command: dconf load "/apps/guake/"
+      args:
+        stdin: "{{ lookup('file', role_path + '/defaults/dconf-settings/apps.guake.ini') }}"
+      changed_when: false
+
     - name: Configure gnome desktop
-      ansible.builtin.shell: |
-        cat ./post-installation/defaults/dconf-settings/org.gnome.desktop.ini | dconf load "/org/gnome/desktop/"
+      ansible.builtin.command: dconf load "/org/gnome/desktop/"
+      args:
+        stdin: "{{ lookup('file', role_path + '/defaults/dconf-settings/org.gnome.desktop.ini') }}"
+      changed_when: false
+
     - name: Configure cinnamon desktop
-      ansible.builtin.shell: |
-        cat ./post-installation/defaults/dconf-settings/org.cinnamon.desktop.ini | dconf load "/org/cinnamon/desktop/"
+      ansible.builtin.command: dconf load "/org/cinnamon/desktop/"
+      args:
+        stdin: "{{ lookup('file', role_path + '/defaults/dconf-settings/org.cinnamon.desktop.ini') }}"
+      changed_when: false
+
     - name: Configure nemo
-      ansible.builtin.shell: |
-        cat ./post-installation/defaults/dconf-settings/org.nemo.ini | dconf load "/org/nemo/"
+      ansible.builtin.command: dconf load "/org/nemo/"
+      args:
+        stdin: "{{ lookup('file', role_path + '/defaults/dconf-settings/org.nemo.ini') }}"
+      changed_when: false
+
     - name: Configure Linux Mint updates
-      ansible.builtin.shell: |
-        cat ./post-installation/defaults/dconf-settings/com.linuxmint.updates.ini | dconf load "/com/linuxmint/updates/"
+      ansible.builtin.command: dconf load "/com/linuxmint/updates/"
+      args:
+        stdin: "{{ lookup('file', role_path + '/defaults/dconf-settings/com.linuxmint.updates.ini') }}"
+      changed_when: false
+
     - name: Set Adapta-Nokto start menu theme
-      ansible.builtin.shell: |
-        gsettings set org.cinnamon.theme name "Adapta-Nokto"
+      ansible.builtin.command: gsettings set org.cinnamon.theme name "Adapta-Nokto"
+      changed_when: false
   become_user: "{{ username }}"

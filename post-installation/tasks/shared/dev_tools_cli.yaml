@@ -3,8 +3,6 @@
   ansible.builtin.apt:
     name: "{{ item }}"
     state: present
-  retries: 3
-  delay: 2
   loop: "{{ tool_sets.dev_essentials + ['libutempter0', 'python3-pip'] }}"
   when: ansible_os_family == 'Debian'
 

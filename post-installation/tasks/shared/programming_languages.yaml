@@ -4,13 +4,9 @@
   ansible.builtin.include_tasks: shared/rust.yaml
   when: (rust | bool) or (all | bool)
 
-- name: Install Go (Darwin)
-  ansible.builtin.include_tasks: darwin/golang.yaml
-  when: ((golang | bool) or (all | bool)) and ansible_os_family == 'Darwin'
-
-- name: Install Go (Debian)
-  ansible.builtin.include_tasks: debian/golang.yaml
-  when: ((golang | bool) or (all | bool)) and ansible_os_family == 'Debian'
+- name: Install Go
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/golang.yaml"
+  when: (golang | bool) or (all | bool)
 
 - name: Install Java
   ansible.builtin.include_tasks: shared/java.yaml
