@@ -133,7 +133,7 @@
         dest: "{{ user_home }}/.antidote"
         depth: 1
         force: true
-        version: master
+        version: main
       become_user: "{{ username }}"
       become: true
       register: git_antidote_result
