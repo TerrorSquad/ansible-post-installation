@@ -52,7 +52,7 @@ docker_compose_arch_fallback: "{{ docker_compose_architecture[ansible_architectu
 
 # Canonical tool sets (WP1: Baseline Refactor - single source of truth)
 tool_sets:
-  # Development essentials (available on both platforms)
+  # Development essentials APT packages (Debian)
   dev_essentials:
     - bat
     - curl
@@ -64,14 +64,6 @@ tool_sets:
     - shellcheck
     - vim
     - jq
-
-  # Cross-platform CLI tools
-  cross_platform_cli:
-    - httpie
-    - ncdu
-    - peco
-    - thefuck
-    - unzip
 
   # Modern CLI tools only via Homebrew (supplement apt on Debian, primary on macOS)
   modern_cli_homebrew:
@@ -91,6 +83,7 @@ tool_sets:
     - git-quick-stats
     - gping
     - helix
+    - httpie
     - httpstat
     - hyperfine
     - lazydocker
@@ -98,12 +91,16 @@ tool_sets:
     - lsd
     - mdcat
     - mise
+    - ncdu
     - oha
+    - peco
     - procs
     - ripgrep
     - sd
     - tealdeer
+    - thefuck
     - tokei
+    - unzip
     - xh
     - yamlfmt
     - yazi

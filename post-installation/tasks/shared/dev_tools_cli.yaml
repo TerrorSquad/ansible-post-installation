@@ -9,30 +9,6 @@
   delay: 2
   when: ansible_os_family == 'Debian'
 
-- name: Install development essentials via Homebrew (macOS)
-  community.general.homebrew:
-    name: "{{ tool_sets.dev_essentials }}"
-    state: present
-    path: "{{ homebrew_path }}"
-  register: dev_essentials_result
-  until: dev_essentials_result is success
-  retries: 3
-  delay: 2
-  become: false
-  when: ansible_os_family == 'Darwin'
-
-- name: Install Python via Homebrew (macOS)
-  community.general.homebrew:
-    name: python
-    state: present
-    path: "{{ homebrew_path }}"
-  register: python_brew_result
-  until: python_brew_result is success
-  retries: 3
-  delay: 2
-  become: false
-  when: ansible_os_family == 'Darwin'
-
 - name: Install usage tool via mise (required for zsh completions)
   ansible.builtin.shell: |
     {{ homebrew_path }}/mise use --global usage@latest
