@@ -14,7 +14,6 @@ post-installation/tasks/
 │   ├── system_setup.yaml             # 🔧 Phase 1: System preparation coordinator
 │   ├── core_tools.yaml               # 📦 Phase 2: Package managers coordinator  
 │   ├── gui_applications.yaml         # 🖥️  Phase 6: GUI applications coordinator
-│   ├── system_customization.yaml     # ⚙️  Phase 7: Platform customization coordinator
 │   ├── basic_packages.yaml           # Essential APT packages
 │   ├── homebrew.yaml                 # Homebrew on Linux
 │   ├── dev_tools_gui.yaml            # GUI development tools
@@ -30,7 +29,6 @@ post-installation/tasks/
 │   ├── system_setup.yaml             # 🔧 Phase 1: System preparation coordinator
 │   ├── core_tools.yaml               # 📦 Phase 2: Package managers coordinator
 │   ├── gui_applications.yaml         # 🖥️  Phase 6: GUI applications coordinator
-│   ├── system_customization.yaml     # ⚙️  Phase 7: Platform customization coordinator
 │   ├── basic_packages.yaml           # Essential Homebrew packages
 │   ├── homebrew.yaml                 # Homebrew on macOS
 │   ├── dev_tools_gui.yaml            # GUI development tools
@@ -89,7 +87,6 @@ Each phase has coordinator files that delegate to specific implementations:
 - **System Foundation**: Phases 1-2 (System prep, package managers)
 - **Development Environment**: Phases 3-5 (Shell, dev foundation, languages, tools)
 - **User Interface**: Phase 6 (GUI applications)
-- **Customization**: Phase 7 (Platform-specific tweaks)
 - **Cleanup**: Phase 8 (Finalization)
 
 ## 📈 Benefits Over Previous Structure
@@ -158,9 +155,6 @@ Each phase has coordinator files that delegate to specific implementations:
 
 🖥️ Phase 6: GUI applications (optional)
   └── debian/gui_applications.yaml → dev_tools_gui.yaml, general_use_software_gui.yaml
-
-⚙️ Phase 7: Platform customization
-  └── debian/system_customization.yaml → libinput_gestures.yaml, themes.yaml, dconf.yaml
 
 🏁 Phase 8: Finalization
   └── shared/finalization.yaml → delete_downloaded_files.yaml, clean_apt.yaml

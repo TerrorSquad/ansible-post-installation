@@ -14,7 +14,6 @@ This directory contains Ansible tasks that are specific to Debian-based systems 
 - `general_use_software_gui.yaml` - General GUI applications
 
 ### System Customization:
-- `system_customization.yaml` - Platform-specific customizations
 - `libinput_gestures.yaml` - Touchpad gesture configuration
 - `themes.yaml` - Theme configuration (Linux Mint)
 - `dconf.yaml` - Desktop configuration (Linux Mint)

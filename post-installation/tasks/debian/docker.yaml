@@ -33,10 +33,10 @@
   ansible.builtin.file:
     path: "{{ download_dir }}"
     state: directory
-    mode: '0755'
+    mode: "0755"
 
 - name: Install docker-compose (Cross-platform)
-  ansible.builtin.include_tasks: ../shared/utils/install_github_asset.yaml
+  ansible.builtin.include_tasks: shared/utils/install_github_asset.yaml
   vars:
     github_repo: docker/compose
     github_asset: docker-compose

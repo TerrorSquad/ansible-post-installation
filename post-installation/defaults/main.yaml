@@ -1,6 +1,5 @@
 ---
-username: vagrant
-vagrant_username: vagrant
+username: ansible
 dev_tools_gui: false
 gui: false
 java: false
