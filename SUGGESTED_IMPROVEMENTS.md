@@ -35,6 +35,8 @@
 - **Handlers**: Use handlers for service restarts (if any) or cache updates instead of running them as tasks.
     - **Status**: ✅ Moved `fc-cache` update to a handler in `post-installation/handlers/main.yaml`.
 - **Tags**: Ensure all tasks have appropriate tags. This allows users to run specific parts of the setup (e.g., `ansible-playbook ... --tags "dotfiles,zsh"`).
+    - **Status**: ✅ Added high-level tags (`system`, `core`, `shell`, `dev`, `languages`, `gui`, `cleanup`) to `post-installation/tasks/main.yaml`.
+    - **Status**: ✅ Implemented "Tags imply Variables" logic so running `--tags gui` automatically enables `gui=true`.
 - **Block/Rescue**: Use `block` and `rescue` for critical sections that might fail, providing better error messages or fallback mechanisms.
 
 ## 6. Specific Task Improvements
