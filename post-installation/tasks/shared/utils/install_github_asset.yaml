@@ -38,10 +38,11 @@
     headers:
       User-Agent: "Griffin-Ansible-Installer"
       Authorization: "{{ 'token ' + github_token if github_token is defined and github_token else omit }}"
+    status_code: [200, 403]
   register: github_release_info
+  until: github_release_info.status == 200 or github_release_info.status == 403
   retries: 5
   delay: 10
-  failed_when: false
 
 - name: Check if GitHub API rate limit was hit
   ansible.builtin.set_fact:

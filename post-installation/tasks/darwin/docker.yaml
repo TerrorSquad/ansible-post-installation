@@ -14,7 +14,6 @@
   until: docker_install_result is success
   retries: 3
   delay: 2
-  failed_when: false
 
 - name: Log Docker installation status
   ansible.builtin.debug:

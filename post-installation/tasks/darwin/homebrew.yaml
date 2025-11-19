@@ -22,12 +22,17 @@
     update_homebrew: true
     path: "{{ homebrew_path }}"
   become: false
-  failed_when: false
+  register: brew_update_result
+  until: brew_update_result is success
+  retries: 3
+  delay: 5
 
 - name: Upgrade all Homebrew packages
   community.general.homebrew:
     upgrade_all: true
     path: "{{ homebrew_path }}"
   become: false
-  failed_when: false
   register: brew_upgrade_result
+  until: brew_upgrade_result is success
+  retries: 3
+  delay: 5

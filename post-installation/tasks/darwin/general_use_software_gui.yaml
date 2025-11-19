@@ -14,7 +14,6 @@
   until: gui_cask_results is success
   retries: 3
   delay: 2
-  failed_when: false
 
 - name: GUI applications installation summary
   ansible.builtin.debug:

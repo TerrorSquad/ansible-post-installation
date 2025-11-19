@@ -20,7 +20,10 @@
     path: "{{ homebrew_path }}"
   become: true
   become_user: "{{ username }}"
-  failed_when: false
+  register: brew_update_result
+  until: brew_update_result is success
+  retries: 3
+  delay: 5
 
 - name: Upgrade all Homebrew packages
   community.general.homebrew:
@@ -28,5 +31,7 @@
     path: "{{ homebrew_path }}"
   become: true
   become_user: "{{ username }}"
-  failed_when: false
   register: brew_upgrade_result
+  until: brew_upgrade_result is success
+  retries: 3
+  delay: 5

@@ -19,7 +19,6 @@
   retries: 3
   delay: 2
   become: false
-  failed_when: false
   when: ansible_os_family == 'Darwin'
 
 - name: Install Python via Homebrew (macOS)
