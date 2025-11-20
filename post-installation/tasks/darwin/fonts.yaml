@@ -26,3 +26,4 @@
   become_user: "{{ username }}"
   become: true
   register: fonts_cask_result
+  failed_when: false
