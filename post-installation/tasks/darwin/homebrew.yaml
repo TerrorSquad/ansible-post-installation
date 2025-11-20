@@ -14,7 +14,7 @@
   until: homebrew_install is success
   retries: 3
   delay: 5
-  changed_when: true
+  changed_when: homebrew_install.rc == 0
   when: not homebrew_exists.stat.exists
 
 - name: Update Homebrew
