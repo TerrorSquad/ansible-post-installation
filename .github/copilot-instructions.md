@@ -85,7 +85,7 @@ vars:
 
 - **Linux Mint**: Special `themes.yaml` and `dconf.yaml` tasks
 - **WSL Detection**: Conditional `code` installation logic
-- **Ubuntu Codename**: Dynamic repository configuration using `{{ ubuntu_codename }}`
+- **Distribution Release**: Dynamic repository configuration using `{{ ansible_distribution_release }}`
 - **macOS**: Uses Homebrew Cask for GUI apps, different paths (`/opt/homebrew` vs `/home/linuxbrew`)
 - **Cross-Platform**: OS detection via `ansible_os_family` ('Darwin' for macOS, 'Debian' for Linux)
 
