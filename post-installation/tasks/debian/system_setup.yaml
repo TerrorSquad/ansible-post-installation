@@ -13,9 +13,7 @@
   ansible.builtin.file:
     dest: "{{ download_dir }}"
     state: directory
-    mode: "0755"
-    owner: "{{ username }}"
-    group: "{{ username }}"
+    mode: "0777"
 
 - name: Install system prerequisites (required for Homebrew)
   ansible.builtin.apt:

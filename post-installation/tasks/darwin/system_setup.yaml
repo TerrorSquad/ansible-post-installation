@@ -4,9 +4,7 @@
   ansible.builtin.file:
     path: "{{ download_dir }}"
     state: directory
-    mode: "0755"
-    owner: "{{ username }}"
-    group: staff
+    mode: "0777"
 
 - name: Install Xcode Command Line Tools
   ansible.builtin.command:
