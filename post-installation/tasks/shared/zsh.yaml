@@ -162,8 +162,6 @@
         src: "{{ role_path }}/defaults/scripts/configure_antidote.sh"
         dest: "{{ download_dir }}/configure_antidote.sh"
         mode: "0755"
-      become_user: "{{ username }}"
-      become: true
 
     - name: Run configure_antidote.sh
       ansible.builtin.shell: |

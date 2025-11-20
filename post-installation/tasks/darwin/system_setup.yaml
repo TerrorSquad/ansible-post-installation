@@ -5,6 +5,8 @@
     path: "{{ download_dir }}"
     state: directory
     mode: "0755"
+    owner: "{{ username }}"
+    group: staff
 
 - name: Install Xcode Command Line Tools
   ansible.builtin.command:
