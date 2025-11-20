@@ -12,20 +12,7 @@ fonts: false
 vpn: false
 all: false
 
-# User directories (OS-agnostic definitions using variables from vars/{{ os }}.yaml)
-libinput_home: "{{ user_home }}/.libinput-gestures"
-local_bin: "{{ user_home }}/.local/bin"
-powerlevel_10k: "{{ user_home }}/.powerlevel10k"
-autostart_path: "{{ config_home }}/autostart"
-terminator_config_dir: "{{ config_home }}/terminator"
-themes: "{{ user_home }}/.themes/"
-
-# User files
-antidote_file_path: "{{ user_home }}/.antidote.sh"
-zshrc: "{{ user_home }}/.zshrc"
-terminator_config_file: "{{ terminator_config_dir }}/config"
-
-# System directories
+# System directories (OS-agnostic)
 systemd_system: "/etc/systemd/system/"
 sysfs: "/etc/sysfs.conf"
 snap_bin_path: "/snap/bin"
@@ -35,20 +22,6 @@ download_dir: "/tmp/ansible"
 
 # System files
 docker_compose: "/usr/local/bin/docker-compose"
-
-# NVIM
-nvim_plugin_manager_path: "{{ user_home }}/.local/share/nvim/site/autoload"
-nvim_config_path: "{{ user_home }}/.config/nvim"
-
-# Docker Compose architecture mapping
-docker_compose_architecture:
-  x86_64: "{{ docker_compose_platform_prefix }}-x86_64"
-  amd64: "{{ docker_compose_platform_prefix }}-x86_64" # WSL/Ubuntu often reports amd64
-  arm64: "{{ docker_compose_platform_prefix }}-aarch64"
-  aarch64: "{{ docker_compose_platform_prefix }}-aarch64"
-
-# Fallback docker-compose architecture detection
-docker_compose_arch_fallback: "{{ docker_compose_architecture[ansible_architecture] | default(docker_compose_platform_prefix + '-x86_64') }}"
 
 # Canonical tool sets (WP1: Baseline Refactor - single source of truth)
 tool_sets:

@@ -11,6 +11,9 @@
   become_user: "{{ username }}"
   become: true
   register: homebrew_install
+  until: homebrew_install.rc == 0
+  retries: 3
+  delay: 5
   changed_when: homebrew_install.rc == 0
   when: not homebrew_exists.stat.exists
 
