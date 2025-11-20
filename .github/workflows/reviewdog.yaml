@@ -22,5 +22,4 @@ jobs:
         uses: reviewdog/action-ansiblelint@v1
         with:
           github_token: ${{ secrets.github_token }}
-          reporter: github-pr-review # Change reporter.
-          ansiblelint_flags: "-x core playbook/*"
+          reporter: github-pr-review
