@@ -28,7 +28,7 @@ jobs:
           wsl-version: 2
           set-as-default: "true"
           update: "true"
-          additional-packages: ansible
+          additional-packages: ansible unzip
 
       # Set password for test user
       - shell: wsl-bash -u root {0}
