@@ -18,11 +18,13 @@ You can enable specific features by passing variables or using tags (see below).
 | `gui` | `false` | Installs general GUI applications (browsers, chat apps, etc.) |
 | `dev_tools_gui` | `false` | Installs GUI development tools (IDEs, DB clients) |
 | `docker` | `false` | Installs Docker and Docker Compose |
+| `ddev` | `false` | Installs DDEV local development environment |
 | `rust` | `false` | Installs Rust toolchain |
 | `golang` | `false` | Installs Go toolchain |
 | `java` | `false` | Installs Java (SDKMan) |
 | `fonts` | `false` | Installs Nerd Fonts |
 | `vpn` | `false` | Installs VPN clients |
+| `gestures` | `false` | Installs libinput-gestures (Linux only) |
 | `all` | `false` | Enables ALL features |
 
 ## Tags
@@ -41,7 +43,7 @@ Tags allow you to run specific parts of the playbook. Using a tag automatically 
 | `java` | Java installation | `java=true` |
 | `dev-tools` | Development tools | `dev_tools_gui=true` |
 | `docker` | Docker installation | `docker=true` |
-| `ddev` | DDEV installation | - |
+| `ddev` | DDEV installation | `ddev=true` |
 | `fonts` | Fonts installation | `fonts=true` |
 | `vpn` | VPN installation | `vpn=true` |
 | `gui` | GUI applications | `gui=true` |
