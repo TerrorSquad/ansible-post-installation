@@ -52,7 +52,7 @@
 
 - name: Configure Terminator
   ansible.builtin.copy:
-    src: ./defaults/.config/terminator/config
+    src: "{{ role_path }}/defaults/.config/terminator/config"
     dest: "{{ terminator_config_file }}"
     mode: "0644"
   become_user: "{{ username }}"

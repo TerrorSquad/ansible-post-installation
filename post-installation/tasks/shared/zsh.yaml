@@ -55,7 +55,7 @@
 
 - name: Initialize .zshrc
   ansible.builtin.copy:
-    src: ./defaults/.zshrc
+    src: "{{ role_path }}/defaults/.zshrc"
     dest: "{{ zshrc }}"
     mode: "0644"
   become_user: "{{ username }}"
@@ -112,8 +112,8 @@
 
 - name: Copy .p10k.zsh
   ansible.builtin.copy:
-    src: ./defaults/.p10k.zsh
-    dest: "{{ user_home }}"
+    src: "{{ role_path }}/defaults/.p10k.zsh"
+    dest: "{{ user_home }}/.p10k.zsh"
     mode: "0644"
   become_user: "{{ username }}"
   become: true
@@ -146,7 +146,7 @@
   block:
     - name: Copy .zsh_plugins.sh
       ansible.builtin.copy:
-        src: ./defaults/.zsh_plugins.sh
+        src: "{{ role_path }}/defaults/.zsh_plugins.sh"
         dest: "{{ user_home }}/.zsh_plugins.sh"
         mode: "0644"
       become_user: "{{ username }}"

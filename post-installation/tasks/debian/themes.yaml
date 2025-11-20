@@ -58,7 +58,7 @@
 
     - name: Set up theme changer autostart
       ansible.builtin.copy:
-        src: ./defaults/.config/autostart/theme_changer.desktop
+        src: "{{ role_path }}/defaults/.config/autostart/theme_changer.desktop"
         dest: "{{ autostart_path }}"
         mode: "0664"
       become_user: "{{ username }}"

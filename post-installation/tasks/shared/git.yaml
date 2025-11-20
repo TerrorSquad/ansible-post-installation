@@ -76,7 +76,7 @@
 
 - name: Copy .git-templates-sample directory
   ansible.builtin.copy:
-    src: ./defaults/.git-templates-sample
+    src: "{{ role_path }}/defaults/.git-templates-sample"
     dest: "~"
     mode: "0755"
   become_user: "{{ username }}"

@@ -145,7 +145,7 @@
 
 - name: Copy RedShift configuration file
   ansible.builtin.copy:
-    src: ./defaults/.config/redshift.conf
+    src: "{{ role_path }}/defaults/.config/redshift.conf"
     dest: "{{ config_home }}"
     mode: "0644"
   become_user: "{{ username }}"

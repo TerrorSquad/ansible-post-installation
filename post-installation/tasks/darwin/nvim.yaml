@@ -40,7 +40,7 @@
 
 - name: Copy nvim config file
   ansible.builtin.copy:
-    src: ./defaults/.config/nvim/init.vim
+    src: "{{ role_path }}/defaults/.config/nvim/init.vim"
     dest: "{{ nvim_config_path }}/init.vim"
     mode: "0644"
   become_user: "{{ username }}"
