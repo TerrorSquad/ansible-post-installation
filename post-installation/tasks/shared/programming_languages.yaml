@@ -1,16 +1,25 @@
 ---
 # Programming language environments
 - name: Install Rust
-  ansible.builtin.include_tasks: shared/rust.yaml
+  ansible.builtin.include_tasks:
+    file: shared/rust.yaml
+    apply:
+      tags: [rust]
   when: (rust | bool) or (all | bool)
-  tags: [rust]
+  tags: [always]
 
 - name: Install Go
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/golang.yaml"
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}/golang.yaml"
+    apply:
+      tags: [golang]
   when: (golang | bool) or (all | bool)
-  tags: [golang]
+  tags: [always]
 
 - name: Install Java
-  ansible.builtin.include_tasks: shared/java.yaml
+  ansible.builtin.include_tasks:
+    file: shared/java.yaml
+    apply:
+      tags: [java]
   when: (java | bool) or (all | bool)
-  tags: [java]
+  tags: [always]

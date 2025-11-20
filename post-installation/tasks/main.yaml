@@ -23,42 +23,66 @@
     ddev: "{{ true if 'ddev' in ansible_run_tags else ddev }}"
     vpn: "{{ true if 'vpn' in ansible_run_tags else vpn }}"
     fonts: "{{ true if 'fonts' in ansible_run_tags else fonts }}"
-  when: "'all' not in ansible_run_tags and ansible_run_tags | length > 0"
+  when: ansible_run_tags | difference(['all', 'always']) | length > 0
   tags: [always]
 
 - name: System preparation and basic setup
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/system_setup.yaml"
-  tags: [system, setup]
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}/system_setup.yaml"
+    apply:
+      tags: [system, setup]
+  tags: [always]
 
 - name: Install and configure Homebrew
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/homebrew.yaml"
-  tags: [homebrew, packages]
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}/homebrew.yaml"
+    apply:
+      tags: [homebrew, packages]
+  tags: [always]
 
 - name: Shell and terminal configuration
-  ansible.builtin.include_tasks: shared/shell_environment.yaml
-  tags: [shell, zsh, dotfiles]
+  ansible.builtin.include_tasks:
+    file: shared/shell_environment.yaml
+    apply:
+      tags: [shell, zsh, dotfiles]
+  tags: [always]
 
 - name: Version control and editors
-  ansible.builtin.include_tasks: shared/development_foundation.yaml
-  tags: [dev, git, editors]
+  ansible.builtin.include_tasks:
+    file: shared/development_foundation.yaml
+    apply:
+      tags: [dev, git, editors]
+  tags: [always]
 
 - name: Programming language environments
-  ansible.builtin.include_tasks: shared/programming_languages.yaml
+  ansible.builtin.include_tasks:
+    file: shared/programming_languages.yaml
+    apply:
+      tags: [languages, programming, rust, golang, java]
   when: (rust | bool) or (golang | bool) or (java | bool) or (all | bool)
-  tags: [languages, programming, rust, golang, java]
+  tags: [always]
 
 - name: Development tools and containerization
-  ansible.builtin.include_tasks: shared/development_tools.yaml
-  tags: [dev-tools, docker, ddev, fonts, vpn]
+  ansible.builtin.include_tasks:
+    file: shared/development_tools.yaml
+    apply:
+      tags: [dev-tools, docker, ddev, fonts, vpn]
+  tags: [always]
 
 - name: GUI applications and tools
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/gui_applications.yaml"
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}/gui_applications.yaml"
+    apply:
+      tags: [gui]
   when: (gui | bool) or (dev_tools_gui | bool) or (all | bool)
-  tags: [gui]
+  tags: [always]
 
 - name: Cleanup and finalization
-  ansible.builtin.include_tasks: shared/finalization.yaml
-  tags: [cleanup]
+  ansible.builtin.include_tasks:
+    file: shared/finalization.yaml
+    apply:
+      tags: [cleanup]
+  tags: [always]
 
 - name: Display completion message
   ansible.builtin.debug:

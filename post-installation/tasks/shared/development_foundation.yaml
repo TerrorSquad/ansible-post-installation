@@ -1,7 +1,13 @@
 ---
 # Development foundation: version control and editors
 - name: Install and configure Git
-  ansible.builtin.include_tasks: shared/git.yaml
+  ansible.builtin.include_tasks:
+    file: shared/git.yaml
+    apply:
+      tags: [git]
 
 - name: Configure Neovim
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/nvim.yaml"
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}/nvim.yaml"
+    apply:
+      tags: [nvim, editors]

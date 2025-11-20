@@ -1,9 +1,15 @@
 ---
 # GUI applications for Debian-based systems
 - name: Install GUI development tools
-  ansible.builtin.include_tasks: debian/dev_tools_gui.yaml
+  ansible.builtin.include_tasks:
+    file: debian/dev_tools_gui.yaml
+    apply:
+      tags: [dev-tools, gui]
   when: (dev_tools_gui | bool) or (all | bool)
 
 - name: Install general GUI software
-  ansible.builtin.include_tasks: debian/general_use_software_gui.yaml
+  ansible.builtin.include_tasks:
+    file: debian/general_use_software_gui.yaml
+    apply:
+      tags: [gui]
   when: (gui | bool) or (all | bool)

@@ -1,21 +1,33 @@
 ---
 # Development tools and containerization
 - name: Install Docker
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/docker.yaml"
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}/docker.yaml"
+    apply:
+      tags: [docker]
   when: (docker | default(false) | bool) or (all | bool)
-  tags: [docker]
+  tags: [always]
 
 - name: Install DDEV local development environment
-  ansible.builtin.include_tasks: shared/ddev.yaml
+  ansible.builtin.include_tasks:
+    file: shared/ddev.yaml
+    apply:
+      tags: [ddev]
   when: (ddev | default(false) | bool) or (all | bool)
-  tags: [ddev]
+  tags: [always]
 
 - name: Install fonts
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/fonts.yaml"
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}/fonts.yaml"
+    apply:
+      tags: [fonts]
   when: (fonts | bool) or (gui | bool) or (all | bool)
-  tags: [fonts]
+  tags: [always]
 
 - name: Install VPN software
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/vpn.yaml"
+  ansible.builtin.include_tasks:
+    file: "{{ ansible_os_family | lower }}/vpn.yaml"
+    apply:
+      tags: [vpn]
   when: (vpn | bool) or (all | bool)
-  tags: [vpn]
+  tags: [always]

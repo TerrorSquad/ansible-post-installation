@@ -1,7 +1,10 @@
 ---
 # Shell and terminal environment configuration
 - name: Install and configure ZSH
-  ansible.builtin.include_tasks: shared/zsh.yaml
+  ansible.builtin.include_tasks:
+    file: shared/zsh.yaml
+    apply:
+      tags: [zsh]
 
 - name: Install modern CLI tools via Homebrew
   community.general.homebrew:
