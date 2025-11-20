@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.4.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.3.1...v2.4.0) (2025-11-20)
+
+
+### Features
+
+* **docker:** add GPG key management for Docker installation ([238ec25](https://github.com/TerrorSquad/ansible-post-installation/commit/238ec25f05b86358d0b97b601448b1f0ef7b7d45))
+
+
+### Bug Fixes
+
+* **macos:** handle pre-installed Homebrew Cask apps gracefully ([9455e2c](https://github.com/TerrorSquad/ansible-post-installation/commit/9455e2c64f551cf85515be996cdf6cfb7722d8ee))
+* update include_tasks syntax and apply tags for better organization ([71ef794](https://github.com/TerrorSquad/ansible-post-installation/commit/71ef7942d7b77cc34e8bfd0f9c4bb18e5276744a))
+
 ## [2.3.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.3.0...v2.3.1) (2025-11-20)
 
 
