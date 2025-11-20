@@ -167,7 +167,7 @@
       ansible.builtin.shell: |
         {{ download_dir }}/configure_antidote.sh "{{ user_home }}"
       args:
-        executable: "{{ zsh_path }}"
+        executable: "{{ zsh_executable }}"
       become_user: "{{ username }}"
       become: true
       register: antidote_update

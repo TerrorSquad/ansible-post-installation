@@ -12,7 +12,7 @@
     is_wsl: "{{ 'microsoft' in ansible_kernel | lower or 'wsl' in ansible_kernel | lower }}"
   tags: [always]
 
-- name: Enable features based on tags
+- name: Enable features based on specific tags (when not using 'all')
   ansible.builtin.set_fact:
     gui: "{{ true if 'gui' in ansible_run_tags else gui }}"
     dev_tools_gui: "{{ true if 'dev-tools' in ansible_run_tags else dev_tools_gui }}"
@@ -23,7 +23,7 @@
     ddev: "{{ true if 'ddev' in ansible_run_tags else ddev }}"
     vpn: "{{ true if 'vpn' in ansible_run_tags else vpn }}"
     fonts: "{{ true if 'fonts' in ansible_run_tags else fonts }}"
-  when: ansible_run_tags | difference(['all']) | length > 0
+  when: "'all' not in ansible_run_tags and ansible_run_tags | length > 0"
   tags: [always]
 
 - name: System preparation and basic setup

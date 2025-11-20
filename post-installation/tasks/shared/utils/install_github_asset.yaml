@@ -40,7 +40,7 @@
       Authorization: "{{ 'token ' + github_token if github_token is defined and github_token else omit }}"
     status_code: [200, 403]
   register: github_release_info
-  until: github_release_info.status == 200 or github_release_info.status == 403
+  until: github_release_info.status == 200
   retries: 5
   delay: 10
 
