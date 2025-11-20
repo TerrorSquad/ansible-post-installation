@@ -30,6 +30,7 @@ tool_sets:
     - build-essential
     - curl
     - git
+    - gpg
     - python3-pip
     - procps
     - file
