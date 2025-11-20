@@ -10,6 +10,10 @@
         url: "{{ remote_software_url }}"
         dest: "{{ download_dir }}/{{ deb_filename }}.deb"
         mode: "0644"
+      register: download_remote_deb_result
+      until: download_remote_deb_result is success
+      retries: 3
+      delay: 2
 
     - name: Install {{ remote_software_name }}
       ansible.builtin.apt:

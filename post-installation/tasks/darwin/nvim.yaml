@@ -4,7 +4,10 @@
     name: neovim
     state: present
     path: "{{ homebrew_path }}"
+  register: brew_nvim_result
+  until: brew_nvim_result is success
   retries: 3
+  delay: 2
   become: false
 
 - name: Create plugin manager directory
@@ -20,6 +23,10 @@
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: "{{ nvim_plugin_manager_path }}/plug.vim"
     mode: "0644"
+  register: download_plug_result
+  until: download_plug_result is success
+  retries: 3
+  delay: 2
   become_user: "{{ username }}"
   become: true
 
@@ -33,7 +40,7 @@
 
 - name: Copy nvim config file
   ansible.builtin.copy:
-    src: ./defaults/.config/nvim/init.vim
+    src: "{{ role_path }}/defaults/.config/nvim/init.vim"
     dest: "{{ nvim_config_path }}/init.vim"
     mode: "0644"
   become_user: "{{ username }}"
@@ -50,7 +57,7 @@
   ansible.builtin.shell:
     cmd: |
       nvim +PlugInstall +qall
-    executable: /bin/zsh
+    executable: "{{ zsh_executable }}"
   become_user: "{{ username }}"
   become: true
   register: plug_install_result

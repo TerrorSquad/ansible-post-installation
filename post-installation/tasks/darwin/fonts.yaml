@@ -1,23 +1,7 @@
 ---
-- name: Get latest release info
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
-    return_content: true
-    body_format: json
-    headers:
-      Authorization: "{{ 'token ' + github_token if github_token is defined and github_token else omit }}"
-  register: github_releases
-
 - name: Download Nerd Fonts
-  ansible.builtin.get_url:
-    url: "{{ github_releases.json.assets | selectattr('name', 'search', item.filename) | map(attribute='browser_download_url') | first }}"
-    dest: "{{ download_dir }}/{{ item.filename }}"
-    mode: "0644"
-    timeout: 60
+  ansible.builtin.include_tasks: shared/utils/download_font.yaml
   loop: "{{ tool_sets.nerd_fonts }}"
-  when: github_releases.json is defined
-  retries: 3
-  delay: 2
 
 - name: Create fonts directory
   ansible.builtin.file:
@@ -33,7 +17,6 @@
     remote_src: true
     owner: "{{ username }}"
   loop: "{{ tool_sets.nerd_fonts }}"
-  when: github_releases.json is defined
 
 - name: Install additional fonts via Homebrew Cask
   community.general.homebrew_cask:
@@ -42,5 +25,4 @@
   loop: "{{ tool_sets.additional_fonts.macos }}"
   become_user: "{{ username }}"
   become: true
-  retries: 3
-  failed_when: false
+  register: fonts_cask_result

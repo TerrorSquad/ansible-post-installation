@@ -1,22 +1,7 @@
 ---
-- name: Get latest release info
-  ansible.builtin.uri:
-    url: https://api.github.com/repos/ryanoasis/nerd-fonts/releases/latest
-    return_content: true
-    body_format: json
-    headers:
-      Authorization: "{{ 'token ' + github_token if github_token is defined and github_token else omit }}"
-  register: github_releases
-
 - name: Download Nerd Fonts
-  ansible.builtin.get_url:
-    url: "{{ github_releases.json.assets | selectattr('name', 'search', item.filename) | map(attribute='browser_download_url') | first }}"
-    dest: "{{ download_dir }}/{{ item.filename }}"
-    mode: "0644"
-    timeout: 60
+  ansible.builtin.include_tasks: shared/utils/download_font.yaml
   loop: "{{ tool_sets.nerd_fonts }}"
-  retries: 3
-  delay: 2
 
 - name: Extract Nerd Fonts
   ansible.builtin.unarchive:
@@ -25,13 +10,11 @@
     remote_src: true
   loop: "{{ tool_sets.nerd_fonts }}"
   become: true
-
-- name: Update font cache
-  ansible.builtin.command: fc-cache -f -v
-  changed_when: false
+  notify: Update font cache
 
 - name: Install additional fonts via apt
   ansible.builtin.apt:
     name: "{{ tool_sets.additional_fonts.debian }}"
     state: present
   become: true
+  notify: Update font cache

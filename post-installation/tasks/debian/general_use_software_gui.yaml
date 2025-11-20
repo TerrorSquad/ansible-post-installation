@@ -36,9 +36,9 @@
         cmd: |
           set -o pipefail
           grep -oP "href=(.https.+?amd64.deb)" "{{ download_dir }}/tixati.html" | grep -oP "https.+"
-        executable: /usr/bin/bash
+        executable: "{{ bash_executable }}"
       register: tixati_url_result
-      changed_when: tixati_url_result.rc == 0
+      changed_when: false
 
     - name: Install Tixati
       ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
@@ -83,7 +83,7 @@
         cmd: |
           set -o pipefail
           wget -O "{{ download_dir }}/moderncsv.tar.gz" https://www.moderncsv.com/download-linux
-        executable: /usr/bin/bash
+        executable: "{{ bash_executable }}"
       args:
         creates: "{{ download_dir }}/moderncsv.tar.gz"
 
@@ -106,7 +106,7 @@
           cd $(ls) && grep -oP '(?<=Version=)[^=]+' moderncsv.desktop
         chdir: "{{ download_dir }}/moderncsv"
       register: moderncsv_version
-      changed_when: moderncsv_version.stdout | length > 0
+      changed_when: false
 
     - name: Find install.sh and uninstall.sh files
       ansible.builtin.find:
@@ -145,7 +145,7 @@
 
 - name: Copy RedShift configuration file
   ansible.builtin.copy:
-    src: ./defaults/.config/redshift.conf
+    src: "{{ role_path }}/defaults/.config/redshift.conf"
     dest: "{{ config_home }}"
     mode: "0644"
   become_user: "{{ username }}"

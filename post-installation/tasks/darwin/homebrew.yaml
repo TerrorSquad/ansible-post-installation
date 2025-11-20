@@ -4,16 +4,17 @@
     path: "{{ homebrew_path }}/brew"
   register: homebrew_exists
 
-- name: Download and install Homebrew
+- name: Install homebrew
   ansible.builtin.shell:
-    cmd: NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    executable: /bin/bash
+    cmd: NONINTERACTIVE=1 {{ bash_executable }} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    executable: "{{ bash_executable }}"
   become_user: "{{ username }}"
   become: true
   register: homebrew_install
-  changed_when: homebrew_install.rc == 0
+  until: homebrew_install is success
   retries: 3
   delay: 5
+  changed_when: homebrew_install.rc == 0
   when: not homebrew_exists.stat.exists
 
 - name: Update Homebrew
@@ -21,12 +22,17 @@
     update_homebrew: true
     path: "{{ homebrew_path }}"
   become: false
-  failed_when: false
+  register: brew_update_result
+  until: brew_update_result is success
+  retries: 3
+  delay: 5
 
 - name: Upgrade all Homebrew packages
   community.general.homebrew:
     upgrade_all: true
     path: "{{ homebrew_path }}"
   become: false
-  failed_when: false
   register: brew_upgrade_result
+  until: brew_upgrade_result is success
+  retries: 3
+  delay: 5

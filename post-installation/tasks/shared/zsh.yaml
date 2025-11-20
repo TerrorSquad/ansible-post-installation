@@ -2,6 +2,8 @@
 - name: Install zsh (Linux)
   ansible.builtin.apt:
     name: zsh
+  register: apt_zsh_result
+  until: apt_zsh_result is success
   retries: 3
   delay: 2
   when: ansible_os_family == 'Debian'
@@ -11,7 +13,10 @@
     name: zsh
     state: present
     path: "{{ homebrew_path }}"
+  register: brew_zsh_result
+  until: brew_zsh_result is success
   retries: 3
+  delay: 2
   become: false
   when: ansible_os_family == 'Darwin'
 
@@ -23,7 +28,7 @@
 
 - name: Set fallback ZSH path if which command failed
   ansible.builtin.set_fact:
-    zsh_path: "{{ zsh_install_path.stdout if zsh_install_path.rc == 0 and zsh_install_path.stdout else '/bin/zsh' }}"
+    zsh_path: "{{ zsh_install_path.stdout if zsh_install_path.rc == 0 and zsh_install_path.stdout else zsh_executable }}"
 
 - name: Set ZSH as default login shell for current user
   ansible.builtin.user:
@@ -41,6 +46,7 @@
   ansible.builtin.debug:
     msg: "✅ Shell change succeeded - ZSH is now the default shell"
   when: shell_change_result.changed
+  # noqa: no-handler
 
 - name: Log shell change failed or skipped
   ansible.builtin.debug:
@@ -49,7 +55,7 @@
 
 - name: Initialize .zshrc
   ansible.builtin.copy:
-    src: ./defaults/.zshrc
+    src: "{{ role_path }}/defaults/.zshrc"
     dest: "{{ zshrc }}"
     mode: "0644"
   become_user: "{{ username }}"
@@ -106,8 +112,8 @@
 
 - name: Copy .p10k.zsh
   ansible.builtin.copy:
-    src: ./defaults/.p10k.zsh
-    dest: "{{ user_home }}"
+    src: "{{ role_path }}/defaults/.p10k.zsh"
+    dest: "{{ user_home }}/.p10k.zsh"
     mode: "0644"
   become_user: "{{ username }}"
   become: true
@@ -127,16 +133,20 @@
         dest: "{{ user_home }}/.antidote"
         depth: 1
         force: true
+        version: main
       become_user: "{{ username }}"
       become: true
+      register: git_antidote_result
+      until: git_antidote_result is success
       retries: 3
       delay: 2
+      # noqa: latest[git]
 
 - name: Configure antidote
   block:
     - name: Copy .zsh_plugins.sh
       ansible.builtin.copy:
-        src: ./defaults/.zsh_plugins.sh
+        src: "{{ role_path }}/defaults/.zsh_plugins.sh"
         dest: "{{ user_home }}/.zsh_plugins.sh"
         mode: "0644"
       become_user: "{{ username }}"
@@ -147,12 +157,22 @@
         path: "{{ user_home }}/.zsh_plugins.zsh"
         state: absent
 
-    - name: Download antidote bundles
+    - name: Copy configure_antidote.sh script
+      ansible.builtin.copy:
+        src: "{{ role_path }}/defaults/scripts/configure_antidote.sh"
+        dest: "{{ download_dir }}/configure_antidote.sh"
+        mode: "0755"
+
+    - name: Run configure_antidote.sh
       ansible.builtin.shell: |
-        zsh -c "source {{ user_home }}/.antidote/antidote.zsh && antidote update"
+        {{ download_dir }}/configure_antidote.sh "{{ user_home }}"
       args:
-        executable: "{{ zsh_path }}"
+        executable: "{{ zsh_executable }}"
       become_user: "{{ username }}"
       become: true
       register: antidote_update
       changed_when: antidote_update.rc == 0
+  rescue:
+    - name: Warn about Antidote failure
+      ansible.builtin.debug:
+        msg: "⚠️ Failed to configure Antidote or download bundles. Zsh plugins might not be available."

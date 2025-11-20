@@ -1,4 +1,0 @@
----
-# Package managers and core tools for macOS
-- name: Install and configure Homebrew
-  ansible.builtin.include_tasks: darwin/homebrew.yaml

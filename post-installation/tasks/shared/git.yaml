@@ -3,6 +3,8 @@
   ansible.builtin.apt:
     name:
       - git
+  register: apt_git_result
+  until: apt_git_result is success
   retries: 3
   delay: 2
   when: ansible_os_family == 'Debian'
@@ -12,7 +14,10 @@
     name: git
     state: present
     path: "{{ homebrew_path }}"
+  register: brew_git_result
+  until: brew_git_result is success
   retries: 3
+  delay: 2
   become: false
   when: ansible_os_family == 'Darwin'
 
@@ -36,7 +41,7 @@
 
 - name: Copy .gitconfig file
   ansible.builtin.copy:
-    src: ./defaults/.gitconfig
+    src: "{{ role_path }}/defaults/.gitconfig"
     dest: "~"
     mode: "0644"
   become_user: "{{ username }}"
@@ -71,7 +76,7 @@
 
 - name: Copy .git-templates-sample directory
   ansible.builtin.copy:
-    src: ./defaults/.git-templates-sample
+    src: "{{ role_path }}/defaults/.git-templates-sample"
     dest: "~"
     mode: "0755"
   become_user: "{{ username }}"

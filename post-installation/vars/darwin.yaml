@@ -1,0 +1,37 @@
+---
+user_home: "/Users/{{ username }}"
+config_home: "{{ user_home }}/Library/Application Support/"
+homebrew_path: "/opt/homebrew/bin"
+architecture_filter: "darwin|macos|x86_64|arm64"
+excluded_os_filter: "windows|musl|freebsd|openbsd|loong|aarch64|sha256"
+docker_compose_platform_prefix: "darwin"
+bash_executable: "/bin/bash"
+zsh_executable: "/bin/zsh"
+system_bin: "/usr/local/bin"
+
+# User directories (depend on user_home and config_home)
+libinput_home: "{{ user_home }}/.libinput-gestures"
+local_bin: "{{ user_home }}/.local/bin"
+powerlevel_10k: "{{ user_home }}/.powerlevel10k"
+autostart_path: "{{ config_home }}/autostart"
+terminator_config_dir: "{{ config_home }}/terminator"
+themes: "{{ user_home }}/.themes/"
+
+# User files
+antidote_file_path: "{{ user_home }}/.antidote.sh"
+zshrc: "{{ user_home }}/.zshrc"
+terminator_config_file: "{{ terminator_config_dir }}/config"
+
+# NVIM
+nvim_plugin_manager_path: "{{ user_home }}/.local/share/nvim/site/autoload"
+nvim_config_path: "{{ user_home }}/.config/nvim"
+
+# Docker Compose architecture mapping
+docker_compose_architecture:
+  x86_64: "{{ docker_compose_platform_prefix }}-x86_64"
+  amd64: "{{ docker_compose_platform_prefix }}-x86_64"
+  arm64: "{{ docker_compose_platform_prefix }}-aarch64"
+  aarch64: "{{ docker_compose_platform_prefix }}-aarch64"
+
+# Fallback docker-compose architecture detection
+docker_compose_arch_fallback: "{{ docker_compose_architecture[ansible_architecture] | default(docker_compose_platform_prefix + '-x86_64') }}"

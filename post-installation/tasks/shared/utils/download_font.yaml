@@ -1,0 +1,11 @@
+---
+- name: "Download Nerd Font {{ item.filename }}"
+  ansible.builtin.get_url:
+    url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item.filename }}"
+    dest: "{{ download_dir }}/{{ item.filename }}"
+    mode: "0644"
+    timeout: 60
+  register: download_font_result
+  until: download_font_result is success
+  retries: 3
+  delay: 2

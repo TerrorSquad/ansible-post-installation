@@ -1,0 +1,22 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Check if zsh is installed
+      ansible.builtin.command: which zsh
+      register: zsh_check
+      failed_when: zsh_check.rc != 0
+      changed_when: false
+
+    - name: Check if curl is installed
+      ansible.builtin.command: which curl
+      register: curl_check
+      failed_when: curl_check.rc != 0
+      changed_when: false
+
+    - name: Check if git is installed
+      ansible.builtin.command: which git
+      register: git_check
+      failed_when: git_check.rc != 0
+      changed_when: false

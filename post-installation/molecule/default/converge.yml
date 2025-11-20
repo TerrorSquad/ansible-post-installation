@@ -1,0 +1,22 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    username: root # Use root for CI/Docker testing to avoid user creation issues
+    # Disable heavy/GUI features for basic CI testing
+    gui: false
+    dev_tools_gui: false
+    docker: false # Docker-in-Docker can be complex
+    vpn: false
+    fonts: false # Avoid large downloads
+
+  pre_tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 600
+      when: ansible_os_family == 'Debian'
+
+  roles:
+    - role: post-installation

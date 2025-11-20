@@ -5,7 +5,10 @@
       - openconnect
     state: present
     path: "{{ homebrew_path }}"
+  register: brew_vpn_result
+  until: brew_vpn_result is success
   retries: 3
+  delay: 2
   become: false
 
 - name: Install VPN GUI clients via Homebrew Cask
@@ -15,9 +18,10 @@
     state: present
   become_user: "{{ username }}"
   become: true
-  retries: 3
   register: vpn_cask_result
-  failed_when: false
+  until: vpn_cask_result is success
+  retries: 3
+  delay: 2
 
 - name: Log VPN cask installation status
   ansible.builtin.debug:

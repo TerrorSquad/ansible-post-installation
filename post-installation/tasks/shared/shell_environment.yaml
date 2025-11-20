@@ -3,5 +3,14 @@
 - name: Install and configure ZSH
   ansible.builtin.include_tasks: shared/zsh.yaml
 
-- name: Install general use CLI software
-  ansible.builtin.include_tasks: shared/general_use_software_cli.yaml
+- name: Install modern CLI tools via Homebrew
+  community.general.homebrew:
+    name: "{{ tool_sets.modern_cli_homebrew }}"
+    state: present
+    path: "{{ homebrew_path }}"
+  register: brew_modern_result
+  until: brew_modern_result is success
+  retries: 3
+  delay: 2
+  become: "{{ ansible_os_family == 'Debian' }}"
+  become_user: "{{ username }}"

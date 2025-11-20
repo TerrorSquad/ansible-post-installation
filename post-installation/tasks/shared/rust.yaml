@@ -4,8 +4,8 @@
     cmd: |
       set -o pipefail
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    executable: "{% if ansible_os_family == 'Darwin' %}/bin/bash{% else %}/usr/bin/bash{% endif %}"
+    executable: "{{ bash_executable }}"
+    creates: "{{ user_home }}/.cargo/bin/cargo"
   become_user: "{{ username }}"
   become: true
   register: rust_install
-  changed_when: rust_install.rc == 0

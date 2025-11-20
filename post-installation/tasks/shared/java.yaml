@@ -4,7 +4,7 @@
     cmd: |
       set -o pipefail
       curl -s "https://get.sdkman.io" | bash
-    executable: "{% if ansible_os_family == 'Darwin' %}/bin/bash{% else %}/usr/bin/bash{% endif %}"
+    executable: "{{ bash_executable }}"
   become_user: "{{ username }}"
   become: true
   register: sdkman_install

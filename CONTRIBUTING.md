@@ -15,10 +15,23 @@ There are several ways you can contribute to Griffin:
 
 Before submitting a pull request, please ensure:
 
-*   Your code adheres to the project's coding style and conventions.
-*   You have added appropriate tests for any new functionality.
-*   Your changes are well-documented.
-*   You have updated the relevant documentation if necessary.
+*   **Linting**: Run `ansible-lint` to check for style issues.
+*   **Testing**: Run local tests using `molecule test` (in `post-installation/` directory) if you modified the role logic.
+*   **Documentation**: Update relevant documentation if you added new features or changed variables.
+*   **Conventions**: Follow the project's coding style and commit message conventions (Conventional Commits).
+
+## Development Setup
+
+1.  **Install Dependencies**:
+    ```bash
+    pip install ansible ansible-lint molecule molecule-plugins[docker]
+    ```
+
+2.  **Run Local Tests**:
+    ```bash
+    cd post-installation
+    molecule test
+    ```
 
 ## Code of Conduct
 

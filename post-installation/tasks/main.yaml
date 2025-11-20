@@ -3,43 +3,62 @@
 # GRIFFIN: Cross-Platform Post-Installation Automation
 # ==============================================================================
 
-# Detect WSL environment
+- name: Load OS-specific variables
+  ansible.builtin.include_vars: "{{ ansible_os_family | lower }}.yaml"
+  tags: [always]
+
 - name: Detect if running on WSL
   ansible.builtin.set_fact:
     is_wsl: "{{ 'microsoft' in ansible_kernel | lower or 'wsl' in ansible_kernel | lower }}"
+  tags: [always]
 
-# Phase 1: System Preparation
+- name: Enable features based on specific tags (when not using 'all')
+  ansible.builtin.set_fact:
+    gui: "{{ true if 'gui' in ansible_run_tags else gui }}"
+    dev_tools_gui: "{{ true if 'dev-tools' in ansible_run_tags else dev_tools_gui }}"
+    docker: "{{ true if 'docker' in ansible_run_tags else docker }}"
+    rust: "{{ true if 'rust' in ansible_run_tags else rust }}"
+    golang: "{{ true if 'golang' in ansible_run_tags else golang }}"
+    java: "{{ true if 'java' in ansible_run_tags else java }}"
+    ddev: "{{ true if 'ddev' in ansible_run_tags else ddev }}"
+    vpn: "{{ true if 'vpn' in ansible_run_tags else vpn }}"
+    fonts: "{{ true if 'fonts' in ansible_run_tags else fonts }}"
+  when: "'all' not in ansible_run_tags and ansible_run_tags | length > 0"
+  tags: [always]
+
 - name: System preparation and basic setup
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/system_setup.yaml"
+  tags: [system, setup]
 
-# Phase 2: Package Managers and Core Tools
-- name: Package managers and essential tools
-  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/core_tools.yaml"
+- name: Install and configure Homebrew
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/homebrew.yaml"
+  tags: [homebrew, packages]
 
-# Phase 3: Development Environment Foundation
 - name: Shell and terminal configuration
   ansible.builtin.include_tasks: shared/shell_environment.yaml
+  tags: [shell, zsh, dotfiles]
 
 - name: Version control and editors
   ansible.builtin.include_tasks: shared/development_foundation.yaml
+  tags: [dev, git, editors]
 
-# Phase 4: Programming Languages (Optional)
 - name: Programming language environments
   ansible.builtin.include_tasks: shared/programming_languages.yaml
   when: (rust | bool) or (golang | bool) or (java | bool) or (all | bool)
+  tags: [languages, programming, rust, golang, java]
 
-# Phase 5: Development Tools and Containers
 - name: Development tools and containerization
   ansible.builtin.include_tasks: shared/development_tools.yaml
+  tags: [dev-tools, docker, ddev, fonts, vpn]
 
-# Phase 6: GUI Applications (Optional)
 - name: GUI applications and tools
   ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}/gui_applications.yaml"
   when: (gui | bool) or (dev_tools_gui | bool) or (all | bool)
+  tags: [gui]
 
-# Phase 8: Cleanup and Finalization
 - name: Cleanup and finalization
   ansible.builtin.include_tasks: shared/finalization.yaml
+  tags: [cleanup]
 
 - name: Display completion message
   ansible.builtin.debug:

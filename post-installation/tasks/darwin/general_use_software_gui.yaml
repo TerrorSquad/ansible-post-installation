@@ -1,32 +1,33 @@
 ---
-- name: Install GUI applications via Homebrew Cask (only if not conflicting)
-  community.general.homebrew_cask:
-    name: "{{ item }}"
-    state: latest
-    upgrade_all: false
-    sudo_password: "{{ ansible_become_pass | default(omit) }}"
-  become: true
-  become_user: "{{ username }}"
-  environment:
-    HOMEBREW_NO_AUTO_UPDATE: "1"
-  loop: "{{ tool_sets.gui_apps_macos }}"
-  retries: 3
-  register: gui_cask_results
-  failed_when: false
+- name: Install GUI applications with summary
+  block:
+    - name: Install GUI applications via Homebrew Cask (only if not conflicting)
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+        state: latest
+        upgrade_all: false
+        sudo_password: "{{ ansible_become_pass | default(omit) }}"
+      become: true
+      become_user: "{{ username }}"
+      environment:
+        HOMEBREW_NO_AUTO_UPDATE: "1"
+      loop: "{{ tool_sets.gui_apps_macos }}"
+      register: gui_cask_results
 
-- name: GUI applications installation summary
-  ansible.builtin.debug:
-    msg:
-      - "GUI Applications Summary:"
-      - >-
-        {% set installed = gui_cask_results.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list %}
-        Installed/Updated ({{ installed | length }}): {{ installed | join(', ') }}
-      - >-
-        {% set uptodate = gui_cask_results.results | rejectattr('changed') | rejectattr('failed') | map(attribute='item') | list %}
-        Already up-to-date ({{ uptodate | length }}): {{ uptodate | join(', ') }}
-      - >-
-        {% set failed = gui_cask_results.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list %}
-        Failed/Skipped ({{ failed | length }}): {{ failed | join(', ') }}
+  always:
+    - name: GUI applications installation summary
+      ansible.builtin.debug:
+        msg:
+          - "GUI Applications Summary:"
+          - >-
+            {% set installed = gui_cask_results.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list %}
+            Installed/Updated ({{ installed | length }}): {{ installed | join(', ') }}
+          - >-
+            {% set uptodate = gui_cask_results.results | rejectattr('changed') | rejectattr('failed') | map(attribute='item') | list %}
+            Already up-to-date ({{ uptodate | length }}): {{ uptodate | join(', ') }}
+          - >-
+            {% set failed = gui_cask_results.results | selectattr('failed', 'equalto', true) | map(attribute='item') | list %}
+            Failed/Skipped ({{ failed | length }}): {{ failed | join(', ') }}
 
 - name: Install productivity and utility applications via Homebrew Cask
   community.general.homebrew_cask:
@@ -39,9 +40,7 @@
   environment:
     HOMEBREW_NO_AUTO_UPDATE: "1"
   loop: "{{ tool_sets.utility_apps_macos }}"
-  retries: 3
   register: utility_cask_results
-  failed_when: false
 
 - name: Utility applications installation summary
   ansible.builtin.debug:

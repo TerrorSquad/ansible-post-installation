@@ -1,7 +1,25 @@
 ---
 # System preparation for Debian-based systems
-- name: Update apt cache and prepare download dir
-  ansible.builtin.include_tasks: debian/update_apt_cache_and_prepare_download_dir.yaml
+- name: Update APT cache
+  ansible.builtin.apt:
+    update_cache: true
 
-- name: Install basic system packages
-  ansible.builtin.include_tasks: debian/basic_packages.yaml
+- name: Upgrade APT applications
+  ansible.builtin.apt:
+    upgrade: dist
+    update_cache: true
+
+- name: Create download directory
+  ansible.builtin.file:
+    dest: "{{ download_dir }}"
+    state: directory
+    mode: "0777"
+
+- name: Install system prerequisites (required for Homebrew)
+  ansible.builtin.apt:
+    name: "{{ tool_sets.system_prerequisites }}"
+    state: present
+  register: apt_prereq_result
+  until: apt_prereq_result is success
+  retries: 3
+  delay: 2
