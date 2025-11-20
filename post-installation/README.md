@@ -34,14 +34,20 @@ Tags allow you to run specific parts of the playbook. Using a tag automatically 
 | Tag | Description | Implied Variable |
 |-----|-------------|------------------|
 | `system` | System preparation (apt update, basic packages) | - |
-| `core` | Core tools (curl, git, zsh, etc.) | - |
-| `shell` | Shell configuration (Oh My Zsh, Powerlevel10k) | - |
+| `homebrew` | Install and configure Homebrew | - |
+| `packages` | Same as homebrew | - |
+| `shell` | Shell configuration (zsh, Oh My Zsh, Powerlevel10k) | - |
+| `zsh` | Same as shell | - |
+| `dotfiles` | Same as shell | - |
 | `dev` | Development foundation (git config, neovim) | - |
-| `languages` | Programming languages | - |
+| `git` | Same as dev | - |
+| `editors` | Same as dev | - |
+| `languages` | Programming languages (requires language flags) | - |
+| `programming` | Same as languages | - |
 | `rust` | Rust installation | `rust=true` |
 | `golang` | Go installation | `golang=true` |
 | `java` | Java installation | `java=true` |
-| `dev-tools` | Development tools | `dev_tools_gui=true` |
+| `dev-tools` | Development tools container | - |
 | `docker` | Docker installation | `docker=true` |
 | `ddev` | DDEV installation | `ddev=true` |
 | `fonts` | Fonts installation | `fonts=true` |
