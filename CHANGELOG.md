@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.3.0...v2.3.1) (2025-11-20)
+
+
+### Bug Fixes
+
+* improve reliability, configuration, and documentation ([915a53c](https://github.com/TerrorSquad/ansible-post-installation/commit/915a53cde65c11beac3a3e54a168a308cd8b3524))
+
 ## [2.3.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.2.2...v2.3.0) (2025-11-16)
 
 
