@@ -60,6 +60,8 @@ tool_sets:
     - python3-pip
     - procps
     - file
+    - unzip
+    - zip
 
   # All CLI tools via Homebrew (both Debian and macOS)
   modern_cli_homebrew:
