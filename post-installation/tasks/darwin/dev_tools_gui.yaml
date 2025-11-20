@@ -13,9 +13,6 @@
         HOMEBREW_NO_AUTO_UPDATE: "1"
       loop: "{{ tool_sets.gui_dev_macos }}"
       register: dev_cask_results
-      until: dev_cask_results is success
-      retries: 3
-      delay: 2
 
   always:
     - name: Development tools installation summary

@@ -26,6 +26,3 @@
   become_user: "{{ username }}"
   become: true
   register: fonts_cask_result
-  until: fonts_cask_result is success
-  retries: 3
-  delay: 2
