@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.4.0...v2.4.1) (2025-11-23)
+
+
+### Bug Fixes
+
+* **fonts:** add checks for downloaded Nerd Fonts and improve error handling ([5116d41](https://github.com/TerrorSquad/ansible-post-installation/commit/5116d417a14f53419a8781d4a62bbead58befeb5))
+
 ## [2.4.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.3.1...v2.4.0) (2025-11-20)
 
 
