@@ -27,7 +27,7 @@
       Type: {{ type }}
       Architecture filter: {{ architecture_filter | default('undefined') }}
       Excluded OS filter: {{ excluded_os_filter | default('undefined') }}
-      Ansible architecture: {{ ansible_architecture }}
+      Ansible architecture: {{ ansible_facts['architecture'] }}
 
 - name: Fetch GitHub release information
   ansible.builtin.uri:
@@ -219,7 +219,7 @@
         msg: "⚠️ Failed to download or install tar.gz asset {{ github_asset }}."
 
 - name: "Install via Homebrew (macOS fallback) - {{ github_asset }}"
-  when: type == "homebrew" and ansible_os_family == 'Darwin'
+  when: type == "homebrew" and ansible_facts['os_family'] == 'Darwin'
   block:
     - name: "Install via Homebrew - {{ github_asset }}"
       community.general.homebrew:
@@ -236,7 +236,7 @@
       Status: {{ github_release_info.status | default('undefined') }}
       Message: {{ github_release_info.msg | default('No error message available') }}
       Architecture filter: {{ architecture_filter | default('undefined') }}
-      Ansible architecture: {{ ansible_architecture }}
+      Ansible architecture: {{ ansible_facts['architecture'] }}
       Assets available: {{ github_release_info.json.assets | default([]) | length }} assets found
       Skipping installation.
   when: >
@@ -252,7 +252,7 @@
       Architecture filter not properly defined for {{ github_asset }}:
       Architecture filter: {{ architecture_filter | default('undefined') }}
       Excluded OS filter: {{ excluded_os_filter | default('undefined') }}
-      Ansible architecture: {{ ansible_architecture }}
+      Ansible architecture: {{ ansible_facts['architecture'] }}
       Expected mapping: {{ docker_compose_architecture | default({}) }}
       Skipping installation.
   when: architecture_filter is not defined or excluded_os_filter is not defined

@@ -18,12 +18,12 @@
 - name: Set Go architecture for URL (Apple Silicon)
   ansible.builtin.set_fact:
     go_arch: "arm64"
-  when: ansible_architecture == "arm64"
+  when: ansible_facts['architecture'] == "arm64"
 
 - name: Set Go architecture for URL (Intel Mac)
   ansible.builtin.set_fact:
     go_arch: "amd64"
-  when: ansible_architecture == "x86_64"
+  when: ansible_facts['architecture'] == "x86_64"
 
 - name: Check if latest Golang is installed
   ansible.builtin.command: go version
@@ -42,7 +42,7 @@
 
 - name: Download Golang tarball
   ansible.builtin.unarchive:
-    src: "https://go.dev/dl/go{{ golang_version }}.{{ ansible_system | lower }}-{{ go_arch }}.tar.gz"
+    src: "https://go.dev/dl/go{{ golang_version }}.{{ ansible_facts['system'] | lower }}-{{ go_arch }}.tar.gz"
     dest: "{{ user_home }}"
     remote_src: true
     owner: "{{ username }}"

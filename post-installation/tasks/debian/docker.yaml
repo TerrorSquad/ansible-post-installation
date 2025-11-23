@@ -24,7 +24,7 @@
       . /etc/upstream-release/lsb-release
       echo "$DISTRIB_CODENAME"
     else
-      echo "{{ ansible_distribution_release }}"
+      echo "{{ ansible_facts['distribution_release'] }}"
     fi
   register: ubuntu_base_codename
   changed_when: false

@@ -8,6 +8,6 @@
 
 - name: Configure Neovim
   ansible.builtin.include_tasks:
-    file: "{{ ansible_os_family | lower }}/nvim.yaml"
+    file: "{{ ansible_facts['os_family'] | lower }}/nvim.yaml"
     apply:
       tags: [nvim, editors]

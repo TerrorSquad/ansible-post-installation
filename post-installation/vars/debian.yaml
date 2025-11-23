@@ -34,4 +34,4 @@ docker_compose_architecture:
   aarch64: "{{ docker_compose_platform_prefix }}-aarch64"
 
 # Fallback docker-compose architecture detection
-docker_compose_arch_fallback: "{{ docker_compose_architecture[ansible_architecture] | default(docker_compose_platform_prefix + '-x86_64') }}"
+docker_compose_arch_fallback: "{{ docker_compose_architecture[ansible_facts['architecture']] | default(docker_compose_platform_prefix + '-x86_64') }}"

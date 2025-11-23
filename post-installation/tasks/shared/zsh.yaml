@@ -6,7 +6,7 @@
   until: apt_zsh_result is success
   retries: 3
   delay: 2
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
 
 - name: Install zsh (macOS)
   community.general.homebrew:
@@ -18,7 +18,7 @@
   retries: 3
   delay: 2
   become: false
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts['os_family'] == 'Darwin'
 
 - name: Save ZSH install location into a variable
   ansible.builtin.command: which zsh

@@ -1,7 +1,7 @@
 ---
 # Linux installation
 - name: Install DDEV (Linux)
-  when: ansible_os_family == 'Debian'
+  when: ansible_facts['os_family'] == 'Debian'
   block:
     - name: Ensure /etc/apt/keyrings exists
       ansible.builtin.file:
@@ -42,7 +42,7 @@
 
 # macOS installation
 - name: Install DDEV and mkcert (macOS)
-  when: ansible_os_family == 'Darwin'
+  when: ansible_facts['os_family'] == 'Darwin'
   block:
     - name: Add DDEV tap
       community.general.homebrew_tap:

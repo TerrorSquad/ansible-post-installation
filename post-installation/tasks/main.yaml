@@ -4,12 +4,12 @@
 # ==============================================================================
 
 - name: Load OS-specific variables
-  ansible.builtin.include_vars: "{{ ansible_os_family | lower }}.yaml"
+  ansible.builtin.include_vars: "{{ ansible_facts['os_family'] | lower }}.yaml"
   tags: [always]
 
 - name: Detect if running on WSL
   ansible.builtin.set_fact:
-    is_wsl: "{{ 'microsoft' in ansible_kernel | lower or 'wsl' in ansible_kernel | lower }}"
+    is_wsl: "{{ 'microsoft' in ansible_facts['kernel'] | lower or 'wsl' in ansible_facts['kernel'] | lower }}"
   tags: [always]
 
 - name: Enable features based on specific tags (when not using 'all')
@@ -28,14 +28,14 @@
 
 - name: System preparation and basic setup
   ansible.builtin.include_tasks:
-    file: "{{ ansible_os_family | lower }}/system_setup.yaml"
+    file: "{{ ansible_facts['os_family'] | lower }}/system_setup.yaml"
     apply:
       tags: [system, setup]
   tags: [always]
 
 - name: Install and configure Homebrew
   ansible.builtin.include_tasks:
-    file: "{{ ansible_os_family | lower }}/homebrew.yaml"
+    file: "{{ ansible_facts['os_family'] | lower }}/homebrew.yaml"
     apply:
       tags: [homebrew, packages]
   tags: [always]
@@ -71,7 +71,7 @@
 
 - name: GUI applications and tools
   ansible.builtin.include_tasks:
-    file: "{{ ansible_os_family | lower }}/gui_applications.yaml"
+    file: "{{ ansible_facts['os_family'] | lower }}/gui_applications.yaml"
     apply:
       tags: [gui]
   when: (gui | bool) or (dev_tools_gui | bool) or (all | bool)
