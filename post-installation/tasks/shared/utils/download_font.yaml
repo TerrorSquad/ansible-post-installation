@@ -9,3 +9,11 @@
   until: download_font_result is success
   retries: 3
   delay: 2
+  ignore_errors: true
+
+- name: "Warn if font download failed"
+  ansible.builtin.debug:
+    msg:
+      - "⚠️  Failed to download {{ item.name }} font."
+      - "Please install it manually from: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item.filename }}"
+  when: download_font_result is failed
