@@ -4,6 +4,50 @@
 	eol = LF
 	fileMode = false
 	excludesfile = ~/.gitignore
+    editor = vim
+
+[init]
+    defaultBranch = main
+
+[pull]
+    rebase = true
+
+[push]
+    autoSetupRemote = true
+    default = simple
+
+[fetch]
+    prune = true
+
+[rerere]
+    enabled = true
+
+[column]
+    ui = auto
+
+[branch]
+    sort = -committerdate
+
+[help]
+    autocorrect = 1
+
+[commit]
+    verbose = true
+
+[alias]
+    st = status
+    co = checkout
+    cob = checkout -b
+    ci = commit
+    br = branch
+    cp = cherry-pick
+    d = diff
+    ds = diff --staged
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    # A better log view
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
 [pager]
 	diff = LESS='LR --mouse' delta
 	show = LESS='LR --mouse' delta
@@ -17,7 +61,7 @@
 [delta]
     features = unobtrusive-line-numbers decorations
     whitespace-error-style = 22 reverse
-    navigate = true  # use n and N to move between diff sections
+    navigate = true
 
 [delta "unobtrusive-line-numbers"]
     line-numbers = true
