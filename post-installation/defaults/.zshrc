@@ -9,7 +9,6 @@ ZSH_CACHE_DIR=$HOME/.zsh
 
 fpath=(~/.zsh/completions $fpath)
 
-alias bat="batcat"
 ZDOTDIR=~/.antidote
 HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 
@@ -18,7 +17,6 @@ IS_MAC=$(uname -a | grep -i darwin)
 if [ $IS_MAC ]; then
     HOMEBREW_PREFIX="/opt/homebrew"
     ZDOTDIR=${HOMEBREW_PREFIX}/opt/antidote/share/antidote
-    unalias bat
 fi
 
 export PATH=$PATH:$HOMEBREW_PREFIX/bin
