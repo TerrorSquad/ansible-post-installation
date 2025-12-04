@@ -36,5 +36,3 @@
     hunk-header-decoration-style = yellow box
 [diff]
 	renamelimit = 5000
-[init]
-	templatedir = ~/.git-templates
