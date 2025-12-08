@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.4.2](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.4.1...v2.4.2) (2025-12-04)
+
+
+### Bug Fixes
+
+* **gitconfig:** add missing sections and improve configuration clarity ([51809e5](https://github.com/TerrorSquad/ansible-post-installation/commit/51809e54557d045b80003b5e46506359f78439b9))
+* **gitconfig:** remove init section for cleaner configuration ([fa1b4e0](https://github.com/TerrorSquad/ansible-post-installation/commit/fa1b4e03008c7fa74397248d7e33fd77cb816db5))
+* **zshrc:** remove bat alias and unalias for macOS compatibility ([63842a7](https://github.com/TerrorSquad/ansible-post-installation/commit/63842a7bc28bc8a1c3372fa3226b8be374b8c2f9))
+
 ## [2.4.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.4.0...v2.4.1) (2025-11-23)
 
 
