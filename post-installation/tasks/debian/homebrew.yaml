@@ -4,6 +4,17 @@
     path: "{{ homebrew_path }}/brew"
   register: homebrew_exists
 
+- name: Pre-create Homebrew directory with correct permissions
+  file:
+    path: /home/linuxbrew
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '0755'
+    recurse: yes
+  become: yes
+  when: not homebrew_exists.stat.exists
+
 - name: Install homebrew
   ansible.builtin.shell:
     cmd: NONINTERACTIVE=1 {{ bash_executable }} -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
