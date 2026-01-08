@@ -9,24 +9,27 @@
         state: directory
         mode: "0755"
 
-    - name: Remove existing DDEV source file
+    - name: Cleanup broken DDEV key (fix extension mismatch)
       ansible.builtin.file:
-        path: /etc/apt/sources.list.d/ddev.list
+        path: /etc/apt/keyrings/ddev.gpg
         state: absent
 
-    - name: Download and add DDEV GPG key
-      ansible.builtin.apt_key:
+    - name: Download DDEV GPG key (ASCII) to keyring
+      ansible.builtin.get_url:
         url: https://pkg.ddev.com/apt/gpg.key
-        keyring: /etc/apt/keyrings/ddev.gpg
-        state: present
+        # CHANGE 1: Use .asc extension for ASCII keys
+        dest: /etc/apt/keyrings/ddev.asc
+        mode: "0644"
       register: apt_key_result
       until: apt_key_result is success
       retries: 3
       delay: 2
+      become: true
 
     - name: Add DDEV package repository
       ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/etc/apt/keyrings/ddev.gpg] https://pkg.ddev.com/apt/ * *"
+        # CHANGE 2: Point to the .asc file
+        repo: "deb [signed-by=/etc/apt/keyrings/ddev.asc] https://pkg.ddev.com/apt/ * *"
         filename: ddev
         state: present
 
@@ -34,11 +37,32 @@
       ansible.builtin.apt:
         name: ddev
         state: present
+        update_cache: true
 
-    - name: Install mkcert
-      ansible.builtin.apt:
-        name: mkcert
-        state: present
+    - name: Configure mkcert
+      block:
+        - name: Ensure mkcert data directory exists
+          ansible.builtin.file:
+            path: "/home/{{ username }}/.local/share/mkcert"
+            state: directory
+            owner: "{{ username }}"
+            group: "{{ username }}"
+            mode: '0700'
+
+        - name: Initialize mkcert (As Root, pointing to User Home)
+          ansible.builtin.command: mkcert -install
+          environment:
+            # Force mkcert to read/write keys in YOUR home dir, not /root/
+            CAROOT: "/home/{{ username }}/.local/share/mkcert"
+          become: true
+
+        - name: Fix ownership of generated certificates
+          ansible.builtin.file:
+            path: "/home/{{ username }}/.local/share/mkcert"
+            owner: "{{ username }}"
+            group: "{{ username }}"
+            recurse: yes
+          become: true
 
 # macOS installation
 - name: Install DDEV and mkcert (macOS)
