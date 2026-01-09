@@ -2,10 +2,24 @@
 - name: Griffin Post-Installation Setup
   hosts: localhost
   connection: local
-  gather_facts: true
+  gather_facts: false
+
   strategy: linear
   become: true
   remote_user: root
+
+  pre_tasks:
+    - name: Gather facts
+      ansible.builtin.setup:
+      become: false
+
+    - name: Use sudo.ws on Ubuntu 25.10+
+      ansible.builtin.set_fact:
+        ansible_become_exe: "sudo.ws"
+      when:
+        - ansible_distribution == 'Ubuntu'
+        - ansible_distribution_version is version('25.10', '>=')
+
 
   roles:
     - role: post-installation
