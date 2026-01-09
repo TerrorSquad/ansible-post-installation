@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.4.3](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.4.2...v2.4.3) (2026-01-09)
+
+
+### Bug Fixes
+
+* **ddev:** improve DDEV GPG key handling and mkcert configuration ([285130d](https://github.com/TerrorSquad/ansible-post-installation/commit/285130da0ee5e220894f34f4e0df1b3a20a1fe45))
+* **dev_tools:** update Sublime Text installation process and add GPG key handling ([962dd5e](https://github.com/TerrorSquad/ansible-post-installation/commit/962dd5e4bce2c517adebd8a97160f192403d27b0))
+* **homebrew:** ensure Homebrew directory is created with correct permissions ([fb76a92](https://github.com/TerrorSquad/ansible-post-installation/commit/fb76a927a66f495ee9960243f3d5fb994f6ff8a3))
+* use sudo.ws for ubuntu 25.10 ([fe4476d](https://github.com/TerrorSquad/ansible-post-installation/commit/fe4476d857386e7bc56665af56ded469b387880b))
+
 ## [2.4.2](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.4.1...v2.4.2) (2025-12-04)
 
 
