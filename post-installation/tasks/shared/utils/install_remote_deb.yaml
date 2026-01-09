@@ -1,9 +1,94 @@
 ---
+- name: Determine if installation is needed for {{ remote_software_name }}
+  ansible.builtin.set_fact:
+    install_needed: true
+
+- name: Check version status for {{ remote_software_name }}
+  block:
+    - name: Check installed and remote versions
+      ansible.builtin.shell:
+        cmd: |
+          set -o pipefail
+
+          # Check if package is installed
+          if ! dpkg-query -W -f='${Status}' {{ remote_package_name }} 2>/dev/null | grep -q "install ok installed"; then
+            echo "NOT_INSTALLED"
+            exit 0
+          fi
+
+          # Get installed version
+          # Remove epoch (1:2.3 -> 2.3) for loose comparison matching filename
+          CURRENT_VER=$(dpkg-query -W -f='${Version}' {{ remote_package_name }} | sed 's/^[0-9]\+://')
+
+          if [ -z "$CURRENT_VER" ]; then
+             echo "NOT_INSTALLED"
+             exit 0
+          fi
+
+          # Resolve remote version
+          REMOTE_URL="{{ remote_software_url }}"
+
+          # 1. Try to extract from URL string directly (e.g. mailspring-1.2.3.deb in var)
+          FILENAME=$(basename "$REMOTE_URL")
+          REMOTE_VER=$(echo "$FILENAME" | grep -oP '\d+\.\d+(\.\d+)*' | head -1)
+
+          # 2. If not found, try HTTP HEAD to get redirected URL or Content-Disposition
+          if [ -z "$REMOTE_VER" ]; then
+              # Get headers and effective URL
+              HEADERS=$(curl -sI -L "$REMOTE_URL")
+              EFFECTIVE_URL=$(curl -Ls -o /dev/null -w %{url_effective} "$REMOTE_URL")
+
+              # Try from Content-Disposition
+              CD_FILENAME=$(echo "$HEADERS" | grep -i "Content-Disposition" | grep -oP 'filename="?\K[^"]+')
+              if [ -n "$CD_FILENAME" ]; then
+                  REMOTE_VER=$(echo "$CD_FILENAME" | grep -oP '\d+\.\d+(\.\d+)*' | head -1)
+              fi
+
+              # Try from Effective URL
+              if [ -z "$REMOTE_VER" ]; then
+                  REMOTE_VER=$(echo "$EFFECTIVE_URL" | grep -oP '\d+\.\d+(\.\d+)*' | head -1)
+              fi
+          fi
+
+          if [ -z "$REMOTE_VER" ]; then
+             echo "UNKNOWN_REMOTE_VER (Local: $CURRENT_VER)"
+             exit 0
+          fi
+
+          # Compare versions using dpkg
+          if dpkg --compare-versions "$REMOTE_VER" gt "$CURRENT_VER"; then
+             # Remote is greater -> Update
+             echo "UPDATE_AVAILABLE ($CURRENT_VER -> $REMOTE_VER)"
+          elif dpkg --compare-versions "$REMOTE_VER" eq "$CURRENT_VER"; then
+             # Same version -> Skip
+             echo "INSTALLED_LATEST ($CURRENT_VER)"
+          else
+             # Remote is older? (Unlikely, but implies no update needed)
+             echo "INSTALLED_NEWER ($CURRENT_VER > $REMOTE_VER)"
+          fi
+        executable: "{{ bash_executable }}"
+      register: version_check
+      changed_when: false
+      failed_when: false
+
+    - name: Debug Version Check
+      ansible.builtin.debug:
+        msg: "Version check for {{ remote_software_name }}: {{ version_check.stdout }}"
+      when: version_check.rc == 0
+
+    - name: Set installation decision
+      ansible.builtin.set_fact:
+        install_needed: "{{ 'NOT_INSTALLED' in version_check.stdout or 'UPDATE_AVAILABLE' in version_check.stdout or 'UNKNOWN_REMOTE_VER' in version_check.stdout }}"
+      when: version_check.rc == 0
+
+  when: remote_package_name is defined
+
 - name: Download and install {{ remote_software_name }}
+  when: install_needed
   block:
     - name: Set deb filename for {{ remote_software_name }}
       ansible.builtin.set_fact:
-        deb_filename: "{{ remote_software_name | replace(' ', '_') }}.deb"
+        deb_filename: "{{ remote_software_name | replace(' ', '_') }}"
 
     - name: Download {{ remote_software_name }}
       ansible.builtin.get_url:

@@ -24,11 +24,18 @@
     go_arch: "{{ ansible_facts['architecture'] }}"
   when: ansible_facts['architecture'] not in ["x86_64", "aarch64"]
 
+- name: Check if golang is installed
+  ansible.builtin.shell: "command -v go"
+  register: go_exists
+  changed_when: false
+  failed_when: false
+
 - name: Check if latest Golang is installed
   ansible.builtin.command: go version
   register: go_version_result
   ignore_errors: true
   changed_when: false
+  when: go_exists.rc == 0
 
 - name: Create Go directory
   ansible.builtin.file:
@@ -47,7 +54,7 @@
     owner: "{{ username }}"
   become_user: "{{ username }}"
   become: true
-  when: go_version_result is failed or go_version_result.stdout.find(golang_version) == -1
+  when: go_exists.rc != 0 or go_version_result.stdout.find(golang_version) == -1
 
 - name: Add Go to PATH environment variable
   ansible.builtin.lineinfile:

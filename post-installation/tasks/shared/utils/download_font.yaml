@@ -1,4 +1,11 @@
 ---
+- name: Check if font {{ item.name }} is already installed
+  ansible.builtin.shell: "fc-list : family | grep -i '{{ item.name }}'"
+  register: font_check
+  failed_when: false
+  changed_when: false
+  ignore_errors: true
+
 - name: "Download Nerd Font {{ item.filename }}"
   ansible.builtin.get_url:
     url: "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/{{ item.filename }}"
@@ -10,6 +17,7 @@
   retries: 3
   delay: 2
   ignore_errors: true
+  when: font_check.rc != 0
 
 - name: "Warn if font download failed"
   ansible.builtin.debug:

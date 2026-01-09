@@ -23,12 +23,14 @@
   ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
   vars:
     remote_software_name: GitKraken
+    remote_package_name: gitkraken
     remote_software_url: https://release.axocdn.com/linux/gitkraken-amd64.deb
 
 - name: Download and install DBeaver
   ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
   vars:
     remote_software_name: DBeaver
+    remote_package_name: dbeaver-ce
     remote_software_url: https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
 
 - name: Download and install Slack
@@ -52,6 +54,7 @@
       ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
       vars:
         remote_software_name: Slack
+        remote_package_name: slack-desktop
         remote_software_url: "{{ slack_url_result.stdout }}"
 
 - name: Create Terminator config directory path
@@ -90,6 +93,7 @@
       ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
       vars:
         remote_software_name: Visual Studio Code
+        remote_package_name: code
         remote_software_url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
 
 - name: Install Postman
@@ -160,9 +164,3 @@
   register: zed_installed
   changed_when: zed_installed.rc == 0
   ignore_errors: true
-
-- name: Download and install DevToys
-  ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
-  vars:
-    remote_software_name: DevToys
-    remote_software_url: https://github.com/DevToys-app/DevToys/releases/download/v2.0.4.0/devtoys_linux_x64.deb
