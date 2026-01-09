@@ -34,6 +34,10 @@ fi
 # Load the plugins
 source ${zsh_plugins}.zsh
 
+# Fix for cursor disappearing in Konsole/Yakuake
+# Disabling async mode prevents the cursor from disappearing/flickering
+unset ZSH_AUTOSUGGEST_USE_ASYNC
+
 # Neovim
 # VISUAL vs. EDITOR - what's the difference?
 # https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
@@ -78,6 +82,16 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':completion:*:descriptions' format '[%d]'
+
+# Setup Atuin (Magical Shell History)
+if command -v atuin &>/dev/null; then
+  eval "$(atuin init zsh)"
+fi
+
+# Setup Zoxide (Smarter cd)
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init zsh)"
+fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

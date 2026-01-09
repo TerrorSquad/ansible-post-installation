@@ -84,6 +84,9 @@ tool_sets:
     - yazi
     - yq
     - zip
+    - zoxide
+    - atuin
+    - fastfetch
 
   # GUI development tools (macOS)
   gui_dev_macos:

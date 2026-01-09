@@ -4,8 +4,8 @@ romkatv/powerlevel10k
 ~/.zsh/functions/compinit.plugin.zsh kind:defer
 
 # Jump around in your shell
-changyuheng/fz kind:defer
-rupa/z kind:defer
+# changyuheng/fz kind:defer
+# rupa/z kind:defer
 
 # Additional completion definitions for Zsh.
 zsh-users/zsh-completions kind:defer
