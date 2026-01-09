@@ -1,11 +1,23 @@
 ---
-- name: Install apt apps
+- name: Install common apt dev tools
+  ansible.builtin.apt:
+    name:
+      - kcachegrind
+      - graphviz
+
+- name: Install GNOME/GTK specific terminals
   ansible.builtin.apt:
     name:
       - guake
       - terminator
-      - kcachegrind
-      - graphviz
+  when: "ansible_env.XDG_CURRENT_DESKTOP is defined and ('GNOME' in ansible_env.XDG_CURRENT_DESKTOP or 'Cinnamon' in ansible_env.XDG_CURRENT_DESKTOP or 'X-Cinnamon' in ansible_env.XDG_CURRENT_DESKTOP)"
+
+- name: Install KDE specific terminals
+  ansible.builtin.apt:
+    name:
+      - yakuake
+      - konsole
+  when: "ansible_env.XDG_CURRENT_DESKTOP is defined and ('KDE' in ansible_env.XDG_CURRENT_DESKTOP)"
 
 - name: Download and install GitKraken
   ansible.builtin.include_tasks: shared/utils/install_remote_deb.yaml
@@ -49,6 +61,7 @@
     mode: "0775"
   become_user: "{{ username }}"
   become: true
+  when: "ansible_env.XDG_CURRENT_DESKTOP is defined and ('GNOME' in ansible_env.XDG_CURRENT_DESKTOP or 'Cinnamon' in ansible_env.XDG_CURRENT_DESKTOP or 'X-Cinnamon' in ansible_env.XDG_CURRENT_DESKTOP)"
 
 - name: Configure Terminator
   ansible.builtin.copy:
@@ -57,6 +70,7 @@
     mode: "0644"
   become_user: "{{ username }}"
   become: true
+  when: "ansible_env.XDG_CURRENT_DESKTOP is defined and ('GNOME' in ansible_env.XDG_CURRENT_DESKTOP or 'Cinnamon' in ansible_env.XDG_CURRENT_DESKTOP or 'X-Cinnamon' in ansible_env.XDG_CURRENT_DESKTOP)"
 
 - name: Download and install JetBrains ToolBox
   ansible.builtin.shell:
