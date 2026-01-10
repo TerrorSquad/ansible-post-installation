@@ -1,5 +1,5 @@
 ---
-username: ansible
+username: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
 dev_tools_gui: false
 gui: false
 java: false

@@ -27,4 +27,4 @@ jobs:
       - name: Run ansible playbook
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yaml -e username=$(whoami) -e all=true -e github_token=$GITHUB_TOKEN
+        run: cd ${{ github.workspace }} && ansible-playbook ./playbook.yaml -e all=true -e github_token=$GITHUB_TOKEN

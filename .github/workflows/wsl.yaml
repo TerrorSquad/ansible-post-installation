@@ -67,6 +67,5 @@ jobs:
           cd /home/test/ansible-post-installation/
           ansible-playbook ./playbook.yaml \
             --become-password-file .github/workflows/ansible_become_password.txt \
-            -e username=$(whoami) \
             -e all=true \
             -e github_token="${{ secrets.GITHUB_TOKEN }}"

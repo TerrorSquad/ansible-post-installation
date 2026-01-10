@@ -59,12 +59,12 @@ Tags allow you to run specific parts of the playbook. Using a tag automatically 
 
 Run only shell configuration:
 ```bash
-ansible-playbook playbook.yaml -K -e username=$(whoami) --tags "shell"
+ansible-playbook playbook.yaml -K --tags "shell"
 ```
 
 Install only Rust and Go:
 ```bash
-ansible-playbook playbook.yaml -K -e username=$(whoami) --tags "rust,golang"
+ansible-playbook playbook.yaml -K --tags "rust,golang"
 ```
 
 ## Directory Structure

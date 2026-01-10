@@ -16,7 +16,7 @@ Griffin is an Ansible-based automation project that transforms fresh Debian-base
 
 **Variable-Driven Configuration**: All paths, usernames, and features controlled via `defaults/main.yaml`:
 ```yaml
-username: ansible  # Override with -e username=$(whoami)
+username: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
 user_home: "/home/{{ username }}"
 download_dir: "/tmp/ansible"
 ```
@@ -33,10 +33,10 @@ download_dir: "/tmp/ansible"
 ### Testing Command (matches CI):
 ```bash
 # Linux
-ansible-playbook ./playbook.yaml -K -e username=$(whoami) -e all=true
+ansible-playbook ./playbook.yaml -K -e all=true
 
 # macOS  
-ansible-playbook ./playbook_macos.yaml -K -e username=$(whoami) -e all=true
+ansible-playbook ./playbook_macos.yaml -K -e all=true
 ```
 
 ### Adding New Software:
@@ -130,13 +130,13 @@ feat: implement project improvements and check-mode compatibility
 ### Manual Testing:
 ```bash
 # CLI-only (servers/WSL)
-ansible-playbook ./playbook.yaml -K -e username=$(whoami)
+ansible-playbook ./playbook.yaml -K
 
 # Full GUI environment (Linux)
-ansible-playbook ./playbook.yaml -K -e username=$(whoami) -e all=true
+ansible-playbook ./playbook.yaml -K -e all=true
 
 # macOS (elevated rights required)
-ansible-playbook ./playbook_macos.yaml -K -e username=$(whoami) -e all=true
+ansible-playbook ./playbook_macos.yaml -K -e all=true
 ```
 
 ### Idempotency Requirements:
