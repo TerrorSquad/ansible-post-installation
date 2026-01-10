@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.5.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.4.3...v2.5.0) (2026-01-10)
+
+
+### Features
+
+* **docs:** enhance 'What's Installed' documentation with additional tools and utilities ([a7870dd](https://github.com/TerrorSquad/ansible-post-installation/commit/a7870dd4948744b56e90ce8e5b06291f12bcfac9))
+* **docs:** modernize docs with docus 5 ([f65aa29](https://github.com/TerrorSquad/ansible-post-installation/commit/f65aa29eac59cc746cc5d081b9d32cae9141c58b))
+* enhance software installation tasks with version checks and improved package management ([f1f8e94](https://github.com/TerrorSquad/ansible-post-installation/commit/f1f8e94b3e5a67e278d4a05e7b09e0766b888387))
+* **zsh:** add configuration files and directory setup for Zsh ([34bba3c](https://github.com/TerrorSquad/ansible-post-installation/commit/34bba3ce25e82926ab48d3ef6710e1357bfeda6c))
+
+
+### Bug Fixes
+
+* **dev_tools:** separate terminal installations for GNOME/GTK and KDE environments ([4cf7409](https://github.com/TerrorSquad/ansible-post-installation/commit/4cf7409c0b1ef7183f7e153df0ada205b991a56f))
+* **docs:** correct LinkedIn social link configuration in app config ([131981c](https://github.com/TerrorSquad/ansible-post-installation/commit/131981cd1fe3b1c8bdd18836de94d563602c6ae8))
+* **docs:** update badge colors for terminal emulators and productivity tools in installation documentation ([ff73826](https://github.com/TerrorSquad/ansible-post-installation/commit/ff7382663b0d02b52caa7e7296a981491a876be2))
+* remove username parameter from playbook commands to use environment variable instead ([5bc9753](https://github.com/TerrorSquad/ansible-post-installation/commit/5bc9753cf15d1a89389eba138a46799ee7673db2))
+* update stdout callback to use YAML format and enable task profiling ([bb2ab69](https://github.com/TerrorSquad/ansible-post-installation/commit/bb2ab69c19f6ff27e9d4837a08ba2bc696ae1c06))
+* **zsh:** disable async mode to prevent cursor flickering in Konsole/Yakuake and add Atuin, Zoxide, and Fastfetch to tool sets ([17ace1b](https://github.com/TerrorSquad/ansible-post-installation/commit/17ace1b7dc7493171e59101436759e9086c8a95f))
+
 ## [2.4.3](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.4.2...v2.4.3) (2026-01-09)
 
 
