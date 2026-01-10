@@ -23,12 +23,7 @@ export default defineAppConfig({
   },
 
   socials: {
-    github: "terrorsquad/ansible-post-installation",
-    linkedin: {
-      label: "LinkedIn",
-      icon: "i-simple-icons-linkedin",
-      href: "https://www.linkedin.com/in/goran-ninkovic/",
-    },
+    linkedin: "https://www.linkedin.com/in/goran-ninkovic/",
   },
 
   ui: {
