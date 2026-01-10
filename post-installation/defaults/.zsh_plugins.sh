@@ -3,10 +3,6 @@ romkatv/powerlevel10k
 
 ~/.zsh/functions/compinit.plugin.zsh kind:defer
 
-# Jump around in your shell
-# changyuheng/fz kind:defer
-# rupa/z kind:defer
-
 # Additional completion definitions for Zsh.
 zsh-users/zsh-completions kind:defer
 
@@ -54,3 +50,9 @@ Aloxaf/fzf-tab kind:defer
 # romkatv/zsh-bench kind:path
 
 wintermi/zsh-mise kind:defer
+
+atuinsh/atuin kind:defer
+
+ajeetdsouza/zoxide kind:defer
+
+~/.zsh/config/completion_style.plugin.zsh kind:defer

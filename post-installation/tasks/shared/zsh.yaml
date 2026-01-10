@@ -110,6 +110,22 @@
   become_user: "{{ username }}"
   become: true
 
+- name: Create ~/.zsh/config directory
+  ansible.builtin.file:
+    path: "{{ user_home }}/.zsh/config"
+    state: directory
+    mode: "0755"
+  become_user: "{{ username }}"
+  become: true
+
+- name: Copy config files to ~/.zsh/config
+  ansible.builtin.copy:
+    src: "./defaults/.zsh/config"
+    dest: "{{ user_home }}/.zsh"
+    mode: "0644"
+  become_user: "{{ username }}"
+  become: true
+
 - name: Copy .p10k.zsh
   ansible.builtin.copy:
     src: "{{ role_path }}/defaults/.p10k.zsh"

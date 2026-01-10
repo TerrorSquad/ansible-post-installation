@@ -5,24 +5,41 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# -- Environment Variables --
 ZSH_CACHE_DIR=$HOME/.zsh
-
-fpath=(~/.zsh/completions $fpath)
-
 ZDOTDIR=~/.antidote
 HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 
-# Antidote
-IS_MAC=$(uname -a | grep -i darwin)
-if [ $IS_MAC ]; then
+export BAT_PAGER="less --mouse -RF"
+export LESS="--mouse -RF"
+export FZF_TMUX_HEIGHT=50
+
+# -- Platform Specifics --
+[[ $OSTYPE == darwin* ]] && IS_MAC=1
+if [[ -n $IS_MAC ]]; then
     HOMEBREW_PREFIX="/opt/homebrew"
     ZDOTDIR=${HOMEBREW_PREFIX}/opt/antidote/share/antidote
 fi
+unset IS_MAC
 
-export PATH=$PATH:$HOMEBREW_PREFIX/bin
-fpath=(${HOMEBREW_PREFIX}/share/zsh/site-functions $fpath)
+# -- Path & Fpath Configuration --
+# Prepend to PATH so local/brew tools override system versions
+path=(
+    $HOME/.local/bin
+    $HOMEBREW_PREFIX/bin
+    $path
+)
+# Automatically remove duplicate entries from PATH
+typeset -U path
 
-# Load the antidote plugin manager
+# Add custom completions to fpath
+fpath=(
+    $HOME/.zsh/completions
+    $HOMEBREW_PREFIX/share/zsh/site-functions
+    $fpath
+)
+
+# -- Antidote Plugin Manager --
 source ${ZDOTDIR:-~}/antidote.zsh
 
 # Check if the plugins file is older than the sh file and regenerate it if needed
@@ -34,65 +51,25 @@ fi
 # Load the plugins
 source ${zsh_plugins}.zsh
 
-# Fix for cursor disappearing in Konsole/Yakuake
-# Disabling async mode prevents the cursor from disappearing/flickering
-unset ZSH_AUTOSUGGEST_USE_ASYNC
-
-# Neovim
-# VISUAL vs. EDITOR - what's the difference?
-# https://unix.stackexchange.com/questions/4859/visual-vs-editor-what-s-the-difference
-if command -v nvim &>/dev/null; then
+# -- Editor --
+if (( $+commands[nvim] )); then
   export EDITOR=nvim
   export VISUAL=nvim
 fi
 
+# -- Options --
 # Disable double rm -rf verification.
-# Removes the prompt that asks you to confirm the deletion of files and directories.
 setopt rm_star_silent
 # Don't record commands that start with a space
 setopt HIST_IGNORE_SPACE
 
-export BAT_PAGER="less --mouse -RF"
-export LESS="--mouse -RF"
-
-if [ -s /usr/local/share/ca-certificates/ZscalerRootCA.crt ]; then
+if [[ -s /usr/local/share/ca-certificates/ZscalerRootCA.crt ]]; then
     export NODE_EXTRA_CA_CERTS="/usr/local/share/ca-certificates/ZscalerRootCA.crt"
 fi
 
-export PATH=$PATH:$HOME/.local/bin
-
-PATH=$PATH:/usr/local/go/bin
-
-export FZF_TMUX_HEIGHT=50
-
-# # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# disable sort when completing `git checkout`
-zstyle ':completion:*:git-checkout:*' sort false
-# set descriptions format to enable group support
-# NOTE: don't use escape sequences here, fzf-tab will ignore them
-zstyle ':completion:*:descriptions' format '[%d]'
-# set list-colors to enable filename colorizing
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-zstyle ':completion:*' menu no
-# preview directory's content with eza when completing cd
-zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# switch group using `<` and `>`
-zstyle ':fzf-tab:*' switch-group '<' '>'
-zstyle ':completion:*:descriptions' format '[%d]'
-
-# Setup Atuin (Magical Shell History)
-if command -v atuin &>/dev/null; then
-  eval "$(atuin init zsh)"
-fi
-
-# Setup Zoxide (Smarter cd)
-if command -v zoxide &>/dev/null; then
-  eval "$(zoxide init zsh)"
-fi
-
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# export SDKMAN_DIR="$HOME/.sdkman"
+# [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
