@@ -1,52 +1,40 @@
-// https://github.com/nuxt-themes/docus/blob/main/nuxt.schema.ts
 export default defineAppConfig({
+  seo: {
+    title: "Griffin",
+    description: "Automate your post-installation tasks with Ansible",
+    titleTemplate: "%s · Griffin",
+  },
 
-  docus: {
-
-    title: 'Griffin',
-    description: 'Automate your post-installation tasks with Ansible',
-
-    github: {
-      dir: 'docs/content',
-      branch: 'master',
-      repo: 'ansible-post-installation',
-      owner: 'terrorsquad',
-      edit: true
+  header: {
+    title: "Griffin",
+    logo: {
+      alt: "Griffin",
+      light: "",
+      dark: "",
     },
+  },
 
-    aside: {
-      level: 0,
-      collapsed: false,
-      exclude: []
+  github: {
+    owner: "terrorsquad",
+    name: "ansible-post-installation",
+    branch: "master",
+    rootDir: "docs",
+    url: "https://github.com/terrorsquad/ansible-post-installation",
+  },
+
+  socials: {
+    github: "terrorsquad/ansible-post-installation",
+    linkedin: {
+      label: "LinkedIn",
+      icon: "i-simple-icons-linkedin",
+      href: "https://www.linkedin.com/in/goran-ninkovic/",
     },
+  },
 
-    main: {
-      padded: true,
-      fluid: false
+  ui: {
+    colors: {
+      primary: "emerald",
+      neutral: "gray",
     },
-
-    header: {
-      logo: false,
-      showLinkIcon: true,
-      exclude: [],
-      fluid: false
-    },
-
-    titleTemplate: '%s · Griffin',
-
-    socials: {
-      github: 'terrorsquad/ansible-post-installation',
-    },
-
-    layout: 'default',
-
-    footer: {
-      credits: {
-        icon: '🚀',
-        text: 'By Goran Ninkovic ' + (new Date()).getFullYear(),
-        href: 'https://goranninkovic.com'
-      },
-      fluid: false
-    },
-  }
-})
+  },
+});
