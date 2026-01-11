@@ -1,19 +1,17 @@
-# Theme
+# -- Theme --
 romkatv/powerlevel10k
 
+# -- Core Initialization --
+# Runs compinit to enable completions. Must be loaded early.
 ~/.zsh/functions/compinit.plugin.zsh kind:defer
 
-# Additional completion definitions for Zsh.
+# -- Completion Definitions --
+# Additional completion definitions.
 zsh-users/zsh-completions kind:defer
 
-# Open a file or repository in the web by using the `git open` command
-paulirish/git-open kind:defer
-
-# A collection of oh-my-zsh libraries
-
-# History must not be deferred
+# -- Oh My Zsh Libraries --
+# History must not be deferred to ensure history is ready immediately.
 ohmyzsh/ohmyzsh path:lib/history.zsh
-
 ohmyzsh/ohmyzsh path:lib/theme-and-appearance.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/git.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/grep.zsh kind:defer
@@ -23,8 +21,7 @@ ohmyzsh/ohmyzsh path:lib/functions.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/misc.zsh kind:defer
 ohmyzsh/ohmyzsh path:lib/correction.zsh kind:defer
 
-# A collection of oh-my-zsh plugins
-
+# -- Oh My Zsh Plugins --
 ohmyzsh/ohmyzsh path:plugins/command-not-found kind:defer
 ohmyzsh/ohmyzsh path:plugins/git kind:defer
 ohmyzsh/ohmyzsh path:plugins/history kind:defer
@@ -33,26 +30,27 @@ ohmyzsh/ohmyzsh path:plugins/colored-man-pages kind:defer
 ohmyzsh/ohmyzsh path:plugins/rust kind:defer
 ohmyzsh/ohmyzsh path:plugins/fzf kind:defer
 
-# Provides suggestions as you type
-zsh-users/zsh-autosuggestions kind:defer
+# -- Community Utilities --
+paulirish/git-open kind:defer
+wintermi/zsh-mise kind:defer
+atuinsh/atuin kind:defer
+ajeetdsouza/zoxide kind:defer
 
-# Provides syntax highlighting for the shell
+# -- Enhancements & Visuals --
+# Suggestions and Syntax Highlighting should be loaded last.
+zsh-users/zsh-autosuggestions kind:defer
 zdharma-continuum/fast-syntax-highlighting kind:defer
 
-# Provides a tab completion system for the shell with fzf
+# -- Advanced Completion --
+# fzf-tab replaces the standard completion menu.
 Aloxaf/fzf-tab kind:defer
 
+# -- Local Configuration --
 ~/.zsh/aliases/aliases.plugin.zsh kind:defer
 ~/.zsh/aliases/directories.plugin.zsh kind:defer
 ~/.zsh/functions/functions.plugin.zsh kind:defer
-
-# This adds the zsh-bench function to benchmark the shell startup time.
-# romkatv/zsh-bench kind:path
-
-wintermi/zsh-mise kind:defer
-
-atuinsh/atuin kind:defer
-
-ajeetdsouza/zoxide kind:defer
-
 ~/.zsh/config/completion_style.plugin.zsh kind:defer
+
+# -- Debugging --
+# Benchmark shell startup time.
+# romkatv/zsh-bench kind:path
