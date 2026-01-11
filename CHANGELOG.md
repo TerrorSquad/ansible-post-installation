@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.5.0...v2.5.1) (2026-01-11)
+
+
+### Bug Fixes
+
+* **cfg:** revert stdout_callback to default for compatibility ([c2acb61](https://github.com/TerrorSquad/ansible-post-installation/commit/c2acb61a7a63bec80c96fc10feebaeceb7504728))
+
 ## [2.5.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.4.3...v2.5.0) (2026-01-10)
 
 
