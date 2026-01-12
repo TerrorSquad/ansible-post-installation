@@ -1,5 +1,14 @@
 # Changelog
 
+## [2.6.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.5.1...v2.6.0) (2026-01-12)
+
+
+### Features
+
+* **kde:** add KDE customization support with configuration files and tasks ([afe3bb0](https://github.com/TerrorSquad/ansible-post-installation/commit/afe3bb04feb2d673716ef22de670c816d7e4c927))
+* **snap:** add task to remove snap if configured in defaults ([387921a](https://github.com/TerrorSquad/ansible-post-installation/commit/387921a13a74d2fc37f2d904d08d71d1bc096349))
+* **zshrc:** add VSCode shell integration for improved terminal experience ([63b2b65](https://github.com/TerrorSquad/ansible-post-installation/commit/63b2b65fddfc5d8ee15514eabc6afdfcd6d8ce41))
+
 ## [2.5.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.5.0...v2.5.1) (2026-01-11)
 
 
