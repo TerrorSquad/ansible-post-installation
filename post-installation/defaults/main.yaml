@@ -11,6 +11,7 @@ gestures: false
 fonts: false
 vpn: false
 all: false
+remove_snap: true
 
 # System directories (OS-agnostic)
 systemd_system: "/etc/systemd/system/"

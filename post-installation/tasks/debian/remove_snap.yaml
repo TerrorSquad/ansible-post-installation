@@ -1,0 +1,40 @@
+---
+- name: Check if snap usage is disabled
+  when: remove_snap | bool
+  block:
+    - name: Stop snapd services
+      ansible.builtin.service:
+        name: "{{ item }}"
+        state: stopped
+        enabled: false
+      loop:
+        - snapd
+        - snapd.socket
+      failed_when: false
+      ignore_errors: true
+
+    - name: Remove and purge snapd
+      ansible.builtin.apt:
+        name: snapd
+        state: absent
+        purge: true
+
+    - name: Remove snap directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /snap
+        - /var/snap
+        - /var/lib/snapd
+        - /var/cache/snapd
+        - "/home/{{ username }}/snap"
+
+    - name: Prevent snapd from being installed again
+      ansible.builtin.copy:
+        dest: /etc/apt/preferences.d/nosnap.pref
+        content: |
+          Package: snapd
+          Pin: release a=*
+          Pin-Priority: -10
+        mode: '0644'

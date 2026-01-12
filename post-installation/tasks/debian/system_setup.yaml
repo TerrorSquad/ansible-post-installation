@@ -1,5 +1,8 @@
 ---
 # System preparation for Debian-based systems
+- name: Remove snap if configured
+  ansible.builtin.include_tasks: remove_snap.yaml
+
 - name: Update APT cache
   ansible.builtin.apt:
     update_cache: true
