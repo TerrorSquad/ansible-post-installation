@@ -1,0 +1,6 @@
+---
+- name: Install Papirus Icon Theme
+  ansible.builtin.apt:
+    name: papirus-icon-theme
+    state: present
+  become: true

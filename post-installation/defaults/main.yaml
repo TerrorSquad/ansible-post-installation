@@ -10,6 +10,7 @@ ddev: false
 gestures: false
 fonts: false
 vpn: false
+kde: true
 all: false
 remove_snap: true
 

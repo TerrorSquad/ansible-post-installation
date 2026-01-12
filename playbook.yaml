@@ -12,6 +12,7 @@
     - name: Gather facts
       ansible.builtin.setup:
       become: false
+      tags: [always]
 
     - name: Use sudo.ws on Ubuntu 25.10+
       ansible.builtin.set_fact:
@@ -19,6 +20,7 @@
       when:
         - ansible_distribution == 'Ubuntu'
         - ansible_distribution_version is version('25.10', '>=')
+      tags: [always]
 
 
   roles:

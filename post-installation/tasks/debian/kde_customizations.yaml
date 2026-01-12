@@ -1,0 +1,23 @@
+---
+- name: Install KDE Themes and Icons
+  ansible.builtin.include_tasks: install_kde_themes.yaml
+
+- name: Apply KDE configurations
+  block:
+    - name: Create KDE config directory
+      ansible.builtin.file:
+        path: "{{ user_home }}/.config"
+        state: directory
+        owner: "{{ username }}"
+        mode: "0755"
+
+    - name: Deploy KDE config files
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "{{ user_home }}/.config/{{ item | basename }}"
+        owner: "{{ username }}"
+        mode: "0644"
+        force: true
+      with_fileglob:
+        - "{{ role_path }}/files/kde/*"
+      notify: Reload Plasma Shell

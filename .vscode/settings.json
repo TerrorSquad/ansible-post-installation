@@ -3,7 +3,9 @@
         "editor.defaultFormatter": "redhat.vscode-yaml"
     },
     "files.associations": {
-        "*.yaml": "ansible"
+        "*.yaml": "ansible",
+        "**/files/kde/*rc": "ini",
+        "**/files/kde/kdeglobals": "ini"
     },
     "ansible.python.interpreterPath": "/bin/python3"
 }

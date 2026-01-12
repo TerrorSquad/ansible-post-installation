@@ -9,7 +9,7 @@ Griffin is an Ansible-based automation project that transforms fresh Debian-base
 ### Execution Flow
 1. **Main Entry Points**: `playbook.yaml` (Linux/WSL) and `playbook_macos.yaml` (macOS)
 2. **Role Structure**: Single `post-installation` role with tasks organized by OS (`darwin`, `debian`) and `shared`
-3. **Conditional Logic**: Feature flags (`all`, `gui`, `dev_tools_gui`, `rust`, `golang`, `java`, etc.) control installation scope
+3. **Conditional Logic**: Feature flags (`all`, `gui`, `kde`, `remove_snap`, `dev_tools_gui`, etc.)
 4. **Task Organization**: Modular tasks in `post-installation/tasks/` split into `darwin/`, `debian/`, and `shared/` directories
 
 ### Key Architectural Patterns
@@ -18,8 +18,18 @@ Griffin is an Ansible-based automation project that transforms fresh Debian-base
 ```yaml
 username: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
 user_home: "/home/{{ username }}"
-download_dir: "/tmp/ansible"
+remove_snap: true  # Feature flag example
+kde: true         # Desktop environment flag
 ```
+
+**Configuration Sanitization**:
+- Helper scripts (e.g., `import_kde_configs.sh`) MUST be used to import local configs.
+- **Strict PII Content Removal**: Configs must be sanitized of:
+  - Hardware UUIDs
+  - Screen resolutions/geometries (e.g., `[ScreenMapping]`)
+  - File history/Recent documents
+  - User-specific paths or IDs
+- Use `sed` in import scripts to enforce this automatically.
 
 **Utility Task Pattern**: Reusable GitHub asset installer (`shared/utils/install_github_asset.yaml`) handles:
 - Binary downloads to `/usr/local/bin/`

@@ -1,0 +1,8 @@
+thickness=64
+
+[PlasmaViews][Panel 29]
+floating=0
+
+[PlasmaViews][Panel 29][Defaults]
+thickness=48
+

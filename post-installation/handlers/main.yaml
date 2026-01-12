@@ -2,3 +2,16 @@
 - name: Update font cache
   ansible.builtin.command: fc-cache -f -v
   changed_when: false
+
+- name: Reload Plasma Shell
+  ansible.builtin.shell: |
+    # Stop Plasma Shell
+    kquitapp6 plasmashell || killall plasmashell || true
+
+    # Restart Plasma Shell
+    kstart plasmashell > /dev/null 2>&1 &
+  environment:
+    DISPLAY: ":0"
+    XAUTHORITY: "{{ user_home }}/.Xauthority"
+  become_user: "{{ username }}"
+  ignore_errors: true
