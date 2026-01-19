@@ -33,7 +33,6 @@ ohmyzsh/ohmyzsh path:plugins/fzf kind:defer
 # -- Community Utilities --
 paulirish/git-open kind:defer
 wintermi/zsh-mise kind:defer
-atuinsh/atuin kind:defer
 ajeetdsouza/zoxide kind:defer
 
 # -- Enhancements & Visuals --
