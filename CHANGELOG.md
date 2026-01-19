@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.7.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.6.0...v2.7.0) (2026-01-19)
+
+
+### Features
+
+* **kde:** add weather applets with configuration options ([b7a1b83](https://github.com/TerrorSquad/ansible-post-installation/commit/b7a1b83da6c0a3aef44df745a9ffadcf7b1f7bcb))
+* remove atuin from CLI tools and tool sets ([5dbb2eb](https://github.com/TerrorSquad/ansible-post-installation/commit/5dbb2eb3b09d30432e88663bdef4b9a4da692b32))
+
 ## [2.6.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.5.1...v2.6.0) (2026-01-12)
 
 
