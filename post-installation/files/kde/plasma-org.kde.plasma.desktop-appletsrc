@@ -214,10 +214,48 @@ DialogWidth=720
 immutability=1
 plugin=org.kde.plasma.minimizeall
 
-[Containments][29][General]
-AppletOrder=30;31;32;33;34;48;49
+[Containments][29][Applets][55]
+immutability=1
+plugin=org.kde.plasma.weather
 
-[Containments][50]
+[Containments][29][Applets][55][Configuration]
+popupHeight=400
+popupWidth=560
+
+[Containments][29][Applets][56]
+immutability=1
+plugin=org.kde.plasma.weather
+
+[Containments][29][Applets][56][Configuration]
+popupHeight=400
+popupWidth=560
+
+[Containments][29][Applets][57]
+immutability=1
+plugin=org.kde.plasma.weather
+
+[Containments][29][Applets][57][Configuration]
+PreloadWeight=55
+popupHeight=249
+popupWidth=336
+
+[Containments][29][Applets][57][Configuration][Appearance]
+showTemperatureInCompactMode=true
+
+[Containments][29][Applets][57][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Containments][29][Applets][57][Configuration][Units]
+pressureUnit=5022
+
+[Containments][29][Applets][57][Configuration][WeatherStation]
+source=
+
+[Containments][29][General]
+AppletOrder=30;31;32;57;33;34;48;49;55;56
+
+[Containments][51]
 formfactor=0
 immutability=1
 lastScreen=0
@@ -225,5 +263,5 @@ location=0
 plugin=org.kde.plasma.folder
 wallpaperplugin=org.kde.image
 
-[Containments][50][General]
+[Containments][51][General]
 
