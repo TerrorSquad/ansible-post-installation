@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.7.0...v2.8.0) (2026-02-12)
+
+
+### Features
+
+* **zsh:** add secure archive utility functions to packer.plugin.zsh ([4d3ff7c](https://github.com/TerrorSquad/ansible-post-installation/commit/4d3ff7ce0cab315581d8681c75471d07877353d4))
+
 ## [2.7.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.6.0...v2.7.0) (2026-01-19)
 
 
