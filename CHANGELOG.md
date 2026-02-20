@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.8.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.7.0...v2.8.0) (2026-02-20)
+
+
+### Features
+
+* **zsh:** add secure archive utility functions for packing and unpacking ([1ef9dd5](https://github.com/TerrorSquad/ansible-post-installation/commit/1ef9dd5042c4fc6916fbdb09f30fa6ae498b8da2))
+
+
+### Bug Fixes
+
+* **zsh:** update encryption methods to use environment variable for password ([aefb5bc](https://github.com/TerrorSquad/ansible-post-installation/commit/aefb5bc56d6d304a2bfdb11b60c4f9c0f7d14149))
+
 ## [2.7.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.6.0...v2.7.0) (2026-01-19)
 
 
