@@ -164,13 +164,15 @@ _sa_compress() {
 # Encrypt stdin with AES-256-CBC (PBKDF2, 100k iterations). Writes to stdout.
 # Usage: _sa_encrypt <password>
 _sa_encrypt() {
-    openssl enc -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -salt -pass fd:3 3<<<"$1"
+    export SA_PASS="$1"
+    openssl enc -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -salt -pass env:SA_PASS
 }
 
 # Decrypt a file with AES-256-CBC. Writes to stdout.
 # Usage: _sa_decrypt <enc_file> <password>
 _sa_decrypt() {
-    openssl enc -d -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -in "$1" -pass fd:3 3<<<"$2"
+    export SA_PASS="$2"
+    openssl enc -d -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -in "$1" -pass env:SA_PASS
 }
 
 # ==============================================================================
@@ -247,6 +249,7 @@ EOF
         done
 
         # --- Validation ---
+        source_path="${source_path%/}"
         if [[ -z "$source_path" ]]; then
             _sa_error "Source path required."
             return 1
@@ -450,7 +453,7 @@ EOF
             trap "rm -f '$enc_file'" EXIT INT TERM HUP
 
             # Concatenate all parts, decode from base85 to binary
-            cat ${~input_pattern} | _sa_b85_decode > "$enc_file"
+            cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
         else
             _sa_info "Mode: Standard Archive"
             enc_file="${file_list[1]}"
