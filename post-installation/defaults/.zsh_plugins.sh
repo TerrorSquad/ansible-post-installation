@@ -48,6 +48,7 @@ Aloxaf/fzf-tab kind:defer
 ~/.zsh/aliases/aliases.plugin.zsh kind:defer
 ~/.zsh/aliases/directories.plugin.zsh kind:defer
 ~/.zsh/functions/functions.plugin.zsh kind:defer
+~/.zsh/functions/packer.plugin.zsh kind:defer
 ~/.zsh/config/completion_style.plugin.zsh kind:defer
 
 # -- Debugging --
