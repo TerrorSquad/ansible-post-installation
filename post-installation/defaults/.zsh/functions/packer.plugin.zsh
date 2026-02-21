@@ -25,7 +25,7 @@ typeset -g  _SA_DEFAULT_CHUNK='500k'
 typeset -ga _SA_EXCLUDE_PATTERNS=(
     "node_modules" "vendor" ".git" ".idea" ".vscode" ".DS_Store"
     "dist" ".output" ".nuxt" "coverage" "*.tar.xz.enc" "*.part*"
-    "var" ".pnpm-store" "__pycache__" ".env"
+    "var" ".pnpm-store" "__pycache__" ".env" ".data"
 )
 
 # --- Helpers ------------------------------------------------------------------
@@ -438,21 +438,35 @@ EOF
             return 1
         fi
 
+        # If the user provided a single part file (e.g. docs.enc.partaa),
+        # automatically expand it to include all parts.
+        if [[ ${#file_list[@]} -eq 1 && "${file_list[1]}" == *part* ]]; then
+            local base_name="${file_list[1]%part*}"
+            file_list=(${base_name}part*(N))
+            _sa_info "Auto-detected ${#file_list[@]} parts for split archive"
+        fi
+
         # Both modes resolve to enc_file + sha_file, then share
         # the same verify → decrypt → extract path below.
         local enc_file=""
         local sha_file=""
         local is_split=false
 
-        if [[ "$input_pattern" == *part* ]]; then
+        if [[ "${file_list[1]}" == *part* ]]; then
             is_split=true
             _sa_info "Mode: Split Archive"
 
-            sha_file="${file_list[1]%.b85.part*}.sha256"
             enc_file=$(mktemp)
             trap "rm -f '$enc_file'" EXIT INT TERM HUP
 
-            # Concatenate all parts, decode from base85 to binary
+            # Determine the base name for the sidecar file
+            if [[ "${file_list[1]}" == *.b85.part* ]]; then
+                sha_file="${file_list[1]%.b85.part*}.sha256"
+            else
+                sha_file="${file_list[1]%.part*}.sha256"
+            fi
+
+            # Concatenate all parts and decode from base85 to binary
             cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
         else
             _sa_info "Mode: Standard Archive"
