@@ -165,19 +165,23 @@ _sa_compress() {
 }
 
 # Encrypt stdin with AES-256-CBC (PBKDF2, 100k iterations). Writes to stdout.
+# Runs in a subshell so _SA_OPENSSL_PASS is discarded even if openssl fails.
 # Usage: _sa_encrypt <password>
 _sa_encrypt() {
-    export _SA_OPENSSL_PASS="$1"
-    openssl enc -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -salt -pass env:_SA_OPENSSL_PASS
-    unset _SA_OPENSSL_PASS
+    (
+        export _SA_OPENSSL_PASS="$1"
+        openssl enc -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -salt -pass env:_SA_OPENSSL_PASS
+    )
 }
 
 # Decrypt a file with AES-256-CBC. Writes to stdout.
+# Runs in a subshell so _SA_OPENSSL_PASS is discarded even if openssl fails.
 # Usage: _sa_decrypt <enc_file> <password>
 _sa_decrypt() {
-    export _SA_OPENSSL_PASS="$2"
-    openssl enc -d -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -in "$1" -pass env:_SA_OPENSSL_PASS
-    unset _SA_OPENSSL_PASS
+    (
+        export _SA_OPENSSL_PASS="$2"
+        openssl enc -d -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -in "$1" -pass env:_SA_OPENSSL_PASS
+    )
 }
 
 # ==============================================================================
@@ -324,6 +328,12 @@ EOF
         done
 
         rsync "${rsync_args[@]}" "$source_path" "$work_dir"
+
+        # --- Pre-pack Summary ---
+        local file_count dir_size
+        file_count=$(find "$work_dir/$src_name" -type f | wc -l | tr -d ' ')
+        dir_size=$(du -sh "$work_dir/$src_name" 2>/dev/null | cut -f1)
+        _sa_info "Packing: $file_count files, ~$dir_size uncompressed"
 
         # --- Compress + Encrypt ---
         _sa_info "Compressing and encrypting..."
@@ -523,6 +533,7 @@ secure_list() {
         # --- Variables ---
         local input_pattern=""
         local password=""
+        local do_long=false
 
         # --- Argument Parsing ---
         while [[ $# -gt 0 ]]; do
@@ -535,15 +546,19 @@ List the contents of an archive created by secure_pack without extracting.
 
 Options:
   --password <pass>       Decryption password (prompted if omitted)
+  -l, --long              Detailed listing (permissions, size, timestamps)
   -h, --help              Show this help
 
 Examples:
   secure_list ./backup.tar.xz.enc
   secure_list ./backup.tar.xz.enc.b85.partaa --password s3cret
+  secure_list ./backup.tar.xz.enc --long
+  secure_list ./backup.tar.xz.enc --long
 EOF
                     return 0
                     ;;
                 --password)  password="$2"; shift 2 ;;
+                -l|--long)   do_long=true;  shift   ;;
                 -*)
                     _sa_error "Unknown option: $1"
                     return 1
@@ -605,7 +620,9 @@ EOF
         fi
 
         # --- Decrypt & List ---
-        _sa_decrypt "$enc_file" "$password" | tar -tJf -
+        local tar_list_flags
+        [[ "$do_long" == true ]] && tar_list_flags="-tvJf" || tar_list_flags="-tJf"
+        _sa_decrypt "$enc_file" "$password" | tar $tar_list_flags -
 
         if [[ "$is_split" == true ]]; then
             rm -f "$enc_file"
@@ -635,14 +652,15 @@ _secure_unpack() {
         '(-h --help)'{-h,--help}'[Show this help]' \
         '--password[Decryption password]:password' \
         '(-o --output)'{-o,--output}'[Output directory]:directory:_files -/' \
-        '1:archive file:_files -g "*.enc *.partaa"'
+        '1:archive file:_files -g "*.enc *.b85.partaa *.partaa"'
 }
 
 _secure_list() {
     _arguments \
         '(-h --help)'{-h,--help}'[Show this help]' \
         '--password[Decryption password]:password' \
-        '1:archive file:_files -g "*.enc *.partaa"'
+        '(-l --long)'{-l,--long}'[Detailed listing (permissions, size, timestamps)]' \
+        '1:archive file:_files -g "*.enc *.b85.partaa *.partaa"'
 }
 
 compdef _secure_pack   secure_pack
