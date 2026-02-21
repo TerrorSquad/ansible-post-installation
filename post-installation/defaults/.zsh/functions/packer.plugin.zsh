@@ -301,6 +301,8 @@ EOF
         for p in "${user_excludes[@]}"; do
             rsync_args+=(--exclude "$p")
         done
+        # Honour .gitignore files found anywhere in the source tree
+        rsync_args+=(--filter=':- .gitignore')
         for p in "${_SA_EXCLUDE_PATTERNS[@]}"; do
             rsync_args+=(--exclude "$p")
         done
