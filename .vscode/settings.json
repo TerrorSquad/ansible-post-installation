@@ -7,5 +7,8 @@
         "**/files/kde/*rc": "ini",
         "**/files/kde/kdeglobals": "ini"
     },
-    "ansible.python.interpreterPath": "/bin/python3"
+    "ansible.python.interpreterPath": "/bin/python3",
+    "chat.tools.terminal.autoApprove": {
+        "diff": true
+    }
 }
