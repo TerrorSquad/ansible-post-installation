@@ -199,6 +199,7 @@ secure_pack() {
         local do_copy=false
         local chunk_size="$_SA_DEFAULT_CHUNK"
         local user_set_size=false
+        local do_verify=false
         local -a user_includes=()
         local -a user_excludes=()
         local work_dir=""
@@ -227,11 +228,12 @@ Options:
   --copy                  Copy first chunk to clipboard
   --include <pattern>     Rsync include pattern (repeatable)
   --exclude <pattern>     Rsync exclude pattern (repeatable)
+  --verify                Verify the archive is readable after packing
   -h, --help              Show this help
 
 Examples:
   secure_pack ./project --password s3cret --split --size 128k
-  secure_pack ./docs --split --copy -o /tmp/output
+  secure_pack ./docs --split --copy --verify -o /tmp/output
 EOF
                     return 0
                     ;;
@@ -242,6 +244,7 @@ EOF
                 -o|--output) output_dir="$2";                  shift 2 ;;
                 --include)   user_includes+=("$2"); shift 2 ;;
                 --exclude)   user_excludes+=("$2"); shift 2 ;;
+                --verify)    do_verify=true;         shift   ;;
                 -*)
                     _sa_error "Unknown option: $1"
                     return 1
@@ -310,6 +313,7 @@ EOF
         local src_name
         src_name=$(basename "$source_path")
         work_dir=$(mktemp -d)
+        chmod 700 "$work_dir"
 
         # --- Rsync (filtered working copy) ---
         _sa_info "Creating working copy..."
@@ -380,6 +384,23 @@ EOF
 
             if [[ "$do_copy" == true ]]; then
                 _sa_warn "Cannot copy binary to clipboard"
+            fi
+        fi
+
+        # --- Verify (optional) ---
+        if [[ "$do_verify" == true ]]; then
+            _sa_info "Verifying archive (test decrypt)..."
+            local verify_input
+            if [[ "$do_split" == true ]]; then
+                verify_input="${split_prefix}aa"
+            else
+                verify_input="${output_dir}/${archive_name}"
+            fi
+            if secure_list "$verify_input" --password "$password" >/dev/null 2>&1; then
+                _sa_success "Archive verified — decrypt and listing OK"
+            else
+                _sa_error "Archive verification failed — the output may be corrupt."
+                return 1
             fi
         fi
 
@@ -502,8 +523,18 @@ EOF
                 sha_file="${file_list[1]%.part*}.sha256"
             fi
 
-            # Concatenate all parts and decode from base85 to binary
-            cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
+            # Concatenate all parts and decode from base85 to binary.
+            # Shows a pv progress bar when available.
+            if command -v pv &>/dev/null; then
+                local total_bytes=0
+                local _pv_f
+                for _pv_f in "${file_list[@]}"; do
+                    (( total_bytes += $(wc -c < "$_pv_f") ))
+                done
+                cat "${file_list[@]}" | pv -s "$total_bytes" -N "Reassemble" | _sa_b85_decode > "$enc_file"
+            else
+                cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
+            fi
         else
             _sa_info "Mode: Standard Archive"
             enc_file="${file_list[1]}"
@@ -552,7 +583,6 @@ Options:
 Examples:
   secure_list ./backup.tar.xz.enc
   secure_list ./backup.tar.xz.enc.b85.partaa --password s3cret
-  secure_list ./backup.tar.xz.enc --long
   secure_list ./backup.tar.xz.enc --long
 EOF
                     return 0
@@ -614,15 +644,28 @@ EOF
             is_split=true
             enc_file=$(mktemp)
             trap "rm -f '$enc_file'" EXIT INT TERM HUP
-            cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
+            if command -v pv &>/dev/null; then
+                local total_bytes=0
+                local _pv_f
+                for _pv_f in "${file_list[@]}"; do
+                    (( total_bytes += $(wc -c < "$_pv_f") ))
+                done
+                cat "${file_list[@]}" | pv -s "$total_bytes" -N "Reassemble" | _sa_b85_decode > "$enc_file"
+            else
+                cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
+            fi
         else
             enc_file="${file_list[1]}"
         fi
 
         # --- Decrypt & List ---
-        local tar_list_flags
-        [[ "$do_long" == true ]] && tar_list_flags="-tvJf" || tar_list_flags="-tJf"
-        _sa_decrypt "$enc_file" "$password" | tar $tar_list_flags -
+        local -a tar_list_flags
+        if [[ "$do_long" == true ]]; then
+            tar_list_flags=(-t -v -J -f)
+        else
+            tar_list_flags=(-t -J -f)
+        fi
+        _sa_decrypt "$enc_file" "$password" | tar "${tar_list_flags[@]}" -
 
         if [[ "$is_split" == true ]]; then
             rm -f "$enc_file"
@@ -641,6 +684,7 @@ _secure_pack() {
         '--split[Split output into base85-encoded chunks]' \
         '--size[Chunk size for split (default: 500k)]:size:(128k 256k 500k 1m 5m)' \
         '--copy[Copy first chunk to clipboard]' \
+        '--verify[Verify the archive is readable after packing]' \
         '(-o --output)'{-o,--output}'[Output directory]:directory:_files -/' \
         '*--include[Rsync include pattern]:pattern' \
         '*--exclude[Rsync exclude pattern]:pattern' \
@@ -663,6 +707,8 @@ _secure_list() {
         '1:archive file:_files -g "*.enc *.b85.partaa *.partaa"'
 }
 
-compdef _secure_pack   secure_pack
-compdef _secure_unpack secure_unpack
-compdef _secure_list   secure_list
+if (( $+functions[compdef] )); then
+    compdef _secure_pack   secure_pack
+    compdef _secure_unpack secure_unpack
+    compdef _secure_list   secure_list
+fi
