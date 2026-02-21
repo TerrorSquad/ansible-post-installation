@@ -20,6 +20,13 @@ typeset -g  _SA_CIPHER='aes-256-cbc'
 typeset -gi _SA_PBKDF2_ITER=100000
 typeset -g  _SA_DEFAULT_CHUNK='500k'
 
+# Detect tar flavour once at load time (GNU vs BSD have different ownership flags)
+if tar --version 2>&1 | grep -q 'GNU'; then
+    typeset -ga _SA_TAR_OWNER_OPTS=(--owner=0 --group=0 --numeric-owner)
+else
+    typeset -ga _SA_TAR_OWNER_OPTS=(--uid 0 --gid 0)
+fi
+
 # Directories and file patterns excluded from rsync during pack.
 # Rsync applies these recursively unless they start with '/'.
 typeset -ga _SA_EXCLUDE_PATTERNS=(
@@ -141,22 +148,14 @@ _sa_compress() {
     local work_dir="$1"
     local src_name="$2"
 
-    # Anonymize file ownership (GNU and BSD tar use different flags)
-    local -a tar_opts
-    if tar --version 2>&1 | grep -q "GNU"; then
-        tar_opts=(--owner=0 --group=0 --numeric-owner)
-    else
-        tar_opts=(--uid 0 --gid 0)
-    fi
-
     if command -v pv &>/dev/null; then
         local bytes
         bytes=$(( $(du -sk "$work_dir/$src_name" 2>/dev/null | cut -f1) * 1024 ))
-        tar -C "$work_dir" "${tar_opts[@]}" -cf - "$src_name" \
+        tar -C "$work_dir" "${_SA_TAR_OWNER_OPTS[@]}" -cf - "$src_name" \
             | pv -s "$bytes" -N "Compress" \
             | xz -9e
     else
-        tar -C "$work_dir" "${tar_opts[@]}" -cf - "$src_name" \
+        tar -C "$work_dir" "${_SA_TAR_OWNER_OPTS[@]}" -cf - "$src_name" \
             | xz -9e
     fi
 }
@@ -166,6 +165,7 @@ _sa_compress() {
 _sa_encrypt() {
     export SA_PASS="$1"
     openssl enc -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -salt -pass env:SA_PASS
+    unset SA_PASS
 }
 
 # Decrypt a file with AES-256-CBC. Writes to stdout.
@@ -173,6 +173,7 @@ _sa_encrypt() {
 _sa_decrypt() {
     export SA_PASS="$2"
     openssl enc -d -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -in "$1" -pass env:SA_PASS
+    unset SA_PASS
 }
 
 # ==============================================================================
@@ -288,8 +289,7 @@ EOF
 
         local src_name
         src_name=$(basename "$source_path")
-        work_dir="/tmp/secure_pack_${timestamp}"
-        mkdir -p "$work_dir"
+        work_dir=$(mktemp -d)
 
         # --- Rsync (filtered working copy) ---
         _sa_info "Creating working copy..."
@@ -340,6 +340,7 @@ EOF
                 *) chunk_bytes=$chunk_num ;;
             esac
             local lines_per_chunk=$(( chunk_bytes / 77 ))
+            (( lines_per_chunk < 1 )) && lines_per_chunk=1
 
             _sa_b85_encode < "$payload" | split -l "$lines_per_chunk" - "$split_prefix"
             _sa_success "Split parts: ${archive_name}.b85.part*"
@@ -413,6 +414,9 @@ EOF
                     ;;
             esac
         done
+
+        # --- Dependencies ---
+        _sa_check_deps tar xz openssl python3 || return 1
 
         # --- Validation ---
         if [[ -z "$input_pattern" ]]; then
