@@ -4,6 +4,7 @@
 # Compress, encrypt, and optionally split files for secure transport.
 # Produces .tar.xz.enc archives (standard) or base85-encoded split parts.
 #
+# Functions: secure_pack, secure_unpack, secure_list
 # Dependencies: tar, xz, openssl, split, rsync, python3
 # Optional:     pv (progress bar)
 # ==============================================================================
@@ -75,14 +76,17 @@ sys.stdout.buffer.write(base64.b85decode(sys.stdin.read().replace('\n','')))
 "
 }
 
-# Verify that all listed commands are available on PATH
+# Verify that all listed commands are available on PATH.
+# Reports ALL missing commands before returning, not just the first.
 _sa_check_deps() {
+    local missing=0
     for cmd in "$@"; do
         if ! command -v "$cmd" &>/dev/null; then
             _sa_error "Missing required command: $cmd"
-            return 1
+            missing=1
         fi
     done
+    return $missing
 }
 
 # Resolve an output directory to an absolute path (creates it if needed).
@@ -190,6 +194,7 @@ secure_pack() {
         local do_split=false
         local do_copy=false
         local chunk_size="$_SA_DEFAULT_CHUNK"
+        local user_set_size=false
         local -a user_includes=()
         local -a user_excludes=()
         local work_dir=""
@@ -227,10 +232,10 @@ EOF
                     return 0
                     ;;
                 --password)  password="$2";         shift 2 ;;
-                --split)     do_split=true;         shift   ;;
-                --copy)      do_copy=true;          shift   ;;
-                --size)      chunk_size="$2";       shift 2 ;;
-                -o|--output) output_dir="$2";       shift 2 ;;
+                --split)     do_split=true;                    shift   ;;
+                --copy)      do_copy=true;                     shift   ;;
+                --size)      chunk_size="$2"; user_set_size=true; shift 2 ;;
+                -o|--output) output_dir="$2";                  shift 2 ;;
                 --include)   user_includes+=("$2"); shift 2 ;;
                 --exclude)   user_excludes+=("$2"); shift 2 ;;
                 -*)
@@ -263,6 +268,9 @@ EOF
             _sa_error "Invalid --size value: '$chunk_size'. Expected e.g. 500k, 10m, 1g."
             return 1
         fi
+        if [[ "$user_set_size" == true && "$do_split" == false ]]; then
+            _sa_warn "--size has no effect without --split"
+        fi
 
         output_dir=$(_sa_resolve_dir "$output_dir")
 
@@ -280,6 +288,10 @@ EOF
                 _sa_error "Passwords do not match."
                 return 1
             fi
+        fi
+        if [[ -z "$password" ]]; then
+            _sa_error "Password cannot be empty."
+            return 1
         fi
 
         # --- Workspace Setup ---
@@ -433,6 +445,10 @@ EOF
             read -s password
             echo
         fi
+        if [[ -z "$password" ]]; then
+            _sa_error "Password cannot be empty."
+            return 1
+        fi
 
         output_dir=$(_sa_resolve_dir "$output_dir")
 
@@ -496,3 +512,139 @@ EOF
         _sa_success "Extracted in $(_sa_elapsed $(( SECONDS - start_time )))"
     )
 }
+
+# ==============================================================================
+# secure_list — inspect archive contents without extracting
+# ==============================================================================
+secure_list() {
+    (
+        set -euo pipefail
+
+        # --- Variables ---
+        local input_pattern=""
+        local password=""
+
+        # --- Argument Parsing ---
+        while [[ $# -gt 0 ]]; do
+            case "$1" in
+                -h|--help)
+                    cat <<'EOF'
+Usage: secure_list <file_or_pattern> [options]
+
+List the contents of an archive created by secure_pack without extracting.
+
+Options:
+  --password <pass>       Decryption password (prompted if omitted)
+  -h, --help              Show this help
+
+Examples:
+  secure_list ./backup.tar.xz.enc
+  secure_list ./backup.tar.xz.enc.b85.partaa --password s3cret
+EOF
+                    return 0
+                    ;;
+                --password)  password="$2"; shift 2 ;;
+                -*)
+                    _sa_error "Unknown option: $1"
+                    return 1
+                    ;;
+                *)
+                    if [[ -z "$input_pattern" ]]; then
+                        input_pattern="$1"
+                        shift
+                    else
+                        _sa_error "Multiple inputs."
+                        return 1
+                    fi
+                    ;;
+            esac
+        done
+
+        # --- Dependencies ---
+        _sa_check_deps tar xz openssl python3 || return 1
+
+        # --- Validation ---
+        if [[ -z "$input_pattern" ]]; then
+            _sa_error "Input file or pattern required."
+            return 1
+        fi
+
+        if [[ -z "$password" ]]; then
+            echo -n "Enter decryption password: "
+            read -s password
+            echo
+        fi
+        if [[ -z "$password" ]]; then
+            _sa_error "Password cannot be empty."
+            return 1
+        fi
+
+        # --- Expand + Assemble ---
+        local -a file_list=(${~input_pattern}(N))
+        if [[ ${#file_list[@]} -eq 0 ]]; then
+            _sa_error "No files found matching: $input_pattern"
+            return 1
+        fi
+
+        if [[ ${#file_list[@]} -eq 1 && "${file_list[1]}" == *part* ]]; then
+            local base_name="${file_list[1]%part*}"
+            file_list=(${base_name}part*(N))
+            _sa_info "Auto-detected ${#file_list[@]} parts for split archive"
+        fi
+
+        local enc_file=""
+        local is_split=false
+
+        if [[ "${file_list[1]}" == *part* ]]; then
+            is_split=true
+            enc_file=$(mktemp)
+            trap "rm -f '$enc_file'" EXIT INT TERM HUP
+            cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
+        else
+            enc_file="${file_list[1]}"
+        fi
+
+        # --- Decrypt & List ---
+        _sa_decrypt "$enc_file" "$password" | tar -tJf -
+
+        if [[ "$is_split" == true ]]; then
+            rm -f "$enc_file"
+        fi
+    )
+}
+
+# ==============================================================================
+# ZSH Completions
+# ==============================================================================
+
+_secure_pack() {
+    _arguments \
+        '(-h --help)'{-h,--help}'[Show this help]' \
+        '--password[Encryption password]:password' \
+        '--split[Split output into base85-encoded chunks]' \
+        '--size[Chunk size for split (default: 500k)]:size:(128k 256k 500k 1m 5m)' \
+        '--copy[Copy first chunk to clipboard]' \
+        '(-o --output)'{-o,--output}'[Output directory]:directory:_files -/' \
+        '*--include[Rsync include pattern]:pattern' \
+        '*--exclude[Rsync exclude pattern]:pattern' \
+        '1:source path:_files'
+}
+
+_secure_unpack() {
+    _arguments \
+        '(-h --help)'{-h,--help}'[Show this help]' \
+        '--password[Decryption password]:password' \
+        '(-o --output)'{-o,--output}'[Output directory]:directory:_files -/' \
+        '1:archive file:_files -g "*.enc *.partaa"'
+}
+
+_secure_list() {
+    _arguments \
+        '(-h --help)'{-h,--help}'[Show this help]' \
+        '--password[Decryption password]:password' \
+        '1:archive file:_files -g "*.enc *.partaa"'
+}
+
+compdef _secure_pack   secure_pack
+compdef _secure_unpack secure_unpack
+compdef _secure_list   secure_list
