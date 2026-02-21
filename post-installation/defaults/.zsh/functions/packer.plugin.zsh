@@ -163,17 +163,17 @@ _sa_compress() {
 # Encrypt stdin with AES-256-CBC (PBKDF2, 100k iterations). Writes to stdout.
 # Usage: _sa_encrypt <password>
 _sa_encrypt() {
-    export SA_PASS="$1"
-    openssl enc -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -salt -pass env:SA_PASS
-    unset SA_PASS
+    export _SA_OPENSSL_PASS="$1"
+    openssl enc -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -salt -pass env:_SA_OPENSSL_PASS
+    unset _SA_OPENSSL_PASS
 }
 
 # Decrypt a file with AES-256-CBC. Writes to stdout.
 # Usage: _sa_decrypt <enc_file> <password>
 _sa_decrypt() {
-    export SA_PASS="$2"
-    openssl enc -d -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -in "$1" -pass env:SA_PASS
-    unset SA_PASS
+    export _SA_OPENSSL_PASS="$2"
+    openssl enc -d -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -in "$1" -pass env:_SA_OPENSSL_PASS
+    unset _SA_OPENSSL_PASS
 }
 
 # ==============================================================================
@@ -257,6 +257,10 @@ EOF
         fi
         if [[ ! -e "$source_path" ]]; then
             _sa_error "Path not found: $source_path"
+            return 1
+        fi
+        if [[ "$do_split" == true ]] && ! [[ "$chunk_size" =~ ^[1-9][0-9]*[kKmMgG]?$ ]]; then
+            _sa_error "Invalid --size value: '$chunk_size'. Expected e.g. 500k, 10m, 1g."
             return 1
         fi
 
@@ -393,7 +397,7 @@ Options:
 
 Examples:
   secure_unpack ./backup.tar.xz.enc
-  secure_unpack './backup.tar.xz.enc.b85.part*' --password s3cret
+  secure_unpack ./backup.tar.xz.enc.b85.partaa --password s3cret
 EOF
                     return 0
                     ;;
