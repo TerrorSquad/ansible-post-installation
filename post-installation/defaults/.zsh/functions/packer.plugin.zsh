@@ -21,6 +21,16 @@ typeset -g  _SA_CIPHER='aes-256-cbc'
 typeset -gi _SA_PBKDF2_ITER=100000
 typeset -g  _SA_DEFAULT_CHUNK='500k'
 
+# SHA-256 command: prefer sha256sum (Linux/WSL), fall back to shasum -a 256 (macOS).
+# Detected once at load time so pack and verify always use the same binary.
+if command -v sha256sum &>/dev/null; then
+    typeset -g _SA_SHA256_CMD='sha256sum'
+elif command -v shasum &>/dev/null; then
+    typeset -g _SA_SHA256_CMD='shasum -a 256'
+else
+    typeset -g _SA_SHA256_CMD=''
+fi
+
 # Detect tar flavour once at load time (GNU vs BSD have different ownership flags)
 if tar --version 2>&1 | grep -q 'GNU'; then
     typeset -ga _SA_TAR_OWNER_OPTS=(--owner=0 --group=0 --numeric-owner)
@@ -40,8 +50,14 @@ typeset -ga _SA_EXCLUDE_PATTERNS=(
 
 # Log a colored message: _sa_log <color> <level> <message>
 # All log output goes to stderr so stdout can carry pure data (e.g. tar listing).
+# Colours are suppressed when $NO_COLOR is set or stderr is not a terminal.
 _sa_log() {
-    echo -e "${1}[${2}]${_SA_RESET} ${3}" >&2
+    local color="$1" level="$2" msg="$3"
+    if [[ -n "${NO_COLOR:-}" || ! -t 2 ]]; then
+        echo "[${level}] ${msg}" >&2
+    else
+        echo -e "${color}[${level}]${_SA_RESET} ${msg}" >&2
+    fi
 }
 
 _sa_info()    { _sa_log "$_SA_BLUE"   "INFO"    "$1"; }
@@ -115,6 +131,11 @@ _sa_verify_checksum() {
     local file="$1"
     local sha_file="$2"
 
+    if [[ -z "$_SA_SHA256_CMD" ]]; then
+        _sa_warn "No sha256 tool available — skipping integrity check"
+        return 0
+    fi
+
     if [[ ! -f "$sha_file" ]]; then
         _sa_warn "No .sha256 sidecar found — skipping integrity check"
         return 0
@@ -123,7 +144,7 @@ _sa_verify_checksum() {
     local expected
     expected=$(awk '{print $1}' "$sha_file")
     local actual
-    actual=$(shasum -a 256 "$file" | awk '{print $1}')
+    actual=$(${=_SA_SHA256_CMD} "$file" | awk '{print $1}')
 
     if [[ "$expected" == "$actual" ]]; then
         _sa_success "SHA-256 checksum OK"
@@ -203,6 +224,7 @@ secure_pack() {
         # --- Variables ---
         local source_path=""
         local password=""
+        local password_provided=false
         local output_dir=""
         local do_split=false
         local do_copy=false
@@ -249,7 +271,7 @@ Examples:
 EOF
                     return 0
                     ;;
-                --password)  password="$2";         shift 2 ;;
+                --password)  password="$2"; password_provided=true; shift 2 ;;
                 --split)     do_split=true;                    shift   ;;
                 --copy)      do_copy=true;                     shift   ;;
                 --size)      chunk_size="$2"; user_set_size=true; shift 2 ;;
@@ -295,14 +317,14 @@ EOF
         output_dir=$(_sa_resolve_dir "$output_dir")
 
         # --- Password (interactive prompt with verification) ---
-        if [[ -z "$password" ]]; then
+        if [[ "$password_provided" == false ]]; then
             local password_verify
-            echo -n "Enter encryption password: "
-            read -s password
-            echo
-            echo -n "Verify password: "
-            read -s password_verify
-            echo
+            echo -n "Enter encryption password: " >/dev/tty
+            read -s password </dev/tty
+            echo >/dev/tty
+            echo -n "Verify password: " >/dev/tty
+            read -s password_verify </dev/tty
+            echo >/dev/tty
 
             if [[ "$password" != "$password_verify" ]]; then
                 _sa_error "Passwords do not match."
@@ -365,7 +387,7 @@ EOF
 
         # --- Checksum ---
         local checksum
-        checksum=$(shasum -a 256 "$payload" | awk '{print $1}')
+        checksum=$(${=_SA_SHA256_CMD} "$payload" | awk '{print $1}')
         _sa_info "SHA-256: $checksum"
 
         local archive_name="${archive_base}.tar.xz.enc"
@@ -445,6 +467,7 @@ secure_unpack() {
         # --- Variables ---
         local input_pattern=""
         local password=""
+        local password_provided=false
         local output_dir=""
 
         # --- Argument Parsing ---
@@ -468,7 +491,7 @@ Examples:
 EOF
                     return 0
                     ;;
-                --password)  password="$2";   shift 2 ;;
+                --password)  password="$2"; password_provided=true; shift 2 ;;
                 -o|--output) output_dir="$2"; shift 2 ;;
                 -*)
                     _sa_error "Unknown option: $1"
@@ -495,10 +518,10 @@ EOF
             return 1
         fi
 
-        if [[ -z "$password" ]]; then
-            echo -n "Enter decryption password: "
-            read -s password
-            echo
+        if [[ "$password_provided" == false ]]; then
+            echo -n "Enter decryption password: " >/dev/tty
+            read -s password </dev/tty
+            echo >/dev/tty
         fi
         if [[ -z "$password" ]]; then
             _sa_error "Password cannot be empty."
@@ -588,6 +611,7 @@ secure_list() {
         # --- Variables ---
         local input_pattern=""
         local password=""
+        local password_provided=false
         local do_long=false
 
         # --- Argument Parsing ---
@@ -611,7 +635,7 @@ Examples:
 EOF
                     return 0
                     ;;
-                --password)  password="$2"; shift 2 ;;
+                --password)  password="$2"; password_provided=true; shift 2 ;;
                 -l|--long)   do_long=true;  shift   ;;
                 -*)
                     _sa_error "Unknown option: $1"
@@ -638,10 +662,10 @@ EOF
             return 1
         fi
 
-        if [[ -z "$password" ]]; then
-            echo -n "Enter decryption password: "
-            read -s password
-            echo
+        if [[ "$password_provided" == false ]]; then
+            echo -n "Enter decryption password: " >/dev/tty
+            read -s password </dev/tty
+            echo >/dev/tty
         fi
         if [[ -z "$password" ]]; then
             _sa_error "Password cannot be empty."
@@ -662,12 +686,19 @@ EOF
         fi
 
         local enc_file=""
+        local sha_file=""
         local is_split=false
 
         if [[ "${file_list[1]}" == *part* ]]; then
             is_split=true
             enc_file=$(mktemp)
             trap "rm -f '$enc_file'" EXIT INT TERM HUP
+            # Derive sidecar path (mirrors secure_unpack logic)
+            if [[ "${file_list[1]}" == *.b85.part* ]]; then
+                sha_file="${file_list[1]%.b85.part*}.sha256"
+            else
+                sha_file="${file_list[1]%.part*}.sha256"
+            fi
             if command -v pv &>/dev/null; then
                 local total_bytes=0
                 local _pv_f
@@ -680,7 +711,11 @@ EOF
             fi
         else
             enc_file="${file_list[1]}"
+            sha_file="${enc_file}.sha256"
         fi
+
+        # --- Verify ---
+        _sa_verify_checksum "$enc_file" "$sha_file" || return 1
 
         # --- Decrypt & List ---
         local -a tar_list_flags

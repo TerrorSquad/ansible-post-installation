@@ -108,12 +108,41 @@ _assert_contains "_sa_check_deps: reports all missing (2nd)" "_missing_b_" "$mis
 
 # ==============================================================================
 echo ""
+echo "━━━ Unit: SHA-256 command detection ━━━"
+
+[[ -n "$_SA_SHA256_CMD" ]] \
+    && _pass "sha256: _SA_SHA256_CMD detected ('$_SA_SHA256_CMD')" \
+    || _fail "sha256: no sha256 tool found — _SA_SHA256_CMD is empty"
+
+# Verify the detected command actually produces 64-char hex output
+if [[ -n "$_SA_SHA256_CMD" ]]; then
+    sha_out=$(echo "test" | ${=_SA_SHA256_CMD} 2>/dev/null | awk '{print $1}')
+    [[ ${#sha_out} -eq 64 ]] \
+        && _pass "sha256: produces 64-char hex digest" \
+        || _fail "sha256: unexpected digest length (${#sha_out})"
+fi
+
+# ==============================================================================
+echo ""
+echo "━━━ Unit: NO_COLOR support ━━━"
+
+# With NO_COLOR set, log output must contain no ANSI escape sequences.
+no_color_out=$(NO_COLOR=1 secure_pack "$SRC" --password "$PASS" -o "${TMP}/out_nocolor" 2>&1 >/dev/null)
+_assert_not_contains "NO_COLOR: no ANSI codes in stderr" $'\033' "$no_color_out"
+_assert_contains     "NO_COLOR: plain [INFO] tag present" "\[INFO\]" "$no_color_out"
+
+# Without NO_COLOR on a non-terminal (pipe), colours should also be absent.
+non_tty_out=$(secure_pack "$SRC" --password "$PASS" -o "${TMP}/out_nontty" 2>&1 >/dev/null)
+_assert_not_contains "non-tty stderr: no ANSI codes" $'\033' "$non_tty_out"
+
+# ==============================================================================
+echo ""
 echo "━━━ Unit: _sa_verify_checksum ━━━"
 
 CSUM_FILE="${TMP}/checksum_test.txt"
 CSUM_SHA="${TMP}/checksum_test.txt.sha256"
 echo "checksum me" > "$CSUM_FILE"
-shasum -a 256 "$CSUM_FILE" | awk '{print $1}' > "$CSUM_SHA"
+${=_SA_SHA256_CMD} "$CSUM_FILE" | awk '{print $1}' > "$CSUM_SHA"
 
 _assert_ok   "checksum: correct hash passes"   _sa_verify_checksum "$CSUM_FILE" "$CSUM_SHA"
 echo "badhash00000000000000000000000000000000000000000000000000000000" > "$CSUM_SHA"
@@ -146,8 +175,7 @@ out=$(secure_pack /nonexistent_path_abc123 --password x 2>&1); [[ $? -ne 0 ]] \
     && _pass "rejects: nonexistent source path" \
     || _fail "rejects: nonexistent source path"
 
-# Pipe two empty lines to simulate the password+verify prompts
-out=$(printf '\n\n' | secure_pack "$SRC" -o "$VOUT" 2>&1); [[ $? -ne 0 ]] \
+out=$(secure_pack "$SRC" --password "" -o "$VOUT" 2>&1); [[ $? -ne 0 ]] \
     && _pass "rejects: empty password" \
     || _fail "rejects: empty password"
 
@@ -422,8 +450,18 @@ out=$(secure_unpack "${TAMPER_ENC[1]}" --password "$PASS" 2>&1); [[ $? -ne 0 ]] 
 SIDECAR_SHA="${TAMPER_ENC[1]}.sha256"
 echo "0000000000000000000000000000000000000000000000000000000000000000" > "$SIDECAR_SHA"
 out=$(secure_unpack "${TAMPER_ENC[1]}" --password "$PASS" 2>&1); [[ $? -ne 0 ]] \
-    && _pass "tamper: sha256 mismatch detected" \
-    || _fail "tamper: sha256 mismatch not detected"
+    && _pass "tamper: sha256 mismatch detected (unpack)" \
+    || _fail "tamper: sha256 mismatch not detected (unpack)"
+
+# secure_list must also reject a tampered archive (sha256 mismatch)
+out=$(secure_list "${TAMPER_ENC[1]}" --password "$PASS" 2>&1); [[ $? -ne 0 ]] \
+    && _pass "tamper: sha256 mismatch detected (secure_list)" \
+    || _fail "tamper: sha256 mismatch not detected (secure_list)"
+
+# secure_list without sidecar — should warn but succeed
+rm -f "$SIDECAR_SHA"
+list_out=$(secure_list "${TAMPER_ENC[1]}" --password "$PASS" 2>&1 || true)
+_assert_contains "tamper: missing sidecar warns in secure_list" "WARN" "$list_out"
 
 # ==============================================================================
 echo ""
