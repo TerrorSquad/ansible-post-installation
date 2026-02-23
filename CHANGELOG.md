@@ -1,5 +1,34 @@
 # Changelog
 
+## [2.8.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.7.0...v2.8.0) (2026-02-23)
+
+
+### Features
+
+* --dry-run, --level, sensitive-file warnings, unpack count, list summary ([6d877a0](https://github.com/TerrorSquad/ansible-post-installation/commit/6d877a0daa35b1fe4f7d1714ee1c2fc52eeabe9f))
+* --force collision guard, pv progress on decrypt ([5231d96](https://github.com/TerrorSquad/ansible-post-installation/commit/5231d965457ce04aa9fa11ea1f9e9f307e0f115a))
+* add fastfetch and lazygit to tool sets; implement distro base detection task ([283997a](https://github.com/TerrorSquad/ansible-post-installation/commit/283997afc36ff228e879c00f52839bb36e3885bd))
+* add task to fix Google Chrome duplicate repository entries ([06c539b](https://github.com/TerrorSquad/ansible-post-installation/commit/06c539b460d7292cb3d83736eab3b988978eff12))
+* chmod 700 workspace, --verify, pv on decode, tar array fix, test suite ([1ab4771](https://github.com/TerrorSquad/ansible-post-installation/commit/1ab4771df94e5a2f680dd96dede029afe9241df3))
+* logs to stderr, output size, unpack dir, --name flag, py error handling ([3583aa5](https://github.com/TerrorSquad/ansible-post-installation/commit/3583aa5859270014bc3563df71c5f00686718f86))
+* **packer:** add secure_list, zsh completions, and input hardening ([ea5decd](https://github.com/TerrorSquad/ansible-post-installation/commit/ea5decdc3b995a029448c299bca74425ef62f6ab))
+* **packer:** honour .gitignore patterns during rsync ([c625b87](https://github.com/TerrorSquad/ansible-post-installation/commit/c625b874d10afac6b914a7354723e4e5efc2c864))
+* subshell encrypt/decrypt, pre-pack summary, secure_list --long, fix completion globs ([a712522](https://github.com/TerrorSquad/ansible-post-installation/commit/a712522c3f53ab73e548e097777b6dc6c56d9750))
+* update modern CLI tool set with additional utilities ([2ad8485](https://github.com/TerrorSquad/ansible-post-installation/commit/2ad84856a0bc57f805b875d53576d92718ffc13d))
+* **vscode:** add autoApprove setting for chat tools terminal ([97f708b](https://github.com/TerrorSquad/ansible-post-installation/commit/97f708b0ad7422898315885d7c829310e73c9e50))
+* **zsh:** add secure archive utility functions for packing and unpacking ([1ef9dd5](https://github.com/TerrorSquad/ansible-post-installation/commit/1ef9dd5042c4fc6916fbdb09f30fa6ae498b8da2))
+
+
+### Bug Fixes
+
+* ensure correct working directory for mise installation in documentation workflow ([b754f7e](https://github.com/TerrorSquad/ansible-post-installation/commit/b754f7ef7cc8fc7bf1de482cc7a0cb81e71e1588))
+* **packer:** exclude .data dir, improve split unpack robustness ([dce2d13](https://github.com/TerrorSquad/ansible-post-installation/commit/dce2d13066ac665e0f2de00b6f1f76b72eefa87c))
+* **packer:** harden work_dir, dep checks, and edge cases ([bbd5d2e](https://github.com/TerrorSquad/ansible-post-installation/commit/bbd5d2eec2b47244d4f2c467bc48850aac69a60e))
+* **packer:** validate --size early, rename SA_PASS, fix help text ([669f499](https://github.com/TerrorSquad/ansible-post-installation/commit/669f499caac62ada7a7b04e01cf7e126944d782e))
+* shasum portability, /dev/tty prompts, secure_list checksum, NO_COLOR ([5534d52](https://github.com/TerrorSquad/ansible-post-installation/commit/5534d521ce1483500dfb7d73d657136501dfe4e1))
+* update Google Chrome repository cleanup to handle duplicates ([483908e](https://github.com/TerrorSquad/ansible-post-installation/commit/483908ed4b19c0d0fd70140549bea813022c5d9a))
+* **zsh:** update encryption methods to use environment variable for password ([aefb5bc](https://github.com/TerrorSquad/ansible-post-installation/commit/aefb5bc56d6d304a2bfdb11b60c4f9c0f7d14149))
+
 ## [2.7.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.6.0...v2.7.0) (2026-01-19)
 
 
