@@ -20,6 +20,7 @@ typeset -g  _SA_RESET='\033[0m'
 typeset -g  _SA_CIPHER='aes-256-cbc'
 typeset -gi _SA_PBKDF2_ITER=100000
 typeset -g  _SA_DEFAULT_CHUNK='500k'
+typeset -g  _SA_XZ_LEVEL='9e'          # xz compression level; 1-9 or 9e (extreme)
 
 # SHA-256 command: prefer sha256sum (Linux/WSL), fall back to shasum -a 256 (macOS).
 # Detected once at load time so pack and verify always use the same binary.
@@ -181,16 +182,17 @@ _sa_copy_to_clipboard() {
 _sa_compress() {
     local work_dir="$1"
     local src_name="$2"
+    local xz_level="${3:-${_SA_XZ_LEVEL}}"
 
     if command -v pv &>/dev/null; then
         local bytes
         bytes=$(( $(du -sk "$work_dir/$src_name" 2>/dev/null | cut -f1) * 1024 ))
         tar -C "$work_dir" "${_SA_TAR_OWNER_OPTS[@]}" -cf - "$src_name" \
             | pv -s "$bytes" -N "Compress" \
-            | xz -9e
+            | xz -"${xz_level}"
     else
         tar -C "$work_dir" "${_SA_TAR_OWNER_OPTS[@]}" -cf - "$src_name" \
-            | xz -9e
+            | xz -"${xz_level}"
     fi
 }
 
@@ -231,7 +233,9 @@ secure_pack() {
         local chunk_size="$_SA_DEFAULT_CHUNK"
         local user_set_size=false
         local do_verify=false
+        local do_dry_run=false
         local archive_base=""
+        local xz_level="$_SA_XZ_LEVEL"
         local -a user_includes=()
         local -a user_excludes=()
         local work_dir=""
@@ -262,6 +266,8 @@ Options:
   --exclude <pattern>     Rsync exclude pattern (repeatable)
   --verify                Verify the archive is readable after packing
   --name <basename>       Override output filename (default: <src>_<timestamp>)
+  --level <1-9|9e>        xz compression level (default: 9e)
+  --dry-run               Show what would be packed without creating any files
   -h, --help              Show this help
 
 Examples:
@@ -280,6 +286,8 @@ EOF
                 --exclude)   user_excludes+=("$2"); shift 2 ;;
                 --verify)    do_verify=true;         shift   ;;
                 --name)      archive_base="$2";      shift 2 ;;
+                --level)     xz_level="$2";          shift 2 ;;
+                --dry-run)   do_dry_run=true;        shift   ;;
                 -*)
                     _sa_error "Unknown option: $1"
                     return 1
@@ -312,6 +320,10 @@ EOF
         fi
         if [[ "$user_set_size" == true && "$do_split" == false ]]; then
             _sa_warn "--size has no effect without --split"
+        fi
+        if ! [[ "$xz_level" =~ ^[1-9]e?$ ]]; then
+            _sa_error "Invalid --level value: '$xz_level'. Expected 1-9 or 9e."
+            return 1
         fi
 
         output_dir=$(_sa_resolve_dir "$output_dir")
@@ -379,11 +391,36 @@ EOF
         dir_size=$(du -sh "$work_dir/$src_name" 2>/dev/null | cut -f1)
         _sa_info "Packing: $file_count files, ~$dir_size uncompressed"
 
+        # --- Sensitive-File Check ---
+        local -a _sf_find_args=()
+        local _sf_pat
+        for _sf_pat in '*.env' '.env' '*.pem' '*.key' '*.p12' '*.pfx' '*.p8' \
+                       'id_rsa*' 'id_dsa*' 'id_ecdsa*' 'id_ed25519*' \
+                       '*_token*' '*secret*' '*password*' '*credentials*' \
+                       '*.vault' '*.gpg' '*.asc'; do
+            [[ ${#_sf_find_args[@]} -gt 0 ]] && _sf_find_args+=(-o)
+            _sf_find_args+=(-name "$_sf_pat")
+        done
+        local _sf_hits
+        _sf_hits=$(find "$work_dir/$src_name" -type f \( "${_sf_find_args[@]}" \) 2>/dev/null)
+        if [[ -n "$_sf_hits" ]]; then
+            while IFS= read -r _sf_hit; do
+                _sa_warn "Sensitive file included: ${_sf_hit#${work_dir}/${src_name}/}"
+            done <<< "$_sf_hits"
+        fi
+
+        # --- Dry Run ---
+        if [[ "$do_dry_run" == true ]]; then
+            _sa_info "Dry run — files that would be packed:"
+            find "$work_dir/$src_name" -type f | sed "s|${work_dir}/${src_name}/||" | sort >&2
+            return 0
+        fi
+
         # --- Compress + Encrypt ---
         _sa_info "Compressing and encrypting..."
 
         local payload="${work_dir}/payload.enc"
-        _sa_compress "$work_dir" "$src_name" | _sa_encrypt "$password" > "$payload"
+        _sa_compress "$work_dir" "$src_name" "$xz_level" | _sa_encrypt "$password" > "$payload"
 
         # --- Checksum ---
         local checksum
@@ -590,6 +627,10 @@ EOF
 
         # --- Verify + Extract ---
         _sa_verify_checksum "$enc_file" "$sha_file" || return 1
+
+        # Count entries via a listing pass, then extract.
+        local extracted_count
+        extracted_count=$(_sa_decrypt "$enc_file" "$password" | tar -tJf - 2>/dev/null | wc -l | tr -d ' ')
         _sa_decrypt "$enc_file" "$password" | tar -xJf - -C "$output_dir"
 
         # Clean up the temp file created for split mode
@@ -597,7 +638,7 @@ EOF
             rm -f "$enc_file"
         fi
 
-        _sa_success "Extracted in $(_sa_elapsed $(( SECONDS - start_time ))) → $output_dir"
+        _sa_success "Extracted ${extracted_count} files in $(_sa_elapsed $(( SECONDS - start_time ))) → $output_dir"
     )
 }
 
@@ -724,7 +765,13 @@ EOF
         else
             tar_list_flags=(-t -J -f)
         fi
-        _sa_decrypt "$enc_file" "$password" | tar "${tar_list_flags[@]}" -
+        local listing entry_count
+        listing=$(_sa_decrypt "$enc_file" "$password" | tar "${tar_list_flags[@]}" -)
+        [[ -n "$listing" ]] && printf '%s\n' "$listing"
+        entry_count=0
+        [[ -n "$listing" ]] && entry_count=$(printf '%s\n' "$listing" | wc -l | tr -d ' ')
+        local _sl_noun; [[ "$entry_count" -eq 1 ]] && _sl_noun="entry" || _sl_noun="entries"
+        _sa_info "── ${entry_count} ${_sl_noun}"
 
         if [[ "$is_split" == true ]]; then
             rm -f "$enc_file"
@@ -745,6 +792,8 @@ _secure_pack() {
         '--copy[Copy first chunk to clipboard]' \
         '--verify[Verify the archive is readable after packing]' \
         '--name[Override output filename (without extension)]:basename' \
+        '--level[xz compression level (1-9 or 9e)]:level:(1 2 3 4 5 6 7 8 9 9e)' \
+        '--dry-run[Show what would be packed without creating any files]' \
         '(-o --output)'{-o,--output}'[Output directory]:directory:_files -/' \
         '*--include[Rsync include pattern]:pattern' \
         '*--exclude[Rsync exclude pattern]:pattern' \

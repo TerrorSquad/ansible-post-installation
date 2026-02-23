@@ -226,6 +226,7 @@ _assert_eq "standard: file content correct" "hello world" "$(cat ${STD_EXTRACT}/
 # Unpack success message should include the output directory path
 unpack_out=$(secure_unpack "${ENC[1]}" --password "$PASS" -o "${STD_EXTRACT}" 2>&1 || true)
 _assert_contains "standard: unpack reports destination" "$STD_EXTRACT" "$unpack_out"
+_assert_contains "standard: unpack reports file count"  "[0-9]+ files" "$unpack_out"
 
 out=$(secure_unpack "${ENC[1]}" --password "wrongpass" -o "$STD_EXTRACT" 2>&1); [[ $? -ne 0 ]] \
     && _pass "standard: wrong password rejected" \
@@ -308,7 +309,10 @@ list_split=$(secure_list "${LIST_PARTAA[1]}" --password "$PASS" 2>/dev/null)
 _assert_contains "secure_list: split archive shows dir"  "testdata" "$list_split"
 _assert_contains "secure_list: split archive shows file" "a.txt"    "$list_split"
 
-# ==============================================================================
+# Summary footer appears on stderr
+list_footer=$(secure_list "${LIST_ENC[1]}" --password "$PASS" 2>&1 >/dev/null)
+_assert_contains "secure_list: summary footer present"  "──"      "$list_footer"
+_assert_contains "secure_list: summary counts entries"  "[0-9]+ entr" "$list_footer"======
 echo ""
 echo "━━━ --name flag ━━━"
 
@@ -381,6 +385,71 @@ VFY_SPL_OUT="${TMP}/out_verify_split"
 mkdir -p "$VFY_SPL_OUT"
 out=$(secure_pack "$SRC" --password "$PASS" --split --size 512 --verify -o "$VFY_SPL_OUT" 2>&1)
 _assert_contains "--verify --split: success message" "[Vv]erif" "$out"
+
+# ==============================================================================
+echo ""
+echo "━━━ --dry-run ━━━"
+
+DR_OUT="${TMP}/out_dryrun"
+mkdir -p "$DR_OUT"
+
+# Dry run exits 0 and lists files
+dry_out=$(secure_pack "$SRC" --password "$PASS" --dry-run -o "$DR_OUT" 2>&1)
+[[ $? -eq 0 ]] \
+    && _pass "--dry-run: exits 0" \
+    || _fail "--dry-run: exits 0"
+_assert_contains "--dry-run: lists top-level file"  "a.txt" "$dry_out"
+_assert_contains "--dry-run: lists nested file"     "b.txt" "$dry_out"
+
+# Dry run must not create any output files
+DR_FILES=(${DR_OUT}/*.enc(N))
+[[ ${#DR_FILES[@]} -eq 0 ]] \
+    && _pass "--dry-run: no output files created" \
+    || _fail "--dry-run: created ${#DR_FILES[@]} output file(s)"
+
+# ==============================================================================
+echo ""
+echo "━━━ --level ━━━"
+
+LVL_OUT="${TMP}/out_level"
+LVL_EXTRACT="${TMP}/extract_level"
+mkdir -p "$LVL_OUT" "$LVL_EXTRACT"
+
+secure_pack "$SRC" --password "$PASS" --level 1 -o "$LVL_OUT" >/dev/null 2>&1
+LVL_ENC=(${LVL_OUT}/*.tar.xz.enc(N))
+[[ ${#LVL_ENC[@]} -eq 1 ]] \
+    && _pass "--level 1: archive created" \
+    || _fail "--level 1: archive not created"
+secure_unpack "${LVL_ENC[1]}" --password "$PASS" -o "$LVL_EXTRACT" >/dev/null 2>&1
+[[ -f "${LVL_EXTRACT}/testdata/a.txt" ]] \
+    && _pass "--level 1: archive is extractable" \
+    || _fail "--level 1: archive is extractable"
+out=$(secure_pack "$SRC" --password "$PASS" --level bad -o "$LVL_OUT" 2>&1); [[ $? -ne 0 ]] \
+    && _pass "--level: invalid value rejected" \
+    || _fail "--level: invalid value accepted"
+
+# ==============================================================================
+echo ""
+echo "━━━ Sensitive-file warnings ━━━"
+
+# Copy testdata and add sensitive files
+SENS_SRC="${TMP}/testdata_sens"
+cp -r "$SRC" "$SENS_SRC"
+echo "DB_PASS=hunter2" > "${SENS_SRC}/db.key"
+echo "-----BEGIN RSA PRIVATE KEY-----" > "${SENS_SRC}/id_rsa"
+
+SENS_OUT="${TMP}/out_sens"
+mkdir -p "$SENS_OUT"
+sens_out=$(secure_pack "$SENS_SRC" --password "$PASS" -o "$SENS_OUT" 2>&1)
+_assert_contains "sensitive: warns for db.key"  "Sensitive" "$sens_out"
+_assert_contains "sensitive: db.key file named" "db\.key"   "$sens_out"
+_assert_contains "sensitive: id_rsa file named" "id_rsa"    "$sens_out"
+
+# Clean source (no sensitives) must NOT warn
+CLEAN_OUT="${TMP}/out_clean_sens"
+mkdir -p "$CLEAN_OUT"
+clean_out=$(secure_pack "$SRC" --password "$PASS" -o "$CLEAN_OUT" 2>&1)
+_assert_not_contains "sensitive: clean source has no warning" "Sensitive" "$clean_out"
 
 # ==============================================================================
 echo ""
