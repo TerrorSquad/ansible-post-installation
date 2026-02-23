@@ -17,7 +17,6 @@ jobs:
       - name: Install tools
         uses: jdx/mise-action@v2
         with:
-          version: latest
           install: true
 
       - name: Install dependencies
