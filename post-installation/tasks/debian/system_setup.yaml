@@ -1,5 +1,14 @@
 ---
 # System preparation for Debian-based systems
+- name: Fix Google Chrome duplicate repository entry
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /etc/apt/sources.list.d/google-chrome.list
+    - /etc/apt/sources.list.d/google-chrome.sources
+  ignore_errors: true
+
 - name: Remove snap if configured
   ansible.builtin.include_tasks: remove_snap.yaml
 
