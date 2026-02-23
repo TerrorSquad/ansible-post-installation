@@ -8,8 +8,11 @@
 
 - name: Fix Google Chrome duplicate repository entry
   ansible.builtin.file:
-    path: /etc/apt/sources.list.d/google-chrome.list
+    path: "{{ item }}"
     state: absent
+  loop:
+    - /etc/apt/sources.list.d/google-chrome.list
+    - /etc/apt/sources.list.d/google-chrome.sources
   ignore_errors: true
 
 - name: Install Google Chrome
