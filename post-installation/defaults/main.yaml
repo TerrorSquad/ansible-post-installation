@@ -42,13 +42,21 @@ tool_sets:
 
   # All CLI tools via Homebrew (both Debian and macOS)
   modern_cli_homebrew:
+    - age
+    - bandwhich
     - bat
     - bottom
     - broot
     - btop
+    - cheat
+    - croc
     - curlie
+    - difftastic
+    - doggo
+    - doggo
     - duf
     - dust
+    - entr
     - eza
     - fastfetch
     - fd
@@ -57,12 +65,17 @@ tool_sets:
     - gh
     - git-delta
     - git-quick-stats
+    - glow
     - gping
+    - grex
+    - gron
+    - gum
     - helix
     - httpie
     - httpstat
     - htop
     - hyperfine
+    - jless
     - jq
     - lazydocker
     - lazygit
@@ -70,7 +83,9 @@ tool_sets:
     - lsd
     - make
     - mdcat
+    - miller
     - mise
+    - navi
     - ncdu
     - oha
     - peco
@@ -83,11 +98,14 @@ tool_sets:
     - tokei
     - tree
     - unzip
+    - viddy
     - vim
+    - visidata
     - xh
     - yamlfmt
     - yazi
     - yq
+    - zellij
     - zip
     - zoxide
     - fastfetch
