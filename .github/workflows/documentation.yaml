@@ -13,20 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: corepack enable
 
-      - uses: actions/setup-node@v3
+      - name: Install tools
+        uses: jdx/mise-action@v2
         with:
-          node-version: "22"
-
-      - name: Install bun
-        run: curl -fsSL https://bun.sh/install | bash
-
-      - name: Add bun to PATH
-        run: echo "$HOME/.bun/bin" >> $GITHUB_PATH
+          version: latest
+          install: true
 
       - name: Install dependencies
-        run: cd docs && bun install
+        run: cd docs && pnpm install --frozen-lockfile
 
       - name: Build the documentation
         run: cd docs && npx nuxt build --preset github_pages
