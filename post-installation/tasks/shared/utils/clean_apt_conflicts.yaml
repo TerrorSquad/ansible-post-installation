@@ -1,0 +1,15 @@
+---
+# Shared task to remove conflicting APT repository definitions
+# Usage:
+# - include_tasks: shared/utils/clean_apt_conflicts.yaml
+#   vars:
+#     repo_name: google-chrome
+
+- name: Remove conflicting legacy repository files for {{ repo_name }}
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/etc/apt/sources.list.d/{{ repo_name }}.list"
+    - "/etc/apt/sources.list.d/{{ repo_name }}.sources"
+  ignore_errors: true

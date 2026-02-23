@@ -29,13 +29,13 @@
   register: ubuntu_base_codename
   changed_when: false
 
-- name: Remove old Docker repository configurations
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
+- name: Remove old and conflicting Docker repository configurations
+  ansible.builtin.include_tasks: shared/utils/clean_apt_conflicts.yaml
+  vars:
+    repo_name: "{{ item }}"
   loop:
-    - /etc/apt/sources.list.d/docker.list
-    - /etc/apt/sources.list.d/download_docker_com_linux_ubuntu.list
+    - docker
+    - download_docker_com_linux_ubuntu
 
 - name: Add Docker repository
   ansible.builtin.apt_repository:

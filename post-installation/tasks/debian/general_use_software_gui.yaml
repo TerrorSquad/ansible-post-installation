@@ -7,25 +7,21 @@
     remote_software_url: https://www.rescuetime.com/installers/rescuetime_current_amd64.deb
 
 - name: Fix Google Chrome duplicate repository entry
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /etc/apt/sources.list.d/google-chrome.list
-    - /etc/apt/sources.list.d/google-chrome.sources
-  ignore_errors: true
+  ansible.builtin.include_tasks: shared/utils/clean_apt_conflicts.yaml
+  vars:
+    repo_name: google-chrome
 
 - name: Install Google Chrome
   block:
     - name: Download Google Linux Signing Key
       ansible.builtin.get_url:
         url: https://dl.google.com/linux/linux_signing_key.pub
-        dest: /usr/share/keyrings/google-chrome-keyring.asc
+        dest: /etc/apt/keyrings/google-chrome.asc
         mode: '0644'
 
     - name: Add Google Chrome repository
       ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-keyring.asc] http://dl.google.com/linux/chrome/deb/ stable main"
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.asc] http://dl.google.com/linux/chrome/deb/ stable main"
         filename: google-chrome
         state: present
 
