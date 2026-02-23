@@ -16,12 +16,12 @@
     - name: Download Google Linux Signing Key
       ansible.builtin.get_url:
         url: https://dl.google.com/linux/linux_signing_key.pub
-        dest: /etc/apt/keyrings/google-chrome.asc
+        dest: "{{ keyrings_dir }}/google-chrome.asc"
         mode: '0644'
 
     - name: Add Google Chrome repository
       ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.asc] http://dl.google.com/linux/chrome/deb/ stable main"
+        repo: "deb [arch=amd64 signed-by={{ keyrings_dir }}/google-chrome.asc] http://dl.google.com/linux/chrome/deb/ stable main"
         filename: google-chrome
         state: present
 

@@ -18,6 +18,7 @@ remove_snap: true
 systemd_system: "/etc/systemd/system/"
 sysfs: "/etc/sysfs.conf"
 snap_bin_path: "/snap/bin"
+keyrings_dir: "/etc/apt/keyrings"
 
 # Download directory
 download_dir: "/tmp/ansible"
