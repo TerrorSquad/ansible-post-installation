@@ -11,19 +11,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: docs
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install tools
+      - name: Install mise
         uses: jdx/mise-action@v2
         with:
           install: true
 
       - name: Install dependencies
-        run: cd docs && pnpm install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Build the documentation
-        run: cd docs && npx nuxt build --preset github_pages
+        run: pnpm nuxt build --preset github_pages
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
