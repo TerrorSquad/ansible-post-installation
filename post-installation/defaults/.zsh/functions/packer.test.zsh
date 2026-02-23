@@ -183,9 +183,10 @@ ENC=(${STD_OUT}/*.tar.xz.enc(N))
 [[ -f "${ENC[1]}.sha256" ]] \
     && _pass "standard: sha256 sidecar created" \
     || _fail "standard: sha256 sidecar created"
-_assert_contains "standard: pre-pack summary in output" "Packing:" "$pack_out"
+_assert_contains "standard: pre-pack summary in output" "Packing:"    "$pack_out"
+_assert_contains "standard: output size in log"         "Output size:" "$pack_out"
 
-secure_unpack "${ENC[1]}" --password "$PASS" -o "$STD_EXTRACT" >/dev/null 2>&1
+secure_unpack "${ENC[1]}" --password "$PASS" -o "$STD_EXTRACT" 2>&1 | cat
 [[ -f "${STD_EXTRACT}/testdata/a.txt" ]] \
     && _pass "standard: top-level file extracted" \
     || _fail "standard: top-level file extracted"
@@ -193,6 +194,10 @@ secure_unpack "${ENC[1]}" --password "$PASS" -o "$STD_EXTRACT" >/dev/null 2>&1
     && _pass "standard: nested file extracted" \
     || _fail "standard: nested file extracted"
 _assert_eq "standard: file content correct" "hello world" "$(cat ${STD_EXTRACT}/testdata/a.txt)"
+
+# Unpack success message should include the output directory path
+unpack_out=$(secure_unpack "${ENC[1]}" --password "$PASS" -o "${STD_EXTRACT}" 2>&1 || true)
+_assert_contains "standard: unpack reports destination" "$STD_EXTRACT" "$unpack_out"
 
 out=$(secure_unpack "${ENC[1]}" --password "wrongpass" -o "$STD_EXTRACT" 2>&1); [[ $? -ne 0 ]] \
     && _pass "standard: wrong password rejected" \
@@ -274,6 +279,64 @@ LIST_PARTAA=(${LIST_SPL_OUT}/*.b85.partaa(N))
 list_split=$(secure_list "${LIST_PARTAA[1]}" --password "$PASS" 2>/dev/null)
 _assert_contains "secure_list: split archive shows dir"  "testdata" "$list_split"
 _assert_contains "secure_list: split archive shows file" "a.txt"    "$list_split"
+
+# ==============================================================================
+echo ""
+echo "━━━ --name flag ━━━"
+
+NAME_OUT="${TMP}/out_name"
+mkdir -p "$NAME_OUT"
+secure_pack "$SRC" --password "$PASS" --name mybackup -o "$NAME_OUT" >/dev/null 2>&1
+[[ -f "${NAME_OUT}/mybackup.tar.xz.enc" ]] \
+    && _pass "--name: standard archive uses custom filename" \
+    || _fail "--name: standard archive uses custom filename (expected mybackup.tar.xz.enc)"
+[[ -f "${NAME_OUT}/mybackup.tar.xz.enc.sha256" ]] \
+    && _pass "--name: sha256 sidecar uses custom filename" \
+    || _fail "--name: sha256 sidecar uses custom filename"
+
+# Verify it's actually a valid archive
+NAME_EXTRACT="${TMP}/extract_name"
+mkdir -p "$NAME_EXTRACT"
+secure_unpack "${NAME_OUT}/mybackup.tar.xz.enc" --password "$PASS" -o "$NAME_EXTRACT" >/dev/null 2>&1
+[[ -f "${NAME_EXTRACT}/testdata/a.txt" ]] \
+    && _pass "--name: archive is extractable" \
+    || _fail "--name: archive is extractable"
+
+# Test --name with --split
+NAME_SPL_OUT="${TMP}/out_name_split"
+mkdir -p "$NAME_SPL_OUT"
+secure_pack "$SRC" --password "$PASS" --name mysplit --split --size 512 -o "$NAME_SPL_OUT" >/dev/null 2>&1
+NAME_PARTS=(${NAME_SPL_OUT}/mysplit.tar.xz.enc.b85.part*(N))
+[[ ${#NAME_PARTS[@]} -ge 2 ]] \
+    && _pass "--name --split: parts use custom filename" \
+    || _fail "--name --split: parts use custom filename (found ${#NAME_PARTS[@]})"
+[[ -f "${NAME_SPL_OUT}/mysplit.tar.xz.enc.sha256" ]] \
+    && _pass "--name --split: sha256 sidecar uses custom filename" \
+    || _fail "--name --split: sha256 sidecar uses custom filename"
+
+# ==============================================================================
+echo ""
+echo "━━━ Log output separation ━━━"
+
+# All [INFO]/[SUCCESS]/[WARN]/[ERROR] lines must go to stderr.
+# secure_list stdout must be pure tar listing — no log noise.
+LOG_LIST_STDOUT=$(secure_list "${LIST_ENC[1]}" --password "$PASS" 2>/dev/null)
+_assert_not_contains "stdout: no [INFO] lines"    "\[INFO\]"    "$LOG_LIST_STDOUT"
+_assert_not_contains "stdout: no [SUCCESS] lines" "\[SUCCESS\]" "$LOG_LIST_STDOUT"
+_assert_not_contains "stdout: no [WARN] lines"    "\[WARN\]"    "$LOG_LIST_STDOUT"
+_assert_contains     "stdout: tar listing present" "testdata"   "$LOG_LIST_STDOUT"
+
+# Capture stderr only (redirect stdout to /dev/null)
+# Use secure_pack which always emits multiple log lines
+LOG_PACK_STDERR=$(secure_pack "$SRC" --password "$PASS" \
+    -o "${TMP}/log_sep_pack_out" 2>&1 >/dev/null)
+_assert_contains "stderr: [INFO] log lines go to stderr"    "\[INFO\]"    "$LOG_PACK_STDERR"
+_assert_contains "stderr: [SUCCESS] log lines go to stderr" "\[SUCCESS\]" "$LOG_PACK_STDERR"
+
+# secure_pack stdout should also be empty (all output is log/stderr)
+LOG_PACK_STDOUT=$(secure_pack "${LIST_ENC[1]%/*}" --password "$PASS" \
+    -o "${TMP}/log_check_out" 2>/dev/null || true)
+_assert_eq "pack: stdout is empty" "" "$LOG_PACK_STDOUT"
 
 # ==============================================================================
 echo ""

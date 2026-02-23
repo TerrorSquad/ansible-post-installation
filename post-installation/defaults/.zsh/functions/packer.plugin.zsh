@@ -39,8 +39,9 @@ typeset -ga _SA_EXCLUDE_PATTERNS=(
 # --- Helpers ------------------------------------------------------------------
 
 # Log a colored message: _sa_log <color> <level> <message>
+# All log output goes to stderr so stdout can carry pure data (e.g. tar listing).
 _sa_log() {
-    echo -e "${1}[${2}]${_SA_RESET} ${3}"
+    echo -e "${1}[${2}]${_SA_RESET} ${3}" >&2
 }
 
 _sa_info()    { _sa_log "$_SA_BLUE"   "INFO"    "$1"; }
@@ -62,9 +63,13 @@ _sa_elapsed() {
 _sa_b85_encode() {
     python3 -c "
 import sys, base64
-d = sys.stdin.buffer.read()
-e = base64.b85encode(d).decode()
-for i in range(0, len(e), 76): print(e[i:i+76])
+try:
+    d = sys.stdin.buffer.read()
+    e = base64.b85encode(d).decode()
+    for i in range(0, len(e), 76): print(e[i:i+76])
+except Exception as ex:
+    sys.stderr.write('[ERROR] b85 encode: ' + str(ex) + '\\n')
+    sys.exit(1)
 "
 }
 
@@ -72,7 +77,11 @@ for i in range(0, len(e), 76): print(e[i:i+76])
 _sa_b85_decode() {
     python3 -c "
 import sys, base64
-sys.stdout.buffer.write(base64.b85decode(sys.stdin.read().replace('\n','')))
+try:
+    sys.stdout.buffer.write(base64.b85decode(sys.stdin.read().replace('\\n','')))
+except Exception as ex:
+    sys.stderr.write('[ERROR] b85 decode: ' + str(ex) + '\\n')
+    sys.exit(1)
 "
 }
 
@@ -200,6 +209,7 @@ secure_pack() {
         local chunk_size="$_SA_DEFAULT_CHUNK"
         local user_set_size=false
         local do_verify=false
+        local archive_base=""
         local -a user_includes=()
         local -a user_excludes=()
         local work_dir=""
@@ -229,11 +239,13 @@ Options:
   --include <pattern>     Rsync include pattern (repeatable)
   --exclude <pattern>     Rsync exclude pattern (repeatable)
   --verify                Verify the archive is readable after packing
+  --name <basename>       Override output filename (default: <src>_<timestamp>)
   -h, --help              Show this help
 
 Examples:
   secure_pack ./project --password s3cret --split --size 128k
   secure_pack ./docs --split --copy --verify -o /tmp/output
+  secure_pack ./docs --name docs_v2 -o /tmp/release
 EOF
                     return 0
                     ;;
@@ -245,6 +257,7 @@ EOF
                 --include)   user_includes+=("$2"); shift 2 ;;
                 --exclude)   user_excludes+=("$2"); shift 2 ;;
                 --verify)    do_verify=true;         shift   ;;
+                --name)      archive_base="$2";      shift 2 ;;
                 -*)
                     _sa_error "Unknown option: $1"
                     return 1
@@ -315,6 +328,11 @@ EOF
         work_dir=$(mktemp -d)
         chmod 700 "$work_dir"
 
+        # Resolve archive base name: user-supplied or auto-generated
+        if [[ -z "$archive_base" ]]; then
+            archive_base="${src_name}_${timestamp}"
+        fi
+
         # --- Rsync (filtered working copy) ---
         _sa_info "Creating working copy..."
 
@@ -350,7 +368,7 @@ EOF
         checksum=$(shasum -a 256 "$payload" | awk '{print $1}')
         _sa_info "SHA-256: $checksum"
 
-        local archive_name="${src_name}_${timestamp}.tar.xz.enc"
+        local archive_name="${archive_base}.tar.xz.enc"
         echo "$checksum" > "${output_dir}/${archive_name}.sha256"
 
         # --- Output (split or single file) ---
@@ -373,14 +391,20 @@ EOF
             (( lines_per_chunk < 1 )) && lines_per_chunk=1
 
             _sa_b85_encode < "$payload" | split -l "$lines_per_chunk" - "$split_prefix"
+            local parts_size
+            parts_size=$(du -shc ${split_prefix}*(N) 2>/dev/null | tail -1 | cut -f1)
             _sa_success "Split parts: ${archive_name}.b85.part*"
+            _sa_info    "Output size: ~${parts_size} total"
 
             if [[ "$do_copy" == true ]]; then
                 _sa_copy_to_clipboard "${split_prefix}aa"
             fi
         else
             mv "$payload" "${output_dir}/${archive_name}"
+            local enc_size
+            enc_size=$(du -sh "${output_dir}/${archive_name}" 2>/dev/null | cut -f1)
             _sa_success "Archive: ${archive_name}"
+            _sa_info    "Output size: ${enc_size}"
 
             if [[ "$do_copy" == true ]]; then
                 _sa_warn "Cannot copy binary to clipboard"
@@ -550,7 +574,7 @@ EOF
             rm -f "$enc_file"
         fi
 
-        _sa_success "Extracted in $(_sa_elapsed $(( SECONDS - start_time )))"
+        _sa_success "Extracted in $(_sa_elapsed $(( SECONDS - start_time ))) → $output_dir"
     )
 }
 
@@ -685,6 +709,7 @@ _secure_pack() {
         '--size[Chunk size for split (default: 500k)]:size:(128k 256k 500k 1m 5m)' \
         '--copy[Copy first chunk to clipboard]' \
         '--verify[Verify the archive is readable after packing]' \
+        '--name[Override output filename (without extension)]:basename' \
         '(-o --output)'{-o,--output}'[Output directory]:directory:_files -/' \
         '*--include[Rsync include pattern]:pattern' \
         '*--exclude[Rsync exclude pattern]:pattern' \
