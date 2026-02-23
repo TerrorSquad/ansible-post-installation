@@ -1,0 +1,16 @@
+---
+- name: Determine Ubuntu base codename (for Mint/PopOS)
+  ansible.builtin.shell: |
+    if [ -f /etc/upstream-release/lsb-release ]; then
+      . /etc/upstream-release/lsb-release
+      echo "$DISTRIB_CODENAME"
+    else
+      echo "{{ ansible_facts['distribution_release'] }}"
+    fi
+  register: ubuntu_base_codename_check
+  changed_when: false
+  check_mode: false
+
+- name: Set ubuntu_base_codename fact
+  ansible.builtin.set_fact:
+    ubuntu_base_codename: "{{ ubuntu_base_codename_check.stdout }}"

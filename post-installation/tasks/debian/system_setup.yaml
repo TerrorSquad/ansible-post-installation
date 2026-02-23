@@ -5,6 +5,9 @@
   vars:
     repo_name: google-chrome
 
+- name: Detect distribution base
+  ansible.builtin.include_tasks: utils/get_distro_base.yaml
+
 - name: Remove snap if configured
   ansible.builtin.include_tasks: remove_snap.yaml
 
@@ -16,6 +19,11 @@
   ansible.builtin.apt:
     upgrade: dist
     update_cache: true
+    cache_valid_time: 3600
+
+- name: Autoremove unused dependencies
+  ansible.builtin.apt:
+    autoremove: true
 
 - name: Create download directory
   ansible.builtin.file:

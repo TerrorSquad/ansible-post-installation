@@ -18,17 +18,6 @@
   args:
     creates: "{{ keyrings_dir }}/docker.gpg"
 
-- name: Get Ubuntu base codename for derivatives
-  ansible.builtin.shell: |
-    if [ -f /etc/upstream-release/lsb-release ]; then
-      . /etc/upstream-release/lsb-release
-      echo "$DISTRIB_CODENAME"
-    else
-      echo "{{ ansible_facts['distribution_release'] }}"
-    fi
-  register: ubuntu_base_codename
-  changed_when: false
-
 - name: Remove old and conflicting Docker repository configurations
   ansible.builtin.include_tasks: shared/utils/clean_apt_conflicts.yaml
   vars:
@@ -39,7 +28,7 @@
 
 - name: Add Docker repository
   ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by={{ keyrings_dir }}/docker.gpg] https://download.docker.com/linux/ubuntu {{ ubuntu_base_codename.stdout }} stable"
+    repo: "deb [arch=amd64 signed-by={{ keyrings_dir }}/docker.gpg] https://download.docker.com/linux/ubuntu {{ ubuntu_base_codename }} stable"
     state: present
     filename: docker
 

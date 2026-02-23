@@ -50,6 +50,7 @@ tool_sets:
     - duf
     - dust
     - eza
+    - fastfetch
     - fd
     - fx
     - fzf
@@ -64,6 +65,7 @@ tool_sets:
     - hyperfine
     - jq
     - lazydocker
+    - lazygit
     - lnav
     - lsd
     - make
