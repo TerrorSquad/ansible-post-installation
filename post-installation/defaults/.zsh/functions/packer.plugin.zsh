@@ -208,11 +208,20 @@ _sa_encrypt() {
 
 # Decrypt a file with AES-256-CBC. Writes to stdout.
 # Runs in a subshell so _SA_OPENSSL_PASS is discarded even if openssl fails.
+# Shows a pv progress bar when pv is available and file size is known.
 # Usage: _sa_decrypt <enc_file> <password>
 _sa_decrypt() {
     (
         export _SA_OPENSSL_PASS="$2"
-        openssl enc -d -"$_SA_CIPHER" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -in "$1" -pass env:_SA_OPENSSL_PASS
+        local _dec_cipher="-${_SA_CIPHER}"
+        local _dec_args=(-d "$_dec_cipher" -pbkdf2 -iter "$_SA_PBKDF2_ITER" -pass env:_SA_OPENSSL_PASS)
+        if command -v pv &>/dev/null && [[ -f "$1" ]]; then
+            local bytes
+            bytes=$(wc -c < "$1")
+            pv -s "$bytes" -N "Decrypt" "$1" | openssl enc "${_dec_args[@]}"
+        else
+            openssl enc "${_dec_args[@]}" -in "$1"
+        fi
     )
 }
 
@@ -234,6 +243,7 @@ secure_pack() {
         local user_set_size=false
         local do_verify=false
         local do_dry_run=false
+        local do_force=false
         local archive_base=""
         local xz_level="$_SA_XZ_LEVEL"
         local -a user_includes=()
@@ -268,6 +278,7 @@ Options:
   --name <basename>       Override output filename (default: <src>_<timestamp>)
   --level <1-9|9e>        xz compression level (default: 9e)
   --dry-run               Show what would be packed without creating any files
+  --force                 Overwrite existing output files without prompting
   -h, --help              Show this help
 
 Examples:
@@ -288,6 +299,7 @@ EOF
                 --name)      archive_base="$2";      shift 2 ;;
                 --level)     xz_level="$2";          shift 2 ;;
                 --dry-run)   do_dry_run=true;        shift   ;;
+                --force)     do_force=true;          shift   ;;
                 -*)
                     _sa_error "Unknown option: $1"
                     return 1
@@ -428,6 +440,24 @@ EOF
         _sa_info "SHA-256: $checksum"
 
         local archive_name="${archive_base}.tar.xz.enc"
+
+        # --- Collision Guard ---
+        if [[ "$do_force" == false ]]; then
+            local _col_conflict=false
+            if [[ "$do_split" == true ]]; then
+                # First split part would be ${archive_name}.b85.partaa
+                local -a _col_existing=(${output_dir}/${archive_name}.b85.part*(N))
+                [[ ${#_col_existing[@]} -gt 0 ]] && _col_conflict=true
+            else
+                [[ -f "${output_dir}/${archive_name}" ]] && _col_conflict=true
+            fi
+            [[ -f "${output_dir}/${archive_name}.sha256" ]] && _col_conflict=true
+            if [[ "$_col_conflict" == true ]]; then
+                _sa_error "Output already exists: ${output_dir}/${archive_name} — use --force to overwrite."
+                return 1
+            fi
+        fi
+
         echo "$checksum" > "${output_dir}/${archive_name}.sha256"
 
         # --- Output (split or single file) ---
@@ -794,6 +824,7 @@ _secure_pack() {
         '--name[Override output filename (without extension)]:basename' \
         '--level[xz compression level (1-9 or 9e)]:level:(1 2 3 4 5 6 7 8 9 9e)' \
         '--dry-run[Show what would be packed without creating any files]' \
+        '--force[Overwrite existing output files without prompting]' \
         '(-o --output)'{-o,--output}'[Output directory]:directory:_files -/' \
         '*--include[Rsync include pattern]:pattern' \
         '*--exclude[Rsync exclude pattern]:pattern' \

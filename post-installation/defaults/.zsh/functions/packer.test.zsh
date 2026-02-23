@@ -430,6 +430,38 @@ out=$(secure_pack "$SRC" --password "$PASS" --level bad -o "$LVL_OUT" 2>&1); [[ 
 
 # ==============================================================================
 echo ""
+echo "━━━ Collision guard (--force) ━━━"
+
+COL_OUT="${TMP}/out_collision"
+mkdir -p "$COL_OUT"
+
+# First pack — must succeed
+secure_pack "$SRC" --password "$PASS" --name coltest -o "$COL_OUT" >/dev/null 2>&1
+[[ -f "${COL_OUT}/coltest.tar.xz.enc" ]] \
+    && _pass "collision: first pack creates archive" \
+    || _fail "collision: first pack creates archive"
+
+# Second pack to same name — must fail
+out=$(secure_pack "$SRC" --password "$PASS" --name coltest -o "$COL_OUT" 2>&1); [[ $? -ne 0 ]] \
+    && _pass "collision: second pack without --force rejected" \
+    || _fail "collision: second pack without --force accepted"
+_assert_contains "collision: error mentions --force" "force" "$out"
+
+# With --force — must succeed and overwrite
+out=$(secure_pack "$SRC" --password "$PASS" --name coltest --force -o "$COL_OUT" 2>&1); [[ $? -eq 0 ]] \
+    && _pass "collision: --force overwrites existing archive" \
+    || _fail "collision: --force failed ($out)"
+
+# Split variant — second pack without --force must also be rejected
+COL_SPL_OUT="${TMP}/out_collision_split"
+mkdir -p "$COL_SPL_OUT"
+secure_pack "$SRC" --password "$PASS" --name colsplit --split --size 512 -o "$COL_SPL_OUT" >/dev/null 2>&1
+out=$(secure_pack "$SRC" --password "$PASS" --name colsplit --split --size 512 -o "$COL_SPL_OUT" 2>&1); [[ $? -ne 0 ]] \
+    && _pass "collision: split second pack without --force rejected" \
+    || _fail "collision: split second pack without --force accepted"
+
+# ==============================================================================
+echo ""
 echo "━━━ Sensitive-file warnings ━━━"
 
 # Copy testdata and add sensitive files
