@@ -271,7 +271,7 @@ Options:
   --split                 Split output into base85-encoded chunks
   --size <size>           Chunk size for split (default: 500k)
   -o, --output <dir>      Output directory (default: cwd)
-  --copy                  Copy first chunk to clipboard
+  --copy                  Copy output to clipboard
   --include <pattern>     Rsync include pattern (repeatable)
   --exclude <pattern>     Rsync exclude pattern (repeatable)
   --verify                Verify the archive is readable after packing
@@ -449,7 +449,7 @@ EOF
                 local -a _col_existing=(${output_dir}/${archive_name}.b85.part*(N))
                 [[ ${#_col_existing[@]} -gt 0 ]] && _col_conflict=true
             else
-                [[ -f "${output_dir}/${archive_name}" ]] && _col_conflict=true
+                [[ -f "${output_dir}/${archive_name}.b85" ]] && _col_conflict=true
             fi
             [[ -f "${output_dir}/${archive_name}.sha256" ]] && _col_conflict=true
             if [[ "$_col_conflict" == true ]]; then
@@ -489,14 +489,15 @@ EOF
                 _sa_copy_to_clipboard "${split_prefix}aa"
             fi
         else
-            mv "$payload" "${output_dir}/${archive_name}"
+            local b85_name="${archive_name}.b85"
+            _sa_b85_encode < "$payload" > "${output_dir}/${b85_name}"
             local enc_size
-            enc_size=$(du -sh "${output_dir}/${archive_name}" 2>/dev/null | cut -f1)
-            _sa_success "Archive: ${archive_name}"
+            enc_size=$(du -sh "${output_dir}/${b85_name}" 2>/dev/null | cut -f1)
+            _sa_success "Archive: ${b85_name}"
             _sa_info    "Output size: ${enc_size}"
 
             if [[ "$do_copy" == true ]]; then
-                _sa_warn "Cannot copy binary to clipboard"
+                _sa_copy_to_clipboard "${output_dir}/${b85_name}"
             fi
         fi
 
@@ -507,7 +508,7 @@ EOF
             if [[ "$do_split" == true ]]; then
                 verify_input="${split_prefix}aa"
             else
-                verify_input="${output_dir}/${archive_name}"
+                verify_input="${output_dir}/${archive_name}.b85"
             fi
             if secure_list "$verify_input" --password "$password" >/dev/null 2>&1; then
                 _sa_success "Archive verified — decrypt and listing OK"
@@ -622,6 +623,7 @@ EOF
         local enc_file=""
         local sha_file=""
         local is_split=false
+        local is_b85=false
 
         if [[ "${file_list[1]}" == *part* ]]; then
             is_split=true
@@ -649,6 +651,13 @@ EOF
             else
                 cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
             fi
+        elif [[ "${file_list[1]}" == *.b85 ]]; then
+            is_b85=true
+            _sa_info "Mode: B85 Archive"
+            enc_file=$(mktemp)
+            trap "rm -f '$enc_file'" EXIT INT TERM HUP
+            sha_file="${file_list[1]%.b85}.sha256"
+            _sa_b85_decode < "${file_list[1]}" > "$enc_file"
         else
             _sa_info "Mode: Standard Archive"
             enc_file="${file_list[1]}"
@@ -663,8 +672,8 @@ EOF
         extracted_count=$(_sa_decrypt "$enc_file" "$password" | tar -tJf - 2>/dev/null | wc -l | tr -d ' ')
         _sa_decrypt "$enc_file" "$password" | tar -xJf - -C "$output_dir"
 
-        # Clean up the temp file created for split mode
-        if [[ "$is_split" == true ]]; then
+        # Clean up the temp file created for split or b85 mode
+        if [[ "$is_split" == true || "$is_b85" == true ]]; then
             rm -f "$enc_file"
         fi
 
@@ -759,6 +768,7 @@ EOF
         local enc_file=""
         local sha_file=""
         local is_split=false
+        local is_b85=false
 
         if [[ "${file_list[1]}" == *part* ]]; then
             is_split=true
@@ -780,6 +790,12 @@ EOF
             else
                 cat "${file_list[@]}" | _sa_b85_decode > "$enc_file"
             fi
+        elif [[ "${file_list[1]}" == *.b85 ]]; then
+            is_b85=true
+            enc_file=$(mktemp)
+            trap "rm -f '$enc_file'" EXIT INT TERM HUP
+            sha_file="${file_list[1]%.b85}.sha256"
+            _sa_b85_decode < "${file_list[1]}" > "$enc_file"
         else
             enc_file="${file_list[1]}"
             sha_file="${enc_file}.sha256"
@@ -803,7 +819,7 @@ EOF
         local _sl_noun; [[ "$entry_count" -eq 1 ]] && _sl_noun="entry" || _sl_noun="entries"
         _sa_info "── ${entry_count} ${_sl_noun}"
 
-        if [[ "$is_split" == true ]]; then
+        if [[ "$is_split" == true || "$is_b85" == true ]]; then
             rm -f "$enc_file"
         fi
     )
@@ -819,7 +835,7 @@ _secure_pack() {
         '--password[Encryption password]:password' \
         '--split[Split output into base85-encoded chunks]' \
         '--size[Chunk size for split (default: 500k)]:size:(128k 256k 500k 1m 5m)' \
-        '--copy[Copy first chunk to clipboard]' \
+        '--copy[Copy output to clipboard]' \
         '--verify[Verify the archive is readable after packing]' \
         '--name[Override output filename (without extension)]:basename' \
         '--level[xz compression level (1-9 or 9e)]:level:(1 2 3 4 5 6 7 8 9 9e)' \
@@ -836,7 +852,7 @@ _secure_unpack() {
         '(-h --help)'{-h,--help}'[Show this help]' \
         '--password[Decryption password]:password' \
         '(-o --output)'{-o,--output}'[Output directory]:directory:_files -/' \
-        '1:archive file:_files -g "*.enc *.b85.partaa *.partaa"'
+        '1:archive file:_files -g "*.enc *.b85 *.b85.partaa *.partaa"'
 }
 
 _secure_list() {
@@ -844,7 +860,7 @@ _secure_list() {
         '(-h --help)'{-h,--help}'[Show this help]' \
         '--password[Decryption password]:password' \
         '(-l --long)'{-l,--long}'[Detailed listing (permissions, size, timestamps)]' \
-        '1:archive file:_files -g "*.enc *.b85.partaa *.partaa"'
+        '1:archive file:_files -g "*.enc *.b85 *.b85.partaa *.partaa"'
 }
 
 if (( $+functions[compdef] )); then
