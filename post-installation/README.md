@@ -21,7 +21,6 @@ You can enable specific features by passing variables or using tags (see below).
 | `ddev` | `false` | Installs DDEV local development environment |
 | `rust` | `false` | Installs Rust toolchain |
 | `golang` | `false` | Installs Go toolchain |
-| `java` | `false` | Installs Java (SDKMan) |
 | `fonts` | `false` | Installs Nerd Fonts |
 | `vpn` | `false` | Installs VPN clients |
 | `gestures` | `false` | Installs libinput-gestures (Linux only) |
@@ -46,7 +45,6 @@ Tags allow you to run specific parts of the playbook. Using a tag automatically 
 | `programming` | Same as languages | - |
 | `rust` | Rust installation | `rust=true` |
 | `golang` | Go installation | `golang=true` |
-| `java` | Java installation | `java=true` |
 | `dev-tools` | Development tools container | - |
 | `docker` | Docker installation | `docker=true` |
 | `ddev` | DDEV installation | `ddev=true` |

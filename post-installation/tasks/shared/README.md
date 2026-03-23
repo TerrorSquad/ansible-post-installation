@@ -29,7 +29,6 @@ This directory contains Ansible tasks that work across both Linux and macOS plat
 ### Programming Languages:
 - `rust.yaml` - Rust programming language installation
 - `golang.yaml` - Go programming language installation
-- `java.yaml` - Java development kit installation
 
 ### Development Tools:
 - `docker.yaml` - Docker installation with platform detection

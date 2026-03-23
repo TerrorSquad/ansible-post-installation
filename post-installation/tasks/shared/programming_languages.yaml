@@ -15,11 +15,3 @@
       tags: [golang]
   when: (golang | bool) or (all | bool)
   tags: [always]
-
-- name: Install Java
-  ansible.builtin.include_tasks:
-    file: shared/java.yaml
-    apply:
-      tags: [java]
-  when: (java | bool) or (all | bool)
-  tags: [always]
