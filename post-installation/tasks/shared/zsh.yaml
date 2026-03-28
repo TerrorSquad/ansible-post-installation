@@ -134,29 +134,17 @@
   become_user: "{{ username }}"
   become: true
 
-- name: Install antidote (ZSH plugin manager)
-  block:
-    - name: Delete existing antidote directory
-      ansible.builtin.file:
-        path: "{{ user_home }}/.antidote"
-        state: absent
-      become_user: "{{ username }}"
-      become: true
-
-    - name: Clone antidote repository
-      ansible.builtin.git:
-        repo: https://github.com/mattmc3/antidote.git
-        dest: "{{ user_home }}/.antidote"
-        depth: 1
-        force: true
-        version: main
-      become_user: "{{ username }}"
-      become: true
-      register: git_antidote_result
-      until: git_antidote_result is success
-      retries: 3
-      delay: 2
-      # noqa: latest[git]
+- name: Install antidote via Homebrew (ZSH plugin manager)
+  community.general.homebrew:
+    name: antidote
+    state: present
+    path: "{{ homebrew_path }}"
+  register: brew_antidote_result
+  until: brew_antidote_result is success
+  retries: 3
+  delay: 2
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+  become_user: "{{ username }}"
 
 - name: Configure antidote
   block:
@@ -167,27 +155,26 @@
         mode: "0644"
       become_user: "{{ username }}"
       become: true
+      register: copy_zsh_plugins_sh
 
-    - name: Remove existing .zsh_plugins.zsh
-      ansible.builtin.file:
+    - name: Check if .zsh_plugins.zsh exists
+      ansible.builtin.stat:
         path: "{{ user_home }}/.zsh_plugins.zsh"
-        state: absent
+      become_user: "{{ username }}"
+      become: true
+      register: zsh_plugins_zsh_stat
 
-    - name: Copy configure_antidote.sh script
-      ansible.builtin.copy:
-        src: "{{ role_path }}/defaults/scripts/configure_antidote.sh"
-        dest: "{{ download_dir }}/configure_antidote.sh"
-        mode: "0755"
-
-    - name: Run configure_antidote.sh
+    - name: Generate static plugins file
       ansible.builtin.shell: |
-        {{ download_dir }}/configure_antidote.sh "{{ user_home }}"
+        source "{{ homebrew_path | dirname }}/opt/antidote/share/antidote/antidote.zsh"
+        antidote bundle <"{{ user_home }}/.zsh_plugins.sh" >"{{ user_home }}/.zsh_plugins.zsh"
       args:
         executable: "{{ zsh_executable }}"
       become_user: "{{ username }}"
       become: true
-      register: antidote_update
-      changed_when: antidote_update.rc == 0
+      register: antidote_bundle
+      changed_when: true
+      when: copy_zsh_plugins_sh.changed or not zsh_plugins_zsh_stat.stat.exists
   rescue:
     - name: Warn about Antidote failure
       ansible.builtin.debug:

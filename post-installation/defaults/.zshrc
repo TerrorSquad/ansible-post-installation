@@ -7,7 +7,6 @@ fi
 
 # -- Environment Variables --
 ZSH_CACHE_DIR=$HOME/.zsh
-ZDOTDIR=~/.antidote
 HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
 
 export BAT_PAGER="less --mouse -RF"
@@ -18,7 +17,6 @@ export FZF_TMUX_HEIGHT=50
 [[ $OSTYPE == darwin* ]] && IS_MAC=1
 if [[ -n $IS_MAC ]]; then
     HOMEBREW_PREFIX="/opt/homebrew"
-    ZDOTDIR=${HOMEBREW_PREFIX}/opt/antidote/share/antidote
 fi
 unset IS_MAC
 
@@ -40,7 +38,7 @@ fpath=(
 )
 
 # -- Antidote Plugin Manager --
-source ${ZDOTDIR:-~}/antidote.zsh
+source ${HOMEBREW_PREFIX}/opt/antidote/share/antidote/antidote.zsh
 
 # Check if the plugins file is older than the sh file and regenerate it if needed
 zsh_plugins=~/.zsh_plugins
