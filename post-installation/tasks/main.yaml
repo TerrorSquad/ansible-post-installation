@@ -19,7 +19,6 @@
     docker: "{{ true if 'docker' in ansible_run_tags else docker }}"
     rust: "{{ true if 'rust' in ansible_run_tags else rust }}"
     golang: "{{ true if 'golang' in ansible_run_tags else golang }}"
-    java: "{{ true if 'java' in ansible_run_tags else java }}"
     ddev: "{{ true if 'ddev' in ansible_run_tags else ddev }}"
     vpn: "{{ true if 'vpn' in ansible_run_tags else vpn }}"
     fonts: "{{ true if 'fonts' in ansible_run_tags else fonts }}"
@@ -58,8 +57,8 @@
   ansible.builtin.include_tasks:
     file: shared/programming_languages.yaml
     apply:
-      tags: [languages, programming, rust, golang, java]
-  when: (rust | bool) or (golang | bool) or (java | bool) or (all | bool)
+      tags: [languages, programming, rust, golang]
+  when: (rust | bool) or (golang | bool) or (all | bool)
   tags: [always]
 
 - name: Development tools and containerization
