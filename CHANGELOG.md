@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.8.0...v2.8.1) (2026-03-28)
+
+
+### Bug Fixes
+
+* update clipboard copy functionality and enhance b85 archive handling ([e0e08d3](https://github.com/TerrorSquad/ansible-post-installation/commit/e0e08d3da3b0ef6e559e64b577ebdbeea0fd3d78))
+
 ## [2.8.0](https://github.com/TerrorSquad/ansible-post-installation/compare/v2.7.0...v2.8.0) (2026-02-23)
 
 
