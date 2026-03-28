@@ -143,7 +143,8 @@
   until: brew_antidote_result is success
   retries: 3
   delay: 2
-  become: false
+  become: "{{ ansible_facts['os_family'] == 'Debian' }}"
+  become_user: "{{ username }}"
 
 - name: Configure antidote
   block:
