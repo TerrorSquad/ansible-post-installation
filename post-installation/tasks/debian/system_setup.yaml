@@ -30,6 +30,7 @@
     dest: "{{ download_dir }}"
     state: directory
     mode: "0777"
+  tags: [always]
 
 - name: Install system prerequisites (required for Homebrew)
   ansible.builtin.apt:
